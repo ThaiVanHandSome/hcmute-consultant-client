@@ -1,11 +1,11 @@
-import Search from '@/components/dev/Search'
-import { Button } from '@/components/ui/button'
+import useRouteElement from '@/hooks/useRouteElement'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
+  const routeElement = useRouteElement()
   return (
     <>
-      <Button>Xin chao</Button>
-      <Search />
+      {routeElement} <ToastContainer />
     </>
   )
 }
