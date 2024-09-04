@@ -179,7 +179,7 @@ export default function Register() {
               </Button>
               <div className='mt-3 text-center text-sm'>
                 Bạn đã có tài khoản?{' '}
-                <Link to={path.home} className='font-bold'>
+                <Link to={path.login} className='font-bold'>
                   Đăng nhập
                 </Link>
               </div>

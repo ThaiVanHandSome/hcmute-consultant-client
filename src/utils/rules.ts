@@ -16,3 +16,17 @@ export const RegisterSchema = yup.object({
 export const ConfirmTokenSchema = yup.object({
   token: yup.string().required('Bạn phải nhập mã xác nhận')
 })
+
+export const LoginSchema = yup.object({
+  email: yup.string().required('Bạn phải nhập email').email('Email không đúng định dạng'),
+  password: yup.string().required('Bạn phải nhập mật khẩu').min(6, 'Mật khẩu phải có tối đa 6 kí tự')
+})
+
+export const ChangeEmailSchema = yup.object({
+  newEmail: yup.string().required('Bạn phải nhập email').email('Email không đúng định dạng')
+})
+
+export const ForgotPasswordSchema = yup.object({
+  email: yup.string().required('Bạn phải nhập email').email('Email không đúng định dạng'),
+  password: yup.string().required('Bạn phải nhập mật khẩu').min(6, 'Mật khẩu phải có tối đa 6 kí tự')
+})
