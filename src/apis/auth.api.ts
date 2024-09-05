@@ -5,6 +5,7 @@ import http from '@/utils/http'
 
 export const URL_LOGIN = 'auth/login'
 export const URL_REGISTER = 'auth/register'
+export const URL_REFRESH_TOKEN = 'auth/refresh'
 
 export const register = (body: RegisterFormData) => http.post<SuccessResponse<AuthResponse>>(URL_REGISTER, body)
 
@@ -28,3 +29,6 @@ export const verifyCodeWhenForgotPassword = (body: { emailRequest: string; code:
 
 export const resetPassword = (body: { email: string; newPassword: string }) =>
   http.post<SuccessResponse<string>>('auth/reset-password', body)
+
+export const refreshToken = (body: { refreshToken: string }) =>
+  http.post<SuccessResponse<AuthResponse>>(URL_REFRESH_TOKEN, body)

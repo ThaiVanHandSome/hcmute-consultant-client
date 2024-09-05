@@ -1,21 +1,21 @@
-export const setAccessTokenToLocalStorage = (access_token: string) => {
-  localStorage.setItem('access_token', access_token)
+export const setAccessTokenToLocalStorage = (accessToken: string) => {
+  localStorage.setItem('accessToken', accessToken)
 }
 
-export const setRefreshTokenToLocalStorage = (refresh_token: string) => {
-  localStorage.setItem('refresh_token', refresh_token)
+export const setRefreshTokenToLocalStorage = (refreshToken: string) => {
+  localStorage.setItem('refreshToken', refreshToken)
 }
 
 export const removeAuthInfoFromLocalStorage = () => {
-  localStorage.removeItem('access_token')
+  localStorage.removeItem('accessToken')
   localStorage.removeItem('user')
-  localStorage.removeItem('refresh_token')
+  localStorage.removeItem('refreshToken')
 }
 
 export const getAccessTokenFromLocalStorage = (): string => {
-  return localStorage.getItem('access_token') ?? ''
+  return localStorage.getItem('accessToken') ?? ''
 }
 
 export const getRefreshTokenFromLocalStorage = (): string => {
-  return localStorage.getItem('refresh_token') ?? ''
+  return localStorage.getItem('refreshToken') ?? ''
 }

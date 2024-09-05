@@ -13,12 +13,12 @@ import { useMutation } from '@tanstack/react-query'
 import { login } from '@/apis/auth.api'
 import { toast } from 'react-toastify'
 import forgotPasswordStatus from '@/constants/forgotPasswordStatus'
-import useQueryParams from '@/hooks/useQueryParams'
+import { isAxiosUnprocessableEntity } from '@/utils/utils'
+import { ErrorResponse } from '@/types/utils.type'
 
 type FormData = yup.InferType<typeof LoginSchema>
 
 export default function Login() {
-  const { status } = useQueryParams()
   const form = useForm<FormData>({
     defaultValues: {
       email: '',
@@ -35,6 +35,17 @@ export default function Login() {
     loginMutation.mutate(values, {
       onSuccess: (res) => {
         toast.success(res.data.message)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
+          const formError = error.response?.data.data
+          formError?.forEach(({ field, message }) => {
+            form.setError(field as keyof FormData, {
+              message: message,
+              type: 'server'
+            })
+          })
+        }
       }
     })
   })

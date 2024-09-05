@@ -1,9 +1,9 @@
 import { User } from '@/types/user.type'
 
 export interface AuthResponse {
-  access_token: string
+  accessToken: string
   expiresIn: number
-  refresh_token: string
+  refreshToken: string
   user: User
 }
 

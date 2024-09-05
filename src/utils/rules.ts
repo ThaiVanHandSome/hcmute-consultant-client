@@ -2,7 +2,7 @@ import * as yup from 'yup'
 
 export const RegisterSchema = yup.object({
   username: yup.string().required('Bạn phải nhập username').min(5, 'Bạn phải nhập tối thiểu 5 ký tự'),
-  email: yup.string().required('Bạn phải nhập email').email('Email không đúng định dạng'),
+  email: yup.string().required('Bạn phải nhập email'),
   password: yup.string().required('Bạn phải nhập mật khẩu').min(6, 'Mật khẩu phải có tối đa 6 kí tự'),
   confirmPassword: yup
     .string()

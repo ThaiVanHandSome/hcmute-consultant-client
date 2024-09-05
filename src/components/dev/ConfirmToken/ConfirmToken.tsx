@@ -9,7 +9,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import path from '@/constants/path'
+import { ErrorResponse } from '@/types/utils.type'
 import { ChangeEmailSchema, ConfirmTokenSchema } from '@/utils/rules'
+import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
@@ -109,6 +111,17 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
     changeEmailMutation.mutate(payload, {
       onSuccess: (res) => {
         toast.success(res.data.message)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
+          const formError = error.response?.data.data
+          formError?.forEach(({ field, message }) => {
+            changeEmailForm.setError(field as keyof ChangeEmailFormData, {
+              message: message,
+              type: 'server'
+            })
+          })
+        }
       }
     })
   })

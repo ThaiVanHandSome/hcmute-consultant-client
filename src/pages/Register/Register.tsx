@@ -17,6 +17,8 @@ import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import path from '@/constants/path'
 import registerStatus from '@/constants/registerStatus'
 import { SuccessIcon } from '@/icons'
+import { isAxiosUnprocessableEntity } from '@/utils/utils'
+import { ErrorResponse } from '@/types/utils.type'
 
 export type RegisterFormData = yup.InferType<typeof RegisterSchema>
 
@@ -51,6 +53,17 @@ export default function Register() {
             status: registerStatus.confirm
           }).toString()
         })
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
+          const formError = error.response?.data.data
+          formError?.forEach(({ field, message }) => {
+            form.setError(field as keyof RegisterFormData, {
+              message: message,
+              type: 'server'
+            })
+          })
+        }
       }
     })
   }

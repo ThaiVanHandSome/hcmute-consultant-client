@@ -15,6 +15,8 @@ import ConfirmToken from '@/components/dev/ConfirmToken'
 import { useEffect, useRef, useState } from 'react'
 import useQueryParams from '@/hooks/useQueryParams'
 import { toast } from 'react-toastify'
+import { isAxiosUnprocessableEntity } from '@/utils/utils'
+import { ErrorResponse } from '@/types/utils.type'
 
 type SendEmailFormData = Pick<yup.InferType<typeof ForgotPasswordSchema>, 'email'>
 const SendEmailSchema = ForgotPasswordSchema.pick(['email'])
@@ -78,6 +80,17 @@ export default function ForgotPassword() {
       onSuccess: (res) => {
         toast.success(res.data.message)
         navigate(path.login)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
+          const formError = error.response?.data.data
+          formError?.forEach(({ field, message }) => {
+            changePasswordForm.setError(field as keyof ChangePasswordFormData, {
+              message: message,
+              type: 'server'
+            })
+          })
+        }
       }
     })
   })
@@ -92,8 +105,6 @@ export default function ForgotPassword() {
       })
     }
   }, [isConfirmSuccess])
-
-  console.log(changePasswordForm.watch())
 
   return (
     <div className='h-[100vh]'>
