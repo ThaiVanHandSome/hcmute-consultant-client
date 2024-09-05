@@ -1,6 +1,7 @@
 import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import MainLayout from '@/layouts/MainLayout'
+import ForgotPassword from '@/pages/ForgotPassword'
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
@@ -45,6 +46,14 @@ export default function useRouteElement() {
           element: (
             <MainLayout>
               <Register />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.forgotPassword,
+          element: (
+            <MainLayout>
+              <ForgotPassword />
             </MainLayout>
           )
         }

@@ -19,3 +19,12 @@ export const resendRegisterVerificationCode = (body: { emailRequest: string }) =
 
 export const changeEmail = (body: { oldEmail: string; newEmail: string }) =>
   http.post<SuccessResponse<string>>('auth/change-email', body)
+
+export const sendCodeToEmailToChangePassword = (body: { emailRequest: string }) =>
+  http.post<SuccessResponse<string>>('auth/forgot-password', body)
+
+export const verifyCodeWhenForgotPassword = (body: { emailRequest: string; code: string }) =>
+  http.post('auth/verify-code', body)
+
+export const resetPassword = (body: { email: string; newPassword: string }) =>
+  http.post<SuccessResponse<string>>('auth/reset-password', body)

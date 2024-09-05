@@ -12,10 +12,13 @@ import BackgroundImage from '@/assets/images/backgrounds/background_login.jpg'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/apis/auth.api'
 import { toast } from 'react-toastify'
+import forgotPasswordStatus from '@/constants/forgotPasswordStatus'
+import useQueryParams from '@/hooks/useQueryParams'
 
 type FormData = yup.InferType<typeof LoginSchema>
 
 export default function Login() {
+  const { status } = useQueryParams()
   const form = useForm<FormData>({
     defaultValues: {
       email: '',
@@ -64,12 +67,23 @@ export default function Login() {
                     <FormItem className='mt-4'>
                       <FormLabel>Mật khẩu</FormLabel>
                       <FormControl>
-                        <Input placeholder='Mật khẩu' {...field} />
+                        <Input type='password' placeholder='Mật khẩu' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                <Link
+                  to={{
+                    pathname: path.forgotPassword,
+                    search: createSearchParams({
+                      status: forgotPasswordStatus.send
+                    }).toString()
+                  }}
+                  className='inline-block font-bold mt-2 text-sm'
+                >
+                  Quên mật khẩu?
+                </Link>
                 <Button type='submit' className='w-full mt-4'>
                   Đăng nhập
                 </Button>
