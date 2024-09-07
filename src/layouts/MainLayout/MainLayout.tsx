@@ -5,7 +5,7 @@ export default function MainLayout({ children }: { readonly children: React.Reac
   return (
     <div>
       <Header />
-      <div>{children}</div>
+      <div className='mt-[var(--header-height)]'>{children}</div>
       <Footer />
     </div>
   )

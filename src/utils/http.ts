@@ -2,9 +2,9 @@ import { URL_LOGIN, URL_REFRESH_TOKEN } from '@/apis/auth.api'
 import { AuthResponse } from '@/types/auth.type'
 import { SuccessResponse } from '@/types/utils.type'
 import {
+  clearLS,
   getAccessTokenFromLocalStorage,
   getRefreshTokenFromLocalStorage,
-  removeAuthInfoFromLocalStorage,
   setAccessTokenToLocalStorage,
   setRefreshTokenToLocalStorage
 } from '@/utils/auth'
@@ -97,7 +97,7 @@ class HTTP {
         return accessToken
       })
       .catch((error) => {
-        removeAuthInfoFromLocalStorage()
+        clearLS()
         this.access_token = ''
         this.refresh_token = ''
         throw error

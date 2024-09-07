@@ -9,3 +9,10 @@ export interface ErrorResponse<T> {
   message: string
   data?: T
 }
+
+export interface PaginationResponse<T> {
+  content: T
+  totalElements: number
+  totalPages: number
+  size: number
+}
