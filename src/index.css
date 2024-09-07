@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 210, 17%, 95%;
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -30,6 +30,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --header-height: 6rem;
+    --primary-bg: 210, 17%, 95%;
   }
 
   .dark {
@@ -66,6 +67,10 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  .quild {
+    height: 100px;
   }
 
   *::-webkit-scrollbar {

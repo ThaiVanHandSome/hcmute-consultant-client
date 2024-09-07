@@ -36,3 +36,16 @@ export const ForgotPasswordSchema = yup.object({
     .min(6, 'Mật khẩu phải có tối đa 6 kí tự')
     .oneOf([yup.ref('newPassword')], 'Mật khẩu không khớp')
 })
+
+export const CreateQuestionSchema = yup.object({
+  department: yup.string().required('Bạn phải chọn khoa'),
+  field: yup.string().required('Bạn phải chọn ngành'),
+  roleAsk: yup.string().required('Bạn phải chọn vai trò'),
+  studentId: yup.string(),
+  firstName: yup.string().required('Bạn phải nhập họ'),
+  lastName: yup.string().required('Bạn phải nhập tên'),
+  email: yup.string().required('Bạn phải nhập email'),
+  title: yup.string().required('Bạn phải nhập tiêu đề câu hỏi'),
+  content: yup.string().required('Bạn chưa nhập nội dung cần tư vấn'),
+  publicMode: yup.boolean()
+})

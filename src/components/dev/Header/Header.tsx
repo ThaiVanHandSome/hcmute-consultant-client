@@ -11,7 +11,7 @@ import { Link, NavLink, createSearchParams } from 'react-router-dom'
 export default function Header() {
   const { isAuthenticated, user } = useContext(AppContext)
   return (
-    <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 bg-white h-header-height'>
+    <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-40 bg-white h-header-height'>
       <div>
         <img src={LogoHCMUTE} alt='logo-hcmute' className='size-20' />
       </div>

@@ -61,7 +61,7 @@ export default function Login() {
     <div className='h-[100vh]'>
       <div className='grid grid-cols-12 h-full'>
         <div className='col-span-5 px-4 py-6'>
-          <div className='shadow-lg rounded-lg px-6 py-4'>
+          <div className='shadow-lg rounded-lg px-6 py-4 bg-white'>
             <h1 className='font-bold text-xl mb-4 text-center'>Đăng nhập</h1>
             <div>
               <Form {...form}>
@@ -103,7 +103,12 @@ export default function Login() {
                   >
                     Quên mật khẩu?
                   </Link>
-                  <Button type='submit' className='w-full mt-4'>
+                  <Button
+                    isLoading={loginMutation.isPending}
+                    disabled={loginMutation.isPending}
+                    type='submit'
+                    className='w-full mt-4'
+                  >
                     Đăng nhập
                   </Button>
                   <div className='mt-3 text-center text-sm'>

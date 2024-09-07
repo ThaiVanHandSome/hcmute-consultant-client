@@ -3,7 +3,7 @@ import { EyeIcon } from '@/icons'
 import { Question as QuestionType } from '@/types/question.type'
 
 interface Props {
-  question: QuestionType
+  readonly question: QuestionType
 }
 
 export default function Question({ question }: Props) {
@@ -13,9 +13,9 @@ export default function Question({ question }: Props) {
         <div className='flex items-start justify-between'>
           <div className='flex items-center mb-2'>
             <img
-              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM8LrGjiUDcvYjUMk7jUJJZo0kK4Y4NzKxmQ&s'
+              src='https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/435116190_1794745547688837_695033224121990189_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEFOc7dmSSU7vb15NsbXRVcAbRqSYGR-PMBtGpJgZH483la9c7bx87IipYQAJCmaNUFuB_I6V1GglCT7OUisAKa&_nc_ohc=Tfkhgvffv3cQ7kNvgERMbSU&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=ADHfltbhANdWHLfZtFl-Hqm&oh=00_AYDYXIj0aYVvkcSodbUivsAJUDUuTAQLGcbUF-sBdafZwQ&oe=66E1DC27'
               alt='avatar'
-              className='size-14 mr-2 rounded-full'
+              className='size-12 mr-2 rounded-full'
             />
             <div>
               <div className='font-bold mr-2'>
@@ -33,15 +33,16 @@ export default function Question({ question }: Props) {
           <div className='text-blue-600 font-semibold'>#{question.department.name}</div>
           <div className='mb-3 text-blue-600 font-semibold'>#{question.field.name}</div>
           <div className='font-semibold text-sm'>{question.title}</div>
+          {/* <div dangerouslySetInnerHTML={{ __html: text }}></div> */}
           <div>{question.content}</div>
         </div>
         <Separator className='my-4' />
         <div>
           <div className='flex'>
             <img
-              src='https://png.pngtree.com/png-clipart/20190924/original/pngtree-vector-user-young-boy-avatar-icon-png-image_4827810.jpg'
+              src='https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/311590829_1254153242092852_4832227332157715848_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGNnmpAkRiZt0npaCZ4oArImf3JOiEdXRuZ_ck6IR1dGwgrTcgAYPXDlKYJIj1Ihc1NJ4SfxczRdoQ60WCQDr4g&_nc_ohc=8Eb09yiYugUQ7kNvgF6K04h&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=AAyfPeAYfunJO1OpTsxrEy7&oh=00_AYCcacHwjFkQWjJJo_7RMtBXa6JhcUp7KemLEDmTqSD83A&oe=66E1B192'
               alt='avatar'
-              className='size-12 mr-2 rounded-full'
+              className='size-10 mr-2 rounded-full'
             />
             <div>
               <div className='rounded-md bg-[#f0f2f5] px-4 py-2'>
