@@ -1,5 +1,6 @@
 import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
+import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import CreateQuestion from '@/pages/CreateQuestion'
 import ForgotPassword from '@/pages/ForgotPassword'
@@ -22,18 +23,18 @@ function RejectedRoute() {
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
-      path: path.home,
-      index: true,
-      element: (
-        <MainLayout>
-          <Home />
-        </MainLayout>
-      )
-    },
-    {
       path: '',
       element: <ProtectedRoute />,
       children: [
+        {
+          path: path.home,
+          index: true,
+          element: (
+            <MainLayout>
+              <Home />
+            </MainLayout>
+          )
+        },
         {
           path: path.createQuestion,
           element: (
@@ -51,25 +52,25 @@ export default function useRouteElement() {
         {
           path: path.login,
           element: (
-            <MainLayout>
+            <AuthLayout>
               <Login />
-            </MainLayout>
+            </AuthLayout>
           )
         },
         {
           path: path.register,
           element: (
-            <MainLayout>
+            <AuthLayout>
               <Register />
-            </MainLayout>
+            </AuthLayout>
           )
         },
         {
           path: path.forgotPassword,
           element: (
-            <MainLayout>
+            <AuthLayout>
               <ForgotPassword />
-            </MainLayout>
+            </AuthLayout>
           )
         }
       ]

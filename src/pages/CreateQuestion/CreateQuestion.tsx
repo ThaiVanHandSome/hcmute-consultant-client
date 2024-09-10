@@ -1,34 +1,45 @@
 import { getAllDepartments, getFields, getRolesAsk } from '@/apis/department.api'
+import { createNewQuestion } from '@/apis/question.api'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
+import { CreateQuestionRequest } from '@/types/question.type'
 import { CreateQuestionSchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { omit } from 'lodash'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
+import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
 type FormData = yup.InferType<typeof CreateQuestionSchema>
 
 export default function CreateQuestion() {
-  const [value, setValue] = useState<string>()
+  const queryClient = useQueryClient()
+  const queryConfig: QueryConfig = useQueryConfig()
+  const [file, setFile] = useState<File>()
+  const previewImage = useMemo(() => {
+    return file ? URL.createObjectURL(file) : ''
+  }, [file])
 
   const form = useForm<FormData>({
     defaultValues: {
-      department: '',
-      field: '',
-      roleAsk: '',
+      departmentId: '',
+      fieldId: '',
+      roleAskId: '',
+      title: '',
       content: '',
       email: '',
       firstName: '',
       lastName: '',
-      publicMode: true,
-      studentId: '',
-      title: ''
+      statusPublic: true,
+      studentCode: ''
     },
     resolver: yupResolver(CreateQuestionSchema)
   })
@@ -38,7 +49,7 @@ export default function CreateQuestion() {
     queryFn: getAllDepartments
   })
 
-  const departmentId = form.watch('department')
+  const departmentId = form.watch('departmentId')
   const { data: fields } = useQuery({
     queryKey: ['fields', departmentId],
     queryFn: () => getFields(parseInt(departmentId)),
@@ -50,24 +61,48 @@ export default function CreateQuestion() {
     queryFn: getRolesAsk
   })
 
+  const createQuestionMutation = useMutation({
+    mutationFn: ({ params, file }: { params: CreateQuestionRequest; file?: File }) => createNewQuestion(params, file)
+  })
+
+  const onSubmit = form.handleSubmit((values) => {
+    const params = omit(values, ['email']) as CreateQuestionRequest
+    createQuestionMutation.mutate(
+      { params, file },
+      {
+        onSuccess: (res) => {
+          toast.success(res.data.message)
+          queryClient.invalidateQueries({
+            queryKey: ['questions', queryConfig]
+          })
+        }
+      }
+    )
+  })
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileFromLocal = event.target.files?.[0]
+    setFile(fileFromLocal)
+  }
+
   return (
-    <div className='flex justify-center py-6 bg-primary-bg h-[100vh]'>
+    <div className='flex justify-center py-6 bg-primary-bg min-h-[100vh]'>
       <div className='w-2/3 bg-white px-6 py-3 shadow-lg rounded-lg'>
-        <h1 className='font-bold text-2xl text-center uppercase mb-6'>Đặt câu hỏi cho ban tư vấn</h1>
+        <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>Đặt câu hỏi cho ban tư vấn</h1>
         <div>
           <Form {...form}>
-            <form>
+            <form onSubmit={onSubmit}>
               <div className='grid grid-cols-12 gap-2 mb-4'>
                 <div className='col-span-4'>
                   <FormField
                     control={form.control}
-                    name='department'
+                    name='departmentId'
                     render={({ field }) => (
                       <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Khoa' />
+                              <SelectValue placeholder='Đơn vị' />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -78,6 +113,7 @@ export default function CreateQuestion() {
                             ))}
                           </SelectContent>
                         </Select>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -85,13 +121,13 @@ export default function CreateQuestion() {
                 <div className='col-span-4'>
                   <FormField
                     control={form.control}
-                    name='field'
+                    name='fieldId'
                     render={({ field }) => (
                       <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Ngành' />
+                              <SelectValue placeholder='Lĩnh vực' />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -102,6 +138,7 @@ export default function CreateQuestion() {
                             ))}
                           </SelectContent>
                         </Select>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -109,7 +146,7 @@ export default function CreateQuestion() {
                 <div className='col-span-4'>
                   <FormField
                     control={form.control}
-                    name='field'
+                    name='roleAskId'
                     render={({ field }) => (
                       <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -126,6 +163,7 @@ export default function CreateQuestion() {
                             ))}
                           </SelectContent>
                         </Select>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -135,7 +173,7 @@ export default function CreateQuestion() {
                 <div className='col-span-4'>
                   <FormField
                     control={form.control}
-                    name='studentId'
+                    name='studentCode'
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
@@ -206,12 +244,33 @@ export default function CreateQuestion() {
                 </div>
               </div>
               <div className='mb-4'>
-                <ReactQuill theme='snow' value={value} onChange={setValue} />
+                <Label className='ml-1 mb-2'>Nội dung</Label>
+                <FormField
+                  control={form.control}
+                  name='content'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <ReactQuill theme='snow' value={form.watch('content')} onChange={field.onChange} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className='mb-4'>
+                <div className='grid w-full max-w-sm items-center gap-1.5'>
+                  <Label htmlFor='file'>Tệp đính kèm</Label>
+                  <Input id='file' type='file' onChange={handleFileChange} />
+                  {file?.type.includes('image') && (
+                    <img src={previewImage} alt='fileUploadImage' className='object-cover h-64' />
+                  )}
+                </div>
               </div>
               <div className='mb-4'>
                 <FormField
                   control={form.control}
-                  name='publicMode'
+                  name='statusPublic'
                   render={({ field }) => (
                     <FormItem className='flex items-center'>
                       <FormControl>
@@ -223,7 +282,12 @@ export default function CreateQuestion() {
                 />
               </div>
               <div className='flex items-center justify-center'>
-                <Button type='submit' className='text-center w-1/3'>
+                <Button
+                  isLoading={createQuestionMutation.isPending}
+                  disabled={createQuestionMutation.isPending}
+                  type='submit'
+                  className='text-center w-1/3'
+                >
                   Gửi câu hỏi
                 </Button>
               </div>

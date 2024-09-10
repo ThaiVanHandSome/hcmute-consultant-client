@@ -58,7 +58,7 @@ export default function Login() {
   })
 
   return (
-    <div className='h-[100vh]'>
+    <div className='h-remain-screen'>
       <div className='grid grid-cols-12 h-full'>
         <div className='col-span-5 px-4 py-6'>
           <div className='shadow-lg rounded-lg px-6 py-4 bg-white'>

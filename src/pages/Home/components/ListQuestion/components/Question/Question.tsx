@@ -1,6 +1,8 @@
 import { Separator } from '@/components/ui/separator'
 import { EyeIcon } from '@/icons'
 import { Question as QuestionType } from '@/types/question.type'
+import { formatDate } from '@/utils/utils'
+import { useState } from 'react'
 
 interface Props {
   readonly question: QuestionType
@@ -21,7 +23,7 @@ export default function Question({ question }: Props) {
               <div className='font-bold mr-2'>
                 {question.askerFirstname} {question.askerLastname}
               </div>
-              <div className='text-xs text-gray-400'>{question.createdAt}</div>
+              <div className='text-xs text-gray-400'>{formatDate(question.createdAt)}</div>
             </div>
           </div>
           <div className='flex items-center'>
@@ -32,29 +34,32 @@ export default function Question({ question }: Props) {
         <div className='px-2'>
           <div className='text-blue-600 font-semibold'>#{question.department.name}</div>
           <div className='mb-3 text-blue-600 font-semibold'>#{question.field.name}</div>
-          <div className='font-semibold text-sm'>{question.title}</div>
-          {/* <div dangerouslySetInnerHTML={{ __html: text }}></div> */}
-          <div>{question.content}</div>
+          <div className='font-semibold text-md italic mb-2'>🎯 {question.title}</div>
+          <div dangerouslySetInnerHTML={{ __html: question.content }}></div>
         </div>
-        <Separator className='my-4' />
-        <div>
-          <div className='flex'>
-            <img
-              src='https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/311590829_1254153242092852_4832227332157715848_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGNnmpAkRiZt0npaCZ4oArImf3JOiEdXRuZ_ck6IR1dGwgrTcgAYPXDlKYJIj1Ihc1NJ4SfxczRdoQ60WCQDr4g&_nc_ohc=8Eb09yiYugUQ7kNvgF6K04h&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=AAyfPeAYfunJO1OpTsxrEy7&oh=00_AYCcacHwjFkQWjJJo_7RMtBXa6JhcUp7KemLEDmTqSD83A&oe=66E1B192'
-              alt='avatar'
-              className='size-10 mr-2 rounded-full'
-            />
+        {question.answerContent && (
+          <>
+            <Separator className='my-4' />
             <div>
-              <div className='rounded-md bg-[#f0f2f5] px-4 py-2'>
-                <div className='font-bold text-sm'>
-                  {question.answerUserFirstname} {question.answerUserLastname}
+              <div className='flex'>
+                <img
+                  src='https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/311590829_1254153242092852_4832227332157715848_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGNnmpAkRiZt0npaCZ4oArImf3JOiEdXRuZ_ck6IR1dGwgrTcgAYPXDlKYJIj1Ihc1NJ4SfxczRdoQ60WCQDr4g&_nc_ohc=8Eb09yiYugUQ7kNvgF6K04h&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=AAyfPeAYfunJO1OpTsxrEy7&oh=00_AYCcacHwjFkQWjJJo_7RMtBXa6JhcUp7KemLEDmTqSD83A&oe=66E1B192'
+                  alt='avatar'
+                  className='size-10 mr-2 rounded-full'
+                />
+                <div>
+                  <div className='rounded-md bg-[#f0f2f5] px-4 py-2'>
+                    <div className='font-bold text-sm'>
+                      {question.answerUserFirstname} {question.answerUserLastname}
+                    </div>
+                    <div dangerouslySetInnerHTML={{ __html: question.answerContent }}></div>
+                  </div>
+                  <div className='text-xs text-gray-400'>{formatDate(question.answerCreatedAt)}</div>
                 </div>
-                <div>{question.answerContent}</div>
               </div>
-              <div className='text-xs text-gray-400'>{question.answerCreatedAt}</div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   )
