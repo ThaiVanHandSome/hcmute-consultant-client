@@ -27,7 +27,7 @@ export const ChangeEmailSchema = yup.object({
 })
 
 export const ForgotPasswordSchema = yup.object({
-  email: yup.string().required('Bạn phải nhập email').email('Email không đúng định dạng'),
+  emailRequest: yup.string().required('Bạn phải nhập email').email('Email không đúng định dạng'),
   currentPassword: yup.string().required('Bạn phải nhập mật khẩu').min(6, 'Mật khẩu phải có tối đa 6 kí tự'),
   newPassword: yup.string().required('Bạn phải nhập mật khẩu').min(6, 'Mật khẩu phải có tối đa 6 kí tự'),
   confirmPassword: yup

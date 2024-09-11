@@ -18,17 +18,17 @@ import { toast } from 'react-toastify'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils.type'
 
-type SendEmailFormData = Pick<yup.InferType<typeof ForgotPasswordSchema>, 'email'>
-const SendEmailSchema = ForgotPasswordSchema.pick(['email'])
+type SendEmailFormData = Pick<yup.InferType<typeof ForgotPasswordSchema>, 'emailRequest'>
+const SendEmailSchema = ForgotPasswordSchema.pick(['emailRequest'])
 
-type ChangePasswordFormData = Omit<yup.InferType<typeof ForgotPasswordSchema>, 'email'>
-const ChangePasswordSchema = ForgotPasswordSchema.omit(['email'])
+type ChangePasswordFormData = Omit<yup.InferType<typeof ForgotPasswordSchema>, 'emailRequest'>
+const ChangePasswordSchema = ForgotPasswordSchema.omit(['emailRequest'])
 
 export default function ForgotPassword() {
   const { status } = useQueryParams()
   const sendEmailForm = useForm<SendEmailFormData>({
     defaultValues: {
-      email: ''
+      emailRequest: ''
     },
     resolver: yupResolver(SendEmailSchema)
   })
@@ -56,7 +56,7 @@ export default function ForgotPassword() {
 
   const onSendCodeToEmail = sendEmailForm.handleSubmit((values: SendEmailFormData) => {
     const payload = {
-      emailRequest: values.email
+      emailRequest: values.emailRequest
     }
     sendCodeToEmailMutation.mutate(payload, {
       onSuccess: () => {
@@ -67,6 +67,17 @@ export default function ForgotPassword() {
             status: forgotPasswordStatus.confirm
           }).toString()
         })
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
+          const formError = error.response?.data.data
+          formError?.forEach(({ field, message }) => {
+            sendEmailForm.setError(field as keyof SendEmailFormData, {
+              message: message,
+              type: 'server'
+            })
+          })
+        }
       }
     })
   })
@@ -117,7 +128,7 @@ export default function ForgotPassword() {
                 <form onSubmit={onSendCodeToEmail}>
                   <FormField
                     control={sendEmailForm.control}
-                    name='email'
+                    name='emailRequest'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email</FormLabel>
@@ -141,7 +152,7 @@ export default function ForgotPassword() {
             </div>
           )}
           {status === forgotPasswordStatus.confirm && (
-            <ConfirmToken email={sendEmailForm.watch('email')} setIsConfirmSuccess={setIsConfirmSuccess} />
+            <ConfirmToken email={sendEmailForm.watch('emailRequest')} setIsConfirmSuccess={setIsConfirmSuccess} />
           )}
           {status === forgotPasswordStatus.changePassword && (
             <Form {...changePasswordForm}>
