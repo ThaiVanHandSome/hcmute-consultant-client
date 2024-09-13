@@ -4,13 +4,13 @@ import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
 
 export const getAllQuestion = (params: QueryConfig) =>
-  http.get<SuccessResponse<PaginationResponse<Question[]>>>('question/list', {
+  http.get<SuccessResponse<PaginationResponse<Question[]>>>('list-question', {
     params
   })
 
 export const createNewQuestion = (params: CreateQuestionRequest, file?: File) =>
   http.post<SuccessResponse<CreateQuestionResponse>>(
-    'question/create',
+    'user/question/create',
     { file },
     {
       headers: {

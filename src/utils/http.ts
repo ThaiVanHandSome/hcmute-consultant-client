@@ -30,7 +30,7 @@ class HTTP {
     this.instance.interceptors.request.use(
       (config) => {
         if (this.access_token && config.headers) {
-          config.headers.Authorization = 'Bearer ' + this.access_token
+          config.headers.Authorization =  'Bearer ' + this.access_token
         }
         return config
       },

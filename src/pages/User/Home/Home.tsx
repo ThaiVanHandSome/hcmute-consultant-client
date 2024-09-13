@@ -1,6 +1,6 @@
-import AsideNav from '@/pages/Home/components/AsideNav'
-import ListConsultActivity from '@/pages/Home/components/ListConsultActivity'
-import ListQuestion from '@/pages/Home/components/ListQuestion'
+import AsideNav from '@/pages/User/Home/components/AsideNav'
+import ListConsultActivity from '@/pages/User/Home/components/ListConsultActivity'
+import ListQuestion from '@/pages/User/Home/components/ListQuestion'
 
 export default function Home() {
   return (

@@ -4,7 +4,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import useQueryParams from '@/hooks/useQueryParams'
-import RegisterStatus from '@/pages/Register/components/RegisterStatus'
 import { RegisterSchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
@@ -19,6 +18,7 @@ import registerStatus from '@/constants/registerStatus'
 import { SuccessIcon } from '@/icons'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils.type'
+import RegisterStatus from '@/pages/Auth/Register/components/RegisterStatus'
 
 export type RegisterFormData = yup.InferType<typeof RegisterSchema>
 

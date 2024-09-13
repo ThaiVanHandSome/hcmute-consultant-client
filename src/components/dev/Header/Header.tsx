@@ -61,9 +61,12 @@ export default function Header() {
             renderPopover={
               <div className='w-[200px] px-4 py-2'>
                 <ul>
+                  <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
+                    <Link to={path.myQuestions}>Câu hỏi của tôi</Link>
+                  </li>
                   <li
                     aria-hidden='true'
-                    className='cursor-pointer hover:font-bold hover:transition-all hover:text-primary text-sm'
+                    className='cursor-pointer hover:font-bold hover:transition-all hover:text-primary text-sm py-2'
                     onClick={handleLogout}
                   >
                     Đăng xuất

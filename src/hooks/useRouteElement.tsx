@@ -2,11 +2,12 @@ import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
-import CreateQuestion from '@/pages/CreateQuestion'
-import ForgotPassword from '@/pages/ForgotPassword'
-import Home from '@/pages/Home'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
+import ForgotPassword from '@/pages/Auth/ForgotPassword'
+import Login from '@/pages/Auth/Login'
+import Register from '@/pages/Auth/Register'
+import CreateQuestion from '@/pages/User/CreateQuestion'
+import Home from '@/pages/User/Home'
+import MyQuestion from '@/pages/User/MyQuestion'
 import { useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 
@@ -40,6 +41,14 @@ export default function useRouteElement() {
           element: (
             <MainLayout>
               <CreateQuestion />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.myQuestions,
+          element: (
+            <MainLayout>
+              <MyQuestion />
             </MainLayout>
           )
         }
