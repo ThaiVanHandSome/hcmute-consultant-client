@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
@@ -73,5 +75,18 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwindcss-animate')]
+  plugins: [
+    plugin(function ({ addComponents, theme }) {
+      addComponents({
+        '.container': {
+          maxWidth: theme('columns.9xl'),
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          paddingLeft: theme('spacing.4'),
+          paddingRight: theme('spacing.4')
+        }
+      })
+    }),
+    require('tailwindcss-animate')
+  ]
 }

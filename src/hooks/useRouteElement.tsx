@@ -2,12 +2,15 @@ import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
+import UserLayout from '@/layouts/UserLayout'
 import ForgotPassword from '@/pages/Auth/ForgotPassword'
 import Login from '@/pages/Auth/Login'
 import Register from '@/pages/Auth/Register'
+import ChangePassword from '@/pages/User/ChangePassword'
 import CreateQuestion from '@/pages/User/CreateQuestion'
 import Home from '@/pages/User/Home'
 import MyQuestion from '@/pages/User/MyQuestion'
+import Profile from '@/pages/User/Profile'
 import { useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 
@@ -45,12 +48,26 @@ export default function useRouteElement() {
           )
         },
         {
-          path: path.myQuestions,
+          path: path.user,
           element: (
             <MainLayout>
-              <MyQuestion />
+              <UserLayout />
             </MainLayout>
-          )
+          ),
+          children: [
+            {
+              path: path.myQuestions,
+              element: <MyQuestion />
+            },
+            {
+              path: path.profile,
+              element: <Profile />
+            },
+            {
+              path: path.changePassword,
+              element: <ChangePassword />
+            }
+          ]
         }
       ]
     },

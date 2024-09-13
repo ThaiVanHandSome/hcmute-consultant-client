@@ -86,213 +86,217 @@ export default function CreateQuestion() {
   }
 
   return (
-    <div className='flex justify-center py-6 bg-primary-bg min-h-[100vh]'>
-      <div className='w-2/3 bg-white px-6 py-3 shadow-lg rounded-lg'>
-        <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>Đặt câu hỏi cho ban tư vấn</h1>
-        <div>
-          <Form {...form}>
-            <form onSubmit={onSubmit}>
-              <div className='grid grid-cols-12 gap-2 mb-4'>
-                <div className='col-span-4'>
-                  <FormField
-                    control={form.control}
-                    name='departmentId'
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+    <div className='py-6 bg-primary-bg min-h-[100vh]'>
+      <div className='container'>
+        <div className='flex justify-center '>
+          <div className='w-2/3 bg-white px-6 py-3 shadow-lg rounded-lg'>
+            <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>Đặt câu hỏi cho ban tư vấn</h1>
+            <div>
+              <Form {...form}>
+                <form onSubmit={onSubmit}>
+                  <div className='grid grid-cols-12 gap-2 mb-4'>
+                    <div className='col-span-4'>
+                      <FormField
+                        control={form.control}
+                        name='departmentId'
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder='Đơn vị' />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {departments?.data.data.map((department) => (
+                                  <SelectItem key={department.id} value={String(department.id)}>
+                                    {department.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className='col-span-4'>
+                      <FormField
+                        control={form.control}
+                        name='fieldId'
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder='Lĩnh vực' />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {fields?.data.data.map((field) => (
+                                  <SelectItem key={field.id} value={String(field.id)}>
+                                    {field.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className='col-span-4'>
+                      <FormField
+                        control={form.control}
+                        name='roleAskId'
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder='Vai trò' />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {rolesAsk?.data.data.map((roleAsk) => (
+                                  <SelectItem key={roleAsk.id} value={String(roleAsk.id)}>
+                                    {roleAsk.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-4 mb-4'>
+                    <div className='col-span-4'>
+                      <FormField
+                        control={form.control}
+                        name='studentCode'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input placeholder='Mã số sinh viên' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className='col-span-4'>
+                      <FormField
+                        control={form.control}
+                        name='firstName'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input placeholder='Họ' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className='col-span-4'>
+                      <FormField
+                        control={form.control}
+                        name='lastName'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input placeholder='Tên' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-3 mb-4'>
+                    <div className='col-span-5'>
+                      <FormField
+                        control={form.control}
+                        name='email'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input placeholder='Email' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className='col-span-7'>
+                      <FormField
+                        control={form.control}
+                        name='title'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input placeholder='Tiêu đề' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className='mb-4'>
+                    <Label className='ml-1 mb-2'>Nội dung</Label>
+                    <FormField
+                      control={form.control}
+                      name='content'
+                      render={({ field }) => (
+                        <FormItem>
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder='Đơn vị' />
-                            </SelectTrigger>
+                            <ReactQuill theme='snow' value={form.watch('content')} onChange={field.onChange} />
                           </FormControl>
-                          <SelectContent>
-                            {departments?.data.data.map((department) => (
-                              <SelectItem key={department.id} value={String(department.id)}>
-                                {department.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='col-span-4'>
-                  <FormField
-                    control={form.control}
-                    name='fieldId'
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className='mb-4'>
+                    <div className='grid w-full max-w-sm items-center gap-1.5'>
+                      <Label htmlFor='file'>Tệp đính kèm</Label>
+                      <Input id='file' type='file' onChange={handleFileChange} />
+                      {file?.type.includes('image') && (
+                        <img src={previewImage} alt='fileUploadImage' className='object-cover h-64' />
+                      )}
+                    </div>
+                  </div>
+                  <div className='mb-4'>
+                    <FormField
+                      control={form.control}
+                      name='statusPublic'
+                      render={({ field }) => (
+                        <FormItem className='flex items-center'>
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder='Lĩnh vực' />
-                            </SelectTrigger>
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                          <SelectContent>
-                            {fields?.data.data.map((field) => (
-                              <SelectItem key={field.id} value={String(field.id)}>
-                                {field.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='col-span-4'>
-                  <FormField
-                    control={form.control}
-                    name='roleAskId'
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder='Vai trò' />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {rolesAsk?.data.data.map((roleAsk) => (
-                              <SelectItem key={roleAsk.id} value={String(roleAsk.id)}>
-                                {roleAsk.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <div className='grid grid-cols-12 gap-4 mb-4'>
-                <div className='col-span-4'>
-                  <FormField
-                    control={form.control}
-                    name='studentCode'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder='Mã số sinh viên' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='col-span-4'>
-                  <FormField
-                    control={form.control}
-                    name='firstName'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder='Họ' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='col-span-4'>
-                  <FormField
-                    control={form.control}
-                    name='lastName'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder='Tên' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <div className='grid grid-cols-12 gap-3 mb-4'>
-                <div className='col-span-5'>
-                  <FormField
-                    control={form.control}
-                    name='email'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder='Email' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='col-span-7'>
-                  <FormField
-                    control={form.control}
-                    name='title'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder='Tiêu đề' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <div className='mb-4'>
-                <Label className='ml-1 mb-2'>Nội dung</Label>
-                <FormField
-                  control={form.control}
-                  name='content'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <ReactQuill theme='snow' value={form.watch('content')} onChange={field.onChange} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='mb-4'>
-                <div className='grid w-full max-w-sm items-center gap-1.5'>
-                  <Label htmlFor='file'>Tệp đính kèm</Label>
-                  <Input id='file' type='file' onChange={handleFileChange} />
-                  {file?.type.includes('image') && (
-                    <img src={previewImage} alt='fileUploadImage' className='object-cover h-64' />
-                  )}
-                </div>
-              </div>
-              <div className='mb-4'>
-                <FormField
-                  control={form.control}
-                  name='statusPublic'
-                  render={({ field }) => (
-                    <FormItem className='flex items-center'>
-                      <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                      </FormControl>
-                      <FormLabel className='!mt-0 ml-1'>Chế độ công khai</FormLabel>
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='flex items-center justify-center'>
-                <Button
-                  isLoading={createQuestionMutation.isPending}
-                  disabled={createQuestionMutation.isPending}
-                  type='submit'
-                  className='text-center w-1/3'
-                >
-                  Gửi câu hỏi
-                </Button>
-              </div>
-            </form>
-          </Form>
+                          <FormLabel className='!mt-0 ml-1'>Chế độ công khai</FormLabel>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className='flex items-center justify-center'>
+                    <Button
+                      isLoading={createQuestionMutation.isPending}
+                      disabled={createQuestionMutation.isPending}
+                      type='submit'
+                      className='text-center w-1/3'
+                    >
+                      Gửi câu hỏi
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </div>
+          </div>
         </div>
       </div>
     </div>

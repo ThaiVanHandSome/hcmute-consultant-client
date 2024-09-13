@@ -25,6 +25,8 @@ export interface QuestionListConfig {
   sortBy: string
   sortDir: 'asc' | 'desc'
   departmentId: number
+  status: string
+  title: string
 }
 
 export interface CreateQuestionRequest {
@@ -54,4 +56,11 @@ export interface CreateQuestionResponse {
   statusApproval: boolean
   createdAt: string
   updatedAt: string
+}
+
+export type StatusKey = 'ANSWERED' | 'NOT_ANSWERED' | 'PRIVATE' | 'PUBLIC' | 'DELETED' | 'APPROVED'
+
+export interface QuestionStatus {
+  key: StatusKey
+  displayName: string
 }

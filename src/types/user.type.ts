@@ -1,5 +1,6 @@
 export interface User {
   id: number
+  username: string
   studentCode: string
   schoolName: string
   firstName: string
@@ -8,5 +9,10 @@ export interface User {
   avatarUrl: string
   gender: string
   email: string
-  address: string
+  address: {
+    line: string
+    provinceCode: string
+    districtCode: string
+    wardCode: string
+  }
 }

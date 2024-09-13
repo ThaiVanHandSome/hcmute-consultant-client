@@ -1,7 +1,7 @@
 import { getAllQuestion } from '@/apis/question.api'
 import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
 import { Spinner } from '@/icons'
-import Question from '@/pages/User/Home/components/ListQuestion/components/Question'
+import Question from '@/components/dev/Question'
 import { Question as QuestionType } from '@/types/question.type'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'

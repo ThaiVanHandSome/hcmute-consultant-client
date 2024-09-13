@@ -99,7 +99,7 @@ export default function Login() {
                         status: forgotPasswordStatus.send
                       }).toString()
                     }}
-                    className='inline-block font-bold mt-2 text-sm'
+                    className='inline-block font-bold mt-2 text-sm text-primary'
                   >
                     Quên mật khẩu?
                   </Link>
@@ -120,7 +120,7 @@ export default function Login() {
                           status: registerStatus.create
                         }).toString()
                       }}
-                      className='font-bold'
+                      className='font-bold text-primary'
                     >
                       Đăng ký
                     </Link>

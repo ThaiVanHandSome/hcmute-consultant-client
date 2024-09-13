@@ -1,5 +1,5 @@
 import { QueryConfig } from '@/hooks/useQueryConfig'
-import { CreateQuestionRequest, CreateQuestionResponse, Question } from '@/types/question.type'
+import { CreateQuestionRequest, CreateQuestionResponse, Question, QuestionStatus } from '@/types/question.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
 
@@ -19,3 +19,5 @@ export const createNewQuestion = (params: CreateQuestionRequest, file?: File) =>
       params
     }
   )
+
+export const getAllQuestionStatus = () => http.get<SuccessResponse<QuestionStatus[]>>('list-filter-status-options')
