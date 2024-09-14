@@ -7,7 +7,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
+import { Department } from '@/types/department.type'
 import { CreateQuestionRequest } from '@/types/question.type'
+import { FormControlItem } from '@/types/utils.type'
 import { CreateQuestionSchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -48,6 +50,15 @@ export default function CreateQuestion() {
     queryKey: ['departments'],
     queryFn: getAllDepartments
   })
+  const departmentsSelectionData: FormControlItem[] = useMemo(() => {
+    const data = departments?.data.data
+    return data?.map((item: Department) => {
+      return {
+        value: String(item.id),
+        label: item.name
+      }
+    })
+  }, [departments])
 
   const departmentId = form.watch('departmentId')
   const { data: fields } = useQuery({

@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { Form } from '@/components/ui/form'
 import path from '@/constants/path'
 import registerStatus from '@/constants/registerStatus'
 import { LoginSchema } from '@/utils/rules'
@@ -18,6 +17,7 @@ import { ErrorResponse } from '@/types/utils.type'
 import { useContext } from 'react'
 import { AppContext } from '@/contexts/app.context'
 import { setUserToLocalStorage } from '@/utils/auth'
+import InputCustom from '@/components/dev/InputCustom'
 
 type FormData = yup.InferType<typeof LoginSchema>
 
@@ -66,32 +66,8 @@ export default function Login() {
             <div>
               <Form {...form}>
                 <form onSubmit={onSubmit}>
-                  <FormField
-                    control={form.control}
-                    name='email'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Email' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='password'
-                    render={({ field }) => (
-                      <FormItem className='mt-4'>
-                        <FormLabel>Mật khẩu</FormLabel>
-                        <FormControl>
-                          <Input type='password' placeholder='Mật khẩu' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <InputCustom control={form.control} name='email' placeholder='Email' label='Email' />
+                  <InputCustom control={form.control} name='password' placeholder='Mật khẩu' label='Mật khẩu' />
                   <Link
                     to={{
                       pathname: path.forgotPassword,

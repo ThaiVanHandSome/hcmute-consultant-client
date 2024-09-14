@@ -17,6 +17,7 @@ import useQueryParams from '@/hooks/useQueryParams'
 import { toast } from 'react-toastify'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils.type'
+import InputCustom from '@/components/dev/InputCustom'
 
 type SendEmailFormData = Pick<yup.InferType<typeof ForgotPasswordSchema>, 'emailRequest'>
 const SendEmailSchema = ForgotPasswordSchema.pick(['emailRequest'])
@@ -126,19 +127,7 @@ export default function ForgotPassword() {
             <div>
               <Form {...sendEmailForm}>
                 <form onSubmit={onSendCodeToEmail}>
-                  <FormField
-                    control={sendEmailForm.control}
-                    name='emailRequest'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Email' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <InputCustom control={sendEmailForm.control} name='emailRequest' label='Email' placeholder='Email' />
                   <Button
                     isLoading={sendCodeToEmailMutation.isPending}
                     disabled={sendCodeToEmailMutation.isPending}
@@ -157,46 +146,23 @@ export default function ForgotPassword() {
           {status === forgotPasswordStatus.changePassword && (
             <Form {...changePasswordForm}>
               <form onSubmit={onChangePassword}>
-                <FormField
+                <InputCustom
                   control={changePasswordForm.control}
                   name='currentPassword'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Mật khẩu hiện tại</FormLabel>
-                      <FormControl>
-                        <Input type='password' placeholder='Mật khẩu hiện tại' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label='Mật khẩu hiện tại'
+                  placeholder='Mật khẩu hiện tại'
                 />
-
-                <FormField
+                <InputCustom
                   control={changePasswordForm.control}
                   name='newPassword'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Mật khẩu mới</FormLabel>
-                      <FormControl>
-                        <Input type='password' placeholder='Mật khẩu mới' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label='Mật khẩu mới'
+                  placeholder='Mật khẩu mới'
                 />
-
-                <FormField
+                <InputCustom
                   control={changePasswordForm.control}
                   name='confirmPassword'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Nhập lại mật khẩu</FormLabel>
-                      <FormControl>
-                        <Input type='password' placeholder='Nhập lại mật khẩu' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label='Nhập lại mật khẩu'
+                  placeholder='Nhập lại mật khẩu'
                 />
                 <Button
                   isLoading={changePasswordMutation.isPending}

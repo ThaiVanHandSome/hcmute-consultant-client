@@ -2,11 +2,13 @@ import { getAllDepartments } from '@/apis/department.api'
 import { getAllQuestionStatus } from '@/apis/question.api'
 import { getAllQuestionsOfUser } from '@/apis/user.api'
 import DatePickerWithRange from '@/components/dev/DatePickerWithRange/DatePickerWithRange'
+import PaginationCustom from '@/components/dev/PaginationCustom'
 import Question from '@/components/dev/Question'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
 import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
 import { useQuery } from '@tanstack/react-query'
 import { addDays } from 'date-fns'
@@ -50,9 +52,9 @@ export default function MyQuestion() {
 
   return (
     <div>
-      <h1 className='text-primary font-bold capitalize mb-2'>CÂU HỎI CỦA BẢN THÂN</h1>
+      <h1 className='text-primary font-bold capitalize mb-4'>CÂU HỎI CỦA BẢN THÂN</h1>
       <div>
-        <div>
+        <div className='mb-6'>
           <Form {...form}>
             <form onSubmit={onSubmit}>
               <div className='grid grid-cols-3 gap-2 mb-4'>
@@ -131,8 +133,12 @@ export default function MyQuestion() {
             </form>
           </Form>
         </div>
+        <Separator className='my-8' />
         <div>
           {questionsOfUser?.data.data.content.map((question) => <Question key={question.title} question={question} />)}
+        </div>
+        <div className='flex items-center justify-center'>
+          <PaginationCustom />
         </div>
       </div>
     </div>

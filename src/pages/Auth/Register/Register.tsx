@@ -1,13 +1,10 @@
 import { register } from '@/apis/auth.api'
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Form } from '@/components/ui/form'
 import useQueryParams from '@/hooks/useQueryParams'
 import { RegisterSchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
-import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { RegisterStatusType } from '@/types/auth.type'
 import ConfirmToken from '@/components/dev/ConfirmToken'
@@ -17,10 +14,24 @@ import path from '@/constants/path'
 import registerStatus from '@/constants/registerStatus'
 import { SuccessIcon } from '@/icons'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
-import { ErrorResponse } from '@/types/utils.type'
+import { ErrorResponse, FormControlItem } from '@/types/utils.type'
 import RegisterStatus from '@/pages/Auth/Register/components/RegisterStatus'
+import InputCustom from '@/components/dev/InputCustom'
+import RadioGroupCustom from '@/components/dev/RadioGroupCustom'
+import { useForm } from 'react-hook-form'
 
 export type RegisterFormData = yup.InferType<typeof RegisterSchema>
+
+const radioGroupData: FormControlItem[] = [
+  {
+    value: 'NAM',
+    label: 'Nam'
+  },
+  {
+    value: 'NU',
+    label: 'Nữ'
+  }
+]
 
 export default function Register() {
   const { status } = useQueryParams()
@@ -88,100 +99,22 @@ export default function Register() {
           {status === registerStatus.create && (
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                  control={form.control}
-                  name='username'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Tên tài khoản</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Tên tài khoản' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='email'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Email' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='password'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Mật khẩu</FormLabel>
-                      <FormControl>
-                        <Input type='password' placeholder='Mật khẩu' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
+                <InputCustom control={form.control} name='username' placeholder='Username' label='Tên tài khoản' />
+                <InputCustom control={form.control} name='email' placeholder='Email' label='Email' />
+                <InputCustom control={form.control} name='password' placeholder='Mật khẩu' label='Mật khẩu' />
+                <InputCustom
                   control={form.control}
                   name='confirmPassword'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Nhập lại mật khẩu</FormLabel>
-                      <FormControl>
-                        <Input type='password' placeholder='Nhập lại mật khẩu' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  placeholder='Nhập lại mật khẩu'
+                  label='Nhập lại mật khẩu'
                 />
-                <FormField
-                  control={form.control}
-                  name='phone'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Số điện thoại</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Số điện thoại' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
+                <InputCustom control={form.control} name='phone' placeholder='Số điện thoại' label='Số điện thoại' />
+                <RadioGroupCustom
                   control={form.control}
                   name='gender'
-                  render={({ field }) => (
-                    <FormItem className='mb-4'>
-                      <FormLabel>Giới tính</FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className='flex items-center'
-                        >
-                          <FormItem className='flex items-center'>
-                            <FormControl>
-                              <RadioGroupItem value='NAM' />
-                            </FormControl>
-                            <FormLabel className='!mt-0 ml-1'>Nam</FormLabel>
-                          </FormItem>
-                          <FormItem className='flex items-center'>
-                            <FormControl>
-                              <RadioGroupItem value='NU' />
-                            </FormControl>
-                            <FormLabel className='!mt-0 ml-1'>Nữ</FormLabel>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label='Giới tính'
+                  data={radioGroupData}
+                  defaultValue='NAM'
                 />
                 <Button
                   isLoading={registerMutation.isPending}

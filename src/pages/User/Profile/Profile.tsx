@@ -1,13 +1,15 @@
 import { getDistricts, getProvinces, getWards } from '@/apis/location.api'
-import { getProfile } from '@/apis/user.api'
+import { getProfile, updateProfile } from '@/apis/user.api'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useQuery } from '@tanstack/react-query'
+import { User } from '@/types/user.type'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 export default function Profile() {
   const [file, setFile] = useState<File>()
@@ -56,6 +58,10 @@ export default function Profile() {
     enabled: districtCode.length !== 0
   })
 
+  const updateProfileMutation = useMutation({
+    mutationFn: (body: Omit<User, 'id'>) => updateProfile(body)
+  })
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileFromLocal = event.target.files?.[0]
     setFile(fileFromLocal)
@@ -71,11 +77,36 @@ export default function Profile() {
       form.setValue('lastName', res.lastName)
       form.setValue('phone', res.phone)
       form.setValue('gender', res.gender)
-      form.setValue('provinceCode', res.address.provinceCode)
-      form.setValue('districtCode', res.address.districtCode)
-      form.setValue('wardCode', res.address.wardCode)
+      form.setValue('provinceCode', res.address?.provinceCode ?? '')
+      form.setValue('districtCode', res.address?.districtCode ?? '')
+      form.setValue('wardCode', res.address?.wardCode ?? '')
     }
   }, [profile])
+
+  const onSubmit = form.handleSubmit((values) => {
+    const payload: Omit<User, 'id'> = {
+      username: values.username,
+      studentCode: '',
+      schoolName: values.schoolName,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phone: values.phone,
+      avatarUrl: '',
+      gender: values.gender,
+      address: {
+        line: values.line,
+        provinceCode: values.provinceCode,
+        districtCode: values.districtCode,
+        wardCode: values.wardCode
+      },
+      email: values.email
+    }
+    updateProfileMutation.mutate(payload, {
+      onSuccess: (res) => {
+        toast.success(res.data.message)
+      }
+    })
+  })
 
   return (
     <div>
@@ -83,7 +114,7 @@ export default function Profile() {
       <div className='grid grid-cols-5'>
         <div className='col-span-3'>
           <Form {...form}>
-            <form>
+            <form onSubmit={onSubmit}>
               <FormField
                 control={form.control}
                 name='username'
@@ -268,7 +299,13 @@ export default function Profile() {
                   </div>
                 </div>
               </div>
-              <Button>Cập nhật</Button>
+              <Button
+                isLoading={updateProfileMutation.isPending}
+                disabled={updateProfileMutation.isPending}
+                className='px-6 py-2'
+              >
+                Cập nhật
+              </Button>
             </form>
           </Form>
         </div>

@@ -16,3 +16,8 @@ export interface PaginationResponse<T> {
   totalPages: number
   size: number
 }
+
+export interface FormControlItem {
+  value: string
+  label: string | React.ReactNode
+}

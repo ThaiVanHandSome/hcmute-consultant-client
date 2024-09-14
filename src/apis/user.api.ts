@@ -10,3 +10,5 @@ export const getAllQuestionsOfUser = (params: QueryConfig) =>
   })
 
 export const getProfile = () => http.get<SuccessResponse<User>>('profile')
+
+export const updateProfile = (body: Omit<User, 'id'>) => http.put<SuccessResponse<String>>('profile/update', body)
