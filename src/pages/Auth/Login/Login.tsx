@@ -67,7 +67,14 @@ export default function Login() {
               <Form {...form}>
                 <form onSubmit={onSubmit}>
                   <InputCustom control={form.control} name='email' placeholder='Email' label='Email' />
-                  <InputCustom control={form.control} name='password' placeholder='Mật khẩu' label='Mật khẩu' />
+                  <InputCustom
+                    className='mb-0'
+                    type='password'
+                    control={form.control}
+                    name='password'
+                    placeholder='Mật khẩu'
+                    label='Mật khẩu'
+                  />
                   <Link
                     to={{
                       pathname: path.forgotPassword,

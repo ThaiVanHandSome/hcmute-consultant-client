@@ -101,8 +101,15 @@ export default function Register() {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <InputCustom control={form.control} name='username' placeholder='Username' label='Tên tài khoản' />
                 <InputCustom control={form.control} name='email' placeholder='Email' label='Email' />
-                <InputCustom control={form.control} name='password' placeholder='Mật khẩu' label='Mật khẩu' />
                 <InputCustom
+                  type='password'
+                  control={form.control}
+                  name='password'
+                  placeholder='Mật khẩu'
+                  label='Mật khẩu'
+                />
+                <InputCustom
+                  type='password'
                   control={form.control}
                   name='confirmPassword'
                   placeholder='Nhập lại mật khẩu'

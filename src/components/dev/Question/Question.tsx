@@ -2,16 +2,22 @@ import { Separator } from '@/components/ui/separator'
 import { EyeIcon } from '@/icons'
 import { Question as QuestionType } from '@/types/question.type'
 import { formatDate } from '@/utils/utils'
-import { useState } from 'react'
+import clsx from 'clsx'
 
 interface Props {
   readonly question: QuestionType
+  readonly type?: 'all' | 'user'
 }
 
-export default function Question({ question }: Props) {
+export default function Question({ question, type = 'all' }: Props) {
   return (
-    <div>
-      <div className='px-4 py-3 rounded-lg shadow-md bg-white mb-6'>
+    <div
+      className={clsx({
+        'bg-white': type === 'all',
+        'bg-primary-bg': type === 'user'
+      })}
+    >
+      <div className='px-4 py-3 rounded-lg shadow-md mb-6'>
         <div className='flex items-start justify-between'>
           <div className='flex items-center mb-2'>
             <img

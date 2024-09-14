@@ -57,7 +57,7 @@ export default function ListQuestion() {
     <div>
       <div>
         {listQuestion.map((question) => (
-          <Question key={question.title} question={question} />
+          <Question key={question.title + question.createdAt} question={question} />
         ))}
       </div>
       <div className='mt-4 flex items-center justify-center'>{isLoading && <Spinner />}</div>

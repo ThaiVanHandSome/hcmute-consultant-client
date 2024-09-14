@@ -1,4 +1,4 @@
-import { RegisterFormData } from '@/pages/Register/Register'
+import { RegisterFormData } from '@/pages/Auth/Register/Register'
 import { AuthResponse } from '@/types/auth.type'
 import { SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
@@ -32,3 +32,6 @@ export const resetPassword = (body: { email: string; newPassword: string }) =>
 
 export const refreshToken = (body: { refreshToken: string }) =>
   http.post<SuccessResponse<AuthResponse>>(URL_REFRESH_TOKEN, body)
+
+export const updatePassword = (body: { password: string; newPassword: string }) =>
+  http.put<SuccessResponse<string>>('profile/change-password', body)

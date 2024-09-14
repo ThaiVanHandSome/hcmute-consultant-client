@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { ForgotPasswordSchema } from '@/utils/rules'
+import { Form } from '@/components/ui/form'
+import { PasswordRecoverySchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -19,11 +18,11 @@ import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils.type'
 import InputCustom from '@/components/dev/InputCustom'
 
-type SendEmailFormData = Pick<yup.InferType<typeof ForgotPasswordSchema>, 'emailRequest'>
-const SendEmailSchema = ForgotPasswordSchema.pick(['emailRequest'])
+type SendEmailFormData = Pick<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>
+const SendEmailSchema = PasswordRecoverySchema.pick(['emailRequest'])
 
-type ChangePasswordFormData = Omit<yup.InferType<typeof ForgotPasswordSchema>, 'emailRequest'>
-const ChangePasswordSchema = ForgotPasswordSchema.omit(['emailRequest'])
+type ChangePasswordFormData = Omit<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>
+const ChangePasswordSchema = PasswordRecoverySchema.omit(['emailRequest'])
 
 export default function ForgotPassword() {
   const { status } = useQueryParams()
@@ -36,7 +35,7 @@ export default function ForgotPassword() {
 
   const changePasswordForm = useForm<ChangePasswordFormData>({
     defaultValues: {
-      currentPassword: '',
+      password: '',
       newPassword: '',
       confirmPassword: ''
     },
@@ -147,18 +146,21 @@ export default function ForgotPassword() {
             <Form {...changePasswordForm}>
               <form onSubmit={onChangePassword}>
                 <InputCustom
+                  type='password'
                   control={changePasswordForm.control}
-                  name='currentPassword'
+                  name='password'
                   label='Mật khẩu hiện tại'
                   placeholder='Mật khẩu hiện tại'
                 />
                 <InputCustom
+                  type='password'
                   control={changePasswordForm.control}
                   name='newPassword'
                   label='Mật khẩu mới'
                   placeholder='Mật khẩu mới'
                 />
                 <InputCustom
+                  type='password'
                   control={changePasswordForm.control}
                   name='confirmPassword'
                   label='Nhập lại mật khẩu'

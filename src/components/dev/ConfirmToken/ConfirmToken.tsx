@@ -4,10 +4,10 @@ import {
   resendRegisterVerificationCode,
   verifyCodeWhenForgotPassword
 } from '@/apis/auth.api'
+import InputCustom from '@/components/dev/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { Form } from '@/components/ui/form'
 import path from '@/constants/path'
 import { ErrorResponse } from '@/types/utils.type'
 import { ChangeEmailSchema, ConfirmTokenSchema } from '@/utils/rules'
@@ -130,19 +130,7 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
     <div>
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <FormField
-            control={form.control}
-            name='token'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mã xác nhận</FormLabel>
-                <FormControl>
-                  <Input placeholder='Mã xác nhận' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <InputCustom control={form.control} name='token' label='Mã xác nhận' placeholder='Mã xác nhận' />
           <Button
             isLoading={confirmRegistrationMutation.isPending}
             disabled={checkDisabledButton()}
@@ -176,18 +164,11 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
                   <DialogTitle>Thay đổi email</DialogTitle>
                   <Form {...changeEmailForm}>
                     <form onSubmit={onChangeEmailSubmit}>
-                      <FormField
+                      <InputCustom
                         control={changeEmailForm.control}
                         name='newEmail'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input placeholder='Email' {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        label='Email'
+                        placeholder='Email'
                       />
                       <Button
                         isLoading={changeEmailMutation.isPending}

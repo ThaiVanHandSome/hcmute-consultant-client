@@ -1,16 +1,17 @@
 import { getAllDepartments, getFields, getRolesAsk } from '@/apis/department.api'
 import { createNewQuestion } from '@/apis/question.api'
+import InputCustom from '@/components/dev/InputCustom'
+import SelectionCustom from '@/components/dev/SelectionCustom/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
-import { Department } from '@/types/department.type'
 import { CreateQuestionRequest } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
 import { CreateQuestionSchema } from '@/utils/rules'
+import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { omit } from 'lodash'
@@ -50,14 +51,10 @@ export default function CreateQuestion() {
     queryKey: ['departments'],
     queryFn: getAllDepartments
   })
-  const departmentsSelectionData: FormControlItem[] = useMemo(() => {
+
+  const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
-    return data?.map((item: Department) => {
-      return {
-        value: String(item.id),
-        label: item.name
-      }
-    })
+    return generateSelectionData(data)
   }, [departments])
 
   const departmentId = form.watch('departmentId')
@@ -67,10 +64,19 @@ export default function CreateQuestion() {
     enabled: !!departmentId
   })
 
+  const fieldsSelectionData: FormControlItem[] | undefined = useMemo(() => {
+    const data = fields?.data.data
+    return generateSelectionData(data)
+  }, [fields])
+
   const { data: rolesAsk } = useQuery({
     queryKey: ['rolesAsk'],
     queryFn: getRolesAsk
   })
+  const roleAskSelectionData: FormControlItem[] | undefined = useMemo(() => {
+    const data = rolesAsk?.data.data
+    return generateSelectionData(data)
+  }, [rolesAsk])
 
   const createQuestionMutation = useMutation({
     mutationFn: ({ params, file }: { params: CreateQuestionRequest; file?: File }) => createNewQuestion(params, file)
@@ -107,153 +113,47 @@ export default function CreateQuestion() {
                 <form onSubmit={onSubmit}>
                   <div className='grid grid-cols-12 gap-2 mb-4'>
                     <div className='col-span-4'>
-                      <FormField
+                      <SelectionCustom
                         control={form.control}
                         name='departmentId'
-                        render={({ field }) => (
-                          <FormItem>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder='Đơn vị' />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {departments?.data.data.map((department) => (
-                                  <SelectItem key={department.id} value={String(department.id)}>
-                                    {department.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        placeholder='Đơn vị'
+                        data={departmentsSelectionData}
                       />
                     </div>
                     <div className='col-span-4'>
-                      <FormField
+                      <SelectionCustom
                         control={form.control}
                         name='fieldId'
-                        render={({ field }) => (
-                          <FormItem>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder='Lĩnh vực' />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {fields?.data.data.map((field) => (
-                                  <SelectItem key={field.id} value={String(field.id)}>
-                                    {field.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        placeholder='Lĩnh vực'
+                        data={fieldsSelectionData}
                       />
                     </div>
                     <div className='col-span-4'>
-                      <FormField
+                      <SelectionCustom
                         control={form.control}
                         name='roleAskId'
-                        render={({ field }) => (
-                          <FormItem>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder='Vai trò' />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {rolesAsk?.data.data.map((roleAsk) => (
-                                  <SelectItem key={roleAsk.id} value={String(roleAsk.id)}>
-                                    {roleAsk.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        placeholder='Vai trò'
+                        data={roleAskSelectionData}
                       />
                     </div>
                   </div>
-                  <div className='grid grid-cols-12 gap-4 mb-4'>
+                  <div className='grid grid-cols-12 gap-4'>
                     <div className='col-span-4'>
-                      <FormField
-                        control={form.control}
-                        name='studentCode'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input placeholder='Mã số sinh viên' {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <InputCustom control={form.control} name='studentCode' placeholder='Mã số sinh viên' />
                     </div>
                     <div className='col-span-4'>
-                      <FormField
-                        control={form.control}
-                        name='firstName'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input placeholder='Họ' {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <InputCustom control={form.control} name='firstName' placeholder='Họ' />
                     </div>
                     <div className='col-span-4'>
-                      <FormField
-                        control={form.control}
-                        name='lastName'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input placeholder='Tên' {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <InputCustom control={form.control} name='lastName' placeholder='Tên' />
                     </div>
                   </div>
-                  <div className='grid grid-cols-12 gap-3 mb-4'>
+                  <div className='grid grid-cols-12 gap-3'>
                     <div className='col-span-5'>
-                      <FormField
-                        control={form.control}
-                        name='email'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input placeholder='Email' {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <InputCustom control={form.control} name='email' placeholder='Email' />
                     </div>
                     <div className='col-span-7'>
-                      <FormField
-                        control={form.control}
-                        name='title'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input placeholder='Tiêu đề' {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <InputCustom control={form.control} name='title' placeholder='Tiêu đề' />
                     </div>
                   </div>
                   <div className='mb-4'>

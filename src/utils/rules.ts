@@ -26,9 +26,9 @@ export const ChangeEmailSchema = yup.object({
   newEmail: yup.string().required('Bạn phải nhập email').email('Email không đúng định dạng')
 })
 
-export const ForgotPasswordSchema = yup.object({
+export const PasswordRecoverySchema = yup.object({
   emailRequest: yup.string().required('Bạn phải nhập email').email('Email không đúng định dạng'),
-  currentPassword: yup.string().required('Bạn phải nhập mật khẩu').min(6, 'Mật khẩu phải có tối đa 6 kí tự'),
+  password: yup.string().required('Bạn phải nhập mật khẩu').min(6, 'Mật khẩu phải có tối đa 6 kí tự'),
   newPassword: yup.string().required('Bạn phải nhập mật khẩu').min(6, 'Mật khẩu phải có tối đa 6 kí tự'),
   confirmPassword: yup
     .string()

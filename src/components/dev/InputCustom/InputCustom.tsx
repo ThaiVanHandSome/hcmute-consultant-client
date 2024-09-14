@@ -25,7 +25,7 @@ export default function InputCustom<TFieldValues extends FieldValues>({
         control={control}
         name={name}
         render={() => (
-          <FormItem className='mb-4'>
+          <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
               <Input type={type} placeholder={placeholder} {...field} />

@@ -1,3 +1,4 @@
+import { FormControlItem } from '@/types/utils.type'
 import axios, { AxiosError, HttpStatusCode } from 'axios'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
@@ -24,4 +25,13 @@ export function formatDate(dateString: string) {
   const seconds = String(date.getSeconds()).padStart(2, '0')
 
   return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
+}
+
+export const generateSelectionData = (data: any): FormControlItem[] | undefined => {
+  return data?.map((item: any) => {
+    return {
+      value: String(item.id),
+      label: item.name
+    }
+  })
 }
