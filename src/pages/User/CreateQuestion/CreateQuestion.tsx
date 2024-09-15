@@ -1,7 +1,7 @@
 import { getAllDepartments, getFields, getRolesAsk } from '@/apis/department.api'
 import { createNewQuestion } from '@/apis/question.api'
 import InputCustom from '@/components/dev/InputCustom'
-import SelectionCustom from '@/components/dev/SelectionCustom/SelectionCustom'
+import SelectionCustom from '@/components/dev/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'

@@ -1,5 +1,4 @@
 import { FloatingArrow, FloatingPortal, Placement, arrow, shift, useFloating, useId } from '@floating-ui/react'
-import clsx from 'clsx'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
 

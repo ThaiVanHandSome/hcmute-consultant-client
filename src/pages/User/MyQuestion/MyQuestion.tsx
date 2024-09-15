@@ -5,7 +5,7 @@ import DatePickerWithRange from '@/components/dev/DatePickerWithRange/DatePicker
 import InputCustom from '@/components/dev/InputCustom'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import Question from '@/components/dev/Question'
-import SelectionCustom from '@/components/dev/SelectionCustom/SelectionCustom'
+import SelectionCustom from '@/components/dev/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'

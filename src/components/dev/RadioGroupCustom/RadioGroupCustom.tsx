@@ -4,12 +4,12 @@ import { FormControlItem } from '@/types/utils.type'
 import { Control, FieldPath, FieldValues, useController } from 'react-hook-form'
 
 interface RadioGroupCustomProps<TFieldValues extends FieldValues = FieldValues> {
-  label?: string
-  control: Control<TFieldValues>
-  name: FieldPath<TFieldValues>
-  className?: string
-  data?: FormControlItem[]
-  defaultValue?: string
+  readonly label?: string
+  readonly control: Control<TFieldValues>
+  readonly name: FieldPath<TFieldValues>
+  readonly className?: string
+  readonly data?: FormControlItem[]
+  readonly defaultValue?: string
 }
 
 export default function RadioGroupCustom<TFieldValues extends FieldValues>({
@@ -32,9 +32,9 @@ export default function RadioGroupCustom<TFieldValues extends FieldValues>({
             <FormControl>
               <RadioGroup onValueChange={field.onChange} defaultValue={defaultValue} className='flex items-center'>
                 {data?.map(({ value, label }) => (
-                  <FormItem className='flex items-center'>
+                  <FormItem key={value} className='flex items-center'>
                     <FormControl>
-                      <RadioGroupItem value={value} />
+                      <RadioGroupItem checked={defaultValue === value} value={value} />
                     </FormControl>
                     <FormLabel className='!mt-0 ml-1'>{label}</FormLabel>
                   </FormItem>

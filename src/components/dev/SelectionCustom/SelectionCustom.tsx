@@ -4,12 +4,12 @@ import { FormControlItem } from '@/types/utils.type'
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
 interface SelectionCustomProps<TFieldValues extends FieldValues = FieldValues> {
-  placeholder?: string
-  control: Control<TFieldValues>
-  name: FieldPath<TFieldValues>
-  className?: string
-  data?: FormControlItem[]
-  defaultValue?: string
+  readonly placeholder?: string
+  readonly control: Control<TFieldValues>
+  readonly name: FieldPath<TFieldValues>
+  readonly className?: string
+  readonly data?: FormControlItem[]
+  readonly defaultValue?: string
 }
 
 export default function SelectionCustom<TFieldValues extends FieldValues>({

@@ -35,3 +35,12 @@ export const generateSelectionData = (data: any): FormControlItem[] | undefined 
     }
   })
 }
+
+export const generateSelectionDataFromLocation = (data: any): FormControlItem[] | undefined => {
+  return data?.map((item: any) => {
+    return {
+      value: String(item.code),
+      label: item.fullName
+    }
+  })
+}

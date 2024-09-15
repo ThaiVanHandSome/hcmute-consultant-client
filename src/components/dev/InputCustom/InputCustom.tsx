@@ -4,9 +4,9 @@ import { Control, FieldPath, FieldValues, useController } from 'react-hook-form'
 
 interface InputCustomProps<TFieldValues extends FieldValues = FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  control: Control<TFieldValues>
-  name: FieldPath<TFieldValues>
+  readonly label?: string
+  readonly control: Control<TFieldValues>
+  readonly name: FieldPath<TFieldValues>
 }
 
 export default function InputCustom<TFieldValues extends FieldValues>({
@@ -15,6 +15,7 @@ export default function InputCustom<TFieldValues extends FieldValues>({
   label,
   type = 'text',
   control,
+  disabled,
   className = 'mb-3'
 }: InputCustomProps<TFieldValues>) {
   const { field } = useController({ name, control })
@@ -28,7 +29,7 @@ export default function InputCustom<TFieldValues extends FieldValues>({
           <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Input type={type} placeholder={placeholder} {...field} />
+              <Input disabled={disabled} type={type} placeholder={placeholder} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

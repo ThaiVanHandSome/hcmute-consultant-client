@@ -1,15 +1,29 @@
 import { getDistricts, getProvinces, getWards } from '@/apis/location.api'
 import { getProfile, updateProfile } from '@/apis/user.api'
+import InputCustom from '@/components/dev/InputCustom'
+import RadioGroupCustom from '@/components/dev/RadioGroupCustom'
+import SelectionCustom from '@/components/dev/SelectionCustom'
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { Form, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from '@/hooks/use-toast'
 import { User } from '@/types/user.type'
+import { FormControlItem } from '@/types/utils.type'
+import { generateSelectionDataFromLocation } from '@/utils/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+
+const radioGroupData: FormControlItem[] = [
+  {
+    value: 'NAM',
+    label: 'Nam'
+  },
+  {
+    value: 'NU',
+    label: 'Nữ'
+  }
+]
 
 export default function Profile() {
   const [file, setFile] = useState<File>()
@@ -43,6 +57,10 @@ export default function Profile() {
     queryKey: ['provinces'],
     queryFn: getProvinces
   })
+  const provincesSelectionData = useMemo(() => {
+    const data = provinces?.data.data
+    return generateSelectionDataFromLocation(data)
+  }, [provinces])
 
   const provinceCode = form.watch('provinceCode')
   const { data: districts } = useQuery({
@@ -50,6 +68,10 @@ export default function Profile() {
     queryFn: () => getDistricts(provinceCode),
     enabled: provinceCode.length !== 0
   })
+  const districtsSelectionData = useMemo(() => {
+    const data = districts?.data.data
+    return generateSelectionDataFromLocation(data)
+  }, [districts])
 
   const districtCode = form.watch('districtCode')
   const { data: wards } = useQuery({
@@ -57,6 +79,10 @@ export default function Profile() {
     queryFn: () => getWards(districtCode),
     enabled: districtCode.length !== 0
   })
+  const wardsSelectionData = useMemo(() => {
+    const data = wards?.data.data
+    return generateSelectionDataFromLocation(data)
+  }, [wards])
 
   const updateProfileMutation = useMutation({
     mutationFn: (body: Omit<User, 'id'>) => updateProfile(body)
@@ -119,186 +145,50 @@ export default function Profile() {
         <div className='col-span-3'>
           <Form {...form}>
             <form onSubmit={onSubmit}>
-              <FormField
-                control={form.control}
-                name='username'
-                render={({ field }) => (
-                  <FormItem className='mb-3'>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input disabled value={field.value} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem className='mb-3'>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input disabled value={field.value} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              <InputCustom disabled control={form.control} name='username' label='Username' />
+              <InputCustom disabled control={form.control} name='email' label='Email' />
               <div className='grid grid-cols-2 mb-3 gap-4'>
                 <div className='col-span-1'>
-                  <FormField
-                    control={form.control}
-                    name='firstName'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Họ</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Họ' {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                  <InputCustom control={form.control} name='firstName' label='Họ' placeholder='Họ' />
                 </div>
                 <div className='col-span-1'>
-                  <FormField
-                    control={form.control}
-                    name='lastName'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tên</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Tên' {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                  <InputCustom control={form.control} name='lastName' label='Tên' placeholder='Tên' />
                 </div>
               </div>
-              <FormField
-                control={form.control}
-                name='schoolName'
-                render={({ field }) => (
-                  <FormItem className='mb-3'>
-                    <FormLabel>Trường học</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Trường học' {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='phone'
-                render={({ field }) => (
-                  <FormItem className='mb-4'>
-                    <FormLabel>Số điện thoại</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Số điện thoại' {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
+              <InputCustom control={form.control} name='schoolName' label='Trường học' placeholder='Trường học' />
+              <InputCustom control={form.control} name='phone' label='Số điện thoại' placeholder='Số điện thoại' />
+              <RadioGroupCustom
                 control={form.control}
                 name='gender'
-                render={({ field }) => (
-                  <FormItem className='mb-5'>
-                    <FormLabel>Giới tính</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className='flex items-center'
-                      >
-                        <FormItem className='flex items-center'>
-                          <FormControl>
-                            <RadioGroupItem value='NAM' />
-                          </FormControl>
-                          <FormLabel className='!mt-0 ml-1'>Nam</FormLabel>
-                        </FormItem>
-                        <FormItem className='flex items-center'>
-                          <FormControl>
-                            <RadioGroupItem value='NU' />
-                          </FormControl>
-                          <FormLabel className='!mt-0 ml-1'>Nữ</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                  </FormItem>
-                )}
+                label='Giới tính'
+                defaultValue={form.watch('gender')}
+                data={radioGroupData}
               />
               <div className='mb-5'>
                 <FormLabel className='w-full mb-2 block'>Địa chỉ</FormLabel>
                 <div className='grid grid-cols-3 gap-4'>
                   <div className='col-span-1'>
-                    <FormField
+                    <SelectionCustom
                       control={form.control}
                       name='provinceCode'
-                      render={({ field }) => (
-                        <FormItem>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder='Tỉnh' />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {provinces?.data.data.map((province) => (
-                                <SelectItem key={province.code} value={String(province.code)}>
-                                  {province.fullName}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
+                      placeholder='Tỉnh'
+                      data={provincesSelectionData}
                     />
                   </div>
                   <div className='col-span-1'>
-                    <FormField
+                    <SelectionCustom
                       control={form.control}
                       name='districtCode'
-                      render={({ field }) => (
-                        <FormItem>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder='Huyện' />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {districts?.data.data.map((district) => (
-                                <SelectItem key={district.code} value={String(district.code)}>
-                                  {district.fullName}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
+                      placeholder='Huyện'
+                      data={districtsSelectionData}
                     />
                   </div>
                   <div className='col-span-1'>
-                    <FormField
+                    <SelectionCustom
                       control={form.control}
                       name='wardCode'
-                      render={({ field }) => (
-                        <FormItem>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder='Xã' />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {wards?.data.data.map((ward) => (
-                                <SelectItem key={ward.code} value={String(ward.code)}>
-                                  {ward.fullName}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
+                      placeholder='Xã'
+                      data={wardsSelectionData}
                     />
                   </div>
                 </div>
