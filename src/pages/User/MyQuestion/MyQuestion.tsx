@@ -82,8 +82,6 @@ export default function MyQuestion() {
     })
   }, [departmentId])
 
-  console.log(questionsOfUser?.data.data)
-
   return (
     <div>
       <h1 className='text-primary font-bold capitalize mb-4'>Câu hỏi của bản thân</h1>

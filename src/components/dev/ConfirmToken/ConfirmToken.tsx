@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
 import path from '@/constants/path'
+import { toast } from '@/hooks/use-toast'
 import { ErrorResponse } from '@/types/utils.type'
 import { ChangeEmailSchema, ConfirmTokenSchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
@@ -16,7 +17,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useLocation, useMatch } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
 type FormData = yup.InferType<typeof ConfirmTokenSchema>
@@ -69,7 +69,11 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
     }
     resendRegisterVerificationCodeMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast.success(res.data.message)
+        toast({
+          variant: 'success',
+          title: 'Thành công',
+          description: res.data.message
+        })
       }
     })
   }
@@ -110,7 +114,11 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
     }
     changeEmailMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast.success(res.data.message)
+        toast({
+          variant: 'success',
+          title: 'Thành công',
+          description: res.data.message
+        })
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {

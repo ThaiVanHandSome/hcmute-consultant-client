@@ -13,10 +13,10 @@ import forgotPasswordStatus from '@/constants/forgotPasswordStatus'
 import ConfirmToken from '@/components/dev/ConfirmToken'
 import { useEffect, useRef, useState } from 'react'
 import useQueryParams from '@/hooks/useQueryParams'
-import { toast } from 'react-toastify'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils.type'
 import InputCustom from '@/components/dev/InputCustom'
+import { toast } from '@/hooks/use-toast'
 
 type SendEmailFormData = Pick<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>
 const SendEmailSchema = PasswordRecoverySchema.pick(['emailRequest'])
@@ -89,7 +89,11 @@ export default function ForgotPassword() {
     }
     changePasswordMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast.success(res.data.message)
+        toast({
+          variant: 'success',
+          title: 'Thành công',
+          description: res.data.message
+        })
         navigate(path.login)
       },
       onError: (error) => {

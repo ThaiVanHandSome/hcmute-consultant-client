@@ -1,6 +1,13 @@
-import clsx from 'clsx'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Link, createSearchParams } from 'react-router-dom'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from '@/components/ui/pagination'
+import { createSearchParams } from 'react-router-dom'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 interface Props {
   readonly path: string
@@ -17,7 +24,11 @@ export default function Paginate({ path, queryConfig, pageSize }: Props) {
     const renderDotBefore = () => {
       if (!dotBefore) {
         dotBefore = true
-        return <div className='mx-2 rounded bg-white px-3 py-2 shadow-sm'>...</div>
+        return (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )
       }
       return null
     }
@@ -25,7 +36,11 @@ export default function Paginate({ path, queryConfig, pageSize }: Props) {
     const renderDotAfter = () => {
       if (!dotAfter) {
         dotAfter = true
-        return <div className='mx-2 rounded bg-white px-3 py-2 shadow-sm'>...</div>
+        return (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )
       }
       return null
     }
@@ -45,77 +60,53 @@ export default function Paginate({ path, queryConfig, pageSize }: Props) {
           return renderDotBefore()
         }
         return (
-          <Link
-            to={{
-              pathname: path,
-              search: createSearchParams({
-                ...queryConfig,
-                page: pageNumber.toString()
-              }).toString()
-            }}
-            key={pageNumber}
-            className={clsx('mx-2 cursor-pointer rounded border-2 bg-white px-3 py-2 shadow-sm', {
-              'border-orange': pageNumber === page,
-              'border-transparent': pageNumber !== page
-            })}
-          >
-            {pageNumber}
-          </Link>
+          <PaginationItem key={pageNumber}>
+            <PaginationLink
+              to={{
+                pathname: path,
+                search: createSearchParams({
+                  ...queryConfig,
+                  page: pageNumber.toString()
+                }).toString()
+              }}
+              isActive={page === pageNumber}
+            >
+              {pageNumber}
+            </PaginationLink>
+          </PaginationItem>
         )
       })
   }
 
-  const prevIcon = () => (
-    <div className='flex items-center'>
-      <ChevronLeft className='h-4 w-4' />
-      <span>Previous</span>
-    </div>
-  )
-
-  const nextIcon = () => (
-    <div className='flex items-center'>
-      <span>Next</span>
-      <ChevronRight className='h-4 w-4' />
-    </div>
-  )
-
   return (
-    <div className='mt-6 flex flex-wrap justify-center'>
-      {page > 1 ? (
-        <Link
-          to={{
-            pathname: path,
-            search: createSearchParams({
-              ...queryConfig,
-              page: (page - 1).toString()
-            }).toString()
-          }}
-          className={'mx-1 cursor-pointer rounded border-2 bg-white px-3 py-2 shadow-sm'}
-        >
-          {prevIcon()}
-        </Link>
-      ) : (
-        <span className='mx-2 flex cursor-not-allowed items-center justify-center rounded border-2 bg-white/60 px-3 py-2 text-sm shadow-sm'>
-          {prevIcon()}
-        </span>
-      )}
-
-      {renderPagination()}
-      {page < pageSize ? (
-        <Link
-          to={{
-            pathname: path,
-            search: createSearchParams({
-              ...queryConfig,
-              page: (page + 1).toString()
-            }).toString()
-          }}
-        >
-          {nextIcon()}
-        </Link>
-      ) : (
-        <div>{nextIcon()}</div>
-      )}
-    </div>
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            to={{
+              pathname: path,
+              search: createSearchParams({
+                ...queryConfig,
+                page: (page - 1).toString()
+              }).toString()
+            }}
+            disabled={page === 0}
+          />
+        </PaginationItem>
+        {renderPagination()}
+        <PaginationItem>
+          <PaginationNext
+            to={{
+              pathname: path,
+              search: createSearchParams({
+                ...queryConfig,
+                page: (page + 1).toString()
+              }).toString()
+            }}
+            disabled={page >= pageSize - 1}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   )
 }

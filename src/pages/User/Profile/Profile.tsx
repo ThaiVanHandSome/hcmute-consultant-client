@@ -5,11 +5,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { toast } from '@/hooks/use-toast'
 import { User } from '@/types/user.type'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 
 export default function Profile() {
   const [file, setFile] = useState<File>()
@@ -103,7 +103,11 @@ export default function Profile() {
     }
     updateProfileMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast.success(res.data.message)
+        toast({
+          variant: 'success',
+          title: 'Thành công',
+          description: res.data.message
+        })
       }
     })
   })

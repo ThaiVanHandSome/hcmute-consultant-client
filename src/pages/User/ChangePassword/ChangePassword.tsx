@@ -2,13 +2,13 @@ import { updatePassword } from '@/apis/auth.api'
 import InputCustom from '@/components/dev/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { toast } from '@/hooks/use-toast'
 import { ErrorResponse } from '@/types/utils.type'
 import { PasswordRecoverySchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
 type FormData = Omit<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>
@@ -35,7 +35,11 @@ export default function ChangePassword() {
     }
     updatePasswordMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast.success(res.data.message)
+        toast({
+          variant: 'success',
+          title: 'Thành công',
+          description: res.data.message
+        })
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {

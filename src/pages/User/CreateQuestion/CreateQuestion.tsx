@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { toast } from '@/hooks/use-toast'
 import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
 import { CreateQuestionRequest } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
@@ -18,7 +19,6 @@ import { omit } from 'lodash'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
-import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
 type FormData = yup.InferType<typeof CreateQuestionSchema>
@@ -88,7 +88,11 @@ export default function CreateQuestion() {
       { params, file },
       {
         onSuccess: (res) => {
-          toast.success(res.data.message)
+          toast({
+            variant: 'success',
+            title: 'Thành công',
+            description: res.data.message
+          })
           queryClient.invalidateQueries({
             queryKey: ['questions', queryConfig]
           })

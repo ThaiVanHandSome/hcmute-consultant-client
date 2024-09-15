@@ -1,9 +1,9 @@
+import { Toaster } from '@/components/ui/toaster'
 import { AppContext } from '@/contexts/app.context'
 import useRouteElement from '@/hooks/useRouteElement'
 import { AuthenticationTarget } from '@/utils/auth'
 import { useContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 
 function App() {
   const routeElement = useRouteElement()
@@ -26,7 +26,7 @@ function App() {
   }, [location])
   return (
     <>
-      {routeElement} <ToastContainer />
+      {routeElement} <Toaster />
     </>
   )
 }

@@ -1,4 +1,5 @@
 import { URL_LOGIN, URL_REFRESH_TOKEN } from '@/apis/auth.api'
+import { toast } from '@/hooks/use-toast'
 import { AuthResponse } from '@/types/auth.type'
 import { SuccessResponse } from '@/types/utils.type'
 import {
@@ -9,7 +10,6 @@ import {
   setRefreshTokenToLocalStorage
 } from '@/utils/auth'
 import axios, { AxiosError, AxiosInstance, HttpStatusCode, InternalAxiosRequestConfig } from 'axios'
-import { toast } from 'react-toastify'
 
 class HTTP {
   instance: AxiosInstance
@@ -30,7 +30,7 @@ class HTTP {
     this.instance.interceptors.request.use(
       (config) => {
         if (this.access_token && config.headers) {
-          config.headers.Authorization =  'Bearer ' + this.access_token
+          config.headers.Authorization = 'Bearer ' + this.access_token
         }
         return config
       },
@@ -59,7 +59,11 @@ class HTTP {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data
           const message = data?.message || error.message
-          toast.error(message)
+          toast({
+            variant: 'destructive',
+            title: 'Thất bại',
+            description: message
+          })
         }
         if (error.status === HttpStatusCode.Unauthorized) {
           const config = error.response?.config || ({ headers: {} } as InternalAxiosRequestConfig)
