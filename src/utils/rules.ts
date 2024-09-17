@@ -52,3 +52,8 @@ export const CreateQuestionSchema = yup.object({
     .notOneOf(['<p><br></p>'], 'Bạn chưa nhập nội dung cần tư vấn'),
   statusPublic: yup.boolean()
 })
+
+export const ConsultantsSchema = yup.object({
+  departmentId: yup.string(),
+  title: yup.string().required('Bạn phải nhập tên ban tư vấn')
+})

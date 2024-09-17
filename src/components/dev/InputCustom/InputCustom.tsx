@@ -27,7 +27,7 @@ export default function InputCustom<TFieldValues extends FieldValues>({
         name={name}
         render={() => (
           <FormItem>
-            <FormLabel>{label}</FormLabel>
+            {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <Input disabled={disabled} type={type} placeholder={placeholder} {...field} />
             </FormControl>

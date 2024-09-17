@@ -36,6 +36,52 @@ export default function Header() {
           >
             Đặt câu hỏi
           </NavLink>
+          <Popover
+            renderPopover={
+              <ul className='px-6 py-2 text-center'>
+                <li>
+                  <NavLink
+                    to={path.consultants}
+                    className={({ isActive }) =>
+                      clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
+                        'text-primary font-bold': isActive
+                      })
+                    }
+                  >
+                    Ban tư vấn
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={path.consultantEvaluation}
+                    className={({ isActive }) =>
+                      clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
+                        'text-primary font-bold': isActive
+                      })
+                    }
+                  >
+                    Đánh giá ban tư vấn
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={path.scheduleConsultant}
+                    className={({ isActive }) =>
+                      clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
+                        'text-primary font-bold': isActive
+                      })
+                    }
+                  >
+                    Đặt lịch tư vấn
+                  </NavLink>
+                </li>
+              </ul>
+            }
+          >
+            <div className='mx-4 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all'>
+              TƯ VẤN
+            </div>
+          </Popover>
         </nav>
       </div>
       <div className='flex items-center'>

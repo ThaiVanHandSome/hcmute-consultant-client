@@ -7,10 +7,13 @@ import ForgotPassword from '@/pages/Auth/ForgotPassword'
 import Login from '@/pages/Auth/Login'
 import Register from '@/pages/Auth/Register'
 import ChangePassword from '@/pages/User/ChangePassword'
+import ConsultantEvaluation from '@/pages/User/ConsultantEvaluation'
+import Consultants from '@/pages/User/Consultants'
 import CreateQuestion from '@/pages/User/CreateQuestion'
 import Home from '@/pages/User/Home'
 import MyQuestion from '@/pages/User/MyQuestion'
 import Profile from '@/pages/User/Profile'
+import SchedualConsultant from '@/pages/User/SchedualConsultant'
 import { useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 
@@ -27,15 +30,42 @@ function RejectedRoute() {
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
+      path: path.home,
+      index: true,
+      element: (
+        <MainLayout>
+          <Home />
+        </MainLayout>
+      )
+    },
+    {
+      path: path.consultants,
+      index: true,
+      element: (
+        <MainLayout>
+          <Consultants />
+        </MainLayout>
+      )
+    },
+    {
       path: '',
       element: <ProtectedRoute />,
       children: [
         {
-          path: path.home,
+          path: path.consultantEvaluation,
           index: true,
           element: (
             <MainLayout>
-              <Home />
+              <ConsultantEvaluation />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.scheduleConsultant,
+          index: true,
+          element: (
+            <MainLayout>
+              <SchedualConsultant />
             </MainLayout>
           )
         },
