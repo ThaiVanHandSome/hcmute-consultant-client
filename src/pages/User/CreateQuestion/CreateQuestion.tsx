@@ -107,7 +107,7 @@ export default function CreateQuestion() {
   }
 
   return (
-    <div className='py-6 bg-primary-bg min-h-[100vh]'>
+    <div className='py-6 bg-primary-bg'>
       <div className='container'>
         <div className='flex justify-center '>
           <div className='w-2/3 bg-white px-6 py-3 shadow-lg rounded-lg'>

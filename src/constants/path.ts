@@ -10,7 +10,8 @@ const path = {
   changePassword: '/user/change-password',
   consultants: '/consultants',
   consultantEvaluation: '/consultant-evaluation',
-  scheduleConsultant: '/schedule-consultant'
+  scheduleConsultant: '/schedule-consultant',
+  userDashBoard: '/user/dashboard'
 } as const
 
 export default path

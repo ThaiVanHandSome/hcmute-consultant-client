@@ -14,6 +14,7 @@ import Home from '@/pages/User/Home'
 import MyQuestion from '@/pages/User/MyQuestion'
 import Profile from '@/pages/User/Profile'
 import SchedualConsultant from '@/pages/User/SchedualConsultant'
+import UserDashBoard from '@/pages/User/UserDashBoard'
 import { useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 
@@ -96,6 +97,10 @@ export default function useRouteElement() {
             {
               path: path.changePassword,
               element: <ChangePassword />
+            },
+            {
+              path: path.userDashBoard,
+              element: <UserDashBoard />
             }
           ]
         }

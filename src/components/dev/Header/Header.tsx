@@ -6,6 +6,7 @@ import path from '@/constants/path'
 import registerStatus from '@/constants/registerStatus'
 import { AppContext } from '@/contexts/app.context'
 import { clearLS } from '@/utils/auth'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
 import { useContext } from 'react'
 import { Link, NavLink, createSearchParams } from 'react-router-dom'
@@ -78,8 +79,9 @@ export default function Header() {
               </ul>
             }
           >
-            <div className='mx-4 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all'>
+            <div className='mx-4 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all flex items-center'>
               TƯ VẤN
+              <ChevronDownIcon className='ml-1' />
             </div>
           </Popover>
         </nav>
@@ -112,6 +114,9 @@ export default function Header() {
                   </li>
                   <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
                     <Link to={path.myQuestions}>Câu hỏi của tôi</Link>
+                  </li>
+                  <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
+                    <Link to={path.userDashBoard}>Thống kê</Link>
                   </li>
                   <li
                     aria-hidden='true'
