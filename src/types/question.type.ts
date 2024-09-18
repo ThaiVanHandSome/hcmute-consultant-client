@@ -27,6 +27,8 @@ export interface QuestionListConfig {
   departmentId: number
   status: string
   title: string
+  startDate: Date
+  endDate: Date
 }
 
 export interface CreateQuestionRequest {

@@ -6,12 +6,14 @@ import SelectionCustom from '@/components/dev/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Form, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import { User } from '@/types/user.type'
 import { FormControlItem } from '@/types/utils.type'
+import { setUserToLocalStorage } from '@/utils/auth'
 import { generateSelectionDataFromLocation } from '@/utils/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const radioGroupData: FormControlItem[] = [
@@ -26,6 +28,8 @@ const radioGroupData: FormControlItem[] = [
 ]
 
 export default function Profile() {
+  const { setUser } = useContext(AppContext)
+  const isFormReset = useRef<boolean>(false)
   const [file, setFile] = useState<File>()
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : ''
@@ -50,7 +54,8 @@ export default function Profile() {
 
   const { data: profile } = useQuery({
     queryKey: ['profile'],
-    queryFn: getProfile
+    queryFn: getProfile,
+    enabled: !isFormReset.current
   })
 
   const { data: provinces } = useQuery({
@@ -66,7 +71,7 @@ export default function Profile() {
   const { data: districts } = useQuery({
     queryKey: ['districts', provinceCode],
     queryFn: () => getDistricts(provinceCode),
-    enabled: provinceCode.length !== 0
+    enabled: !!provinceCode
   })
   const districtsSelectionData = useMemo(() => {
     const data = districts?.data.data
@@ -77,7 +82,7 @@ export default function Profile() {
   const { data: wards } = useQuery({
     queryKey: ['wards', districtCode],
     queryFn: () => getWards(districtCode),
-    enabled: districtCode.length !== 0
+    enabled: !!districtCode
   })
   const wardsSelectionData = useMemo(() => {
     const data = wards?.data.data
@@ -96,18 +101,21 @@ export default function Profile() {
   useEffect(() => {
     if (profile?.data.data) {
       const res = profile?.data.data
-      form.setValue('username', res.username)
-      form.setValue('email', res.email)
-      form.setValue('schoolName', res.schoolName)
-      form.setValue('firstName', res.firstName)
-      form.setValue('lastName', res.lastName)
-      form.setValue('phone', res.phone)
-      form.setValue('gender', res.gender)
-      form.setValue('provinceCode', res.address?.provinceCode ?? '')
-      form.setValue('districtCode', res.address?.districtCode ?? '')
-      form.setValue('wardCode', res.address?.wardCode ?? '')
+      form.reset({
+        username: res.username,
+        email: res.email,
+        schoolName: res.schoolName,
+        firstName: res.firstName,
+        lastName: res.lastName,
+        phone: res.phone,
+        gender: res.gender,
+        provinceCode: res.address?.provinceCode ?? '',
+        districtCode: res.address?.districtCode ?? '',
+        wardCode: res.address?.wardCode ?? ''
+      })
+      isFormReset.current = true
     }
-  }, [profile])
+  }, [profile, form])
 
   const onSubmit = form.handleSubmit((values) => {
     const payload: Omit<User, 'id'> = {
@@ -134,6 +142,8 @@ export default function Profile() {
           title: 'Thành công',
           description: res.data.message
         })
+        setUser(payload as User)
+        setUserToLocalStorage(payload as User)
       }
     })
   })
@@ -164,35 +174,40 @@ export default function Profile() {
                 defaultValue={form.watch('gender')}
                 data={radioGroupData}
               />
-              <div className='mb-5'>
-                <FormLabel className='w-full mb-2 block'>Địa chỉ</FormLabel>
-                <div className='grid grid-cols-3 gap-4'>
-                  <div className='col-span-1'>
-                    <SelectionCustom
-                      control={form.control}
-                      name='provinceCode'
-                      placeholder='Tỉnh'
-                      data={provincesSelectionData}
-                    />
-                  </div>
-                  <div className='col-span-1'>
-                    <SelectionCustom
-                      control={form.control}
-                      name='districtCode'
-                      placeholder='Huyện'
-                      data={districtsSelectionData}
-                    />
-                  </div>
-                  <div className='col-span-1'>
-                    <SelectionCustom
-                      control={form.control}
-                      name='wardCode'
-                      placeholder='Xã'
-                      data={wardsSelectionData}
-                    />
+              {isFormReset.current && (
+                <div className='mb-5'>
+                  <FormLabel className='w-full mb-2 block'>Địa chỉ</FormLabel>
+                  <div className='grid grid-cols-3 gap-4'>
+                    <div className='col-span-1'>
+                      <SelectionCustom
+                        control={form.control}
+                        name='provinceCode'
+                        placeholder='Tỉnh'
+                        defaultValue={form.getValues('provinceCode')}
+                        data={provincesSelectionData}
+                      />
+                    </div>
+                    <div className='col-span-1'>
+                      <SelectionCustom
+                        control={form.control}
+                        name='districtCode'
+                        placeholder='Huyện'
+                        defaultValue={form.getValues('districtCode')}
+                        data={districtsSelectionData}
+                      />
+                    </div>
+                    <div className='col-span-1'>
+                      <SelectionCustom
+                        control={form.control}
+                        name='wardCode'
+                        placeholder='Xã'
+                        defaultValue={form.getValues('wardCode')}
+                        data={wardsSelectionData}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
               <Button
                 isLoading={updateProfileMutation.isPending}
                 disabled={updateProfileMutation.isPending}

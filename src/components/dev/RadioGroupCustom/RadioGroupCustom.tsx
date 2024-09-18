@@ -1,7 +1,7 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { FormControlItem } from '@/types/utils.type'
-import { Control, FieldPath, FieldValues, useController } from 'react-hook-form'
+import { Control, FieldPath, FieldValues, Path, PathValue, useController } from 'react-hook-form'
 
 interface RadioGroupCustomProps<TFieldValues extends FieldValues = FieldValues> {
   readonly label?: string
@@ -9,7 +9,7 @@ interface RadioGroupCustomProps<TFieldValues extends FieldValues = FieldValues> 
   readonly name: FieldPath<TFieldValues>
   readonly className?: string
   readonly data?: FormControlItem[]
-  readonly defaultValue?: string
+  readonly defaultValue?: PathValue<TFieldValues, Path<TFieldValues>>
 }
 
 export default function RadioGroupCustom<TFieldValues extends FieldValues>({
@@ -20,7 +20,8 @@ export default function RadioGroupCustom<TFieldValues extends FieldValues>({
   data,
   defaultValue
 }: RadioGroupCustomProps<TFieldValues>) {
-  const { field } = useController({ name, control })
+  const { field } = useController({ name, control, defaultValue })
+
   return (
     <div className={className}>
       <FormField
@@ -30,11 +31,11 @@ export default function RadioGroupCustom<TFieldValues extends FieldValues>({
           <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <RadioGroup onValueChange={field.onChange} defaultValue={defaultValue} className='flex items-center'>
+              <RadioGroup onValueChange={field.onChange} value={field.value || ''} className='flex items-center'>
                 {data?.map(({ value, label }) => (
                   <FormItem key={value} className='flex items-center'>
                     <FormControl>
-                      <RadioGroupItem checked={defaultValue === value} value={value} />
+                      <RadioGroupItem value={value} />
                     </FormControl>
                     <FormLabel className='!mt-0 ml-1'>{label}</FormLabel>
                   </FormItem>

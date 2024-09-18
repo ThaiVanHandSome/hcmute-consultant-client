@@ -27,6 +27,12 @@ export function formatDate(dateString: string) {
   return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
 }
 
+export const parseDate = (dateStr?: string): Date | undefined => {
+  if (!dateStr) return undefined
+  const [year, month, day] = dateStr.split('-').map(Number)
+  return new Date(year, month - 1, day + 1)
+}
+
 export const generateSelectionData = (data: any): FormControlItem[] | undefined => {
   return data?.map((item: any) => {
     return {

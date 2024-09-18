@@ -1,7 +1,7 @@
 import { getAllDepartments } from '@/apis/department.api'
 import { getAllQuestionStatus } from '@/apis/question.api'
 import { getAllQuestionsOfUser } from '@/apis/user.api'
-import DatePickerWithRange from '@/components/dev/DatePickerWithRange/DatePickerWithRange'
+import DatePicker from '@/components/dev/DatePicker'
 import InputCustom from '@/components/dev/InputCustom'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import Question from '@/components/dev/Question'
@@ -13,11 +13,10 @@ import path from '@/constants/path'
 import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
 import { QuestionStatus } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
-import { generateSelectionData } from '@/utils/utils'
+import { generateSelectionData, parseDate } from '@/utils/utils'
 import { useQuery } from '@tanstack/react-query'
-import { addDays } from 'date-fns'
+import { format } from 'date-fns'
 import { useEffect, useMemo, useState } from 'react'
-import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 
@@ -35,9 +34,14 @@ export default function MyQuestion() {
   const departmentId = form.watch('departmentId')
   const status = form.watch('status')
 
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20)
+  const defaultStartDate = parseDate(queryConfig.startDate)
+  const defaultEndDate = parseDate(queryConfig.endDate)
+  const [startDate, setStartDate] = useState<Date | undefined>(defaultStartDate as Date)
+  const [endDate, setEndDate] = useState<Date | undefined>(() => {
+    if (defaultEndDate) return defaultEndDate
+    const date = new Date()
+    date.setHours(0, 0, 0, 0)
+    return date
   })
 
   const { data: departments } = useQuery({
@@ -63,6 +67,7 @@ export default function MyQuestion() {
     })
   }, [questionsStatus])
 
+  console.log(queryConfig)
   const { data: questionsOfUser } = useQuery({
     queryKey: ['questionsOfUser', queryConfig],
     queryFn: () => getAllQuestionsOfUser(queryConfig)
@@ -73,14 +78,17 @@ export default function MyQuestion() {
   })
 
   useEffect(() => {
-    if (!departmentId) return
     navigate({
       pathname: path.myQuestions,
       search: createSearchParams({
-        departmentId
+        ...queryConfig,
+        departmentId: departmentId || '',
+        status: status || '',
+        startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
+        endDate: endDate ? format(endDate, 'yyyy-MM-dd') : ''
       }).toString()
     })
-  }, [departmentId])
+  }, [departmentId, status, startDate, endDate])
 
   return (
     <div>
@@ -89,12 +97,13 @@ export default function MyQuestion() {
         <div className='mb-6'>
           <Form {...form}>
             <form onSubmit={onSubmit}>
-              <div className='grid grid-cols-3 gap-2 mb-4'>
+              <div className='grid grid-cols-4 gap-2 mb-4'>
                 <div className='col-span-1'>
                   <SelectionCustom
                     control={form.control}
                     name='departmentId'
                     placeholder='Đơn vị'
+                    defaultValue={queryConfig.departmentId}
                     data={departmentsSelectionData}
                   />
                 </div>
@@ -103,11 +112,15 @@ export default function MyQuestion() {
                     control={form.control}
                     name='status'
                     placeholder='Trạng thái'
+                    defaultValue={queryConfig.status}
                     data={questionsStatusSelectionData}
                   />
                 </div>
                 <div className='col-span-1'>
-                  <DatePickerWithRange date={date} setDate={setDate} />
+                  <DatePicker date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
+                </div>
+                <div className='col-span-1'>
+                  <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
                 </div>
               </div>
               <div className='grid grid-cols-5 gap-4'>

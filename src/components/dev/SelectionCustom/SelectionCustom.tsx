@@ -1,7 +1,7 @@
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { FormControlItem } from '@/types/utils.type'
-import { Control, FieldPath, FieldValues } from 'react-hook-form'
+import { Control, FieldPath, FieldValues, Path, PathValue, useController } from 'react-hook-form'
 
 interface SelectionCustomProps<TFieldValues extends FieldValues = FieldValues> {
   readonly placeholder?: string
@@ -9,7 +9,7 @@ interface SelectionCustomProps<TFieldValues extends FieldValues = FieldValues> {
   readonly name: FieldPath<TFieldValues>
   readonly className?: string
   readonly data?: FormControlItem[]
-  readonly defaultValue?: string
+  readonly defaultValue?: PathValue<TFieldValues, Path<TFieldValues>>
 }
 
 export default function SelectionCustom<TFieldValues extends FieldValues>({
@@ -20,12 +20,17 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
   data,
   defaultValue
 }: SelectionCustomProps<TFieldValues>) {
+  const { field } = useController({
+    name,
+    control,
+    defaultValue
+  })
   return (
     <div className={className}>
       <FormField
         control={control}
         name={name}
-        render={({ field }) => (
+        render={() => (
           <FormItem>
             <Select onValueChange={field.onChange} defaultValue={defaultValue}>
               <FormControl>

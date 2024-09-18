@@ -71,7 +71,7 @@ export default function Paginate({ path, queryConfig, pageSize }: Props) {
               }}
               isActive={page === pageNumber}
             >
-              {pageNumber}
+              {pageNumber + 1}
             </PaginationLink>
           </PaginationItem>
         )

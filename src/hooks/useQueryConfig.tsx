@@ -13,7 +13,10 @@ export default function () {
       size: queryParams.size ?? '5',
       sortBy: queryParams.sortBy ?? 'title',
       sortDir: queryParams.sortDir ?? 'asc',
-      departmentId: queryParams.departmentId
+      departmentId: queryParams.departmentId,
+      status: queryParams.status,
+      startDate: queryParams.startDate,
+      endDate: queryParams.endDate
     },
     isUndefined
   ) as QueryConfig
