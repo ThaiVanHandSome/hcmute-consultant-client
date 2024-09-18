@@ -5,14 +5,19 @@ import { ColumnDef } from '@tanstack/react-table'
 
 export const columns: ColumnDef<Consultant>[] = [
   {
-    accessorKey: 'name',
-    header: 'Họ tên',
-    cell: ({ row }) => <div className='capitalize font-semibold'>{row.getValue('name')}</div>
+    accessorKey: 'firstName',
+    header: 'Họ',
+    cell: ({ row }) => <div className='capitalize font-semibold'>{row.getValue('lastName')}</div>
   },
   {
-    accessorKey: 'phoneNumber',
+    accessorKey: 'lastName',
+    header: 'Tên',
+    cell: ({ row }) => <div className='capitalize font-semibold'>{row.getValue('firstName')}</div>
+  },
+  {
+    accessorKey: 'phone',
     header: 'Số điện thoại',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('phoneNumber')}</div>
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('phone')}</div>
   },
   {
     accessorKey: 'email',
@@ -27,13 +32,15 @@ export const columns: ColumnDef<Consultant>[] = [
     cell: ({ row }) => <div className='lowercase'>{row.getValue('email')}</div>
   },
   {
-    accessorKey: 'avatar',
+    accessorKey: 'avatarUrl',
     header: 'Ảnh đại diện',
-    cell: ({ row }) => <img src={row.original.avatar} alt='Avatar' className='h-10 w-10 rounded-full object-cover' />
+    cell: ({ row }) => <img src={row.original.avatarUrl} alt='Avatar' className='h-10 w-10 rounded-full object-cover' />
   },
   {
     accessorKey: 'department',
     header: 'Khoa',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('department')}</div>
+    cell: ({ row }) => (
+      <div className='capitalize'>{(row.getValue('department') as { id: number; name: string })?.name}</div>
+    )
   }
 ]

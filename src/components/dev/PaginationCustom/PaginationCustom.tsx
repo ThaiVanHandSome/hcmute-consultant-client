@@ -8,11 +8,10 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination'
 import { createSearchParams } from 'react-router-dom'
-import { QueryConfig } from 'src/hooks/useQueryConfig'
 interface Props {
   readonly path: string
   readonly pageSize: number
-  readonly queryConfig: QueryConfig
+  readonly queryConfig: any
 }
 
 const RANGE = 2

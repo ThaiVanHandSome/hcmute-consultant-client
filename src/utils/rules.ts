@@ -55,5 +55,14 @@ export const CreateQuestionSchema = yup.object({
 
 export const ConsultantsSchema = yup.object({
   departmentId: yup.string(),
-  title: yup.string().required('Bạn phải nhập tên ban tư vấn')
+  name: yup.string().required('Bạn phải nhập tên ban tư vấn')
+})
+
+export const SchedualConsultantSchema = yup.object({
+  departmentId: yup.string().required('Bạn phải chọn phòng ban'),
+  consultantId: yup.string().required('Bạn phải chọn người tư vấn'),
+  title: yup.string().required('Bạn phải nhập tiêu đề'),
+  content: yup.string().required('Bạn phải nhập nội dung cần được tư vấn'),
+  statusPublic: yup.boolean(),
+  mode: yup.boolean()
 })

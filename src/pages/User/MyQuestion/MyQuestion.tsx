@@ -2,15 +2,15 @@ import { getAllDepartments } from '@/apis/department.api'
 import { getAllQuestionStatus } from '@/apis/question.api'
 import { getAllQuestionsOfUser } from '@/apis/user.api'
 import DatePicker from '@/components/dev/DatePicker'
-import InputCustom from '@/components/dev/InputCustom'
+import InputCustom from '@/components/dev/Form/InputCustom'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import Question from '@/components/dev/Question'
-import SelectionCustom from '@/components/dev/SelectionCustom'
+import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
-import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
+import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { QuestionStatus } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
 import { generateSelectionData, parseDate } from '@/utils/utils'
@@ -22,12 +22,12 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 
 export default function MyQuestion() {
   const navigate = useNavigate()
-  const queryConfig: QueryConfig = useQueryConfig()
+  const queryConfig: QuestionQueryConfig = useQuestionQueryConfig()
   const form = useForm({
     defaultValues: {
-      departmentId: '',
-      status: '',
-      title: ''
+      departmentId: queryConfig.departmentId,
+      status: queryConfig.status,
+      title: queryConfig.title
     }
   })
 
@@ -67,14 +67,22 @@ export default function MyQuestion() {
     })
   }, [questionsStatus])
 
-  console.log(queryConfig)
   const { data: questionsOfUser } = useQuery({
     queryKey: ['questionsOfUser', queryConfig],
     queryFn: () => getAllQuestionsOfUser(queryConfig)
   })
 
   const onSubmit = form.handleSubmit((values) => {
-    console.log(values)
+    const title = values.title
+    if (title) {
+      navigate({
+        pathname: path.myQuestions,
+        search: createSearchParams({
+          ...queryConfig,
+          title
+        }).toString()
+      })
+    }
   })
 
   useEffect(() => {

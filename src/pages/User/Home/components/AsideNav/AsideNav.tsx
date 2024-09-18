@@ -1,13 +1,13 @@
 import { getAllDepartments } from '@/apis/department.api'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import path from '@/constants/path'
-import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
+import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { Link, createSearchParams } from 'react-router-dom'
 
 export default function AsideNav() {
-  const queryConfig: QueryConfig = useQueryConfig()
+  const queryConfig: QuestionQueryConfig = useQuestionQueryConfig()
   const { data: departments } = useQuery({
     queryKey: ['departments'],
     queryFn: getAllDepartments

@@ -1,5 +1,5 @@
 import { updatePassword } from '@/apis/auth.api'
-import InputCustom from '@/components/dev/InputCustom'
+import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/hooks/use-toast'

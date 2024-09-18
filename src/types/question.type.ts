@@ -10,6 +10,7 @@ export interface Question {
   content: string
   createdAt: string
   views: number
+  fileName: string
   askerFirstname: string
   askerLastname: string
   answerTitle: string

@@ -1,9 +1,9 @@
-import { QueryConfig } from '@/hooks/useQueryConfig'
+import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { CreateQuestionRequest, CreateQuestionResponse, Question, QuestionStatus } from '@/types/question.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
 
-export const getAllQuestion = (params: QueryConfig) =>
+export const getAllQuestion = (params: QuestionQueryConfig) =>
   http.get<SuccessResponse<PaginationResponse<Question[]>>>('list-question', {
     params
   })

@@ -13,6 +13,7 @@ import CreateQuestion from '@/pages/User/CreateQuestion'
 import Home from '@/pages/User/Home'
 import MyQuestion from '@/pages/User/MyQuestion'
 import Profile from '@/pages/User/Profile'
+import QuestionLibrary from '@/pages/User/QuestionLibrary'
 import SchedualConsultant from '@/pages/User/SchedualConsultant'
 import UserDashBoard from '@/pages/User/UserDashBoard'
 import { useContext } from 'react'
@@ -45,6 +46,15 @@ export default function useRouteElement() {
       element: (
         <MainLayout>
           <Consultants />
+        </MainLayout>
+      )
+    },
+    {
+      path: path.questionLibrary,
+      index: true,
+      element: (
+        <MainLayout>
+          <QuestionLibrary />
         </MainLayout>
       )
     },

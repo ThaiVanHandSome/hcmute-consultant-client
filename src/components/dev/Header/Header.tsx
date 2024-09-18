@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import registerStatus from '@/constants/registerStatus'
 import { AppContext } from '@/contexts/app.context'
+import { BellIcon } from '@/icons'
 import { clearLS } from '@/utils/auth'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
@@ -24,7 +25,7 @@ export default function Header() {
     <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-white h-header-height'>
       <div className='flex items-center'>
         <a href={path.home}>
-          <img src={LogoHCMUTE} alt='logo-hcmute' className='size-20' />
+          <img src={LogoHCMUTE} alt='logo-hcmute' className='size-16' />
         </a>
         <nav className='flex items-center ml-12'>
           <NavLink
@@ -36,6 +37,19 @@ export default function Header() {
             }
           >
             Đặt câu hỏi
+          </NavLink>
+          <NavLink
+            to={path.questionLibrary}
+            className={({ isActive }) =>
+              clsx(
+                'inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all ml-6',
+                {
+                  'text-primary font-bold': isActive
+                }
+              )
+            }
+          >
+            Thư viện câu hỏi
           </NavLink>
           <Popover
             renderPopover={
@@ -79,7 +93,7 @@ export default function Header() {
               </ul>
             }
           >
-            <div className='mx-4 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all flex items-center'>
+            <div className='ml-6 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all flex items-center'>
               TƯ VẤN
               <ChevronDownIcon className='ml-1' />
             </div>
@@ -104,44 +118,58 @@ export default function Header() {
           </div>
         )}
         {isAuthenticated && (
-          <Popover
-            placement='bottom'
-            renderPopover={
-              <div className='w-[200px] px-4 py-2'>
-                <ul>
-                  <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
-                    <Link to={path.profile}>Hồ sơ cá nhân</Link>
-                  </li>
-                  <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
-                    <Link to={path.myQuestions}>Câu hỏi của tôi</Link>
-                  </li>
-                  <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
-                    <Link to={path.userDashBoard}>Thống kê</Link>
-                  </li>
-                  <li
-                    aria-hidden='true'
-                    className='cursor-pointer hover:font-bold hover:transition-all hover:text-primary text-sm py-2'
-                    onClick={handleLogout}
-                  >
-                    Đăng xuất
-                  </li>
-                </ul>
+          <div className='flex items-center'>
+            <Popover
+              placement='bottom'
+              renderPopover={
+                <div className='px-6 py-3'>
+                  <p className='text-sm'>Hiện chưa có thông báo nào!</p>
+                </div>
+              }
+            >
+              <div className='cursor-pointer mr-4 size-10 flex items-center justify-center rounded-full bg-primary-bg'>
+                <BellIcon className='size-7 text-gray-200 fill-primary' />
               </div>
-            }
-          >
-            <div className='flex items-center cursor-pointer'>
-              <Avatar>
-                <AvatarImage
-                  src='https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/435116190_1794745547688837_695033224121990189_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEFOc7dmSSU7vb15NsbXRVcAbRqSYGR-PMBtGpJgZH483la9c7bx87IipYQAJCmaNUFuB_I6V1GglCT7OUisAKa&_nc_ohc=Tfkhgvffv3cQ7kNvgERMbSU&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=ADHfltbhANdWHLfZtFl-Hqm&oh=00_AYDYXIj0aYVvkcSodbUivsAJUDUuTAQLGcbUF-sBdafZwQ&oe=66E1DC27'
-                  alt='avatar'
-                />
-                <AvatarFallback>USER</AvatarFallback>
-              </Avatar>
-              <div className='font-bold text-sm ml-2'>
-                {user?.firstName} {user?.lastName}
+            </Popover>
+            <Popover
+              placement='bottom'
+              renderPopover={
+                <div className='w-[200px] px-4 py-2'>
+                  <ul>
+                    <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
+                      <Link to={path.profile}>Hồ sơ cá nhân</Link>
+                    </li>
+                    <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
+                      <Link to={path.myQuestions}>Câu hỏi của tôi</Link>
+                    </li>
+                    <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
+                      <Link to={path.userDashBoard}>Thống kê</Link>
+                    </li>
+                    <li
+                      aria-hidden='true'
+                      className='cursor-pointer hover:font-bold hover:transition-all hover:text-primary text-sm py-2'
+                      onClick={handleLogout}
+                    >
+                      Đăng xuất
+                    </li>
+                  </ul>
+                </div>
+              }
+            >
+              <div className='flex items-center cursor-pointer'>
+                <Avatar>
+                  <AvatarImage
+                    src='https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/435116190_1794745547688837_695033224121990189_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEFOc7dmSSU7vb15NsbXRVcAbRqSYGR-PMBtGpJgZH483la9c7bx87IipYQAJCmaNUFuB_I6V1GglCT7OUisAKa&_nc_ohc=Tfkhgvffv3cQ7kNvgERMbSU&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=ADHfltbhANdWHLfZtFl-Hqm&oh=00_AYDYXIj0aYVvkcSodbUivsAJUDUuTAQLGcbUF-sBdafZwQ&oe=66E1DC27'
+                    alt='avatar'
+                  />
+                  <AvatarFallback>USER</AvatarFallback>
+                </Avatar>
+                <div className='font-bold text-sm ml-2'>
+                  {user?.firstName} {user?.lastName}
+                </div>
               </div>
-            </div>
-          </Popover>
+            </Popover>
+          </div>
         )}
       </div>
     </header>

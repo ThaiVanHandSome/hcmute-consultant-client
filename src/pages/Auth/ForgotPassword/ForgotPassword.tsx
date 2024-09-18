@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from 'react'
 import useQueryParams from '@/hooks/useQueryParams'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils.type'
-import InputCustom from '@/components/dev/InputCustom'
+import InputCustom from '@/components/dev/Form/InputCustom'
 import { toast } from '@/hooks/use-toast'
 
 type SendEmailFormData = Pick<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>

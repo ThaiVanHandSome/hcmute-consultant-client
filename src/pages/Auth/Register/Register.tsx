@@ -16,8 +16,8 @@ import { SuccessIcon } from '@/icons'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { ErrorResponse, FormControlItem } from '@/types/utils.type'
 import RegisterStatus from '@/pages/Auth/Register/components/RegisterStatus'
-import InputCustom from '@/components/dev/InputCustom'
-import RadioGroupCustom from '@/components/dev/RadioGroupCustom'
+import InputCustom from '@/components/dev/Form/InputCustom'
+import RadioGroupCustom from '@/components/dev/Form/RadioGroupCustom'
 import { useForm } from 'react-hook-form'
 
 export type RegisterFormData = yup.InferType<typeof RegisterSchema>

@@ -1,14 +1,15 @@
 import { getAllDepartments, getFields, getRolesAsk } from '@/apis/department.api'
 import { createNewQuestion } from '@/apis/question.api'
-import InputCustom from '@/components/dev/InputCustom'
-import SelectionCustom from '@/components/dev/SelectionCustom'
+import Editor from '@/components/dev/Form/Editor'
+import CheckboxCustom from '@/components/dev/Form/CheckboxCustom'
+import InputCustom from '@/components/dev/Form/InputCustom'
+import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from '@/hooks/use-toast'
-import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
+import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { CreateQuestionRequest } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
 import { CreateQuestionSchema } from '@/utils/rules'
@@ -18,14 +19,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import ReactQuill from 'react-quill'
 import * as yup from 'yup'
 
 type FormData = yup.InferType<typeof CreateQuestionSchema>
 
 export default function CreateQuestion() {
   const queryClient = useQueryClient()
-  const queryConfig: QueryConfig = useQueryConfig()
+  const queryConfig: QuestionQueryConfig = useQuestionQueryConfig()
   const [file, setFile] = useState<File>()
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : ''
@@ -160,21 +160,7 @@ export default function CreateQuestion() {
                       <InputCustom control={form.control} name='title' placeholder='Tiêu đề' />
                     </div>
                   </div>
-                  <div className='mb-4'>
-                    <Label className='ml-1 mb-2'>Nội dung</Label>
-                    <FormField
-                      control={form.control}
-                      name='content'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <ReactQuill theme='snow' value={form.watch('content')} onChange={field.onChange} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <Editor control={form.control} name='content' label='Nội dung' />
                   <div className='mb-4'>
                     <div className='grid w-full max-w-sm items-center gap-1.5'>
                       <Label htmlFor='file'>Tệp đính kèm</Label>
@@ -184,20 +170,7 @@ export default function CreateQuestion() {
                       )}
                     </div>
                   </div>
-                  <div className='mb-4'>
-                    <FormField
-                      control={form.control}
-                      name='statusPublic'
-                      render={({ field }) => (
-                        <FormItem className='flex items-center'>
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                          </FormControl>
-                          <FormLabel className='!mt-0 ml-1'>Chế độ công khai</FormLabel>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <CheckboxCustom control={form.control} name='statusPublic' label='Chế độ công khai' />
                   <div className='flex items-center justify-center'>
                     <Button
                       isLoading={createQuestionMutation.isPending}

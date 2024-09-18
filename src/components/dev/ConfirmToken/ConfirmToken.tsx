@@ -4,7 +4,7 @@ import {
   resendRegisterVerificationCode,
   verifyCodeWhenForgotPassword
 } from '@/apis/auth.api'
-import InputCustom from '@/components/dev/InputCustom'
+import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'

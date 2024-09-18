@@ -16,7 +16,7 @@ import { ErrorResponse } from '@/types/utils.type'
 import { useContext } from 'react'
 import { AppContext } from '@/contexts/app.context'
 import { setUserToLocalStorage } from '@/utils/auth'
-import InputCustom from '@/components/dev/InputCustom'
+import InputCustom from '@/components/dev/Form/InputCustom'
 import { toast } from '@/hooks/use-toast'
 
 type FormData = yup.InferType<typeof LoginSchema>

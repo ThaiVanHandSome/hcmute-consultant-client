@@ -1,5 +1,5 @@
 import { getAllQuestion } from '@/apis/question.api'
-import useQueryConfig, { QueryConfig } from '@/hooks/useQueryConfig'
+import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { Spinner } from '@/icons'
 import Question from '@/components/dev/Question'
 import { Question as QuestionType } from '@/types/question.type'
@@ -7,9 +7,9 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 export default function ListQuestion() {
-  const initialQueryConfig: QueryConfig = useQueryConfig()
+  const initialQuestionQueryConfig: QuestionQueryConfig = useQuestionQueryConfig()
   const [listQuestion, setListQuestion] = useState<QuestionType[]>([])
-  const [queryConfig, setQueryConfig] = useState(initialQueryConfig)
+  const [questionQueryConfig, setQuestionQueryConfig] = useState(initialQuestionQueryConfig)
 
   const {
     data: questions,
@@ -17,8 +17,8 @@ export default function ListQuestion() {
     isFetching,
     isError
   } = useQuery({
-    queryKey: ['questions', queryConfig],
-    queryFn: () => getAllQuestion(queryConfig),
+    queryKey: ['questions', questionQueryConfig],
+    queryFn: () => getAllQuestion(questionQueryConfig),
     refetchOnMount: true
   })
 
@@ -29,7 +29,7 @@ export default function ListQuestion() {
       const documentHeight = document.documentElement.scrollHeight
 
       if (scrollTop + windowHeight >= documentHeight) {
-        setQueryConfig((prev) => ({
+        setQuestionQueryConfig((prev) => ({
           ...prev,
           page: String(parseInt(prev.page) + 1)
         }))
@@ -40,10 +40,10 @@ export default function ListQuestion() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isFetching])
 
-  const json = JSON.stringify(initialQueryConfig)
+  const json = JSON.stringify(initialQuestionQueryConfig)
   useEffect(() => {
     setListQuestion([])
-    setQueryConfig(initialQueryConfig)
+    setQuestionQueryConfig(initialQuestionQueryConfig)
   }, [json])
 
   const questionJson = JSON.stringify(questions)

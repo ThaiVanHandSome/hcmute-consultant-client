@@ -41,7 +41,18 @@ export default function Question({ question, type = 'all' }: Props) {
           <div className='text-blue-600 font-semibold text-sm'>#{question.department.name}</div>
           <div className='mb-3 text-blue-600 font-semibold text-sm'>#{question.field.name}</div>
           <div className='font-semibold text-md italic mb-2'>🎯 {question.title}</div>
-          <div dangerouslySetInnerHTML={{ __html: question.content }}></div>
+          <div dangerouslySetInnerHTML={{ __html: question.content }} className='mb-4'></div>
+          {question.fileName.includes('http') && (
+            <div className='flex items-center justify-start'>
+              <img
+                src={question.fileName}
+                alt='content-bg'
+                className={clsx('object-cover w-full', {
+                  'w-1/2': type === 'user'
+                })}
+              />
+            </div>
+          )}
         </div>
         {question.answerContent && (
           <>

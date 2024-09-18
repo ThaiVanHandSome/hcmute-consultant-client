@@ -11,7 +11,8 @@ const path = {
   consultants: '/consultants',
   consultantEvaluation: '/consultant-evaluation',
   scheduleConsultant: '/schedule-consultant',
-  userDashBoard: '/user/dashboard'
+  userDashBoard: '/user/dashboard',
+  questionLibrary: '/question-library'
 } as const
 
 export default path
