@@ -28,7 +28,7 @@ export default function Evaluation<TFieldValues extends FieldValues>({
     })
   return (
     <div className={className}>
-      <div className='col-span-12 grid grid-cols-12 py-2 border-b border-gray-300'>
+      <div className='col-span-12 grid grid-cols-12 py-2'>
         <div className='col-span-2 font-semibold'>{title}</div>
         <div className='col-span-10 w-full space-y-0'>
           <RadioGroupCustom

@@ -5,10 +5,11 @@ import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import registerStatus from '@/constants/registerStatus'
 import { AppContext } from '@/contexts/app.context'
-import { BellIcon } from '@/icons'
+import { QuestionCircle, UserIcon } from '@/icons'
 import { clearLS } from '@/utils/auth'
-import { ChevronDownIcon } from '@radix-ui/react-icons'
+import { BellIcon, ChatBubbleIcon, ChevronDownIcon, DashboardIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
+import { LogOutIcon } from 'lucide-react'
 import { useContext } from 'react'
 import { Link, NavLink, createSearchParams } from 'react-router-dom'
 
@@ -25,7 +26,7 @@ export default function Header() {
     <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-white h-header-height'>
       <div className='flex items-center'>
         <a href={path.home}>
-          <img src={LogoHCMUTE} alt='logo-hcmute' className='size-16' />
+          <img src={LogoHCMUTE} alt='logo-hcmute' className='size-16 object-fit' />
         </a>
         <nav className='flex items-center ml-12'>
           <NavLink
@@ -127,9 +128,17 @@ export default function Header() {
                 </div>
               }
             >
-              <div className='cursor-pointer mr-4 size-10 flex items-center justify-center rounded-full bg-primary-bg'>
-                <BellIcon className='size-7 text-gray-200 fill-primary' />
-              </div>
+              <BellIcon className='size-6 text-black mr-6' />
+            </Popover>
+            <Popover
+              placement='bottom'
+              renderPopover={
+                <div className='px-6 py-3'>
+                  <p className='text-sm'>Chưa có tin nhắn!</p>
+                </div>
+              }
+            >
+              <ChatBubbleIcon className='size-6 text-black mr-6' />
             </Popover>
             <Popover
               placement='bottom'
@@ -137,20 +146,29 @@ export default function Header() {
                 <div className='w-[200px] px-4 py-2'>
                   <ul>
                     <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
-                      <Link to={path.profile}>Hồ sơ cá nhân</Link>
+                      <Link to={path.profile} className='flex items-center'>
+                        <UserIcon /> <span className='ml-1'>Hồ sơ cá nhân</span>
+                      </Link>
                     </li>
                     <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
-                      <Link to={path.myQuestions}>Câu hỏi của tôi</Link>
+                      <Link to={path.myQuestions} className='flex items-center'>
+                        <QuestionCircle />
+                        <span className='ml-1'>Câu hỏi của tôi</span>
+                      </Link>
                     </li>
                     <li className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'>
-                      <Link to={path.userDashBoard}>Thống kê</Link>
+                      <Link to={path.userDashBoard} className='flex items-center'>
+                        <DashboardIcon />
+                        <span className='ml-1'>Thống kê</span>
+                      </Link>
                     </li>
                     <li
                       aria-hidden='true'
-                      className='cursor-pointer hover:font-bold hover:transition-all hover:text-primary text-sm py-2'
+                      className='cursor-pointer hover:font-bold hover:transition-all hover:text-primary text-sm py-2 flex items-center'
                       onClick={handleLogout}
                     >
-                      Đăng xuất
+                      <LogOutIcon className='size-4 text-sm' />
+                      <span className='ml-1'>Đăng xuất</span>
                     </li>
                   </ul>
                 </div>

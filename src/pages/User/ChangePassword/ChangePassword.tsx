@@ -15,12 +15,13 @@ type FormData = Omit<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest
 const Schema = PasswordRecoverySchema.omit(['emailRequest'])
 
 export default function ChangePassword() {
+  const formDefaultValue: FormData = {
+    password: '',
+    newPassword: '',
+    confirmPassword: ''
+  }
   const form = useForm<FormData>({
-    defaultValues: {
-      password: '',
-      newPassword: '',
-      confirmPassword: ''
-    },
+    defaultValues: formDefaultValue,
     resolver: yupResolver(Schema)
   })
 
@@ -40,6 +41,7 @@ export default function ChangePassword() {
           title: 'Thành công',
           description: res.data.message
         })
+        form.reset(formDefaultValue)
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
@@ -60,7 +62,7 @@ export default function ChangePassword() {
       <h1 className='font-bold mb-4 text-primary'>Thay đổi mật khẩu</h1>
       <div>
         <Form {...form}>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} className='w-1/2'>
             <InputCustom
               type='password'
               control={form.control}

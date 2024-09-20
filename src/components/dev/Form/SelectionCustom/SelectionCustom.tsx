@@ -1,10 +1,11 @@
-import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { FormControlItem } from '@/types/utils.type'
 import { Control, FieldPath, FieldValues, Path, PathValue, useController } from 'react-hook-form'
 
 interface SelectionCustomProps<TFieldValues extends FieldValues = FieldValues> {
   readonly placeholder?: string
+  readonly label?: string
   readonly control: Control<TFieldValues>
   readonly name: FieldPath<TFieldValues>
   readonly className?: string
@@ -17,6 +18,7 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
   control,
   className,
   placeholder,
+  label,
   data,
   defaultValue
 }: SelectionCustomProps<TFieldValues>) {
@@ -32,6 +34,7 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
         name={name}
         render={() => (
           <FormItem>
+            {label && <FormLabel>{label}</FormLabel>}
             <Select onValueChange={field.onChange} defaultValue={defaultValue}>
               <FormControl>
                 <SelectTrigger>

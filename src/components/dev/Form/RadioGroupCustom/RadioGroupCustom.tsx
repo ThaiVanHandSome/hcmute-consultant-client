@@ -31,7 +31,7 @@ export default function RadioGroupCustom<TFieldValues extends FieldValues>({
         name={name}
         render={() => (
           <FormItem className='space-y-0'>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className='mb-2 block'>{label}</FormLabel>
             <FormControl>
               <RadioGroup onValueChange={field.onChange} value={field.value || ''} className='flex items-center'>
                 {data?.map(({ value, label }) => (

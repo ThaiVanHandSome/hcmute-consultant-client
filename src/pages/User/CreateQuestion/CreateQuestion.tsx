@@ -20,6 +20,8 @@ import { omit } from 'lodash'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { useNavigate } from 'react-router-dom'
+import path from '@/constants/path'
 
 type FormData = yup.InferType<typeof CreateQuestionSchema>
 
@@ -30,6 +32,8 @@ export default function CreateQuestion() {
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : ''
   }, [file])
+
+  const navigate = useNavigate()
 
   const form = useForm<FormData>({
     defaultValues: {
@@ -96,6 +100,7 @@ export default function CreateQuestion() {
           queryClient.invalidateQueries({
             queryKey: ['questions', queryConfig]
           })
+          navigate(path.home)
         }
       }
     )

@@ -2,17 +2,18 @@ import { Separator } from '@/components/ui/separator'
 import { EyeIcon } from '@/icons'
 import { Question as QuestionType } from '@/types/question.type'
 import { formatDate } from '@/utils/utils'
+import { GlobeIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   readonly question: QuestionType
   readonly type?: 'all' | 'user'
 }
 
-export default function Question({ question, type = 'all' }: Props) {
+export default function Question({ question, type = 'all', className }: Props) {
   return (
     <div
-      className={clsx({
+      className={clsx(className, {
         'bg-white': type === 'all',
         'bg-primary-bg': type === 'user'
       })}
@@ -29,7 +30,10 @@ export default function Question({ question, type = 'all' }: Props) {
               <div className='font-bold mr-2 text-sm'>
                 {question.askerFirstname} {question.askerLastname}
               </div>
-              <div className='text-xs text-gray-400'>{formatDate(question.createdAt)}</div>
+              <div className='text-xs text-gray-400 flex items-center'>
+                <span className='mr-1'>{formatDate(question.createdAt)}</span>
+                <GlobeIcon />
+              </div>
             </div>
           </div>
           <div className='flex items-center'>
@@ -47,8 +51,9 @@ export default function Question({ question, type = 'all' }: Props) {
               <img
                 src={question.fileName}
                 alt='content-bg'
-                className={clsx('object-cover w-full', {
-                  'w-1/2': type === 'user'
+                className={clsx('object-cover', {
+                  'w-1/2': type === 'user',
+                  'w-full': type === 'all'
                 })}
               />
             </div>
