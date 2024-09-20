@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControlItem } from '@/types/utils.type'
 import axios, { AxiosError, HttpStatusCode } from 'axios'
 

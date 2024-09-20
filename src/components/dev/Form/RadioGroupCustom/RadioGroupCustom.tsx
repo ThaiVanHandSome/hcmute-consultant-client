@@ -8,6 +8,7 @@ interface RadioGroupCustomProps<TFieldValues extends FieldValues = FieldValues> 
   readonly control: Control<TFieldValues>
   readonly name: FieldPath<TFieldValues>
   readonly className?: string
+  readonly radioClassName?: string
   readonly data?: FormControlItem[]
   readonly defaultValue?: PathValue<TFieldValues, Path<TFieldValues>>
 }
@@ -16,6 +17,7 @@ export default function RadioGroupCustom<TFieldValues extends FieldValues>({
   name,
   control,
   className = 'mb-4',
+  radioClassName = 'flex items-center',
   label,
   data,
   defaultValue
@@ -28,16 +30,16 @@ export default function RadioGroupCustom<TFieldValues extends FieldValues>({
         control={control}
         name={name}
         render={() => (
-          <FormItem>
+          <FormItem className='space-y-0'>
             <FormLabel>{label}</FormLabel>
             <FormControl>
               <RadioGroup onValueChange={field.onChange} value={field.value || ''} className='flex items-center'>
                 {data?.map(({ value, label }) => (
-                  <FormItem key={value} className='flex items-center'>
+                  <FormItem key={value} className={radioClassName}>
                     <FormControl>
                       <RadioGroupItem value={value} />
                     </FormControl>
-                    <FormLabel className='!mt-0 ml-1'>{label}</FormLabel>
+                    {label && <FormLabel className='!mt-0 ml-1'>{label}</FormLabel>}
                   </FormItem>
                 ))}
               </RadioGroup>

@@ -66,3 +66,18 @@ export const SchedualConsultantSchema = yup.object({
   statusPublic: yup.boolean(),
   mode: yup.boolean()
 })
+
+export const RatingSchema = yup.object({
+  consultantId: yup.string().required('Bạn phải chọn người tư vấn'),
+  departmentId: yup.string().required('Bạn phải chọn phòng ban'),
+  generalSatisfaction: yup.string().required('Bạn chưa đánh giá'),
+  generalComment: yup.string(),
+  expertiseKnowledge: yup.string().required('Bạn chưa đánh giá'),
+  expertiseComment: yup.string(),
+  attitude: yup.string().required('Bạn chưa đánh giá'),
+  attitudeComment: yup.string(),
+  responseSpeed: yup.string().required('Bạn chưa đánh giá'),
+  responseSpeedComment: yup.string(),
+  understanding: yup.string().required('Bạn chưa đánh giá'),
+  understandingComment: yup.string()
+})
