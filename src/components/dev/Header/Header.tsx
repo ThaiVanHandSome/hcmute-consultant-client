@@ -28,79 +28,86 @@ export default function Header() {
         <a href={path.home}>
           <img src={LogoHCMUTE} alt='logo-hcmute' className='size-16 object-fit' />
         </a>
-        <nav className='flex items-center ml-12'>
-          <NavLink
-            to={path.createQuestion}
-            className={({ isActive }) =>
-              clsx('inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all', {
-                'text-primary font-bold': isActive
-              })
-            }
-          >
-            Đặt câu hỏi
-          </NavLink>
-          <NavLink
-            to={path.questionLibrary}
-            className={({ isActive }) =>
-              clsx(
-                'inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all ml-6',
-                {
-                  'text-primary font-bold': isActive
-                }
-              )
-            }
-          >
-            Thư viện câu hỏi
-          </NavLink>
-          <Popover
-            renderPopover={
-              <ul className='px-6 py-2 text-center'>
-                <li>
-                  <NavLink
-                    to={path.consultants}
-                    className={({ isActive }) =>
-                      clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
-                        'text-primary font-bold': isActive
-                      })
-                    }
-                  >
-                    Ban tư vấn
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to={path.consultantEvaluation}
-                    className={({ isActive }) =>
-                      clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
-                        'text-primary font-bold': isActive
-                      })
-                    }
-                  >
-                    Đánh giá ban tư vấn
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to={path.scheduleConsultant}
-                    className={({ isActive }) =>
-                      clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
-                        'text-primary font-bold': isActive
-                      })
-                    }
-                  >
-                    Đặt lịch tư vấn
-                  </NavLink>
-                </li>
-              </ul>
-            }
-          >
-            <div className='ml-6 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all flex items-center'>
-              TƯ VẤN
-              <ChevronDownIcon className='ml-1' />
-            </div>
-          </Popover>
-        </nav>
       </div>
+      <nav className='flex items-center ml-12'>
+        <NavLink
+          to={path.home}
+          className={({ isActive }) =>
+            clsx('inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all', {
+              'text-primary font-bold': isActive
+            })
+          }
+        >
+          Trang chủ
+        </NavLink>
+        <NavLink
+          to={path.createQuestion}
+          className={({ isActive }) =>
+            clsx('inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all ml-6', {
+              'text-primary font-bold': isActive
+            })
+          }
+        >
+          Đặt câu hỏi
+        </NavLink>
+        <NavLink
+          to={path.questionLibrary}
+          className={({ isActive }) =>
+            clsx('inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all ml-6', {
+              'text-primary font-bold': isActive
+            })
+          }
+        >
+          Thư viện câu hỏi
+        </NavLink>
+        <Popover
+          renderPopover={
+            <ul className='px-6 py-2 text-center'>
+              <li>
+                <NavLink
+                  to={path.consultants}
+                  className={({ isActive }) =>
+                    clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
+                      'text-primary font-bold': isActive
+                    })
+                  }
+                >
+                  Ban tư vấn
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={path.consultantEvaluation}
+                  className={({ isActive }) =>
+                    clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
+                      'text-primary font-bold': isActive
+                    })
+                  }
+                >
+                  Đánh giá ban tư vấn
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={path.scheduleConsultant}
+                  className={({ isActive }) =>
+                    clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
+                      'text-primary font-bold': isActive
+                    })
+                  }
+                >
+                  Đặt lịch tư vấn
+                </NavLink>
+              </li>
+            </ul>
+          }
+        >
+          <div className='ml-6 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all flex items-center'>
+            TƯ VẤN
+            <ChevronDownIcon className='ml-1' />
+          </div>
+        </Popover>
+      </nav>
       <div className='flex items-center'>
         {!isAuthenticated && (
           <div className='flex items-center'>
@@ -138,7 +145,9 @@ export default function Header() {
                 </div>
               }
             >
-              <ChatBubbleIcon className='size-6 text-black mr-6' />
+              <Link to={path.messages}>
+                <ChatBubbleIcon className='size-6 text-black mr-6' />
+              </Link>
             </Popover>
             <Popover
               placement='bottom'
@@ -175,7 +184,7 @@ export default function Header() {
               }
             >
               <div className='flex items-center cursor-pointer'>
-                <Avatar>
+                <Avatar className='size-9'>
                   <AvatarImage
                     src='https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/435116190_1794745547688837_695033224121990189_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEFOc7dmSSU7vb15NsbXRVcAbRqSYGR-PMBtGpJgZH483la9c7bx87IipYQAJCmaNUFuB_I6V1GglCT7OUisAKa&_nc_ohc=Tfkhgvffv3cQ7kNvgERMbSU&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=ADHfltbhANdWHLfZtFl-Hqm&oh=00_AYDYXIj0aYVvkcSodbUivsAJUDUuTAQLGcbUF-sBdafZwQ&oe=66E1DC27'
                     alt='avatar'

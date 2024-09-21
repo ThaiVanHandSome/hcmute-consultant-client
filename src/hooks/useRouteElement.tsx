@@ -11,6 +11,7 @@ import ConsultantEvaluation from '@/pages/User/ConsultantEvaluation'
 import Consultants from '@/pages/User/Consultants'
 import CreateQuestion from '@/pages/User/CreateQuestion'
 import Home from '@/pages/User/Home'
+import Message from '@/pages/User/Message'
 import MyQuestion from '@/pages/User/MyQuestion'
 import Profile from '@/pages/User/Profile'
 import QuestionLibrary from '@/pages/User/QuestionLibrary'
@@ -85,6 +86,14 @@ export default function useRouteElement() {
           element: (
             <MainLayout>
               <CreateQuestion />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.messages,
+          element: (
+            <MainLayout>
+              <Message />
             </MainLayout>
           )
         },

@@ -15,6 +15,6 @@ export interface ConsultantListConfig {
   name: string
   page: number
   size: number
-  sortBy: 'asc' | 'desc'
-  sortDir: 'firstName' | 'lastName'
+  sortBy: 'firstName' | 'lastName'
+  sortDir: 'asc' | 'desc'
 }
