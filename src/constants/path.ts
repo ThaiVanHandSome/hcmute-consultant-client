@@ -13,7 +13,8 @@ const path = {
   scheduleConsultant: '/schedule-consultant',
   userDashBoard: '/user/dashboard',
   questionLibrary: '/question-library',
-  messages: '/messages'
+  messages: '/messages',
+  consultantMessages: '/consultant-messages'
 } as const
 
 export default path

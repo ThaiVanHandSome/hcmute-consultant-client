@@ -11,3 +11,6 @@ export const getUserConversation = (params: ConversationQueryConfig) =>
   http.get<SuccessResponse<PaginationResponse<Conversation[]>>>('user/conversation/list', {
     params
   })
+
+export const getConsultantConversation = (params: ConversationQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<Conversation[]>>>('consultant/conversation/list', { params })

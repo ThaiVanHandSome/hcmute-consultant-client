@@ -1,120 +1,40 @@
 import { getConsultantsByDepartment } from '@/apis/consultant.api'
 import { createUserConversation, getUserConversation } from '@/apis/conversation.api'
 import { getAllDepartments } from '@/apis/department.api'
+import Chat from '@/components/dev/Chat'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import MessageItem from '@/components/dev/MessageItem'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import path from '@/constants/path'
 import { toast } from '@/hooks/use-toast'
 import useConversationQueryConfig from '@/hooks/useConversationQueryConfig'
+import useQueryParams from '@/hooks/useQueryParams'
 import { Consultant } from '@/types/consultant.type'
 import { Conversation } from '@/types/conversation.type'
 import { FormControlItem } from '@/types/utils.type'
 import { CreateConversationSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ImageIcon, MagnifyingGlassIcon, PaperPlaneIcon, Pencil2Icon } from '@radix-ui/react-icons'
+import { MagnifyingGlassIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { MessageCircleIcon } from 'lucide-react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { createSearchParams, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
-
-const friendAvatar =
-  'https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/311590829_1254153242092852_4832227332157715848_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGNnmpAkRiZt0npaCZ4oArImf3JOiEdXRuZ_ck6IR1dGwgrTcgAYPXDlKYJIj1Ihc1NJ4SfxczRdoQ60WCQDr4g&_nc_ohc=3F_zqbfttEoQ7kNvgEtIi4g&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=AVkOFBUh1UonSwKYwmEKFnY&oh=00_AYCjlHOhy6FXEACkoDhHUFGkG0-e_3wchilTmo_lJV4HVQ&oe=66F45ED2'
-const fakeData = [
-  {
-    id: 1,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 1,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 1,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 1,
-    message:
-      'helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 1,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 1,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 1,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 1,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 1,
-    message: 'hellooooooooooooo'
-  },
-  {
-    id: 2,
-    message: 'hellooooooooooooo'
-  }
-]
 
 export type UserConversationFormData = yup.InferType<typeof CreateConversationSchema>
 
 export default function Message() {
+  const { id } = useQueryParams()
+  const navigate = useNavigate()
   const conversationQueryParams = useConversationQueryConfig()
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+  const [conversationActive, setConversationActive] = useState<Conversation>()
   const form = useForm<UserConversationFormData>({
     defaultValues: {
       consultantId: '',
@@ -144,7 +64,7 @@ export default function Message() {
     return data?.map((consultant: Consultant) => {
       return {
         value: String(consultant.id),
-        label: consultant.lastName + ' ' + consultant.firstName
+        label: consultant.lastName + consultant.firstName
       }
     })
   }, [consultants])
@@ -172,15 +92,25 @@ export default function Message() {
     })
   })
 
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'instant' })
-    }
-  }
   useEffect(() => {
-    scrollToBottom()
-  }, [])
+    if (!userConversations || id) return
+    const data = userConversations.data.data.content
+    if (data.length !== 0) {
+      navigate({
+        pathname: path.messages,
+        search: createSearchParams({
+          id: String(data[0].id)
+        }).toString()
+      })
+    }
+  }, [userConversations, id, navigate])
+
+  useEffect(() => {
+    if (!userConversations) return
+    const data = userConversations.data.data.content
+    const conversationActive = data.find((obj) => obj.id === parseInt(id))
+    setConversationActive(conversationActive as Conversation)
+  }, [userConversations, id])
 
   return (
     <div className='bg-white'>
@@ -242,57 +172,16 @@ export default function Message() {
           <Separator className='mt-4' />
           <div className='mt-3 flex-grow overflow-y-auto h-full px-4'>
             {userConversations?.data.data.content.map((conversation: Conversation) => (
-              <MessageItem key={conversation.id} conversation={conversation} />
+              <MessageItem
+                key={conversation.id}
+                conversation={conversation}
+                conversationIdActive={conversationActive?.id}
+              />
             ))}
           </div>
         </div>
-        <div className='col-span-8 flex flex-col h-remain-screen'>
-          <div>
-            <div className='flex items-center py-2 shadow-lg px-3'>
-              <img
-                src='https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/435116190_1794745547688837_695033224121990189_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEFOc7dmSSU7vb15NsbXRVcAbRqSYGR-PMBtGpJgZH483la9c7bx87IipYQAJCmaNUFuB_I6V1GglCT7OUisAKa&_nc_ohc=-zpoaE3hKksQ7kNvgHKM4JO&_nc_ht=scontent.fsgn19-1.fna&oh=00_AYDWrgK1AuTcKAaPFhlUcPMX1s7Q9vZPSnQG2LM3s2Rcvg&oe=66F45127'
-                alt='avatar'
-                className='size-10 rounded-full'
-              />
-              <div className='ml-2'>
-                <p className='font-bold text-lg'>Nguyễn Thái Văn</p>
-              </div>
-            </div>
-          </div>
-          <div className='flex-1 h-full flex-grow overflow-y-auto px-4'>
-            {/* {fakeData.map((item, index) => {
-              if (item.id !== 1) {
-                let avatarCanShow = false
-                if ((index + 1 < fakeData.length && fakeData[index + 1].id === 1) || index === fakeData.length - 1)
-                  avatarCanShow = true
-                return (
-                  <div key={item.id} className='flex justify-start my-3'>
-                    <div className='flex items-center'>
-                      {avatarCanShow && <img src={friendAvatar} alt='avatar' className='size-8 rounded-full' />}
-                      {!avatarCanShow && <div className='size-8'></div>}
-                      <div className='ml-2 p-2 bg-slate-200 rounded-3xl'>{item.message}</div>
-                    </div>
-                  </div>
-                )
-              } else {
-                return (
-                  <div key={item.id} className='flex justify-end my-3 '>
-                    <div className='p-2 rounded-3xl bg-primary text-white max-w-[50%] break-words'>{item.message}</div>
-                  </div>
-                )
-              }
-            })} */}
-            <div ref={messagesEndRef}></div>
-          </div>
-          <div className='shadow-lg px-3 py-2 flex items-center w-full'>
-            <div>
-              <ImageIcon className='size-7 mr-2 text-primary cursor-pointer' />
-            </div>
-            <div className='flex-1'>
-              <Input className='!rounded-lg' />
-            </div>
-            <PaperPlaneIcon className='size-7 ml-2 text-primary cursor-pointer' />
-          </div>
+        <div className='col-span-8'>
+          <Chat conversation={conversationActive} />
         </div>
       </div>
     </div>

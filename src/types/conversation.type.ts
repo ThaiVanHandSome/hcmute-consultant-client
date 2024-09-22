@@ -5,8 +5,10 @@ export interface Conversation {
     name: string
   }
   userName: string
-  consultantName: string
-  name: string
+  consultant: {
+    avatarUrl: string
+    consultantName: string
+  }
   isGroup: boolean
   createdAt: string
   members: {
