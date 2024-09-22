@@ -44,6 +44,8 @@ export default function ForgotPassword() {
 
   const navigate = useNavigate()
   const [isConfirmSuccess, setIsConfirmSuccess] = useState<boolean>(false)
+
+  // when switching step 1 to step 2, save email to use in step 2, avoid lost email when component re-render
   const emailCurrentRef = useRef('')
 
   const sendCodeToEmailMutation = useMutation({
@@ -54,6 +56,7 @@ export default function ForgotPassword() {
     mutationFn: (body: { email: string; newPassword: string }) => resetPassword(body)
   })
 
+  // handle send token process to email to verify account
   const onSendCodeToEmail = sendEmailForm.handleSubmit((values: SendEmailFormData) => {
     const payload = {
       emailRequest: values.emailRequest
@@ -82,6 +85,7 @@ export default function ForgotPassword() {
     })
   })
 
+  // handle change password process
   const onChangePassword = changePasswordForm.handleSubmit((values: ChangePasswordFormData) => {
     const payload = {
       email: emailCurrentRef.current,
@@ -110,6 +114,7 @@ export default function ForgotPassword() {
     })
   })
 
+  // if confirm token success, switch to next step
   useEffect(() => {
     if (isConfirmSuccess) {
       navigate({
@@ -119,7 +124,7 @@ export default function ForgotPassword() {
         }).toString()
       })
     }
-  }, [isConfirmSuccess])
+  }, [isConfirmSuccess, navigate])
 
   return (
     <div className='h-[100vh]'>

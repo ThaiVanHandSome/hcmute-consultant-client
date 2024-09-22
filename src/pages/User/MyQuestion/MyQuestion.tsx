@@ -48,6 +48,8 @@ export default function MyQuestion() {
     queryKey: ['departments'],
     queryFn: getAllDepartments
   })
+
+  // generate selection data
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
     return generateSelectionData(data)
@@ -57,6 +59,8 @@ export default function MyQuestion() {
     queryKey: ['questionsStatus'],
     queryFn: getAllQuestionStatus
   })
+
+  // generate selection data
   const questionsStatusSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = questionsStatus?.data.data
     return data?.map((item: QuestionStatus) => {
@@ -72,6 +76,7 @@ export default function MyQuestion() {
     queryFn: () => getAllQuestionsOfUser(queryConfig)
   })
 
+  // handle find questions with title
   const onSubmit = form.handleSubmit((values) => {
     const title = values.title
     if (title) {
@@ -85,6 +90,7 @@ export default function MyQuestion() {
     }
   })
 
+  // when form values change, navigate to get new data with new params
   useEffect(() => {
     navigate({
       pathname: path.myQuestions,

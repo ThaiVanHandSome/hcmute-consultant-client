@@ -11,8 +11,22 @@ import { createSearchParams } from 'react-router-dom'
 interface Props {
   readonly path: string
   readonly pageSize: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly queryConfig: any
 }
+
+// if total page is 10
+// page 1 active: 1 2 ... 9 10
+// page 2 active: 1 2 3 4 ... 9 10
+// page 3 active: 1 2 3 4 5 ... 9 10
+// page 4 active: 1 2 3 4 5 6 ... 9 10
+// page 5 active: 1 2 3 4 5 6 7 ... 9 10
+// page 6 active: 1 2 ... 4 5 6 7 8 9 10
+// page 7 active: 1 2 ... 5 6 7 8 9 10
+// page 8 active: 1 2 ... 6 7 8 9 10
+// page 9 active: 1 2 ... 7 8 9 10
+// page 10 active: 1 2 ... 8 9 10
+
 
 const RANGE = 2
 export default function Paginate({ path, queryConfig, pageSize }: Props) {

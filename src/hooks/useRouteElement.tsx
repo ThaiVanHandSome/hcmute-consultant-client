@@ -6,7 +6,6 @@ import UserLayout from '@/layouts/UserLayout'
 import ForgotPassword from '@/pages/Auth/ForgotPassword'
 import Login from '@/pages/Auth/Login'
 import Register from '@/pages/Auth/Register'
-import ConsultantMessage from '@/pages/Consultant/ConsultantMessage'
 import ChangePassword from '@/pages/User/ChangePassword'
 import ConsultantEvaluation from '@/pages/User/ConsultantEvaluation'
 import Consultants from '@/pages/User/Consultants'
@@ -95,14 +94,6 @@ export default function useRouteElement() {
           element: (
             <MainLayout>
               <Message />
-            </MainLayout>
-          )
-        },
-        {
-          path: path.consultantMessages,
-          element: (
-            <MainLayout>
-              <ConsultantMessage />
             </MainLayout>
           )
         },

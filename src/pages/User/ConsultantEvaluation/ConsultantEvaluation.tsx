@@ -46,6 +46,8 @@ export default function ConsultantEvaluation() {
     queryKey: ['departments'],
     queryFn: getAllDepartments
   })
+
+  // generate selection data from departments to use in selection component 
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
     return generateSelectionData(data)
@@ -57,6 +59,8 @@ export default function ConsultantEvaluation() {
     queryFn: () => getConsultantsByDepartment(departmentId),
     enabled: !!departmentId
   })
+  
+  // generate selection data from departments to use in selection component 
   const consultantsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = consultants?.data.data
     return data?.map((consultant: Consultant) => {
@@ -71,6 +75,7 @@ export default function ConsultantEvaluation() {
     mutationFn: (body: RatingFormData) => createRating(body)
   })
 
+  // handle evaluation process
   const onSubmit = form.handleSubmit((values) => {
     createRatingMutation.mutate(values, {
       onSuccess: (res) => {
@@ -83,34 +88,12 @@ export default function ConsultantEvaluation() {
       }
     })
   })
-
-  // const consultantId = form.watch('consultantId')
-  // const consultantChecked = useMemo(() => {
-  //   if (!consultantId || !consultants) return null
-  //   return consultants.data.data.find((c) => c.id === parseInt(consultantId))
-  // }, [consultantId, consultants])
-  // console.log(consultantChecked);
-
   return (
     <div>
       <div className='container'>
         <div className='flex justify-center'>
           <div className='w-3/4 bg-white px-6 py-2 rounded-lg shadow-lg mt-6'>
             <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>Đánh giá ban tư vấn</h1>
-            {/* {consultantChecked && (
-              <div>
-                <div>
-                  <img src={consultantChecked.avatarUrl} alt='avatar' />
-                  <div>
-                    <p>
-                      Họ và tên: {consultantChecked.lastName} {consultantChecked.firstName}
-                    </p>
-                    <p>Khoa: {consultantChecked.department?.name}</p>
-                    <p>Số điện thoại: {consultantChecked.phone}</p>
-                  </div>
-                </div>
-              </div>
-            )} */}
             <Form {...form}>
               <form onSubmit={onSubmit}>
                 <div className='grid grid-cols-2 gap-4'>

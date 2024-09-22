@@ -10,7 +10,6 @@ import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import useConsultantQueryConfig, { ConsultantQueryConfig } from '@/hooks/useConsultantQueryConfig'
 import { columns } from '@/pages/User/Consultants/columns'
-import { Consultant } from '@/types/consultant.type'
 import { FormControlItem } from '@/types/utils.type'
 import { ConsultantsSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
@@ -45,6 +44,7 @@ export default function Consultants() {
     queryFn: () => getAllConsultant(consultantQueryConfig)
   })
 
+  // generate selection data from departments to use in selection component 
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
     return generateSelectionData(data)
@@ -64,13 +64,15 @@ export default function Consultants() {
   })
 
   const departmentId = form.watch('departmentId')
+  
+  // when departmentId change, refetch data with new departmentId
   useEffect(() => {
     if (!departmentId) return
     navigate({
       pathname: path.consultants,
       search: createSearchParams({
         ...consultantQueryConfig,
-        departmentId: departmentId as string
+        departmentId: departmentId
       }).toString()
     })
   }, [departmentId])
@@ -113,7 +115,7 @@ export default function Consultants() {
             <Separator className='my-6' />
             <div className='mb-4'>
               {consultants?.data.data.content && (
-                <DataTable data={consultants?.data.data.content as Consultant[]} columns={columns} />
+                <DataTable data={consultants?.data.data.content} columns={columns} />
               )}
             </div>
             <PaginationCustom

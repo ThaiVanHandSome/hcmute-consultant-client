@@ -22,6 +22,7 @@ export default function ListQuestion() {
     refetchOnMount: true
   })
 
+  // when user scroll to end page => fetch question with next page
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY
@@ -38,8 +39,9 @@ export default function ListQuestion() {
 
     if (!isFetching && !isError) window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isFetching])
+  }, [isFetching, isError])
 
+  // if user choose one of departments => reset list question and set new question query config
   const json = JSON.stringify(initialQuestionQueryConfig)
   useEffect(() => {
     setListQuestion([])
@@ -47,6 +49,8 @@ export default function ListQuestion() {
   }, [json])
 
   const questionJson = JSON.stringify(questions)
+
+  // add new question fetched to state list question 
   useEffect(() => {
     if (questions?.data.data.content) {
       setListQuestion((prev) => [...prev, ...questions.data.data.content])

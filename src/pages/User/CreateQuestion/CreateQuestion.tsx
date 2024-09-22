@@ -56,6 +56,7 @@ export default function CreateQuestion() {
     queryFn: getAllDepartments
   })
 
+  // generate selection data
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
     return generateSelectionData(data)
@@ -68,6 +69,7 @@ export default function CreateQuestion() {
     enabled: !!departmentId
   })
 
+  // generate selection data
   const fieldsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = fields?.data.data
     return generateSelectionData(data)
@@ -77,6 +79,8 @@ export default function CreateQuestion() {
     queryKey: ['rolesAsk'],
     queryFn: getRolesAsk
   })
+
+  // generate selection data
   const roleAskSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = rolesAsk?.data.data
     return generateSelectionData(data)
@@ -86,6 +90,7 @@ export default function CreateQuestion() {
     mutationFn: ({ params, file }: { params: CreateQuestionRequest; file?: File }) => createNewQuestion(params, file)
   })
 
+  // handle question create process
   const onSubmit = form.handleSubmit((values) => {
     const params = omit(values, ['email']) as CreateQuestionRequest
     createQuestionMutation.mutate(
@@ -97,6 +102,8 @@ export default function CreateQuestion() {
             title: 'Thành công',
             description: res.data.message
           })
+
+          // refetch query to get new data
           queryClient.invalidateQueries({
             queryKey: ['questions', queryConfig]
           })

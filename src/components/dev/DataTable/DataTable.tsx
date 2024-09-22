@@ -24,6 +24,7 @@ import { ChevronDownIcon } from 'lucide-react'
 
 interface Props {
   readonly data: Consultant[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly columns: ColumnDef<any>[]
 }
 

@@ -29,6 +29,7 @@ export default function ChangePassword() {
     mutationFn: (body: { password: string; newPassword: string }) => updatePassword(body)
   })
 
+  // handle password change process
   const onSubmit = form.handleSubmit((values) => {
     const payload = {
       password: values.password,
@@ -41,7 +42,7 @@ export default function ChangePassword() {
           title: 'Thành công',
           description: res.data.message
         })
-        form.reset(formDefaultValue)
+        form.reset(formDefaultValue) // reset all inputs value when change password successfully
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {

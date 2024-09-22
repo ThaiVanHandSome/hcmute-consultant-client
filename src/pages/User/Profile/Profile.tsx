@@ -62,6 +62,8 @@ export default function Profile() {
     queryKey: ['provinces'],
     queryFn: getProvinces
   })
+
+  // generate selection data
   const provincesSelectionData = useMemo(() => {
     const data = provinces?.data.data
     return generateSelectionDataFromLocation(data)
@@ -73,6 +75,8 @@ export default function Profile() {
     queryFn: () => getDistricts(provinceCode),
     enabled: !!provinceCode
   })
+
+  // generate selection data
   const districtsSelectionData = useMemo(() => {
     const data = districts?.data.data
     return generateSelectionDataFromLocation(data)
@@ -84,6 +88,8 @@ export default function Profile() {
     queryFn: () => getWards(districtCode),
     enabled: !!districtCode
   })
+
+  // generate selection data
   const wardsSelectionData = useMemo(() => {
     const data = wards?.data.data
     return generateSelectionDataFromLocation(data)
@@ -98,6 +104,7 @@ export default function Profile() {
     setFile(fileFromLocal)
   }
 
+  // handle set profile data from getting api to form
   useEffect(() => {
     if (profile?.data.data) {
       const res = profile?.data.data

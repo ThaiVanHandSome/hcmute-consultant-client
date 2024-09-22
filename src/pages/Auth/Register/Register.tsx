@@ -54,6 +54,7 @@ export default function Register() {
     mutationFn: (body: RegisterFormData) => register(body)
   })
 
+  // handle register process
   const onSubmit = (values: RegisterFormData) => {
     registerMutation.mutate(values, {
       onSuccess: () => {
@@ -79,6 +80,7 @@ export default function Register() {
     })
   }
 
+  // if confirm token success, switch to next step
   useEffect(() => {
     if (isConfirmSuccess) {
       navigate({

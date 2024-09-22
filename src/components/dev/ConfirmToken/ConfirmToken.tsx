@@ -16,7 +16,7 @@ import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { useLocation, useMatch } from 'react-router-dom'
+import { useMatch } from 'react-router-dom'
 import * as yup from 'yup'
 
 type FormData = yup.InferType<typeof ConfirmTokenSchema>
@@ -28,11 +28,9 @@ interface Props {
 }
 
 export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
-  const location = useLocation()
   const match = useMatch(path.register)
   const isRegisterPage = Boolean(match)
 
-  console.log(location)
   const form = useForm<FormData>({
     defaultValues: {
       token: ''
@@ -102,6 +100,7 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
     }
   })
 
+  // check if calling API, disable all button
   const checkDisabledButton = () => {
     if (resendRegisterVerificationCodeMutation.isPending || confirmRegistrationMutation.isPending) return true
     return false
@@ -123,6 +122,8 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
           const formError = error.response?.data.data
+
+          // loop each field and render error message of it
           formError?.forEach(({ field, message }) => {
             changeEmailForm.setError(field as keyof ChangeEmailFormData, {
               message: message,

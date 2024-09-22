@@ -48,6 +48,8 @@ export default function Message() {
     queryKey: ['departments'],
     queryFn: getAllDepartments
   })
+
+  // generate selection data
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
     return generateSelectionData(data)
@@ -59,6 +61,8 @@ export default function Message() {
     queryFn: () => getConsultantsByDepartment(departmentId),
     enabled: !!departmentId
   })
+
+  // generate selection data
   const consultantsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = consultants?.data.data
     return data?.map((consultant: Consultant) => {
@@ -78,6 +82,7 @@ export default function Message() {
     mutationFn: (body: UserConversationFormData) => createUserConversation(body)
   })
 
+  // handle create new conversation with new consultant
   const onSubmit = form.handleSubmit((values) => {
     createConversationMutation.mutate(values, {
       onSuccess: (res) => {
@@ -92,6 +97,7 @@ export default function Message() {
     })
   })
 
+  // when access to component, choose the first conversation and show it 
   useEffect(() => {
     if (!userConversations || id) return
     const data = userConversations.data.data.content
@@ -105,6 +111,7 @@ export default function Message() {
     }
   }, [userConversations, id, navigate])
 
+  // handle when user choose other conversation
   useEffect(() => {
     if (!userConversations) return
     const data = userConversations.data.data.content

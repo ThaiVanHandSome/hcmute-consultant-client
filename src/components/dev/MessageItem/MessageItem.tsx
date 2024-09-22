@@ -10,6 +10,8 @@ interface Props {
 
 export default function MessageItem({ conversation, conversationIdActive }: Props) {
   const navigate = useNavigate()
+
+  // switch to other conversation
   const handleNavigateToOtherMessage = () => {
     if (conversationIdActive === conversation.id) return
     navigate({

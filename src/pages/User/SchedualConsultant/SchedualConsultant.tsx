@@ -34,6 +34,7 @@ export default function SchedualConsultant() {
     queryFn: getAllDepartments
   })
 
+  // generate selection data
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
     return generateSelectionData(data)
