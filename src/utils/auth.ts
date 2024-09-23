@@ -6,6 +6,7 @@ export const clearLS = () => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
   localStorage.removeItem('user')
+  localStorage.removeItem('ROLE')
   const clearLSEvent = new Event('clearLS')
   AuthenticationTarget.dispatchEvent(clearLSEvent)
 }
@@ -32,4 +33,12 @@ export const getUserFromLocalStorate = () => {
 
 export const setUserToLocalStorage = (user: User) => {
   localStorage.setItem('user', JSON.stringify(user))
+}
+
+export const setRoleToLocalStorage = (role: string) => {
+  localStorage.setItem('ROLE', role)
+}
+
+export const getRoleFromLocalStorage = () => {
+  return localStorage.getItem('ROLE') ?? ''
 }

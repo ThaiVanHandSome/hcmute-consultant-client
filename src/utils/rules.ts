@@ -84,6 +84,5 @@ export const RatingSchema = yup.object({
 
 export const CreateConversationSchema = yup.object({
   consultantId: yup.string().required('Bạn phải chọn người tư vấn'),
-  departmentId: yup.string().required('Bạn phải chọn phòng ban'),
-  name: yup.string().required('Bạn phải nhập tên')
+  departmentId: yup.string().required('Bạn phải chọn phòng ban')
 })

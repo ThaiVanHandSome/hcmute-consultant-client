@@ -1,8 +1,7 @@
 import { getConsultantsByDepartment } from '@/apis/consultant.api'
-import { createUserConversation, getUserConversation } from '@/apis/conversation.api'
+import { createUserConversation, getConsultantConversation, getUserConversation } from '@/apis/conversation.api'
 import { getAllDepartments } from '@/apis/department.api'
 import Chat from '@/components/dev/Chat'
-import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import MessageItem from '@/components/dev/MessageItem'
 import { Button } from '@/components/ui/button'
@@ -10,6 +9,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
+import { ROLE } from '@/constants/role'
+import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import useConversationQueryConfig from '@/hooks/useConversationQueryConfig'
 import useQueryParams from '@/hooks/useQueryParams'
@@ -22,7 +23,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { MagnifyingGlassIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { MessageCircleIcon } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
@@ -30,6 +31,8 @@ import * as yup from 'yup'
 export type UserConversationFormData = yup.InferType<typeof CreateConversationSchema>
 
 export default function Message() {
+  const { role } = useContext(AppContext)
+  console.log(role)
   const { id } = useQueryParams()
   const navigate = useNavigate()
   const conversationQueryParams = useConversationQueryConfig()
@@ -38,15 +41,15 @@ export default function Message() {
   const form = useForm<UserConversationFormData>({
     defaultValues: {
       consultantId: '',
-      departmentId: '',
-      name: ''
+      departmentId: ''
     },
     resolver: yupResolver(CreateConversationSchema)
   })
 
   const { data: departments } = useQuery({
     queryKey: ['departments'],
-    queryFn: getAllDepartments
+    queryFn: getAllDepartments,
+    enabled: role === ROLE.user
   })
 
   // generate selection data
@@ -59,7 +62,7 @@ export default function Message() {
   const { data: consultants } = useQuery({
     queryKey: ['consultantsByDepartment', departmentId],
     queryFn: () => getConsultantsByDepartment(departmentId),
-    enabled: !!departmentId
+    enabled: !!departmentId && role === ROLE.user
   })
 
   // generate selection data
@@ -73,9 +76,13 @@ export default function Message() {
     })
   }, [consultants])
 
-  const { data: userConversations, refetch } = useQuery({
-    queryKey: ['user-conversations', conversationQueryParams],
-    queryFn: () => getUserConversation(conversationQueryParams)
+  const { data: conversations, refetch } = useQuery({
+    queryKey: ['conversations', conversationQueryParams],
+    queryFn: () => {
+      if (role === ROLE.user) return getUserConversation(conversationQueryParams)
+      return getConsultantConversation(conversationQueryParams)
+    },
+    enabled: !!role
   })
 
   const createConversationMutation = useMutation({
@@ -97,10 +104,10 @@ export default function Message() {
     })
   })
 
-  // when access to component, choose the first conversation and show it 
+  // when access to component, choose the first conversation and show it
   useEffect(() => {
-    if (!userConversations || id) return
-    const data = userConversations.data.data.content
+    if (!conversations || id) return
+    const data = conversations.data.data.content
     if (data.length !== 0) {
       navigate({
         pathname: path.messages,
@@ -109,15 +116,15 @@ export default function Message() {
         }).toString()
       })
     }
-  }, [userConversations, id, navigate])
+  }, [conversations, id, navigate])
 
   // handle when user choose other conversation
   useEffect(() => {
-    if (!userConversations) return
-    const data = userConversations.data.data.content
+    if (!conversations) return
+    const data = conversations.data.data.content
     const conversationActive = data.find((obj) => obj.id === parseInt(id))
     setConversationActive(conversationActive as Conversation)
-  }, [userConversations, id])
+  }, [conversations, id])
 
   return (
     <div className='bg-white'>
@@ -134,51 +141,52 @@ export default function Message() {
               </div>
               <MagnifyingGlassIcon className='size-7 text-gray-400 cursor-pointer' />
             </div>
-            <Dialog open={isOpenModal}>
-              <DialogTrigger asChild>
-                <Pencil2Icon className='size-7 cursor-pointer ml-2' onClick={() => setIsOpenModal(true)} />
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Tạo đoạn chat mới</DialogTitle>
-                </DialogHeader>
-                <Form {...form}>
-                  <form onSubmit={onSubmit}>
-                    <InputCustom control={form.control} name='name' placeholder='Tên cuộc hội thoại' />
-                    <div className='mb-4'>
-                      <SelectionCustom
-                        control={form.control}
-                        name='departmentId'
-                        placeholder='Chọn phòng ban'
-                        data={departmentsSelectionData}
-                      />
-                    </div>
-                    <div className='mb-4'>
-                      <SelectionCustom
-                        control={form.control}
-                        name='consultantId'
-                        placeholder='Chọn tư vấn viên'
-                        data={consultantsSelectionData}
-                      />
-                    </div>
-                    <div className='flex items-center justify-center'>
-                      <Button
-                        isLoading={createConversationMutation.isPending}
-                        disabled={createConversationMutation.isPending}
-                        type='submit'
-                        className='w-full'
-                      >
-                        Tạo
-                      </Button>
-                    </div>
-                  </form>
-                </Form>
-              </DialogContent>
-            </Dialog>
+            {role === ROLE.user && (
+              <Dialog open={isOpenModal} onOpenChange={setIsOpenModal}>
+                <DialogTrigger asChild>
+                  <Pencil2Icon className='size-7 cursor-pointer ml-2' />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Tạo đoạn chat mới</DialogTitle>
+                  </DialogHeader>
+                  <Form {...form}>
+                    <form onSubmit={onSubmit}>
+                      <div className='mb-4'>
+                        <SelectionCustom
+                          control={form.control}
+                          name='departmentId'
+                          placeholder='Chọn phòng ban'
+                          data={departmentsSelectionData}
+                        />
+                      </div>
+                      <div className='mb-4'>
+                        <SelectionCustom
+                          control={form.control}
+                          name='consultantId'
+                          placeholder='Chọn tư vấn viên'
+                          data={consultantsSelectionData}
+                        />
+                      </div>
+                      <div className='flex items-center justify-center'>
+                        <Button
+                          isLoading={createConversationMutation.isPending}
+                          disabled={createConversationMutation.isPending}
+                          type='submit'
+                          className='w-full'
+                        >
+                          Tạo
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
           <Separator className='mt-4' />
           <div className='mt-3 flex-grow overflow-y-auto h-full px-4'>
-            {userConversations?.data.data.content.map((conversation: Conversation) => (
+            {conversations?.data.data.content.map((conversation: Conversation) => (
               <MessageItem
                 key={conversation.id}
                 conversation={conversation}

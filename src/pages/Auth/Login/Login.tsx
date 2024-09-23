@@ -11,7 +11,7 @@ import BackgroundImage from '@/assets/images/backgrounds/background_login.jpg'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/apis/auth.api'
 import forgotPasswordStatus from '@/constants/forgotPasswordStatus'
-import { isAxiosUnprocessableEntity } from '@/utils/utils'
+import { isAxiosUnprocessableEntity, parseJWT } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils.type'
 import { useContext } from 'react'
 import { AppContext } from '@/contexts/app.context'
@@ -22,7 +22,7 @@ import { toast } from '@/hooks/use-toast'
 type FormData = yup.InferType<typeof LoginSchema>
 
 export default function Login() {
-  const { setIsAuthenticated, setUser } = useContext(AppContext)
+  const { setIsAuthenticated, setUser, setRole } = useContext(AppContext)
   const form = useForm<FormData>({
     defaultValues: {
       email: '',
@@ -47,6 +47,8 @@ export default function Login() {
         setIsAuthenticated(true)
         setUser(res.data.data.user)
         setUserToLocalStorage(res.data.data.user)
+        const payload = parseJWT(res.data.data.accessToken)
+        setRole(payload.authorities)
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {

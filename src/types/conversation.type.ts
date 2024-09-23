@@ -4,16 +4,14 @@ export interface Conversation {
     id: number
     name: string
   }
-  userName: string
-  consultant: {
-    avatarUrl: string
-    consultantName: string
-  }
+  name: string
   isGroup: boolean
   createdAt: string
   members: {
     id: number
-    fullName: string
+    name: string
+    avatarUrl: string
+    sender: boolean
   }[]
 }
 

@@ -1,5 +1,5 @@
 import { User } from '@/types/user.type'
-import { getAccessTokenFromLocalStorage, getUserFromLocalStorate } from '@/utils/auth'
+import { getAccessTokenFromLocalStorage, getRoleFromLocalStorage, getUserFromLocalStorate } from '@/utils/auth'
 import { createContext, useState } from 'react'
 
 interface AppContextInterface {
@@ -8,6 +8,8 @@ interface AppContextInterface {
   user: User | null
   setUser: React.Dispatch<React.SetStateAction<User | null>>
   reset: () => void
+  role: string
+  setRole: React.Dispatch<React.SetStateAction<string>>
 }
 
 const initialAppContext: AppContextInterface = {
@@ -15,7 +17,9 @@ const initialAppContext: AppContextInterface = {
   setIsAuthenticated: () => null,
   user: getUserFromLocalStorate(),
   setUser: () => null,
-  reset: () => null
+  reset: () => null,
+  role: getRoleFromLocalStorage(),
+  setRole: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
@@ -23,6 +27,7 @@ export const AppContext = createContext<AppContextInterface>(initialAppContext)
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
   const [user, setUser] = useState<User | null>(initialAppContext.user)
+  const [role, setRole] = useState<string>(initialAppContext.role)
 
   const reset = () => {
     setIsAuthenticated(false)
@@ -36,7 +41,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated,
         user,
         setUser,
-        reset
+        reset,
+        role,
+        setRole
       }}
     >
       {children}

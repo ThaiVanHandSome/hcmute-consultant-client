@@ -10,12 +10,13 @@ import { clearLS } from '@/utils/auth'
 import { LogOutIcon } from 'lucide-react'
 
 export default function UserPopover() {
-  const { setIsAuthenticated, user, setUser } = useContext(AppContext)
+  const { setIsAuthenticated, user, setUser, setRole } = useContext(AppContext)
 
   const handleLogout = () => {
     clearLS()
     setIsAuthenticated(false)
     setUser(null)
+    setRole('')
   }
   return (
     <Popover

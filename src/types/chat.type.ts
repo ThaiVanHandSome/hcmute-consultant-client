@@ -4,6 +4,14 @@ export interface Chat {
   id: number
   message: string
   messageStatus: null
-  receiverName: string
-  senderName: string
+  receiver: {
+    id: number
+    name: string
+    avatarUrl: string
+  }
+  sender: {
+    id: number
+    name: string
+    avatarUrl: string
+  }
 }

@@ -1,7 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { Conversation } from '@/types/conversation.type'
 import { ImageIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Client, over } from 'stompjs'
 import SockJS from 'sockjs-client'
@@ -14,39 +14,48 @@ const friendAvatar =
 
 interface Props {
   readonly conversation: Conversation | undefined
-  readonly isUser?: boolean
+}
+
+interface UserData {
+  userId: number
+  receiverId: number
+  connected: boolean
+  conversationId: number
 }
 
 // eslint-disable-next-line no-var
 var stompClient: Client = null
 export default function Chat({ conversation }: Props) {
-  // const stompClient = useRef<Client>()
+  const sender = useMemo(() => {
+    return conversation?.members.find((member) => member.sender === true)
+  }, [conversation])
+
+  const receiver = useMemo(() => {
+    return conversation?.members.find((member) => member.sender === false)
+  }, [conversation])
+
   const [privateChats, setPrivateChats] = useState(new Map())
-  const [userData, setUserData] = useState(() => ({
-    username: conversation?.userName,
-    receivername: conversation?.consultant.consultantName,
-    connected: false,
-    conversationid: conversation?.id
-  }))
+  const [userData, setUserData] = useState<UserData>()
   const [chatContent, setChatContent] = useState<string>('')
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onPrivateMessage = (payload: any) => {
     const payloadData = JSON.parse(payload.body)
-    if (privateChats.get(payloadData.senderName)) {
-      privateChats.get(payloadData.senderName).push(payloadData)
+    const chatId = payloadData.conversationId
+    if (privateChats.get(chatId)) {
+      privateChats.get(chatId).push(payloadData)
       setPrivateChats(new Map(privateChats))
     } else {
-      const list = []
+      let list = []
       list.push(payloadData)
-      privateChats.set(payloadData.senderName, list)
+      privateChats.set(chatId, list)
       setPrivateChats(new Map(privateChats))
     }
   }
 
   const onConnected = () => {
-    setUserData((prevData) => ({ ...prevData, connected: true }))
-    stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage)
+    setUserData((prevData) => ({ ...prevData, connected: true }) as UserData)
+    stompClient.subscribe('/user/' + userData?.userId + '/private', onPrivateMessage)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,8 +64,6 @@ export default function Chat({ conversation }: Props) {
   }
 
   const connect = () => {
-    console.log('1')
-
     const Sock = new SockJS('http://localhost:8080/ws')
     stompClient = over(Sock)
     stompClient.connect({}, onConnected, onError)
@@ -65,17 +72,20 @@ export default function Chat({ conversation }: Props) {
   const sendPrivateValue = () => {
     if (stompClient && conversation) {
       const chatMessage = {
-        senderName: userData.username,
-        receiverName: conversation.consultant.consultantName,
+        sender: {
+          id: userData?.userId
+        },
+        receiver: {
+          id: userData?.receiverId
+        },
         message: chatContent,
-        status: 'MESSAGE',
-        conversationId: userData.conversationid
+        conversationId: userData?.conversationId
       }
 
-      const currentMessages = privateChats.get(userData.conversationid) || []
+      const currentMessages = privateChats.get(userData?.conversationId) || []
       const newMessages = [...currentMessages, chatMessage]
       const updatedChats = new Map(privateChats)
-      updatedChats.set(userData.conversationid, newMessages)
+      updatedChats.set(userData?.conversationId, newMessages)
       setPrivateChats(updatedChats)
 
       stompClient.send('/app/private-message', {}, JSON.stringify(chatMessage))
@@ -103,16 +113,27 @@ export default function Chat({ conversation }: Props) {
   }, [])
 
   useEffect(() => {
-    if (userData.username && userData.receivername) connect()
-  }, [userData.username, userData.receivername])
+    if (userData?.userId && userData.receiverId) connect()
+    return () => {
+      if (stompClient) {
+        stompClient.disconnect(() => {
+          console.log('Disconnected successfully')
+        })
+      }
+    }
+  }, [userData?.userId, userData?.receiverId])
 
   const chatHistoryJson = JSON.stringify(chatHistory)
   useEffect(() => {
     if (!chatHistory) return
     const messages = chatHistory?.data.data.content?.map((msg: ChatType) => ({
       message: msg.message,
-      senderName: msg.senderName,
-      receiverName: msg.receiverName,
+      sender: {
+        id: msg.sender.id
+      },
+      receiver: {
+        id: msg.receiver.id
+      },
       date: msg.date
     }))
 
@@ -124,42 +145,36 @@ export default function Chat({ conversation }: Props) {
   useEffect(() => {
     if (!conversation) return
     setUserData({
-      username: conversation?.userName,
-      receivername: conversation?.consultant.consultantName,
+      userId: sender?.id as number,
+      receiverId: receiver?.id as number,
       connected: false,
-      conversationid: conversation?.id
+      conversationId: conversation.id
     })
   }, [conversation])
+
+  console.log(privateChats)
+
   return (
     <div className='h-remain-screen flex flex-col'>
       <div>
         <div className='flex items-center py-2 shadow-lg px-3'>
-          <img
-            src='https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/435116190_1794745547688837_695033224121990189_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEFOc7dmSSU7vb15NsbXRVcAbRqSYGR-PMBtGpJgZH483la9c7bx87IipYQAJCmaNUFuB_I6V1GglCT7OUisAKa&_nc_ohc=-zpoaE3hKksQ7kNvgHKM4JO&_nc_ht=scontent.fsgn19-1.fna&oh=00_AYDWrgK1AuTcKAaPFhlUcPMX1s7Q9vZPSnQG2LM3s2Rcvg&oe=66F45127'
-            alt='avatar'
-            className='size-10 rounded-full'
-          />
+          <img src={receiver?.avatarUrl} alt='avatar' className='size-10 rounded-full' />
           <div className='ml-2'>
-            <p className='font-bold text-lg'>
-              {conversation?.consultant.consultantName} - {conversation?.department.name}
-            </p>
+            <p className='font-bold text-lg'>{receiver?.name}</p>
           </div>
         </div>
       </div>
       <div className='flex-1 h-full flex-grow overflow-y-auto px-4'>
-        {privateChats.get(userData.conversationid)?.map((chat, index) => {
-          const data = privateChats.get(userData.conversationid)
-          if (chat.senderName !== userData.username) {
+        {privateChats.get(userData?.conversationId)?.map((chat: ChatType, index: number) => {
+          const data = privateChats.get(userData?.conversationId)
+          if (chat.sender.id !== userData?.userId) {
             let avatarCanShow = false
-            if (
-              (index + 1 < data.size && data[index + 1].senderName === userData.username) ||
-              index === data.length - 1
-            )
+            if ((index + 1 < data.size && data[index + 1].senderName === userData?.userId) || index === data.length - 1)
               avatarCanShow = true
             return (
               <div key={index} className='flex justify-start my-3'>
                 <div className='flex items-center'>
-                  {avatarCanShow && <img src={friendAvatar} alt='avatar' className='size-8 rounded-full' />}
+                  {avatarCanShow && <img src={receiver?.avatarUrl} alt='avatar' className='size-8 rounded-full' />}
                   {!avatarCanShow && <div className='size-8'></div>}
                   <div className='ml-2 p-2 bg-slate-200 rounded-3xl'>{chat.message}</div>
                 </div>

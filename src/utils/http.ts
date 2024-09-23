@@ -7,8 +7,10 @@ import {
   getAccessTokenFromLocalStorage,
   getRefreshTokenFromLocalStorage,
   setAccessTokenToLocalStorage,
-  setRefreshTokenToLocalStorage
+  setRefreshTokenToLocalStorage,
+  setRoleToLocalStorage
 } from '@/utils/auth'
+import { parseJWT } from '@/utils/utils'
 import axios, { AxiosError, AxiosInstance, HttpStatusCode, InternalAxiosRequestConfig } from 'axios'
 
 class HTTP {
@@ -47,6 +49,8 @@ class HTTP {
           this.refresh_token = (response.data as SuccessResponse<AuthResponse>).data.refreshToken
           setAccessTokenToLocalStorage((response.data as SuccessResponse<AuthResponse>).data.accessToken)
           setRefreshTokenToLocalStorage((response.data as SuccessResponse<AuthResponse>).data.refreshToken)
+          const payload = parseJWT((response.data as SuccessResponse<AuthResponse>).data.accessToken)
+          setRoleToLocalStorage(payload.authorities)
         }
         return response
       },
