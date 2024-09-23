@@ -9,6 +9,10 @@ import { useQuery } from '@tanstack/react-query'
 import { getChatHistory } from '@/apis/chat.api'
 import { Chat as ChatType } from '@/types/chat.type'
 import { ChatHistoryConfig } from '@/types/params.type'
+import { useForm } from 'react-hook-form'
+import { Form } from '@/components/ui/form'
+import InputCustom from '@/components/dev/Form/InputCustom'
+import { Button } from '@/components/ui/button'
 
 interface Props {
   readonly conversation: Conversation | undefined
@@ -22,6 +26,12 @@ interface UserData {
 }
 
 export default function Chat({ conversation }: Props) {
+  const form = useForm({
+    defaultValues: {
+      message: ''
+    }
+  })
+  const chatContent = form.watch('message')
   const chatHistoryQueryConfig: ChatHistoryConfig = {
     conversationId: conversation?.id as number,
     page: 0,
@@ -40,7 +50,6 @@ export default function Chat({ conversation }: Props) {
 
   const [privateChats, setPrivateChats] = useState(new Map())
   const [userData, setUserData] = useState<UserData>()
-  const [chatContent, setChatContent] = useState<string>('')
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onPrivateMessage = (payload: any) => {
@@ -88,7 +97,8 @@ export default function Chat({ conversation }: Props) {
       const updatedChats = new Map(privateChats)
       updatedChats.set(userData?.conversationId, newMessages)
       setPrivateChats(updatedChats)
-      setChatContent('')
+      form.setValue('message', '')
+
       stompClient.current.send('/app/private-message', {}, JSON.stringify(chatMessage))
     }
   }
@@ -98,6 +108,11 @@ export default function Chat({ conversation }: Props) {
     queryKey: ['chat-history', chatHistoryQueryConfig],
     queryFn: () => getChatHistory(chatHistoryQueryConfig),
     enabled: !!conversationId
+  })
+
+  const onSubmit = form.handleSubmit((values) => {
+    if (!values.message) return
+    sendPrivateValue()
   })
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -186,10 +201,12 @@ export default function Chat({ conversation }: Props) {
 
             return (
               <div key={index} className='flex justify-start my-3'>
-                <div className='flex items-center'>
+                <div className='flex items-center max-w-[50%]'>
                   {avatarCanShow && <img src={receiver?.avatarUrl} alt='avatar' className='size-8 rounded-full' />}
                   {!avatarCanShow && <div className='size-8'></div>}
-                  <div className='ml-2 p-2 bg-slate-200 rounded-3xl'>{chat.message}</div>
+                  <div className='ml-2 p-2 bg-slate-200 rounded-3xl max-w-full break-words flex-grow'>
+                    {chat.message}
+                  </div>
                 </div>
               </div>
             )
@@ -203,15 +220,21 @@ export default function Chat({ conversation }: Props) {
         })}
         <div ref={messagesEndRef}></div>
       </div>
-      <div className='shadow-lg px-3 py-2 flex items-center w-full'>
-        <div>
-          <ImageIcon className='size-7 mr-2 text-primary cursor-pointer' />
-        </div>
-        <div className='flex-1'>
-          <Input value={chatContent} onChange={(e) => setChatContent(e.target.value)} className='!rounded-lg' />
-        </div>
-        <PaperPlaneIcon className='size-7 ml-2 text-primary cursor-pointer' onClick={sendPrivateValue} />
-      </div>
+      <Form {...form}>
+        <form onSubmit={onSubmit}>
+          <div className='shadow-lg px-3 py-2 flex items-center w-full'>
+            <div>
+              <ImageIcon className='size-7 mr-2 text-primary cursor-pointer' />
+            </div>
+            <div className='flex-1'>
+              <InputCustom control={form.control} name='message' className='mb-0' autoComplete='nooe' />
+            </div>
+            <button type='submit'>
+              <PaperPlaneIcon className='size-7 ml-2 text-primary cursor-pointer' />
+            </button>
+          </div>
+        </form>
+      </Form>
     </div>
   )
 }

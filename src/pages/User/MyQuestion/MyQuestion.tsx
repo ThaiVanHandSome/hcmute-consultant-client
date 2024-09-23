@@ -19,6 +19,7 @@ import { format } from 'date-fns'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
+import NoDataIcon from '@/assets/images/utils/no-data.png'
 
 export default function MyQuestion() {
   const navigate = useNavigate()
@@ -106,67 +107,77 @@ export default function MyQuestion() {
 
   return (
     <div>
-      <h1 className='text-primary font-bold capitalize mb-4'>Câu hỏi của bản thân</h1>
-      <div>
-        <div className='mb-6'>
-          <Form {...form}>
-            <form onSubmit={onSubmit}>
-              <div className='grid grid-cols-4 gap-2 mb-4'>
-                <div className='col-span-1'>
-                  <SelectionCustom
-                    control={form.control}
-                    name='departmentId'
-                    placeholder='Đơn vị'
-                    defaultValue={queryConfig.departmentId}
-                    data={departmentsSelectionData}
-                  />
-                </div>
-                <div className='col-span-1'>
-                  <SelectionCustom
-                    control={form.control}
-                    name='status'
-                    placeholder='Trạng thái'
-                    defaultValue={queryConfig.status}
-                    data={questionsStatusSelectionData}
-                  />
-                </div>
-                <div className='col-span-1'>
-                  <DatePicker date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
-                </div>
-                <div className='col-span-1'>
-                  <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
-                </div>
-              </div>
-              <div className='grid grid-cols-5 gap-4'>
-                <div className='col-span-4'>
-                  <InputCustom
-                    className='mb-0'
-                    control={form.control}
-                    name='title'
-                    placeholder='Nhập tiêu đề để tìm kiếm'
-                  />
-                </div>
-                <div className='col-span-1 flex items-center'>
-                  <Button className='w-full'>Tìm kiếm</Button>
-                </div>
-              </div>
-            </form>
-          </Form>
+      {questionsOfUser && (
+        <>
+          <h1 className='text-primary font-bold capitalize mb-4'>Câu hỏi của bản thân</h1>
+          <div>
+            <div className='mb-6'>
+              <Form {...form}>
+                <form onSubmit={onSubmit}>
+                  <div className='grid grid-cols-4 gap-2 mb-4'>
+                    <div className='col-span-1'>
+                      <SelectionCustom
+                        control={form.control}
+                        name='departmentId'
+                        placeholder='Đơn vị'
+                        defaultValue={queryConfig.departmentId}
+                        data={departmentsSelectionData}
+                      />
+                    </div>
+                    <div className='col-span-1'>
+                      <SelectionCustom
+                        control={form.control}
+                        name='status'
+                        placeholder='Trạng thái'
+                        defaultValue={queryConfig.status}
+                        data={questionsStatusSelectionData}
+                      />
+                    </div>
+                    <div className='col-span-1'>
+                      <DatePicker date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
+                    </div>
+                    <div className='col-span-1'>
+                      <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
+                    </div>
+                  </div>
+                  <div className='grid grid-cols-5 gap-4'>
+                    <div className='col-span-4'>
+                      <InputCustom
+                        className='mb-0'
+                        control={form.control}
+                        name='title'
+                        placeholder='Nhập tiêu đề để tìm kiếm'
+                      />
+                    </div>
+                    <div className='col-span-1 flex items-center'>
+                      <Button className='w-full'>Tìm kiếm</Button>
+                    </div>
+                  </div>
+                </form>
+              </Form>
+            </div>
+            <Separator className='my-8' />
+            <div>
+              {questionsOfUser?.data.data.content.map((question) => (
+                <Question type='user' key={question.title + question.createdAt} question={question} />
+              ))}
+            </div>
+            <div className='flex items-center justify-center'>
+              <PaginationCustom
+                path={path.myQuestions}
+                queryConfig={queryConfig}
+                pageSize={questionsOfUser?.data.data.totalPages as number}
+              />
+            </div>
+          </div>
+        </>
+      )}
+      {!questionsOfUser && (
+        <div className='flex flex-col items-center justify-center'>
+          <img src={NoDataIcon} alt='no-data' className='size-48' />
+          <p className='font-semibold text-primary'>Bạn chưa đặt câu hỏi nào cả!</p>
         </div>
-        <Separator className='my-8' />
-        <div>
-          {questionsOfUser?.data.data.content.map((question) => (
-            <Question type='user' key={question.title + question.createdAt} question={question} />
-          ))}
-        </div>
-        <div className='flex items-center justify-center'>
-          <PaginationCustom
-            path={path.myQuestions}
-            queryConfig={queryConfig}
-            pageSize={questionsOfUser?.data.data.totalPages as number}
-          />
-        </div>
-      </div>
+      )}
     </div>
   )
 }
