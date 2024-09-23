@@ -10,11 +10,3 @@ export interface Consultant {
   avatarUrl: string
 }
 
-export interface ConsultantListConfig {
-  departmentId: string
-  name: string
-  page: number
-  size: number
-  sortBy: 'firstName' | 'lastName'
-  sortDir: 'asc' | 'desc'
-}

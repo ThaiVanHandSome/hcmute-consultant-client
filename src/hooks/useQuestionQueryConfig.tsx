@@ -1,5 +1,5 @@
 import useQueryParams from '@/hooks/useQueryParams'
-import { QuestionListConfig } from '@/types/question.type'
+import { QuestionListConfig } from '@/types/params.type'
 import { isUndefined, omitBy } from 'lodash'
 
 export type QuestionQueryConfig = {

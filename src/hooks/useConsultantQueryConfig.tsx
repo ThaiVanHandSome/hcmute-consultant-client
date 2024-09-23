@@ -1,5 +1,5 @@
 import useQueryParams from '@/hooks/useQueryParams'
-import { ConsultantListConfig } from '@/types/consultant.type'
+import { ConsultantListConfig } from '@/types/params.type'
 import { isUndefined, omitBy } from 'lodash'
 
 export type ConsultantQueryConfig = {

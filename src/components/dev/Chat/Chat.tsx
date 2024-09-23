@@ -8,24 +8,28 @@ import SockJS from 'sockjs-client'
 import { useQuery } from '@tanstack/react-query'
 import { getChatHistory } from '@/apis/chat.api'
 import { Chat as ChatType } from '@/types/chat.type'
-
-const friendAvatar =
-  'https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/311590829_1254153242092852_4832227332157715848_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGNnmpAkRiZt0npaCZ4oArImf3JOiEdXRuZ_ck6IR1dGwgrTcgAYPXDlKYJIj1Ihc1NJ4SfxczRdoQ60WCQDr4g&_nc_ohc=3F_zqbfttEoQ7kNvgEtIi4g&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=AVkOFBUh1UonSwKYwmEKFnY&oh=00_AYCjlHOhy6FXEACkoDhHUFGkG0-e_3wchilTmo_lJV4HVQ&oe=66F45ED2'
+import { ChatHistoryConfig } from '@/types/params.type'
 
 interface Props {
   readonly conversation: Conversation | undefined
 }
 
 interface UserData {
-  userId: number
-  receiverId: number
+  userId: number | null
+  receiverId: number | null
   connected: boolean
-  conversationId: number
+  conversationId: number | null
 }
 
-// eslint-disable-next-line no-var
-var stompClient: Client = null
 export default function Chat({ conversation }: Props) {
+  const chatHistoryQueryConfig: ChatHistoryConfig = {
+    conversationId: conversation?.id as number,
+    page: 0,
+    size: 100,
+    sortBy: '',
+    sortDir: 'desc'
+  }
+  const stompClient = useRef<Client | null>(null)
   const sender = useMemo(() => {
     return conversation?.members.find((member) => member.sender === true)
   }, [conversation])
@@ -42,20 +46,18 @@ export default function Chat({ conversation }: Props) {
   const onPrivateMessage = (payload: any) => {
     const payloadData = JSON.parse(payload.body)
     const chatId = payloadData.conversationId
-    if (privateChats.get(chatId)) {
-      privateChats.get(chatId).push(payloadData)
-      setPrivateChats(new Map(privateChats))
-    } else {
-      let list = []
-      list.push(payloadData)
-      privateChats.set(chatId, list)
-      setPrivateChats(new Map(privateChats))
-    }
+    setPrivateChats((prevChats) => {
+      const updatedChats = new Map(prevChats)
+      const currentMessages = updatedChats.get(chatId) || []
+      currentMessages.push(payloadData)
+      updatedChats.set(chatId, currentMessages)
+      return updatedChats
+    })
   }
 
   const onConnected = () => {
     setUserData((prevData) => ({ ...prevData, connected: true }) as UserData)
-    stompClient.subscribe('/user/' + userData?.userId + '/private', onPrivateMessage)
+    stompClient.current?.subscribe('/user/' + userData?.userId + '/private', onPrivateMessage)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -65,12 +67,12 @@ export default function Chat({ conversation }: Props) {
 
   const connect = () => {
     const Sock = new SockJS('http://localhost:8080/ws')
-    stompClient = over(Sock)
-    stompClient.connect({}, onConnected, onError)
+    stompClient.current = over(Sock)
+    stompClient.current.connect({}, onConnected, onError)
   }
 
   const sendPrivateValue = () => {
-    if (stompClient && conversation) {
+    if (stompClient.current && userData?.connected && conversation) {
       const chatMessage = {
         sender: {
           id: userData?.userId
@@ -81,27 +83,23 @@ export default function Chat({ conversation }: Props) {
         message: chatContent,
         conversationId: userData?.conversationId
       }
-
       const currentMessages = privateChats.get(userData?.conversationId) || []
       const newMessages = [...currentMessages, chatMessage]
       const updatedChats = new Map(privateChats)
       updatedChats.set(userData?.conversationId, newMessages)
       setPrivateChats(updatedChats)
-
-      stompClient.send('/app/private-message', {}, JSON.stringify(chatMessage))
-
       setChatContent('')
+      stompClient.current.send('/app/private-message', {}, JSON.stringify(chatMessage))
     }
   }
 
   const conversationId = conversation?.id
   const { data: chatHistory } = useQuery({
-    queryKey: ['chat-history', conversationId],
-    queryFn: () => getChatHistory(conversationId as number),
+    queryKey: ['chat-history', chatHistoryQueryConfig],
+    queryFn: () => getChatHistory(chatHistoryQueryConfig),
     enabled: !!conversationId
   })
 
-  // handle scroll to end conversation
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -110,18 +108,13 @@ export default function Chat({ conversation }: Props) {
   }
   useEffect(() => {
     scrollToBottom()
-  }, [])
+  }, [conversation, privateChats])
 
   useEffect(() => {
-    if (userData?.userId && userData.receiverId) connect()
-    return () => {
-      if (stompClient) {
-        stompClient.disconnect(() => {
-          console.log('Disconnected successfully')
-        })
-      }
+    if (userData?.userId && userData?.receiverId && !userData?.connected) {
+      connect()
     }
-  }, [userData?.userId, userData?.receiverId])
+  }, [userData?.userId, userData?.receiverId, userData?.connected])
 
   const chatHistoryJson = JSON.stringify(chatHistory)
   useEffect(() => {
@@ -150,6 +143,21 @@ export default function Chat({ conversation }: Props) {
       connected: false,
       conversationId: conversation.id
     })
+    return () => {
+      if (stompClient.current) {
+        console.log('Disconnecting...')
+        stompClient.current.disconnect(() => {
+          console.log('Disconnected successfully')
+        })
+        setUserData({
+          userId: null,
+          receiverId: null,
+          conversationId: null,
+          connected: false
+        })
+        setPrivateChats(new Map())
+      }
+    }
   }, [conversation])
 
   console.log(privateChats)
@@ -169,8 +177,13 @@ export default function Chat({ conversation }: Props) {
           const data = privateChats.get(userData?.conversationId)
           if (chat.sender.id !== userData?.userId) {
             let avatarCanShow = false
-            if ((index + 1 < data.size && data[index + 1].senderName === userData?.userId) || index === data.length - 1)
+            if (
+              (index + 1 < data.length && data[index + 1].sender.id === userData?.userId) ||
+              index === data.length - 1
+            ) {
               avatarCanShow = true
+            }
+
             return (
               <div key={index} className='flex justify-start my-3'>
                 <div className='flex items-center'>

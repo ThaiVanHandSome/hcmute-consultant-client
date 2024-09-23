@@ -1,5 +1,10 @@
 import { getConsultantsByDepartment } from '@/apis/consultant.api'
-import { createUserConversation, getConsultantConversation, getUserConversation } from '@/apis/conversation.api'
+import {
+  createUserConversation,
+  getConsultantConversation,
+  getConversations,
+  getUserConversation
+} from '@/apis/conversation.api'
 import { getAllDepartments } from '@/apis/department.api'
 import Chat from '@/components/dev/Chat'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
@@ -78,11 +83,7 @@ export default function Message() {
 
   const { data: conversations, refetch } = useQuery({
     queryKey: ['conversations', conversationQueryParams],
-    queryFn: () => {
-      if (role === ROLE.user) return getUserConversation(conversationQueryParams)
-      return getConsultantConversation(conversationQueryParams)
-    },
-    enabled: !!role
+  queryFn: () => getConversations(conversationQueryParams)
   })
 
   const createConversationMutation = useMutation({

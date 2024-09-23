@@ -20,18 +20,6 @@ export interface Question {
   answerCreatedAt: string
 }
 
-export interface QuestionListConfig {
-  page: number
-  size: number
-  sortBy: string
-  sortDir: 'asc' | 'desc'
-  departmentId: number
-  status: string
-  title: string
-  startDate: Date
-  endDate: Date
-}
-
 export interface CreateQuestionRequest {
   departmentId: string
   fieldId: string

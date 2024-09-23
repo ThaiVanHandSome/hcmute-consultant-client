@@ -15,10 +15,3 @@ export interface Conversation {
   }[]
 }
 
-export interface ConversationListConfig {
-  name: string
-  page: number
-  size: number
-  sortBy: 'createdAt' | 'lastName'
-  sortDir: 'asc' | 'desc'
-}

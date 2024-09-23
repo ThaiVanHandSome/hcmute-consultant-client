@@ -1,5 +1,5 @@
 import useQueryParams from '@/hooks/useQueryParams'
-import { ConversationListConfig } from '@/types/conversation.type'
+import { ConversationListConfig } from '@/types/params.type'
 import { isUndefined, omitBy } from 'lodash'
 
 export type ConversationQueryConfig = {
