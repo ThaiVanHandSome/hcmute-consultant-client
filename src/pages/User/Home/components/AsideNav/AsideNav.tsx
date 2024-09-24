@@ -19,6 +19,23 @@ export default function AsideNav() {
         <div className='px-4 py-2 h-remain-screen'>
           <div className='mb-2 pt-2 rounded-sm font-bold text-lg px-2 text-gray-500'>Câu hỏi theo đơn vị</div>
           <ul>
+            <li
+              className={clsx(
+                'text-left border-b border-slate-300 hover:bg-slate-200 hover:font-semibold transition-all text-sm hover:rounded-md',
+                {
+                  'bg-slate-200 font-semibold text-primary rounded-md': !queryConfig.departmentId
+                }
+              )}
+            >
+              <Link
+                to={{
+                  pathname: path.home
+                }}
+                className='py-3 px-3 block'
+              >
+                Tất cả phòng ban
+              </Link>
+            </li>
             {departments?.data.data?.map((department) => (
               <li
                 key={department.id}

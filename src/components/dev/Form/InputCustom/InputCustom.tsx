@@ -7,6 +7,7 @@ interface InputCustomProps<TFieldValues extends FieldValues = FieldValues>
   readonly label?: string
   readonly control: Control<TFieldValues>
   readonly name: FieldPath<TFieldValues>
+  readonly classNameInput?: string
 }
 
 export default function InputCustom<TFieldValues extends FieldValues>({
@@ -16,7 +17,8 @@ export default function InputCustom<TFieldValues extends FieldValues>({
   type = 'text',
   control,
   disabled,
-  className = 'mb-3'
+  className = 'mb-3',
+  classNameInput = ''
 }: InputCustomProps<TFieldValues>) {
   const { field } = useController({ name, control })
 
@@ -29,7 +31,7 @@ export default function InputCustom<TFieldValues extends FieldValues>({
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
-              <Input disabled={disabled} type={type} placeholder={placeholder} {...field} />
+              <Input className={classNameInput} disabled={disabled} type={type} placeholder={placeholder} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
