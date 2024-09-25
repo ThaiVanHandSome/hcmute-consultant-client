@@ -7,7 +7,8 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@/components/ui/pagination'
-import { createSearchParams } from 'react-router-dom'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { createSearchParams, useNavigate } from 'react-router-dom'
 interface Props {
   readonly path: string
   readonly pageSize: number
@@ -27,9 +28,9 @@ interface Props {
 // page 9 active: 1 2 ... 7 8 9 10
 // page 10 active: 1 2 ... 8 9 10
 
-
 const RANGE = 2
 export default function Paginate({ path, queryConfig, pageSize }: Props) {
+  const navigate = useNavigate()
   const page = Number(queryConfig.page)
   const renderPagination = () => {
     let dotAfter = false
@@ -91,35 +92,66 @@ export default function Paginate({ path, queryConfig, pageSize }: Props) {
       })
   }
 
+  const handleValueChange = (val: string) => {
+    navigate({
+      pathname: path,
+      search: createSearchParams({
+        ...queryConfig,
+        page: '0',
+        size: val
+      }).toString()
+    })
+  }
+
   return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            to={{
-              pathname: path,
-              search: createSearchParams({
-                ...queryConfig,
-                page: (page - 1).toString()
-              }).toString()
-            }}
-            disabled={page === 0}
-          />
-        </PaginationItem>
-        {renderPagination()}
-        <PaginationItem>
-          <PaginationNext
-            to={{
-              pathname: path,
-              search: createSearchParams({
-                ...queryConfig,
-                page: (page + 1).toString()
-              }).toString()
-            }}
-            disabled={page >= pageSize - 1}
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+    <div className='flex items-center justify-center relative w-full'>
+      <div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                to={{
+                  pathname: path,
+                  search: createSearchParams({
+                    ...queryConfig,
+                    page: (page - 1).toString()
+                  }).toString()
+                }}
+                disabled={page === 0}
+              />
+            </PaginationItem>
+            {renderPagination()}
+            <PaginationItem>
+              <PaginationNext
+                to={{
+                  pathname: path,
+                  search: createSearchParams({
+                    ...queryConfig,
+                    page: (page + 1).toString()
+                  }).toString()
+                }}
+                disabled={page >= pageSize - 1}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
+      <div className='absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2'>
+        <Select defaultValue={queryConfig.size} onValueChange={handleValueChange}>
+          <SelectTrigger>
+            <SelectValue placeholder='Theme' />
+          </SelectTrigger>
+          <SelectContent className='!px-4'>
+            {Array(6)
+              .fill(1)
+              .map((item, index) => (
+                <SelectItem key={index} value={String(item * (index + 1) * 5)}>
+                  {item * (index + 1) * 5}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
   )
 }

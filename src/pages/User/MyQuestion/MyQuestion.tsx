@@ -162,13 +162,11 @@ export default function MyQuestion() {
                 <Question type='user' key={question.title + question.createdAt} question={question} />
               ))}
             </div>
-            <div className='flex items-center justify-center'>
-              <PaginationCustom
-                path={path.myQuestions}
-                queryConfig={queryConfig}
-                pageSize={questionsOfUser?.data.data.totalPages as number}
-              />
-            </div>
+            <PaginationCustom
+              path={path.myQuestions}
+              queryConfig={queryConfig}
+              pageSize={questionsOfUser?.data.data.totalPages}
+            />
           </div>
         </>
       )}

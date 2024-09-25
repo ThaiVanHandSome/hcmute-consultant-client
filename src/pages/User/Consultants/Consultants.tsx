@@ -44,7 +44,7 @@ export default function Consultants() {
     queryFn: () => getAllConsultant(consultantQueryConfig)
   })
 
-  // generate selection data from departments to use in selection component 
+  // generate selection data from departments to use in selection component
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
     return generateSelectionData(data)
@@ -64,7 +64,7 @@ export default function Consultants() {
   })
 
   const departmentId = form.watch('departmentId')
-  
+
   // when departmentId change, refetch data with new departmentId
   useEffect(() => {
     if (!departmentId) return
@@ -72,7 +72,8 @@ export default function Consultants() {
       pathname: path.consultants,
       search: createSearchParams({
         ...consultantQueryConfig,
-        departmentId: departmentId
+        departmentId: departmentId,
+        page: '0'
       }).toString()
     })
   }, [departmentId])
@@ -115,7 +116,7 @@ export default function Consultants() {
             <Separator className='my-6' />
             <div className='mb-4'>
               {consultants?.data.data.content && (
-                <DataTable data={consultants?.data.data.content} columns={columns} />
+                <DataTable data={consultants?.data.data.content} columns={columns} size={consultants.data.data.size} />
               )}
             </div>
             <PaginationCustom

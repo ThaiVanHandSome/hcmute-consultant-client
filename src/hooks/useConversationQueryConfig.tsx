@@ -10,10 +10,10 @@ export default function useConversationQueryConfig() {
   const queryParams = useQueryParams() as Partial<ConversationQueryConfig>
   const conversationQueryConfiger: ConversationQueryConfig = omitBy(
     {
-      page: queryParams.page ?? '0',
-      size: queryParams.size ?? '20',
-      sortBy: queryParams.sortBy ?? 'createdAt',
-      sortDir: queryParams.sortDir ?? 'desc',
+      page: '0',
+      size: '20',
+      sortBy: 'createdAt',
+      sortDir: 'desc',
       name: queryParams.name
     },
     isUndefined

@@ -1,11 +1,13 @@
 import { Toaster } from '@/components/ui/toaster'
 import { AppContext } from '@/contexts/app.context'
+import useNotification from '@/hooks/useNotification'
 import useRouteElement from '@/hooks/useRouteElement'
 import { AuthenticationTarget } from '@/utils/auth'
 import { useContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 function App() {
+  useNotification()
   const routeElement = useRouteElement()
   const location = useLocation()
 

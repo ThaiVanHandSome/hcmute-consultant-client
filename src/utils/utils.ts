@@ -14,14 +14,19 @@ export function isAxiosUnauthorizedError<UnauthorizedError>(error: unknown): err
   return isAxiosError(error) && error.response?.status === HttpStatusCode.Unauthorized
 }
 
-export function formatDate(dateString: string) {
+export function formatDate(dateString: string, haveHour?: boolean) {
   const date = new Date(dateString)
 
   const day = String(date.getDate()).padStart(2, '0')
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const year = date.getFullYear()
 
-  return `${day}-${month}-${year}`
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+
+  if (!haveHour) return `${day}-${month}-${year}`
+  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
 }
 
 export const parseDate = (dateStr?: string): Date | undefined => {

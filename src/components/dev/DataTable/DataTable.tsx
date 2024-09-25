@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -26,13 +26,15 @@ interface Props {
   readonly data: Consultant[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly columns: ColumnDef<any>[]
+  readonly size?: number
 }
 
-export default function DataTable({ data, columns }: Props) {
+export default function DataTable({ data, columns, size }: Props) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+  const [pageSize, setPageSize] = useState(size ?? 5)
 
   const table = useReactTable({
     data,
@@ -50,8 +52,20 @@ export default function DataTable({ data, columns }: Props) {
       columnFilters,
       columnVisibility,
       rowSelection
+    },
+    initialState: {
+      pagination: {
+        pageSize: pageSize
+      }
     }
   })
+
+  useEffect(() => {
+    if (size) {
+      setPageSize(size)
+      table.setPageSize(size)
+    }
+  }, [size, table])
 
   return (
     <div className='w-full'>

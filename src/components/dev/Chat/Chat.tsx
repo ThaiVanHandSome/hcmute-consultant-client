@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Client, over } from 'stompjs'
 import SockJS from 'sockjs-client'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { getChatHistory } from '@/apis/chat.api'
 import { Chat as ChatType } from '@/types/chat.type'
 import { ChatHistoryConfig } from '@/types/params.type'
@@ -14,7 +14,6 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import { uploadFile } from '@/apis/file.api'
 import { Spinner } from '@/icons'
 import { Input } from '@/components/ui/input'
-import clsx from 'clsx'
 
 interface Props {
   readonly conversation: Conversation | undefined
@@ -28,7 +27,6 @@ interface UserData {
 }
 
 export default function Chat({ conversation }: Props) {
-  const queryClient = useQueryClient()
   const form = useForm({
     defaultValues: {
       message: ''
@@ -38,9 +36,9 @@ export default function Chat({ conversation }: Props) {
   const chatHistoryQueryConfig: ChatHistoryConfig = {
     conversationId: conversation?.id as number,
     page: 0,
-    size: 100,
+    size: 1000,
     sortBy: '',
-    sortDir: 'desc'
+    sortDir: 'asc'
   }
   const stompClient = useRef<Client | null>(null)
   const sender = useMemo(() => {
@@ -137,7 +135,7 @@ export default function Chat({ conversation }: Props) {
     if (userData?.user?.id || !userData?.connected) {
       connect()
     }
-  }, [userData?.user?.id, !userData?.connected])
+  }, [userData?.user?.id, userData?.connected])
 
   useEffect(() => {
     if (!conversation) return
