@@ -1,26 +1,21 @@
-import {
-  changeEmail,
-  confirmRegistration,
-  resendRegisterVerificationCode,
-  verifyCodeWhenForgotPassword
-} from '@/apis/auth.api'
-import InputCustom from '@/components/dev/Form/InputCustom'
-import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Form } from '@/components/ui/form'
-import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
-import { ErrorResponse } from '@/types/utils.type'
-import { ChangeEmailSchema, ConfirmTokenSchema } from '@/utils/rules'
-import { isAxiosUnprocessableEntity } from '@/utils/utils'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useMatch } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { confirmRegistration, resendRegisterVerificationCode, verifyCodeWhenForgotPassword } from '@/apis/auth.api'
+import ChangeEmailDialog from '@/components/dev/ConfirmToken/components/ChangeEmailDialog'
+import InputCustom from '@/components/dev/Form/InputCustom'
+import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
+import path from '@/constants/path'
+import { toast } from '@/hooks/use-toast'
+import { ConfirmTokenSchema } from '@/utils/rules'
+import { Separator } from '@/components/ui/separator'
+import ResendButton from '@/components/dev/ConfirmToken/components/ResendButton'
+
 type FormData = yup.InferType<typeof ConfirmTokenSchema>
-type ChangeEmailFormData = yup.InferType<typeof ChangeEmailSchema>
 
 interface Props {
   readonly email: string
@@ -38,13 +33,6 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
     resolver: yupResolver(ConfirmTokenSchema)
   })
 
-  const changeEmailForm = useForm<ChangeEmailFormData>({
-    defaultValues: {
-      newEmail: ''
-    },
-    resolver: yupResolver(ChangeEmailSchema)
-  })
-
   const confirmRegistrationMutation = useMutation({
     mutationFn: (body: { emailRequest: string; token: string }) => confirmRegistration(body)
   })
@@ -55,10 +43,6 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
 
   const resendRegisterVerificationCodeMutation = useMutation({
     mutationFn: (body: { emailRequest: string }) => resendRegisterVerificationCode(body)
-  })
-
-  const changeEmailMutation = useMutation({
-    mutationFn: (body: { oldEmail: string; newEmail: string }) => changeEmail(body)
   })
 
   const handleResendWithPreviousEmail = () => {
@@ -100,40 +84,7 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
     }
   })
 
-  // check if calling API, disable all button
-  const checkDisabledButton = () => {
-    if (resendRegisterVerificationCodeMutation.isPending || confirmRegistrationMutation.isPending) return true
-    return false
-  }
-
-  const onChangeEmailSubmit = changeEmailForm.handleSubmit((values: ChangeEmailFormData) => {
-    const payload = {
-      oldEmail: email,
-      newEmail: values.newEmail
-    }
-    changeEmailMutation.mutate(payload, {
-      onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          title: 'Thành công',
-          description: res.data.message
-        })
-      },
-      onError: (error) => {
-        if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
-          const formError = error.response?.data.data
-
-          // loop each field and render error message of it
-          formError?.forEach(({ field, message }) => {
-            changeEmailForm.setError(field as keyof ChangeEmailFormData, {
-              message: message,
-              type: 'server'
-            })
-          })
-        }
-      }
-    })
-  })
+  const isSubmitting = confirmRegistrationMutation.isPending || resendRegisterVerificationCodeMutation.isPending
 
   return (
     <div>
@@ -142,7 +93,7 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
           <InputCustom control={form.control} name='token' label='Mã xác nhận' placeholder='Mã xác nhận' />
           <Button
             isLoading={confirmRegistrationMutation.isPending}
-            disabled={checkDisabledButton()}
+            disabled={isSubmitting}
             type='submit'
             className='w-full mt-6'
           >
@@ -151,47 +102,13 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
         </form>
         {isRegisterPage && (
           <>
-            <div className='my-4 h-[1px] w-full bg-gray-400' />
-            <Button
+            <Separator className='my-4' />
+            <ResendButton
               isLoading={resendRegisterVerificationCodeMutation.isPending}
-              disabled={checkDisabledButton()}
-              type='button'
-              variant='outline'
-              className='w-full mb-4'
+              disabled={isSubmitting}
               onClick={handleResendWithPreviousEmail}
-            >
-              Gửi mã xác nhận lần nữa
-            </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button disabled={checkDisabledButton()} type='button' variant='outline' className='w-full mb-4'>
-                  Gửi mã xác nhận lần nữa với email mới
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Thay đổi email</DialogTitle>
-                  <Form {...changeEmailForm}>
-                    <form onSubmit={onChangeEmailSubmit}>
-                      <InputCustom
-                        control={changeEmailForm.control}
-                        name='newEmail'
-                        label='Email'
-                        placeholder='Email'
-                      />
-                      <Button
-                        isLoading={changeEmailMutation.isPending}
-                        disabled={changeEmailMutation.isPending}
-                        type='submit'
-                        className='mt-4 w-full'
-                      >
-                        Gửi
-                      </Button>
-                    </form>
-                  </Form>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+            />
+            <ChangeEmailDialog email={email} isDisabledTriggerButton={isSubmitting} />
           </>
         )}
       </Form>

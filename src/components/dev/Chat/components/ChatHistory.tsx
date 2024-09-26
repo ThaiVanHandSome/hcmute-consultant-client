@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react'
 
+import ChatMessage from './ChatMessage'
 import { Chat } from '@/types/chat.type'
 import { Conversation, MemberConversation } from '@/types/conversation.type'
-import ChatMessage from './ChatMessage'
 
 interface Props {
   readonly conversation?: Conversation

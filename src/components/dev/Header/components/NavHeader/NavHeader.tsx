@@ -1,8 +1,10 @@
+import { NavLink } from 'react-router-dom'
+import clsx from 'clsx'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
+
+import NavLinkItem from '@/components/dev/Header/components/NavHeader/components/NavLinkItem'
 import Popover from '@/components/dev/Popover'
 import path from '@/constants/path'
-import { ChevronDownIcon } from '@radix-ui/react-icons'
-import clsx from 'clsx'
-import { NavLink } from 'react-router-dom'
 
 const popoverNavData = [
   {
@@ -25,36 +27,9 @@ const popoverNavData = [
 export default function NavHeader() {
   return (
     <nav className='flex items-center ml-12'>
-      <NavLink
-        to={path.home}
-        className={({ isActive }) =>
-          clsx('inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all', {
-            'text-primary font-bold': isActive
-          })
-        }
-      >
-        Trang chủ
-      </NavLink>
-      <NavLink
-        to={path.createQuestion}
-        className={({ isActive }) =>
-          clsx('inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all ml-6', {
-            'text-primary font-bold': isActive
-          })
-        }
-      >
-        Đặt câu hỏi
-      </NavLink>
-      <NavLink
-        to={path.questionLibrary}
-        className={({ isActive }) =>
-          clsx('inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all ml-6', {
-            'text-primary font-bold': isActive
-          })
-        }
-      >
-        Thư viện câu hỏi
-      </NavLink>
+      <NavLinkItem to={path.home} label='Trang chủ' />
+      <NavLinkItem to={path.createQuestion} label='Đặt câu hỏi' />
+      <NavLinkItem to={path.questionLibrary} label='Thư viện câu hỏi' />
       <Popover
         renderPopover={
           <ul className='px-6 py-2 text-center'>
@@ -63,7 +38,7 @@ export default function NavHeader() {
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    clsx('inline-block capitalize  hover:text-primary hover:transition-all text-sm mb-2', {
+                    clsx('inline-block capitalize hover:text-primary hover:transition-all text-sm mb-2', {
                       'text-primary font-bold': isActive
                     })
                   }
@@ -75,7 +50,7 @@ export default function NavHeader() {
           </ul>
         }
       >
-        <div className='ml-6 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all flex items-center'>
+        <div className='mx-2 cursor-pointer uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all flex items-center'>
           TƯ VẤN
           <ChevronDownIcon className='ml-1' />
         </div>
