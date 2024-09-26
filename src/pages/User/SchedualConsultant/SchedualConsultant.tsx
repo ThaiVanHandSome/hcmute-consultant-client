@@ -1,3 +1,4 @@
+import { getTeacherConsultantsByDepartment } from '@/apis/consultant.api'
 import { getAllDepartments } from '@/apis/department.api'
 import CheckboxCustom from '@/components/dev/Form/CheckboxCustom'
 import Editor from '@/components/dev/Form/Editor'
@@ -5,6 +6,7 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { Consultant } from '@/types/consultant.type'
 import { FormControlItem } from '@/types/utils.type'
 import { SchedualConsultantSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
@@ -40,6 +42,25 @@ export default function SchedualConsultant() {
     return generateSelectionData(data)
   }, [departments])
 
+  const departmentId = form.watch('departmentId')
+  console.log(departmentId)
+  const { data: consultants } = useQuery({
+    queryKey: ['teacher-consultants', departmentId],
+    queryFn: () => getTeacherConsultantsByDepartment(parseInt(departmentId)),
+    enabled: !!departmentId
+  })
+
+  // generate selection data from departments to use in selection component
+  const consultantsSelectionData: FormControlItem[] | undefined = useMemo(() => {
+    const data = consultants?.data.data
+    return data?.map((consultant: Consultant) => {
+      return {
+        value: String(consultant.id),
+        label: consultant.lastName + ' ' + consultant.firstName
+      }
+    })
+  }, [consultants])
+
   const onSubmit = form.handleSubmit((values) => {
     console.log(values)
   })
@@ -63,9 +84,9 @@ export default function SchedualConsultant() {
                   <div className='col-span-1'>
                     <SelectionCustom
                       control={form.control}
-                      name='departmentId'
+                      name='consultantId'
                       placeholder='Người tư vấn'
-                      data={departmentsSelectionData}
+                      data={consultantsSelectionData}
                     />
                   </div>
                 </div>

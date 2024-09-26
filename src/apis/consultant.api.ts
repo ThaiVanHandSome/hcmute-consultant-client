@@ -18,3 +18,10 @@ export const getConsultantsByDepartment = (departmentId: string) =>
 
 export const createRating = (body: RatingFormData) =>
   http.post<SuccessResponse<RatingFormData>>('user/rating/create', body)
+
+export const getTeacherConsultantsByDepartment = (departmentId: number) =>
+  http.get<SuccessResponse<Consultant[]>>('list-consultant-teacher-by-department', {
+    params: {
+      departmentId
+    }
+  })

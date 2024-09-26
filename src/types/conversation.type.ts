@@ -1,3 +1,10 @@
+export interface MemberConversation {
+  id: number
+  name: string
+  avatarUrl: string
+  sender: boolean
+}
+
 export interface Conversation {
   id: number
   department: {
@@ -7,11 +14,5 @@ export interface Conversation {
   name: string
   isGroup: boolean
   createdAt: string
-  members: {
-    id: number
-    name: string
-    avatarUrl: string
-    sender: boolean
-  }[]
+  members: MemberConversation[]
 }
-

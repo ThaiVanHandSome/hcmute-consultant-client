@@ -132,7 +132,7 @@ export default function Profile() {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
-      avatarUrl: '',
+      avatarUrl: profile?.data.data.avatarUrl as string,
       gender: values.gender,
       address: {
         line: values.line,
@@ -227,14 +227,7 @@ export default function Profile() {
         </div>
         <div className='col-span-2 flex items-center justify-center'>
           <div className='flex flex-col items-center'>
-            <img
-              src={
-                previewImage ||
-                'https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/435116190_1794745547688837_695033224121990189_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEFOc7dmSSU7vb15NsbXRVcAbRqSYGR-PMBtGpJgZH483la9c7bx87IipYQAJCmaNUFuB_I6V1GglCT7OUisAKa&_nc_ohc=Tfkhgvffv3cQ7kNvgERMbSU&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=ADHfltbhANdWHLfZtFl-Hqm&oh=00_AYDYXIj0aYVvkcSodbUivsAJUDUuTAQLGcbUF-sBdafZwQ&oe=66E1DC27'
-              }
-              alt='avatar'
-              className='size-56 rounded-full'
-            />
+            <img src={previewImage || profile?.data.data.avatarUrl} alt='avatar' className='size-56 rounded-full' />
             <Button variant='secondary' className='mt-4' onClick={() => btnChooseImageRef.current?.click()}>
               Chọn ảnh
             </Button>

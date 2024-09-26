@@ -37,7 +37,6 @@ export type UserConversationFormData = yup.InferType<typeof CreateConversationSc
 
 export default function Message() {
   const { role } = useContext(AppContext)
-  console.log(role)
   const { id } = useQueryParams()
   const navigate = useNavigate()
   const conversationQueryParams = useConversationQueryConfig()
@@ -83,7 +82,7 @@ export default function Message() {
 
   const { data: conversations, refetch } = useQuery({
     queryKey: ['conversations', conversationQueryParams],
-  queryFn: () => getConversations(conversationQueryParams)
+    queryFn: () => getConversations(conversationQueryParams)
   })
 
   const createConversationMutation = useMutation({

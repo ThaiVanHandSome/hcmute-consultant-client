@@ -1,7 +1,7 @@
 export interface User {
   id: number
-  username: string
   studentCode: string
+  username: string
   schoolName: string
   firstName: string
   lastName: string

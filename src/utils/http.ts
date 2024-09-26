@@ -55,13 +55,14 @@ class HTTP {
         return response
       },
       (error: AxiosError) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data: any | undefined = error.response?.data
         if (
           ![HttpStatusCode.Unauthorized, HttpStatusCode.UnprocessableEntity].includes(
             error.response?.status as HttpStatusCode
-          )
+          ) &&
+          !data?.type
         ) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const data: any | undefined = error.response?.data
           const message = data?.message || error.message
           toast({
             variant: 'destructive',
@@ -69,7 +70,7 @@ class HTTP {
             description: message
           })
         }
-        if (error.status === HttpStatusCode.Unauthorized) {
+        if (error.status === HttpStatusCode.Unauthorized && data?.type === 'EXPIRE_TOKEN') {
           const config = error.response?.config || ({ headers: {} } as InternalAxiosRequestConfig)
           const { url } = config
           if (url !== URL_REFRESH_TOKEN) {

@@ -55,10 +55,7 @@ export default function UserPopover() {
     >
       <div className='flex items-center cursor-pointer'>
         <Avatar className='size-9'>
-          <AvatarImage
-            src='https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/435116190_1794745547688837_695033224121990189_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEFOc7dmSSU7vb15NsbXRVcAbRqSYGR-PMBtGpJgZH483la9c7bx87IipYQAJCmaNUFuB_I6V1GglCT7OUisAKa&_nc_ohc=Tfkhgvffv3cQ7kNvgERMbSU&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=ADHfltbhANdWHLfZtFl-Hqm&oh=00_AYDYXIj0aYVvkcSodbUivsAJUDUuTAQLGcbUF-sBdafZwQ&oe=66E1DC27'
-            alt='avatar'
-          />
+          <AvatarImage src={user?.avatarUrl} alt='avatar' />
           <AvatarFallback>USER</AvatarFallback>
         </Avatar>
         <div className='font-bold text-sm ml-2'>

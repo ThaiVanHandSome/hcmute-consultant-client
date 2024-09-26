@@ -47,7 +47,7 @@ export default function ConsultantEvaluation() {
     queryFn: getAllDepartments
   })
 
-  // generate selection data from departments to use in selection component 
+  // generate selection data from departments to use in selection component
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = departments?.data.data
     return generateSelectionData(data)
@@ -59,8 +59,8 @@ export default function ConsultantEvaluation() {
     queryFn: () => getConsultantsByDepartment(departmentId),
     enabled: !!departmentId
   })
-  
-  // generate selection data from departments to use in selection component 
+
+  // generate selection data from departments to use in selection component
   const consultantsSelectionData: FormControlItem[] | undefined = useMemo(() => {
     const data = consultants?.data.data
     return data?.map((consultant: Consultant) => {

@@ -17,7 +17,6 @@ import { useContext } from 'react'
 import { AppContext } from '@/contexts/app.context'
 import { setUserToLocalStorage } from '@/utils/auth'
 import InputCustom from '@/components/dev/Form/InputCustom'
-import { toast } from '@/hooks/use-toast'
 
 type FormData = yup.InferType<typeof LoginSchema>
 
@@ -39,11 +38,6 @@ export default function Login() {
   const onSubmit = form.handleSubmit((values) => {
     loginMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          title: 'Thành công',
-          description: res.data.message
-        })
         setIsAuthenticated(true)
         setUser(res.data.data.user)
         setUserToLocalStorage(res.data.data.user)

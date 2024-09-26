@@ -50,7 +50,7 @@ export default function ListQuestion() {
 
   const questionJson = JSON.stringify(questions)
 
-  // add new question fetched to state list question 
+  // add new question fetched to state list question
   useEffect(() => {
     if (questions?.data.data.content) {
       setListQuestion((prev) => [...prev, ...questions.data.data.content])
@@ -61,7 +61,7 @@ export default function ListQuestion() {
     <div>
       <div>
         {listQuestion.map((question) => (
-          <Question key={question.title + question.createdAt} question={question} />
+          <Question key={question.id} question={question} />
         ))}
       </div>
       <div className='mt-4 flex items-center justify-center'>{isLoading && <Spinner />}</div>

@@ -19,7 +19,6 @@ export const getConsultantConversation = (params: ConversationQueryConfig) =>
 
 export const getConversations = (params: ConversationQueryConfig) => {
   const role = getRoleFromLocalStorage()
-  console.log(role)
   if (role === ROLE.user) {
     return http.get<SuccessResponse<PaginationResponse<Conversation[]>>>('user/conversation/list', {
       params
