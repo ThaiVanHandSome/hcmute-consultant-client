@@ -92,6 +92,7 @@ export default function CreateQuestion() {
 
   // handle question create process
   const onSubmit = form.handleSubmit((values) => {
+    values.content = `<div class="editor">${values.content}</div>`
     const params = omit(values, ['email']) as CreateQuestionRequest
     createQuestionMutation.mutate(
       { params, file },

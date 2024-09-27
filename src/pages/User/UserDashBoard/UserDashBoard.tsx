@@ -14,25 +14,36 @@ export default function UserDashBoard() {
     queryFn: getUserStatistics
   })
 
+  const renderStatisticItem = (label: string, value: number) => (
+    <div className='col-span-1 px-6 py-2 rounded-lg shadow-lg text-center'>
+      <div className='font-bold text-4xl mb-2 text-primary'>{value}</div>
+      <div className='text-sm'>{label}</div>
+    </div>
+  )
+
+  const statisticsData = [
+    {
+      label: 'Tổng số câu hỏi đã đặt ra',
+      value: userStatistics?.data.data.totalQuestions
+    },
+    {
+      label: 'Tổng số câu hỏi trên 500 like',
+      value: userStatistics?.data.data.questionsOver500Views
+    },
+    {
+      label: 'Tổng số lịch hẹn tư vấn',
+      value: userStatistics?.data.data.totalAppointments
+    },
+    {
+      label: 'Tổng số form đánh giá đã gửi',
+      value: userStatistics?.data.data.totalRatings
+    }
+  ]
+
   return (
     <div>
       <div className='grid grid-cols-4 gap-4'>
-        <div className='col-span-1 px-6 py-2 rounded-lg shadow-lg text-center'>
-          <div className='font-bold text-4xl mb-2 text-primary'>{userStatistics?.data.data.totalQuestions}</div>
-          <div className='text-sm'>Tổng số câu hỏi đã đặt ra</div>
-        </div>
-        <div className='col-span-1 px-6 py-2 rounded-lg shadow-lg text-center'>
-          <div className='font-bold text-4xl mb-2 text-primary'>{userStatistics?.data.data.questionsOver500Views}</div>
-          <div className='text-sm'>Tổng số câu hỏi trên 500 like</div>
-        </div>
-        <div className='col-span-1 px-6 py-2 rounded-lg shadow-lg text-center'>
-          <div className='font-bold text-4xl mb-2 text-primary'>{userStatistics?.data.data.totalAppointments}</div>
-          <div className='text-sm'>Tổng số lịch hẹn tư vấn</div>
-        </div>
-        <div className='col-span-1 px-6 py-2 rounded-lg shadow-lg text-center'>
-          <div className='font-bold text-4xl mb-2 text-primary'>{userStatistics?.data.data.totalRatings}</div>
-          <div className='text-sm'>Tổng số form đánh giá đã gửi</div>
-        </div>
+        {statisticsData.map((item) => renderStatisticItem(item.label, item.value as number))}
       </div>
       <Separator className='my-4' />
       <div className='mt-8'>

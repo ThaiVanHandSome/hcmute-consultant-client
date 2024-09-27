@@ -69,8 +69,36 @@
     @apply bg-background text-foreground;
   }
 
-  .quild {
-    height: 100px;
+  .editor h1 {
+    @apply font-bold text-4xl;
+  }
+
+  .editor h2 {
+    @apply font-bold text-3xl;
+  }
+
+  .editor h3 {
+    @apply font-bold text-2xl;
+  }
+
+  .editor h4 {
+    @apply font-bold text-xl;
+  }
+
+  .editor h5 {
+    @apply font-bold text-lg;
+  }
+
+  .editor ul {
+    @apply list-disc list-inside;
+  }
+
+  .editor ol {
+    @apply list-decimal list-inside;
+  }
+
+  .editor a {
+    @apply text-blue-500 underline hover:text-blue-700;
   }
 
   *::-webkit-scrollbar {
