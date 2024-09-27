@@ -1,11 +1,11 @@
+import clsx from 'clsx'
+import { GlobeIcon } from '@radix-ui/react-icons'
+
 import { Badge } from '@/components/ui/badge'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { questionStatus } from '@/constants/questionStatus'
-import { dialogViewType } from '@/pages/User/MyQuestion/MyQuestion'
 import { Question as QuestionType } from '@/types/question.type'
 import { formatDate } from '@/utils/utils'
-import { DotsHorizontalIcon, FileTextIcon, GlobeIcon, TrashIcon } from '@radix-ui/react-icons'
-import clsx from 'clsx'
+import QuestionActionDropdown from '@/components/dev/QuestionStatisticView/components/QuestionActionDropdown'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   readonly question: QuestionType
@@ -37,27 +37,7 @@ export default function QuestionStatisticView({ question, openDialog, setQuestio
         <div className='flex items-center'>
           {question.questionFilterStatus === questionStatus.deleted && <Badge variant='destructive'>Đã xóa</Badge>}
           <div className='ml-3'>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <DotsHorizontalIcon className='size-5 text-primary cursor-pointer' />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem
-                  onClick={() => handleOpenDialog(dialogViewType.detail)}
-                  className='flex items-center gap-1 text-primary font-semibold'
-                >
-                  <FileTextIcon />
-                  <span>Xem chi tiết</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleOpenDialog(dialogViewType.deleteConfirm)}
-                  className='flex items-center gap-1 text-destructive font-semibold'
-                >
-                  <TrashIcon />
-                  <span>Xóa câu hỏi</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <QuestionActionDropdown openDialog={handleOpenDialog} />
           </div>
         </div>
       </div>

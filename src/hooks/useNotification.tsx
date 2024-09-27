@@ -1,10 +1,12 @@
+import { useContext, useEffect, useRef } from 'react'
+
+import { Client, over } from 'stompjs'
+import SockJS from 'sockjs-client'
+import { useQueryClient } from '@tanstack/react-query'
+
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import { Notification } from '@/types/notification.type'
-import { useQueryClient } from '@tanstack/react-query'
-import { useContext, useEffect, useRef } from 'react'
-import SockJS from 'sockjs-client'
-import { Client, over } from 'stompjs'
 
 const useNotification = () => {
   const queryClient = useQueryClient()

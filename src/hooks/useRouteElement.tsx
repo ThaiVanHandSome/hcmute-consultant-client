@@ -1,8 +1,14 @@
+import { useContext } from 'react'
+
+import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+
 import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
+
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import UserLayout from '@/layouts/UserLayout'
+
 import ForgotPassword from '@/pages/Auth/ForgotPassword'
 import Login from '@/pages/Auth/Login'
 import Register from '@/pages/Auth/Register'
@@ -17,8 +23,6 @@ import Profile from '@/pages/User/Profile'
 import QuestionLibrary from '@/pages/User/QuestionLibrary'
 import SchedualConsultant from '@/pages/User/SchedualConsultant'
 import UserDashBoard from '@/pages/User/UserDashBoard'
-import { useContext } from 'react'
-import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)

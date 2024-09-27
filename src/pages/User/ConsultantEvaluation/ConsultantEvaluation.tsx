@@ -1,22 +1,18 @@
-import { createRating, getConsultantsByDepartment } from '@/apis/consultant.api'
-import { getAllDepartments } from '@/apis/department.api'
-import SelectionCustom from '@/components/dev/Form/SelectionCustom'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from '@tanstack/react-query'
+
+import { createRating } from '@/apis/consultant.api'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import { toast } from '@/hooks/use-toast'
-import Evaluation from '@/pages/User/ConsultantEvaluation/components/Evaluation'
-import { Consultant } from '@/types/consultant.type'
-import { FormControlItem } from '@/types/utils.type'
+import EvaluationChooseConsultant from '@/pages/User/ConsultantEvaluation/components/EvaluationChooseConsultant'
+import EvaluationForm from '@/pages/User/ConsultantEvaluation/components/EvaluationForm'
 import { RatingSchema } from '@/utils/rules'
-import { generateSelectionData } from '@/utils/utils'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import * as yup from 'yup'
 
 export type RatingFormData = yup.InferType<typeof RatingSchema>
 
@@ -42,35 +38,6 @@ export default function ConsultantEvaluation() {
 
   const navigate = useNavigate()
 
-  const { data: departments } = useQuery({
-    queryKey: ['departments'],
-    queryFn: getAllDepartments
-  })
-
-  // generate selection data from departments to use in selection component
-  const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
-    const data = departments?.data.data
-    return generateSelectionData(data)
-  }, [departments])
-
-  const departmentId = form.watch('departmentId')
-  const { data: consultants } = useQuery({
-    queryKey: ['consultantsByDepartment', departmentId],
-    queryFn: () => getConsultantsByDepartment(departmentId),
-    enabled: !!departmentId
-  })
-
-  // generate selection data from departments to use in selection component
-  const consultantsSelectionData: FormControlItem[] | undefined = useMemo(() => {
-    const data = consultants?.data.data
-    return data?.map((consultant: Consultant) => {
-      return {
-        value: String(consultant.id),
-        label: consultant.lastName + ' ' + consultant.firstName
-      }
-    })
-  }, [consultants])
-
   const createRatingMutation = useMutation({
     mutationFn: (body: RatingFormData) => createRating(body)
   })
@@ -88,6 +55,7 @@ export default function ConsultantEvaluation() {
       }
     })
   })
+
   return (
     <div>
       <div className='container'>
@@ -95,62 +63,10 @@ export default function ConsultantEvaluation() {
           <div className='w-3/4 bg-white px-6 py-2 rounded-lg shadow-lg mt-6'>
             <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>Đánh giá ban tư vấn</h1>
             <Form {...form}>
+              <EvaluationChooseConsultant form={form} />
               <form onSubmit={onSubmit}>
-                <div className='grid grid-cols-2 gap-4'>
-                  <div className='col-span-1'>
-                    <SelectionCustom
-                      control={form.control}
-                      name='departmentId'
-                      placeholder='Chọn phòng ban'
-                      data={departmentsSelectionData}
-                    />
-                  </div>
-                  <div className='col-span-1'>
-                    <SelectionCustom
-                      control={form.control}
-                      name='consultantId'
-                      placeholder='Chọn tư vấn viên'
-                      data={consultantsSelectionData}
-                    />
-                  </div>
-                </div>
                 <Separator className='mt-8 mb-4 col-span-12' />
-                <div className='grid grid-cols-12 mt-8 text-left text-sm'>
-                  <div className='col-span-12 grid grid-cols-12 text-center'>
-                    <div className='col-span-2'></div>
-                    <div className='col-span-2 font-bold text-destructive'>1 = Rất không hài lòng</div>
-                    <div className='col-span-2 font-bold text-yellow-500'>2 = Không hài lòng</div>
-                    <div className='col-span-2 font-bold text-cyan-400'>3 = Bình thường</div>
-                    <div className='col-span-2 font-bold text-purple-800'>4 = Hài lòng</div>
-                    <div className='col-span-2 font-bold text-green-700'>5 = Rất hài lòng</div>
-                  </div>
-                  <Separator className='my-4 col-span-12' />
-                  <Evaluation
-                    control={form.control}
-                    radioName='generalSatisfaction'
-                    inputName='generalComment'
-                    title='Mức độ hài lòng chung'
-                  />
-                  <Evaluation
-                    control={form.control}
-                    radioName='expertiseKnowledge'
-                    inputName='expertiseComment'
-                    title='Kiến thức chuyên môn'
-                  />
-                  <Evaluation control={form.control} radioName='attitude' inputName='attitudeComment' title='Thái độ' />
-                  <Evaluation
-                    control={form.control}
-                    radioName='responseSpeed'
-                    inputName='responseSpeedComment'
-                    title='Tốc độ phản hồi'
-                  />
-                  <Evaluation
-                    control={form.control}
-                    radioName='understanding'
-                    inputName='understandingComment'
-                    title='Sự dễ hiểu và chính xác'
-                  />
-                </div>
+                <EvaluationForm form={form} />
                 <Button
                   isLoading={createRatingMutation.isPending}
                   disabled={createRatingMutation.isPending}

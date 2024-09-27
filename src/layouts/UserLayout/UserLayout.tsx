@@ -1,8 +1,9 @@
+import { NavLink, Outlet } from 'react-router-dom'
+import clsx from 'clsx'
+import { DashboardIcon } from '@radix-ui/react-icons'
+
 import path from '@/constants/path'
 import { PencilSquare, QuestionCircle, UserIcon } from '@/icons'
-import { DashboardIcon } from '@radix-ui/react-icons'
-import clsx from 'clsx'
-import { NavLink, Outlet } from 'react-router-dom'
 
 const userNavData = [
   {
