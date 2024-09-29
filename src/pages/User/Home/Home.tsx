@@ -13,7 +13,7 @@ export default function Home() {
           <div className='ml-[320px] mr-[320px] px-16 flex-1'>
             <ListQuestion />
           </div>
-          <div className='w-[320px] fixed top-[var(--header-height)] right-16 pt-4'>
+          <div className='w-[360px] fixed top-[var(--header-height)] right-20 pt-4'>
             <ListConsultActivity />
           </div>
         </div>
