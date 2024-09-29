@@ -23,7 +23,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { ChevronDownIcon } from 'lucide-react'
 
 interface Props {
-  readonly data: Consultant[]
+  readonly data: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly columns: ColumnDef<any>[]
   readonly size?: number

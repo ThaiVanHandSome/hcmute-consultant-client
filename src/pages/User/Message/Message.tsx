@@ -77,9 +77,7 @@ export default function Message() {
             ))}
           </div>
         </div>
-        <div className='col-span-8'>
-          <Chat conversation={conversationActive} />
-        </div>
+        <div className='col-span-8'>{conversationActive && <Chat conversation={conversationActive} />}</div>
       </div>
     </div>
   )

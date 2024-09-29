@@ -10,3 +10,13 @@ export interface Consultant {
   avatarUrl: string
 }
 
+export interface SchedualConsultant {
+  id: number
+  department: {
+    id: number
+    name: string
+  }
+  consultantName: string
+  title: string
+  content: string
+}

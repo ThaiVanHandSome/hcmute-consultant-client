@@ -4,7 +4,7 @@ import ListQuestion from '@/pages/User/Home/components/ListQuestion'
 
 export default function Home() {
   return (
-    <div className='bg-primary-bg py-6'>
+    <div className='py-6'>
       <div className='container'>
         <div className='flex relative'>
           <div className='w-[320px] fixed top-[var(--header-height)] pt-4'>

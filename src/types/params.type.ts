@@ -24,6 +24,13 @@ export interface QuestionListConfig extends PaginationConfig {
   endDate: Date
 }
 
+export interface SchedualListConfig extends PaginationConfig {
+  departmentId: number
+  title: string
+  startDate: Date
+  endDate: Date
+}
+
 export interface ChatHistoryConfig extends PaginationConfig {
   conversationId: number
 }

@@ -1,25 +1,29 @@
 import { getTeacherConsultantsByDepartment } from '@/apis/consultant.api'
 import { getAllDepartments } from '@/apis/department.api'
+import { createUserConsultant } from '@/apis/user.api'
 import CheckboxCustom from '@/components/dev/Form/CheckboxCustom'
 import Editor from '@/components/dev/Form/Editor'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import path from '@/constants/path'
+import { toast } from '@/hooks/use-toast'
 import { Consultant } from '@/types/consultant.type'
 import { FormControlItem } from '@/types/utils.type'
 import { SchedualConsultantSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-type FormData = yup.InferType<typeof SchedualConsultantSchema>
+export type ConsultantSchedualFormData = yup.InferType<typeof SchedualConsultantSchema>
 
 export default function SchedualConsultant() {
-  const form = useForm<FormData>({
+  const form = useForm<ConsultantSchedualFormData>({
     defaultValues: {
       consultantId: 'qw',
       departmentId: '',
@@ -35,6 +39,8 @@ export default function SchedualConsultant() {
     queryKey: ['departments'],
     queryFn: getAllDepartments
   })
+
+  const navigate = useNavigate()
 
   // generate selection data
   const departmentsSelectionData: FormControlItem[] | undefined = useMemo(() => {
@@ -61,8 +67,22 @@ export default function SchedualConsultant() {
     })
   }, [consultants])
 
+  const createUserConsultantMutation = useMutation({
+    mutationFn: (body: ConsultantSchedualFormData) => createUserConsultant(body)
+  })
+
   const onSubmit = form.handleSubmit((values) => {
-    console.log(values)
+    values.content = `<div class="editor">${values.content}</div>`
+    createUserConsultantMutation.mutate(values, {
+      onSuccess: (res) => {
+        toast({
+          variant: 'success',
+          title: 'Thành công',
+          description: res.data.message
+        })
+        navigate(path.home)
+      }
+    })
   })
   return (
     <div>

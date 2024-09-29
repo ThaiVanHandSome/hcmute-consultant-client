@@ -23,7 +23,7 @@ export default function AsideNav() {
               className={clsx(
                 'text-left border-b border-slate-300 hover:bg-slate-200 hover:font-semibold transition-all text-sm hover:rounded-md',
                 {
-                  'bg-slate-200 font-semibold text-primary rounded-md': !queryConfig.departmentId
+                  'bg-primary text-primary-foreground font-semibold rounded-md': !queryConfig.departmentId
                 }
               )}
             >

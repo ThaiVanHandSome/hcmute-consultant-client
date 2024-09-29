@@ -11,7 +11,7 @@ export default function NavLinkItem({ to, label }: Props) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        clsx('inline-block uppercase font-semibold hover:font-bold hover:text-primary hover:transition-all mx-2', {
+        clsx('inline-block capitalize text-gray-500 hover:text-primary hover:transition-all mx-2', {
           'text-primary font-bold': isActive
         })
       }

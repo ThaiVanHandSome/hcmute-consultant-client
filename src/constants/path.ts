@@ -8,6 +8,7 @@ const path = {
   myQuestions: '/user/question',
   profile: '/user/profile',
   changePassword: '/user/change-password',
+  mySchedual: '/user/schedual-consutants',
   consultants: '/consultants',
   consultantEvaluation: '/consultant-evaluation',
   scheduleConsultant: '/schedule-consultant',

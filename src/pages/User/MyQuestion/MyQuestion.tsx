@@ -83,7 +83,6 @@ export default function MyQuestion() {
 
   return (
     <div>
-      <h1 className='text-primary font-bold capitalize mb-4'>Câu hỏi của bản thân</h1>
       <div>
         <div className='mb-6'>
           <MyQuestionFilter queryConfig={queryConfig} />

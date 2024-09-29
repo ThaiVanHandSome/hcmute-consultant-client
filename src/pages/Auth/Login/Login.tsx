@@ -61,8 +61,11 @@ export default function Login() {
   return (
     <div className='h-remain-screen'>
       <div className='grid grid-cols-12 h-full'>
-        <div className='col-span-5 px-4 py-6'>
-          <div className='shadow-lg rounded-lg px-6 py-4 bg-white'>
+        <div className='col-span-7'>
+          <img src={BackgroundImage} alt='bg' className='w-full h-full bg-center' />
+        </div>
+        <div className='col-span-5 px-4 py-6 flex items-center justify-center'>
+          <div className='px-6 py-4 bg-white w-full'>
             <h1 className='font-bold text-xl mb-4 text-center'>Đăng nhập</h1>
             <div>
               <Form {...form}>
@@ -113,9 +116,6 @@ export default function Login() {
               </Form>
             </div>
           </div>
-        </div>
-        <div className='col-span-7'>
-          <img src={BackgroundImage} alt='bg' className='w-full h-full bg-center' />
         </div>
       </div>
     </div>

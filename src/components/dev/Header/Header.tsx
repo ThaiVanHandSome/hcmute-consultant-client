@@ -20,8 +20,8 @@ export default function Header() {
         <a href={path.home}>
           <img src={LogoHCMUTE} alt='logo-hcmute' className='size-16 object-fit' />
         </a>
+        <NavHeader />
       </div>
-      <NavHeader />
       <div className='flex items-center'>
         {!isAuthenticated && (
           <div className='flex items-center'>

@@ -8,7 +8,7 @@ import { Form, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
-import { User } from '@/types/user.type'
+import { User, UserUpdate } from '@/types/user.type'
 import { FormControlItem } from '@/types/utils.type'
 import { setUserToLocalStorage } from '@/utils/auth'
 import { generateSelectionDataFromLocation } from '@/utils/utils'
@@ -96,7 +96,7 @@ export default function Profile() {
   }, [wards])
 
   const updateProfileMutation = useMutation({
-    mutationFn: (body: Omit<User, 'id'>) => updateProfile(body)
+    mutationFn: ({ params, file }: { params: UserUpdate; file?: File }) => updateProfile(params, file)
   })
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,7 +125,7 @@ export default function Profile() {
   }, [profile, form])
 
   const onSubmit = form.handleSubmit((values) => {
-    const payload: Omit<User, 'id'> = {
+    const params: UserUpdate = {
       username: values.username,
       studentCode: '',
       schoolName: values.schoolName,
@@ -134,30 +134,30 @@ export default function Profile() {
       phone: values.phone,
       avatarUrl: profile?.data.data.avatarUrl as string,
       gender: values.gender,
-      address: {
-        line: values.line,
-        provinceCode: values.provinceCode,
-        districtCode: values.districtCode,
-        wardCode: values.wardCode
-      },
+      addressLine: '',
+      provinceCode: values.provinceCode,
+      districtCode: values.districtCode,
+      wardCode: values.wardCode,
       email: values.email
     }
-    updateProfileMutation.mutate(payload, {
-      onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          title: 'Thành công',
-          description: res.data.message
-        })
-        setUser(payload as User)
-        setUserToLocalStorage(payload as User)
+    updateProfileMutation.mutate(
+      { params, file },
+      {
+        onSuccess: (res) => {
+          toast({
+            variant: 'success',
+            title: 'Thành công',
+            description: res.data.message
+          })
+          setUser(res.data.data)
+          setUserToLocalStorage(res.data.data)
+        }
       }
-    })
+    )
   })
 
   return (
     <div>
-      <h1 className='font-bold mb-4 text-primary'>Hồ Sơ Cá Nhân</h1>
       <div className='grid grid-cols-5'>
         <div className='col-span-3'>
           <Form {...form}>
@@ -225,7 +225,7 @@ export default function Profile() {
             </form>
           </Form>
         </div>
-        <div className='col-span-2 flex items-center justify-center'>
+        <div className='col-span-2'>
           <div className='flex flex-col items-center'>
             <img src={previewImage || profile?.data.data.avatarUrl} alt='avatar' className='size-56 rounded-full' />
             <Button variant='secondary' className='mt-4' onClick={() => btnChooseImageRef.current?.click()}>

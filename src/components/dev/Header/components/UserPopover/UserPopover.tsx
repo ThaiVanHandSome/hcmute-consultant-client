@@ -1,15 +1,15 @@
 import { useContext } from 'react'
 
-import { DashboardIcon } from '@radix-ui/react-icons'
+import { CalendarIcon, DashboardIcon } from '@radix-ui/react-icons'
 import { LogOutIcon } from 'lucide-react'
 
 import Popover from '@/components/dev/Popover'
 import path from '@/constants/path'
 import { QuestionCircle, UserIcon } from '@/icons'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { AppContext } from '@/contexts/app.context'
 import { clearLS } from '@/utils/auth'
 import UserPopoverItem from '@/components/dev/Header/components/UserPopover/components/UserPopoverItem'
+import AvatarCustom from '@/components/dev/AvatarCustom'
 
 export default function UserPopover() {
   const { setIsAuthenticated, user, setUser, setRole } = useContext(AppContext)
@@ -39,6 +39,17 @@ export default function UserPopover() {
         <>
           <QuestionCircle />
           <span className='ml-1'>Câu hỏi của tôi</span>
+        </>
+      ),
+      onClick: undefined
+    },
+    {
+      id: 2,
+      to: path.mySchedual,
+      children: (
+        <>
+          <CalendarIcon />
+          <span className='ml-1'>Lịch tư vấn của tôi</span>
         </>
       ),
       onClick: undefined
@@ -83,13 +94,7 @@ export default function UserPopover() {
       }
     >
       <div className='flex items-center cursor-pointer'>
-        <Avatar className='size-9'>
-          <AvatarImage src={user?.avatarUrl} alt='avatar' />
-          <AvatarFallback>USER</AvatarFallback>
-        </Avatar>
-        <div className='font-bold text-sm ml-2'>
-          {user?.firstName} {user?.lastName}
-        </div>
+        <AvatarCustom url={user?.avatarUrl} />
       </div>
     </Popover>
   )

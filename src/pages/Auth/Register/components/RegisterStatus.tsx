@@ -72,7 +72,7 @@ export default function RegisterStatus({ status }: Props) {
             <div className='mr-2 text-2xl flex items-center justify-center'>{item.icon}</div>
             <div>
               <p
-                className={clsx('font-bold text-md flex items-center', {
+                className={clsx('font-bold text-sm flex items-center', {
                   'text-green-500': checkStatus(item.status as RegisterStatusType) === 'isSuccess',
                   'text-cyan-400': checkStatus(item.status as RegisterStatusType) === 'inProgress'
                 })}
@@ -80,7 +80,7 @@ export default function RegisterStatus({ status }: Props) {
                 <span className='mr-1'>{item.heading}</span>
                 {checkStatus(item.status as RegisterStatusType) === 'isSuccess' && renderSuccessIcon()}
               </p>
-              <p className='text-gray-500 text-sm'>{item.description}</p>
+              <p className='text-gray-500 text-xs'>{item.description}</p>
             </div>
           </div>
           {index < registerStatusInfo.length - 1 && <div className='w-20 mx-4 h-[2px] bg-gray-500' />}

@@ -1,4 +1,4 @@
-import { RegisterFormData } from '@/pages/Auth/Register/Register'
+import { RegisterFormData } from '@/pages/Auth/Register/components/RegisterForm'
 import { AuthResponse } from '@/types/auth.type'
 import { SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'

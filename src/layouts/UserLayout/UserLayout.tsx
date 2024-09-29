@@ -1,9 +1,10 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import clsx from 'clsx'
-import { DashboardIcon } from '@radix-ui/react-icons'
+import { CalendarIcon, DashboardIcon } from '@radix-ui/react-icons'
 
 import path from '@/constants/path'
 import { PencilSquare, QuestionCircle, UserIcon } from '@/icons'
+import UserLayoutHeader from '@/layouts/UserLayout/components/UserLayoutHeader'
 
 const userNavData = [
   {
@@ -26,6 +27,12 @@ const userNavData = [
   },
   {
     id: 1,
+    path: path.mySchedual,
+    icon: <CalendarIcon className='size-5' />,
+    label: 'Lịch tư vấn của tôi'
+  },
+  {
+    id: 1,
     path: path.userDashBoard,
     icon: <DashboardIcon className='size-5' />,
     label: 'Thống kê'
@@ -34,18 +41,20 @@ const userNavData = [
 
 export default function UserLayout() {
   return (
-    <div className='bg-primary-bg'>
+    <div className='bg-white'>
       <div className='container'>
+        <UserLayoutHeader />
         <div className='grid grid-cols-12'>
-          <div className='col-span-3 py-16 px-4'>
+          <div className='col-span-3 pr-4'>
             <ul>
               {userNavData.map((item) => (
                 <li key={item.id} className='mb-2'>
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      clsx('font-semibold w-full px-2 py-1 flex items-center', {
-                        'text-primary': isActive
+                      clsx('font-semibold w-full px-2 py-2 text-sm flex items-center rounded-md', {
+                        'bg-primary text-primary-foreground': isActive,
+                        'hover:bg-gray-100': !isActive
                       })
                     }
                   >
@@ -56,7 +65,7 @@ export default function UserLayout() {
               ))}
             </ul>
           </div>
-          <div className='mt-12 col-span-9 rounded-md shadow px-4 py-2 bg-white'>
+          <div className='col-span-9 rounded-md shadow px-4 py-2 bg-white'>
             <Outlet />
           </div>
         </div>
