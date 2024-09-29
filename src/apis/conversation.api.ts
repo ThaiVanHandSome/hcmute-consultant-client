@@ -1,6 +1,6 @@
 import { ROLE } from '@/constants/role'
 import { ConversationQueryConfig } from '@/hooks/useConversationQueryConfig'
-import { UserConversationFormData } from '@/pages/User/Message/Message'
+import { UserConversationFormData } from '@/pages/User/Message/components/CreateNewConversation'
 import { Conversation } from '@/types/conversation.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import { getRoleFromLocalStorage } from '@/utils/auth'

@@ -24,7 +24,7 @@ export type ConsultantsFormData = yup.InferType<typeof ConsultantsSchema>
 export default function ConsultantFilter({ consultantQueryConfig }: Props) {
   const form = useForm<ConsultantsFormData>({
     defaultValues: {
-      departmentId: consultantQueryConfig.name,
+      departmentId: consultantQueryConfig.departmentId,
       name: consultantQueryConfig.name
     },
     resolver: yupResolver(ConsultantsSchema)

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import ChatMessage from './ChatMessage'
 import { Chat } from '@/types/chat.type'
 import { Conversation, MemberConversation } from '@/types/conversation.type'
+import AvatarCustom from '@/components/dev/AvatarCustom'
 
 interface Props {
   readonly conversation?: Conversation
@@ -56,11 +57,7 @@ export default function GroupedChatMessages({ conversation, chatData, sender, re
   return (
     <>
       <div className='flex flex-col items-center mt-3'>
-        <img
-          src={conversation?.isGroup ? sender?.avatarUrl : receivers?.[0].avatarUrl}
-          alt='reciever-avatar'
-          className='size-44 mb-2'
-        />
+        <AvatarCustom url={conversation?.isGroup ? sender?.avatarUrl : receivers?.[0].avatarUrl} className='size-44' />
         <p className='font-bold text-xl'>{conversation?.isGroup ? conversation.name : receivers?.[0].name}</p>
       </div>
       {groupedMessages.map((group) => {

@@ -35,7 +35,7 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
         render={() => (
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
-            <Select onValueChange={field.onChange} defaultValue={defaultValue}>
+            <Select onValueChange={field.onChange} value={field.value ? String(field.value) : undefined}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder={placeholder} />

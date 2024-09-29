@@ -1,4 +1,5 @@
 import { ConsultantQueryConfig } from '@/hooks/useConsultantQueryConfig'
+import { RatingQueryConfig } from '@/hooks/useRatingQueryConfig'
 import { RatingFormData } from '@/pages/User/ConsultantEvaluation/ConsultantEvaluation'
 import { Consultant } from '@/types/consultant.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
@@ -18,6 +19,11 @@ export const getConsultantsByDepartment = (departmentId: string) =>
 
 export const createRating = (body: RatingFormData) =>
   http.post<SuccessResponse<RatingFormData>>('user/rating/create', body)
+
+export const getAllRating = (params: RatingQueryConfig) =>
+  http.get<SuccessResponse<RatingFormData[]>>('user/rating/list', {
+    params
+  })
 
 export const getTeacherConsultantsByDepartment = (departmentId: number) =>
   http.get<SuccessResponse<Consultant[]>>('list-consultant-teacher-by-department', {

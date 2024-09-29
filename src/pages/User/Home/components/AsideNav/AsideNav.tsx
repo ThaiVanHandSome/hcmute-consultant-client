@@ -21,9 +21,10 @@ export default function AsideNav() {
           <ul>
             <li
               className={clsx(
-                'text-left border-b border-slate-300 hover:bg-slate-200 hover:font-semibold transition-all text-sm hover:rounded-md',
+                'text-left border-b border-slate-300 hover:font-semibold transition-all text-sm hover:rounded-md',
                 {
-                  'bg-primary text-primary-foreground font-semibold rounded-md': !queryConfig.departmentId
+                  'bg-primary text-primary-foreground font-semibold rounded-md': !queryConfig.departmentId,
+                  'hover:bg-slate-200': queryConfig.departmentId
                 }
               )}
             >
@@ -40,10 +41,11 @@ export default function AsideNav() {
               <li
                 key={department.id}
                 className={clsx(
-                  'text-left border-b border-slate-300 hover:bg-slate-200 hover:font-semibold transition-all text-sm hover:rounded-md',
+                  'text-left border-b border-slate-300 hover:font-semibold transition-all text-sm hover:rounded-md',
                   {
-                    'bg-slate-200 font-semibold text-primary rounded-md':
-                      parseInt(queryConfig.departmentId) === department.id
+                    'bg-primary text-primary-foreground font-semibold rounded-md':
+                      parseInt(queryConfig.departmentId) === department.id,
+                    'hover:bg-slate-200': parseInt(queryConfig.departmentId) !== department.id
                   }
                 )}
               >

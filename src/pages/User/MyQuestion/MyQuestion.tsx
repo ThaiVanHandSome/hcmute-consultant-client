@@ -14,10 +14,12 @@ import { toast } from '@/hooks/use-toast'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import Question from '@/components/dev/Question'
 import MyQuestionFilter from '@/pages/User/MyQuestion/components/MyQuestionFilter'
+import QuestionForm from '@/components/dev/QuestionForm'
 
 export const dialogViewType = {
   detail: 'detail',
-  deleteConfirm: 'delete-confirm'
+  deleteConfirm: 'delete-confirm',
+  updateQuestion: 'update-question'
 } as const
 
 export default function MyQuestion() {
@@ -34,7 +36,7 @@ export default function MyQuestion() {
   }
 
   const { data: questionsOfUser, refetch } = useQuery({
-    queryKey: ['questionsOfUser', queryConfig],
+    queryKey: ['questions-of-user', queryConfig],
     queryFn: () => getAllQuestionsOfUser(queryConfig)
   })
 
@@ -115,6 +117,7 @@ export default function MyQuestion() {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className='min-w-[800px] max-h-[80vh] overflow-y-auto mt-8'>
           {dialogView === dialogViewType.detail && <Question question={questionActive as QuestionType} />}
+          {dialogView === dialogViewType.updateQuestion && <QuestionForm question={questionActive} />}
           {dialogView === dialogViewType.deleteConfirm && renderConfirmDeleteQuestion()}
         </DialogContent>
       </Dialog>

@@ -20,6 +20,23 @@ export const createNewQuestion = (params: CreateQuestionRequest, file?: File) =>
     }
   )
 
+export const updateQuestion = (questionId: number, params: CreateQuestionRequest, file?: File) =>
+  http.put<SuccessResponse<string>>(
+    'user/question/update',
+    {
+      file
+    },
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      params: {
+        questionId,
+        ...params
+      }
+    }
+  )
+
 export const getAllQuestionStatus = () => http.get<SuccessResponse<QuestionStatus[]>>('list-filter-status-options')
 
 export const deleteUserQuestion = (id: number) =>

@@ -24,6 +24,7 @@ import QuestionLibrary from '@/pages/User/QuestionLibrary'
 import SchedualConsultant from '@/pages/User/SchedualConsultant'
 import UserDashBoard from '@/pages/User/UserDashBoard'
 import MySchedual from '@/pages/User/MySchedual'
+import MyRating from '@/pages/User/MyRating'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -121,6 +122,10 @@ export default function useRouteElement() {
             {
               path: path.changePassword,
               element: <ChangePassword />
+            },
+            {
+              path: path.myRating,
+              element: <MyRating />
             },
             {
               path: path.mySchedual,

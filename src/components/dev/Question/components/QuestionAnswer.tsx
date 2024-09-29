@@ -12,11 +12,11 @@ export default function QuestionAnswer({ question }: Props) {
       <div>
         <div className='rounded-3xl bg-[#f0f2f5] px-4 py-2'>
           <div className='font-bold text-sm'>
-            {question.answerUserFirstname} {question.answerUserLastname}
+            {question.answerUserLastname} {question.answerUserFirstname}
           </div>
           <div dangerouslySetInnerHTML={{ __html: question.answerContent }}></div>
         </div>
-        <div className='text-xs text-gray-400 ml-4'>{formatDate(question.answerCreatedAt)}</div>
+        <div className='text-[10px] text-gray-400 ml-4'>{formatDate(question.answerCreatedAt)}</div>
       </div>
     </div>
   )

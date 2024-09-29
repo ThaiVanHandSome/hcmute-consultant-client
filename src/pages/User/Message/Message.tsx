@@ -67,7 +67,7 @@ export default function Message() {
             {role === ROLE.user && <CreateNewConversation conversationQueryParams={conversationQueryParams} />}
           </div>
           <Separator className='mt-4' />
-          <div className='mt-3 flex-grow overflow-y-auto h-full px-4'>
+          <div className='mt-3 flex-grow overflow-y-auto h-full'>
             {conversations?.data.data.content.map((conversation: Conversation) => (
               <MessageItem
                 key={conversation.id}

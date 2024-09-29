@@ -31,6 +31,13 @@ export interface SchedualListConfig extends PaginationConfig {
   endDate: Date
 }
 
+export interface RatingListConfig extends PaginationConfig {
+  departmentId: number
+  consultantName: string
+  startDate: Date
+  endDate: Date
+}
+
 export interface ChatHistoryConfig extends PaginationConfig {
   conversationId: number
 }

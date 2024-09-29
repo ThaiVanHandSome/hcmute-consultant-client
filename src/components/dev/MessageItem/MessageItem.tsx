@@ -59,7 +59,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
     if (lastChat?.date) {
       const now = new Date().getTime()
       const sentTime = new Date(lastChat.date).getTime()
-      const diffInMinutes = Math.floor((now - sentTime) / (1000 * 60)) // Difference in minutes
+      const diffInMinutes = Math.floor((now - sentTime) / (1000 * 60))
 
       if (diffInMinutes < 1) {
         setElapsedTime('Vừa gửi')

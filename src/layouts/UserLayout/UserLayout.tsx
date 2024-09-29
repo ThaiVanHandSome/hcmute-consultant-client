@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import clsx from 'clsx'
-import { CalendarIcon, DashboardIcon } from '@radix-ui/react-icons'
+import { CalendarIcon, DashboardIcon, RulerHorizontalIcon } from '@radix-ui/react-icons'
 
 import path from '@/constants/path'
 import { PencilSquare, QuestionCircle, UserIcon } from '@/icons'
@@ -30,6 +30,12 @@ const userNavData = [
     path: path.mySchedual,
     icon: <CalendarIcon className='size-5' />,
     label: 'Lịch tư vấn của tôi'
+  },
+  {
+    id: 1,
+    path: path.myRating,
+    icon: <RulerHorizontalIcon className='size-5' />,
+    label: 'Đánh giá của tôi'
   },
   {
     id: 1,

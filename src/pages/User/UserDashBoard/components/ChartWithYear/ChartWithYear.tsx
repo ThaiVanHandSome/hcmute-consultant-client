@@ -12,18 +12,9 @@ import { useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
 import { SuccessResponse } from '@/types/utils.type'
 import { ChartStatistics } from '@/types/statistics.type'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
 
 interface Props {
-  readonly title: string
+  readonly year: string
   readonly label: string
   readonly getData: (n: number) => Promise<AxiosResponse<SuccessResponse<ChartStatistics[]>, any>>
   readonly keyFn: string
@@ -49,8 +40,7 @@ interface ChartDataType {
   value: number
 }
 
-export default function ChartWithYear({ title, label, getData, keyFn }: Props) {
-  const [year, setYear] = useState<string>('2024')
+export default function ChartWithYear({ year, label, getData, keyFn }: Props) {
   const [chartData, setChartData] = useState<ChartDataType[]>()
 
   const { data: statisticsData } = useQuery({
@@ -77,26 +67,6 @@ export default function ChartWithYear({ title, label, getData, keyFn }: Props) {
 
   return (
     <div>
-      <div className='flex justify-between items-center mb-2'>
-        <div className='mb-3 font-bold text-gray-500 italic'>{title}</div>
-        <div>
-          <Select defaultValue={year} onValueChange={setYear}>
-            <SelectTrigger className='w-[180px]'>
-              <SelectValue placeholder='Select a year' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Years</SelectLabel>
-                <SelectItem value='2020'>2020</SelectItem>
-                <SelectItem value='2021'>2021</SelectItem>
-                <SelectItem value='2022'>2022</SelectItem>
-                <SelectItem value='2023'>2023</SelectItem>
-                <SelectItem value='2024'>2024</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
       <ChartContainer config={chartConfig} className='min-h-[200px] w-full'>
         <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
