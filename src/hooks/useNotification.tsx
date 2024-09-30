@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
-import { Notification } from '@/types/notification.type'
+import { NotificationSocket } from '@/types/notification.type'
 
 const useNotification = () => {
   const queryClient = useQueryClient()
@@ -18,7 +18,7 @@ const useNotification = () => {
     queryClient.refetchQueries({
       queryKey: ['notifications']
     })
-    const notification: Notification = JSON.parse(payload.body)
+    const notification: NotificationSocket = JSON.parse(payload.body)
 
     toast({
       variant: 'default',

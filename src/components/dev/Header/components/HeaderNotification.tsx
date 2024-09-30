@@ -9,6 +9,7 @@ export default function HeaderNotification() {
     queryKey: ['notifications'],
     queryFn: getNotifications
   })
+
   return (
     <Popover
       placement='bottom'
@@ -16,9 +17,9 @@ export default function HeaderNotification() {
         <ul className='px-6 py-3'>
           {!notifications && <p className='text-sm'>Hiện chưa có thông báo nào!</p>}
           {notifications?.data.data.slice(0, 5).map((notification) => (
-            <li key={notification.data.time} className='py-2 border-b border-gray-300 group'>
-              <p className='group-hover:text-primary font-semibold mb-1 cursor-default'>{notification.data.content}</p>
-              <p className='text-xs text-slate-500'>{formatDate(notification.data.time, true)}</p>
+            <li key={notification.time} className='py-2 border-b border-gray-300 group'>
+              <p className='group-hover:text-primary font-semibold mb-1 cursor-default'>{notification.content}</p>
+              <p className='text-xs text-slate-500'>{formatDate(notification.time, true)}</p>
             </li>
           ))}
         </ul>
