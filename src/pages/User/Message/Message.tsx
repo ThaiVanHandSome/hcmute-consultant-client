@@ -21,6 +21,7 @@ export default function Message() {
   const navigate = useNavigate()
   const conversationQueryParams = useConversationQueryConfig()
   const [conversationActive, setConversationActive] = useState<Conversation>()
+  const [searchText, setSearchText] = useState<string>('')
 
   const { data: conversations } = useQuery({
     queryKey: ['conversations', conversationQueryParams],
@@ -29,12 +30,16 @@ export default function Message() {
 
   // when access to component, choose the first conversation and show it
   useEffect(() => {
-    if (!conversations?.data.data?.content || id) return
+    if (!conversations?.data.data?.content || id) {
+      setConversationActive(undefined)
+      return
+    }
     const data = conversations.data.data?.content
     if (data?.length !== 0) {
       navigate({
         pathname: path.messages,
         search: createSearchParams({
+          ...conversationQueryParams,
           id: String(data?.[0].id)
         }).toString()
       })
@@ -49,6 +54,17 @@ export default function Message() {
     setConversationActive(conversationActive as Conversation)
   }, [conversations, id])
 
+  const handleSearch = () => {
+    if (!searchText.trim()) return
+    navigate({
+      pathname: path.messages,
+      search: createSearchParams({
+        ...conversationQueryParams,
+        name: searchText
+      }).toString()
+    })
+  }
+
   return (
     <div className='bg-white'>
       <div className='grid grid-cols-12'>
@@ -60,9 +76,14 @@ export default function Message() {
           <div className='flex items-center'>
             <div className='flex items-center w-full border border-gray-200 rounded-md px-4 py-1 flex-1'>
               <div className='flex-1 flex-shrink-0'>
-                <input placeholder='Tìm kiếm' className='focus:outline-none focus:border-none text-sm w-full' />
+                <input
+                  value={searchText}
+                  placeholder='Tìm kiếm'
+                  className='focus:outline-none focus:border-none text-sm w-full'
+                  onChange={(e) => setSearchText((e.target as HTMLInputElement)?.value)}
+                />
               </div>
-              <MagnifyingGlassIcon className='size-7 text-gray-400 cursor-pointer' />
+              <MagnifyingGlassIcon className='size-7 text-gray-400 cursor-pointer' onClick={handleSearch} />
             </div>
             {role === ROLE.user && <CreateNewConversation conversationQueryParams={conversationQueryParams} />}
           </div>
