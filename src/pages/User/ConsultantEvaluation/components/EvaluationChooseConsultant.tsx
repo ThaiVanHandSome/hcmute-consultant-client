@@ -11,9 +11,10 @@ import { UseFormReturn } from 'react-hook-form'
 
 interface Props {
   readonly form: UseFormReturn<RatingFormData>
+  readonly isViewed?: boolean
 }
 
-export default function EvaluationChooseConsultant({ form }: Props) {
+export default function EvaluationChooseConsultant({ form, isViewed = false }: Props) {
   const { data: departments } = useQuery({
     queryKey: ['departments'],
     queryFn: getAllDepartments
@@ -51,6 +52,7 @@ export default function EvaluationChooseConsultant({ form }: Props) {
           name='departmentId'
           placeholder='Chọn phòng ban'
           data={departmentsSelectionData}
+          disabled={isViewed}
         />
       </div>
       <div className='col-span-1'>
@@ -59,6 +61,7 @@ export default function EvaluationChooseConsultant({ form }: Props) {
           name='consultantId'
           placeholder='Chọn tư vấn viên'
           data={consultantsSelectionData}
+          disabled={isViewed}
         />
       </div>
     </div>

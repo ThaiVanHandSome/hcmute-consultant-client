@@ -9,6 +9,13 @@ import http from '@/utils/http'
 export const createUserConversation = (body: UserConversationFormData) =>
   http.post<SuccessResponse<Conversation>>('user/conversation/create', body)
 
+export const deleteUserConversation = (conversationId: number) =>
+  http.delete<SuccessResponse<string>>('user/conversation/delete', {
+    params: {
+      conversationId
+    }
+  })
+
 export const getUserConversation = (params: ConversationQueryConfig) =>
   http.get<SuccessResponse<PaginationResponse<Conversation[]>>>('user/conversation/list', {
     params

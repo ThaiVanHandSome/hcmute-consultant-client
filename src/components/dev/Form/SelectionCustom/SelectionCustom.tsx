@@ -11,6 +11,7 @@ interface SelectionCustomProps<TFieldValues extends FieldValues = FieldValues> {
   readonly className?: string
   readonly data?: FormControlItem[]
   readonly defaultValue?: PathValue<TFieldValues, Path<TFieldValues>>
+  readonly disabled?: boolean
 }
 
 export default function SelectionCustom<TFieldValues extends FieldValues>({
@@ -20,7 +21,8 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
   placeholder,
   label,
   data,
-  defaultValue
+  defaultValue,
+  disabled = false
 }: SelectionCustomProps<TFieldValues>) {
   const { field } = useController({
     name,
@@ -35,7 +37,11 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
         render={() => (
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
-            <Select onValueChange={field.onChange} value={field.value ? String(field.value) : undefined}>
+            <Select
+              disabled={disabled}
+              onValueChange={field.onChange}
+              value={field.value ? String(field.value) : undefined}
+            >
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder={placeholder} />

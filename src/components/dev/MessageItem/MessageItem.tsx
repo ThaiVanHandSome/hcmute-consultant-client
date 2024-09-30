@@ -6,10 +6,15 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 import path from '@/constants/path'
 import { Conversation } from '@/types/conversation.type'
 import AvatarCustom from '@/components/dev/AvatarCustom'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ChatHistoryConfig } from '@/types/params.type'
 import { getChatHistory } from '@/apis/chat.api'
 import { AppContext } from '@/contexts/app.context'
+import { EllipsisIcon } from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { TrashIcon } from '@radix-ui/react-icons'
+import { deleteUserConversation } from '@/apis/conversation.api'
+import { toast } from '@/hooks/use-toast'
 
 interface Props {
   readonly conversationIdActive?: number
@@ -17,6 +22,8 @@ interface Props {
 }
 
 export default function MessageItem({ conversation, conversationIdActive }: Props) {
+  const queryClient = useQueryClient()
+
   const chatHistoryQueryConfig: ChatHistoryConfig = {
     conversationId: conversation?.id,
     page: 0,
@@ -51,6 +58,25 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
       search: createSearchParams({
         id: String(conversation.id)
       }).toString()
+    })
+  }
+
+  const deleteConversationMutation = useMutation({
+    mutationFn: (id: number) => deleteUserConversation(id)
+  })
+
+  const handleDeleteConversation = () => {
+    deleteConversationMutation.mutate(conversation.id, {
+      onSuccess: (res) => {
+        toast({
+          variant: 'success',
+          title: 'Thành công',
+          description: res.data.message
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['chat-history']
+        })
+      }
     })
   }
 
@@ -99,6 +125,22 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
             {lastMessage} . <span className='text-xs text-gray-400'>{elapsedTime}</span>
           </p>
         )}
+      </div>
+      <div className='flex items-center'>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <EllipsisIcon className='size-5' />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              className='text-sm text-destructive font-semibold cursor-pointer'
+              onClick={handleDeleteConversation}
+            >
+              <TrashIcon />
+              <span className='ml-1'>Xóa đoạn chat</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   )

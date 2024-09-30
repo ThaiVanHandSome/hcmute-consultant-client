@@ -9,6 +9,7 @@ interface EvaluationProps<TFieldValues extends FieldValues = FieldValues> {
   readonly radioName: FieldPath<TFieldValues>
   readonly inputName: FieldPath<TFieldValues>
   readonly className?: string
+  readonly isViewed?: boolean
 }
 
 export default function Evaluation<TFieldValues extends FieldValues>({
@@ -16,7 +17,8 @@ export default function Evaluation<TFieldValues extends FieldValues>({
   inputName,
   control,
   title,
-  className = 'col-span-12 grid grid-cols-12 mb-5'
+  className = 'col-span-12 grid grid-cols-12 mb-5',
+  isViewed = false
 }: EvaluationProps<TFieldValues>) {
   const dataRadioGroup: FormControlItem[] = Array(5)
     .fill(0)
@@ -37,13 +39,20 @@ export default function Evaluation<TFieldValues extends FieldValues>({
             control={control}
             data={dataRadioGroup}
             radioClassName='w-[20%] flex items-center justify-center'
+            disabled={isViewed}
           />
         </div>
       </div>
       <div className='col-span-12 grid grid-cols-12 mt-3 py-2 border-b border-gray-300'>
         <div className='col-span-2 flex items-center italic'>Nhận xét</div>
         <div className='col-span-10'>
-          <InputCustom name={inputName} control={control} placeholder='Nhận xét' className='w-full' />
+          <InputCustom
+            disabled={isViewed}
+            name={inputName}
+            control={control}
+            placeholder='Nhận xét'
+            className='w-full'
+          />
         </div>
       </div>
     </div>

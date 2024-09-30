@@ -1,6 +1,14 @@
 export interface Rating {
-  consultantId: ''
+  id: number
+  consultant: {
+    id: number
+    name: string
+  }
   department: {
+    id: number
+    name: string
+  }
+  user: {
     id: number
     name: string
   }

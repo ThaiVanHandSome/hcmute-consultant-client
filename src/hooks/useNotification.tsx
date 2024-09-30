@@ -19,10 +19,11 @@ const useNotification = () => {
       queryKey: ['notifications']
     })
     const notification: Notification = JSON.parse(payload.body)
+
     toast({
       variant: 'default',
       title: 'Thông báo',
-      description: notification.content
+      description: notification.data.content
     })
   }
 

@@ -29,13 +29,13 @@ export default function Message() {
 
   // when access to component, choose the first conversation and show it
   useEffect(() => {
-    if (!conversations || id) return
-    const data = conversations.data.data.content
-    if (data.length !== 0) {
+    if (!conversations?.data.data?.content || id) return
+    const data = conversations.data.data?.content
+    if (data?.length !== 0) {
       navigate({
         pathname: path.messages,
         search: createSearchParams({
-          id: String(data[0].id)
+          id: String(data?.[0].id)
         }).toString()
       })
     }
@@ -43,8 +43,8 @@ export default function Message() {
 
   // handle when user choose other conversation
   useEffect(() => {
-    if (!conversations) return
-    const data = conversations.data.data.content
+    if (!conversations?.data.data?.content) return
+    const data = conversations.data.data?.content
     const conversationActive = data.find((obj) => obj.id === parseInt(id))
     setConversationActive(conversationActive as Conversation)
   }, [conversations, id])
@@ -68,7 +68,7 @@ export default function Message() {
           </div>
           <Separator className='mt-4' />
           <div className='mt-3 flex-grow overflow-y-auto h-full'>
-            {conversations?.data.data.content.map((conversation: Conversation) => (
+            {conversations?.data.data?.content.map((conversation: Conversation) => (
               <MessageItem
                 key={conversation.id}
                 conversation={conversation}
