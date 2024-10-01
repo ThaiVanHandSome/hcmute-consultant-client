@@ -81,7 +81,7 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
         })
         setIsOpenModal(false)
         queryClient.invalidateQueries({
-          queryKey: [['conversations', conversationQueryParams]]
+          queryKey: ['conversations', conversationQueryParams]
         })
       }
     })

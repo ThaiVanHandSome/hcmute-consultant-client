@@ -2,7 +2,7 @@ import QuestionForm from '@/components/dev/QuestionForm'
 
 export default function CreateQuestion() {
   return (
-    <div className='py-6 bg-gray-100 min-h-[90vh]'>
+    <div className='py-6'>
       <div className='container'>
         <div className='flex justify-center '>
           <div className='w-2/3 bg-white px-6 py-3 shadow-lg rounded-lg'>

@@ -17,7 +17,7 @@ export default function Consultants() {
   })
 
   return (
-    <div className='bg-primary-bg py-6'>
+    <div className='bg-primary-bg py-6 min-h-[100vh]'>
       <div className='container'>
         <div className='flex justify-center'>
           <div className='w-[80%] bg-white px-2 py-4 shadow-lg rounded-lg'>

@@ -1,4 +1,5 @@
 import {
+  getUserConsultantScheduleStatistics,
   getUserConversationStatistics,
   getUserQuestionStatistics,
   getUserRatingStatistics,
@@ -24,27 +25,34 @@ import { useState } from 'react'
 const statisticType = {
   question: 'question',
   rating: 'rating',
-  conversation: 'conversation'
+  conversation: 'conversation',
+  consultantSchedule: 'consultant-schedule'
 } as const
 
 const statisticDataType = [
   {
-    type: 'question',
+    type: statisticType.question,
     label: 'Số câu hỏi',
     getData: getUserQuestionStatistics,
     keyFn: 'questions'
   },
   {
-    type: 'rating',
+    type: statisticType.rating,
     label: 'Số bài đánh giá',
     getData: getUserRatingStatistics,
     keyFn: 'ratings'
   },
   {
-    type: 'conversation',
+    type: statisticType.conversation,
     label: 'Số cuộc hội thoại',
     getData: getUserConversationStatistics,
     keyFn: 'conversations'
+  },
+  {
+    type: statisticType.consultantSchedule,
+    label: 'Số lịch tư vấn',
+    getData: getUserConsultantScheduleStatistics,
+    keyFn: 'consultant-schedule'
   }
 ] as const
 
@@ -59,7 +67,7 @@ export default function UserDashBoard() {
 
   const renderStatisticItem = (label: string, value: number) => (
     <div className='col-span-1 px-6 py-2 rounded-lg shadow-lg text-center'>
-      <div className='font-bold text-4xl mb-2 text-primary'>{value}</div>
+      <div className='font-bold text-4xl mb-2 text-primary text-[#2563eb]'>{value}</div>
       <div className='text-sm'>{label}</div>
     </div>
   )
@@ -100,7 +108,9 @@ export default function UserDashBoard() {
             <SelectContent className='w-[180px]'>
               <SelectGroup>
                 {statisticDataType.map((item) => (
-                  <SelectItem value={item?.type}>{item?.label}</SelectItem>
+                  <SelectItem key={item.type} value={item?.type}>
+                    {item?.label}
+                  </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>

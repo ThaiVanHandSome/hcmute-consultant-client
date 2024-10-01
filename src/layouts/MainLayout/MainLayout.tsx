@@ -4,7 +4,7 @@ export default function MainLayout({ children }: { readonly children: React.Reac
   return (
     <div>
       <Header />
-      <div className='bg-white mt-[var(--header-height)] min-h-[80vh]'>{children}</div>
+      <div className='bg-slate-100 mt-[var(--header-height)] min-h-remain-screen'>{children}</div>
     </div>
   )
 }

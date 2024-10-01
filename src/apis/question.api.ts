@@ -8,6 +8,8 @@ export const getAllQuestion = (params: QuestionQueryConfig) =>
     params
   })
 
+export const getCommonQuestion = () => http.get<SuccessResponse<PaginationResponse<Question[]>>>('list-common-question')
+
 export const createNewQuestion = (params: CreateQuestionRequest, file?: File) =>
   http.post<SuccessResponse<CreateQuestionResponse>>(
     'user/question/create',

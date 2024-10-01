@@ -24,3 +24,10 @@ export const getUserConversationStatistics = (year: number) =>
       year
     }
   })
+
+export const getUserConsultantScheduleStatistics = (year: number) =>
+  http.get<SuccessResponse<ChartStatistics>[]>('user/statistics/consultationSchedule/yearly', {
+    params: {
+      year
+    }
+  })

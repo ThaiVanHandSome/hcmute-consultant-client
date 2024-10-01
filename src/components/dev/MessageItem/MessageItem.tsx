@@ -15,6 +15,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { TrashIcon } from '@radix-ui/react-icons'
 import { deleteUserConversation } from '@/apis/conversation.api'
 import { toast } from '@/hooks/use-toast'
+import useConversationQueryConfig from '@/hooks/useConversationQueryConfig'
 
 interface Props {
   readonly conversationIdActive?: number
@@ -24,6 +25,7 @@ interface Props {
 export default function MessageItem({ conversation, conversationIdActive }: Props) {
   const queryClient = useQueryClient()
 
+  const conversationQueryParams = useConversationQueryConfig()
   const chatHistoryQueryConfig: ChatHistoryConfig = {
     conversationId: conversation?.id,
     page: 0,
@@ -74,7 +76,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
           description: res.data.message
         })
         queryClient.invalidateQueries({
-          queryKey: ['chat-history']
+          queryKey: ['conversations', conversationQueryParams]
         })
       }
     })

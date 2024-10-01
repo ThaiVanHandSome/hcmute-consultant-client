@@ -66,7 +66,7 @@ export default function Message() {
   }
 
   return (
-    <div className='bg-white'>
+    <div className='bg-white h-full'>
       <div className='grid grid-cols-12'>
         <div className='col-span-4 px-4 border-r border-gray-300 flex flex-col h-remain-screen'>
           <h1 className='font-semibold text-xl mb-2 text-primary flex items-center pt-3'>

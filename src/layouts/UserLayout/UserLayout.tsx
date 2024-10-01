@@ -47,7 +47,7 @@ const userNavData = [
 
 export default function UserLayout() {
   return (
-    <div className='bg-white'>
+    <div className='bg-white min-h-remain-screen'>
       <div className='container'>
         <UserLayoutHeader />
         <div className='grid grid-cols-12'>
