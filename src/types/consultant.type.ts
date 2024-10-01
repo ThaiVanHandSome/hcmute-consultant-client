@@ -19,4 +19,6 @@ export interface SchedualConsultant {
   consultantName: string
   title: string
   content: string
+  mode: boolean
+  statusPublic: boolean
 }

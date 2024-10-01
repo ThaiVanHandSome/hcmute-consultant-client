@@ -17,9 +17,19 @@ export const columns: ColumnDef<SchedualConsultant>[] = [
     cell: ({ row }) => <div className='capitalize font-semibold'>{row.getValue('consultantName')}</div>
   },
   {
+    accessorKey: 'mode',
+    header: 'Hình thức',
+    cell: ({ row }) => <div className='capitalize '>{row.getValue('mode') ? 'Online' : 'Offline'}</div>
+  },
+  {
+    accessorKey: 'statusPublic',
+    header: 'Trạng thái',
+    cell: ({ row }) => <div className='capitalize '>{row.getValue('statusPublic') ? 'Công khai' : 'Riêng tư'}</div>
+  },
+  {
     accessorKey: 'title',
     header: 'Tiêu đề',
-    cell: ({ row }) => <div className='capitalize font-semibold'>{row.getValue('title')}</div>
+    cell: ({ row }) => <div className='capitalize '>{row.getValue('title')}</div>
   },
   {
     accessorKey: 'content',
