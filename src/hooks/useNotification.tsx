@@ -7,6 +7,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import { NotificationSocket } from '@/types/notification.type'
+import { playNotificationSound, registerUserInteraction } from '@/utils/utils'
 
 const useNotification = () => {
   const queryClient = useQueryClient()
@@ -25,6 +26,7 @@ const useNotification = () => {
       title: 'Thông báo',
       description: notification.data.content
     })
+    playNotificationSound()
   }
 
   const onConnected = () => {
@@ -44,6 +46,7 @@ const useNotification = () => {
 
   useEffect(() => {
     if (user?.id) {
+      registerUserInteraction()
       connect()
     }
     return () => {

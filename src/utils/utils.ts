@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControlItem } from '@/types/utils.type'
 import axios, { AxiosError, HttpStatusCode } from 'axios'
+import audioNotice from '@/assets/audios/audio_notification.mp3'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   return axios.isAxiosError(error)
@@ -70,5 +71,35 @@ export const parseJWT = (token: string) => {
   } catch (e) {
     console.error('Invalid JWT format', e)
     return null
+  }
+}
+
+let userInteracted = false
+export const registerUserInteraction = () => {
+  if (!userInteracted) {
+    document.addEventListener(
+      'click',
+      () => {
+        userInteracted = true
+      },
+      { once: true }
+    )
+
+    document.addEventListener(
+      'keydown',
+      () => {
+        userInteracted = true
+      },
+      { once: true }
+    )
+  }
+}
+
+export const playNotificationSound = () => {
+  if (userInteracted) {
+    const audio = new Audio(audioNotice)
+    audio.play().catch((error) => {
+      console.error('Error playing sound:', error)
+    })
   }
 }

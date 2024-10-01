@@ -3,6 +3,7 @@ import { AppContext } from '@/contexts/app.context'
 import useNotification from '@/hooks/useNotification'
 import useRouteElement from '@/hooks/useRouteElement'
 import { AuthenticationTarget } from '@/utils/auth'
+import { playNotificationSound } from '@/utils/utils'
 import { useContext, useEffect } from 'react'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       behavior: 'smooth'
     })
   }, [location])
+
   return (
     <>
       {routeElement} <Toaster />
