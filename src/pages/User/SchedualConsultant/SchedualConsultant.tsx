@@ -7,6 +7,7 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { toast } from '@/hooks/use-toast'
 import { Consultant } from '@/types/consultant.type'
@@ -14,7 +15,9 @@ import { FormControlItem } from '@/types/utils.type'
 import { SchedualConsultantSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { FileIcon, RocketIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { MailWarningIcon } from 'lucide-react'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -87,17 +90,21 @@ export default function SchedualConsultant() {
   return (
     <div>
       <div className='container'>
-        <div className='flex justify-center'>
-          <div className='bg-white px-6 py-2 w-3/4 rounded-lg shadow-lg mt-6'>
-            <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>Đặt lịch tư vấn</h1>
+        <div className='grid grid-cols-12 gap-4'>
+          <div className='bg-white px-6 py-2 col-span-9 rounded-lg shadow-lg mt-6'>
+            <h1 className='font-bold text-2xl text-left uppercase mb-6 text-primary'>Đặt lịch tư vấn</h1>
             <Form {...form}>
               <form onSubmit={onSubmit}>
-                <div className='w-full grid grid-cols-2 gap-4 mb-3'>
+                <Label className='text-lg italic flex items-center'>
+                  <RocketIcon className='size-5 mr-1' /> Nơi tiếp nhận
+                </Label>
+                <div className='w-full grid grid-cols-2 gap-4 mb-6 mt-1'>
                   <div className='col-span-1'>
                     <SelectionCustom
                       control={form.control}
                       name='departmentId'
                       placeholder='Đơn vị'
+                      label='Đơn vị'
                       data={departmentsSelectionData}
                     />
                   </div>
@@ -105,18 +112,55 @@ export default function SchedualConsultant() {
                     <SelectionCustom
                       control={form.control}
                       name='consultantId'
-                      placeholder='Người tư vấn'
+                      placeholder='Tư vấn viên'
+                      label='Tư vấn viên'
                       data={consultantsSelectionData}
                     />
                   </div>
                 </div>
-                <InputCustom control={form.control} name='title' placeholder='Tiêu đề' label='Tiêu đề' />
+                <Label className='italic text-lg flex items-center'>
+                  <FileIcon className='size-5 mr-1' /> Nội dung câu hỏi
+                </Label>
+                <InputCustom
+                  className='mt-1 mb-3'
+                  control={form.control}
+                  name='title'
+                  placeholder='Tiêu đề'
+                  label='Tiêu đề'
+                />
                 <Editor label='Nội dung' control={form.control} name='content' />
                 <CheckboxCustom control={form.control} name='statusPublic' label='Chế độ công khai' />
                 <CheckboxCustom control={form.control} name='mode' label='Online' />
-                <Button type='submit'>Đặt lịch</Button>
+                <div className='flex items-center justify-center'>
+                  <Button type='submit' className='w-1/3'>
+                    Đặt lịch
+                  </Button>
+                </div>
               </form>
             </Form>
+          </div>
+          <div className='col-span-3 mt-6'>
+            <div className='px-4 py-4 bg-white rounded-lg shadow-md mb-6'>
+              <p className='text-xl font-semibold text-blue-600 mb-2 uppercase'>Tiêu chí</p>
+              <p className='text-md text-gray-700 mb-3'>
+                Nếu bạn muốn gặp mặt trực tiếp hoặc online tư vấn viên, hãy đặt lịch tư vấn tại đây
+              </p>
+              <p className='text-md text-gray-700 mb-3'>
+                Sau khi đặt lịch, sẽ mất khoảng <strong>3 ngày</strong> để yêu cầu của bạn được xem xét và được duyệt.
+                Hãy chú ý thông báo nhé!
+              </p>
+              <div className='px-4 py-3 bg-red-100 border-l-4 border-red-600 text-red-700 mb-3 rounded'>
+                <p className='text-md font-bold mb-1 flex items-center'>
+                  <MailWarningIcon className='mr-1' />
+                  Cảnh báo:
+                </p>
+                <p className='text-md'>
+                  Vui lòng không đặt lịch tư vấn nếu không có nhu cầu. Nếu như bạn hủy lịch tư vấn với một lý do{' '}
+                  <strong>không chính đáng</strong>, bạn sẽ bị <strong>khóa tài khoản</strong>. Nếu bạn muốn mở lại tài
+                  khoản, vui lòng liên hệ quản trị viên.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

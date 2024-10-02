@@ -11,13 +11,17 @@ import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { toast } from '@/hooks/use-toast'
 import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
+import { UserIcon } from '@/icons'
+import { guideTypes } from '@/pages/User/CreateQuestion/CreateQuestion'
 import { CreateQuestionRequest, Question } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
 import { CreateQuestionSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { FileIcon, RocketIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { omit } from 'lodash'
+import { User2Icon } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -25,11 +29,25 @@ import * as yup from 'yup'
 
 interface Props {
   readonly question?: Question
+  readonly setGuideActive?: React.Dispatch<
+    React.SetStateAction<
+      | 'department'
+      | 'field'
+      | 'role'
+      | 'studentId'
+      | 'firstName'
+      | 'lastName'
+      | 'email'
+      | 'title'
+      | 'content'
+      | undefined
+    >
+  >
 }
 
 type FormData = yup.InferType<typeof CreateQuestionSchema>
 
-export default function QuestionForm({ question }: Props) {
+export default function QuestionForm({ question, setGuideActive }: Props) {
   const isUpdate = !!question
 
   const queryClient = useQueryClient()
@@ -168,19 +186,30 @@ export default function QuestionForm({ question }: Props) {
     setFile(fileFromLocal)
   }
 
+  const handleFocus = (fieldName: keyof typeof guideTypes) => {
+    if (setGuideActive) {
+      setGuideActive(fieldName)
+    }
+  }
+
   return (
     <>
       {isFormReset.current && (
         <Form {...form}>
           <form onSubmit={onSubmit}>
-            <div className='grid grid-cols-12 gap-2 mb-4'>
+            <Label className='text-lg italic flex items-center'>
+              <RocketIcon className='size-5 mr-1' /> Nơi tiếp nhận
+            </Label>
+            <div className='grid grid-cols-8 gap-2 mb-6 mt-1'>
               <div className='col-span-4'>
                 <SelectionCustom
                   control={form.control}
                   name='departmentId'
                   placeholder='Đơn vị'
+                  label='Đơn vị'
                   data={departmentsSelectionData}
                   defaultValue={String(question?.department.id)}
+                  onFocus={() => handleFocus(guideTypes.department)}
                 />
               </div>
               <div className='col-span-4'>
@@ -188,8 +217,33 @@ export default function QuestionForm({ question }: Props) {
                   control={form.control}
                   name='fieldId'
                   placeholder='Lĩnh vực'
+                  label='Lĩnh vực'
                   data={fieldsSelectionData}
                   defaultValue={String(question?.field.id)}
+                  onFocus={() => handleFocus(guideTypes.field)}
+                />
+              </div>
+            </div>
+            <Label className='text-lg italic flex items-center'>
+              <User2Icon className='size-5 mr-1' /> Thông tin cá nhân
+            </Label>
+            <div className='grid grid-cols-12 gap-4 mt-1'>
+              <div className='col-span-4'>
+                <InputCustom
+                  onFocus={() => handleFocus(guideTypes.firstName)}
+                  control={form.control}
+                  name='firstName'
+                  placeholder='Họ'
+                  label='Họ'
+                />
+              </div>
+              <div className='col-span-4'>
+                <InputCustom
+                  onFocus={() => handleFocus(guideTypes.lastName)}
+                  control={form.control}
+                  name='lastName'
+                  placeholder='Tên'
+                  label='Tên'
                 />
               </div>
               <div className='col-span-4'>
@@ -199,27 +253,42 @@ export default function QuestionForm({ question }: Props) {
                   placeholder='Vai trò'
                   data={roleAskSelectionData}
                   defaultValue={String(question?.roleAsk.id)}
+                  onFocus={() => handleFocus(guideTypes.role)}
+                  label='Vai trò'
                 />
               </div>
             </div>
-            <div className='grid grid-cols-12 gap-4'>
-              <div className='col-span-4'>
-                <InputCustom control={form.control} name='studentCode' placeholder='Mã số sinh viên' />
+            <div className='grid grid-cols-12 gap-3 mb-4'>
+              <div className='col-span-8'>
+                <InputCustom
+                  onFocus={() => handleFocus(guideTypes.email)}
+                  control={form.control}
+                  name='email'
+                  placeholder='Email'
+                  label='Email'
+                />
               </div>
               <div className='col-span-4'>
-                <InputCustom control={form.control} name='firstName' placeholder='Họ' />
-              </div>
-              <div className='col-span-4'>
-                <InputCustom control={form.control} name='lastName' placeholder='Tên' />
+                <InputCustom
+                  onFocus={() => handleFocus(guideTypes.studentId)}
+                  control={form.control}
+                  name='studentCode'
+                  placeholder='Mã số sinh viên'
+                  label='Mã số sinh viên'
+                />
               </div>
             </div>
-            <div className='grid grid-cols-12 gap-3'>
-              <div className='col-span-5'>
-                <InputCustom control={form.control} name='email' placeholder='Email' />
-              </div>
-              <div className='col-span-7'>
-                <InputCustom control={form.control} name='title' placeholder='Tiêu đề' />
-              </div>
+            <Label className='italic text-lg flex items-center'>
+              <FileIcon className='size-5 mr-1' /> Nội dung câu hỏi
+            </Label>
+            <div className='w-full mt-1'>
+              <InputCustom
+                onFocus={() => handleFocus(guideTypes.title)}
+                control={form.control}
+                name='title'
+                placeholder='Tiêu đề'
+                label='Tiêu đề'
+              />
             </div>
             <Editor control={form.control} name='content' label='Nội dung' />
             <div className='mb-4'>

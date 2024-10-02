@@ -12,8 +12,8 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function Question({ question, className }: Props) {
   return (
-    <div className={clsx(className, 'bg-white')}>
-      <div className='px-4 py-3 rounded-lg shadow-md mb-6'>
+    <div className={clsx(className, 'bg-white rounded-lg shadow')}>
+      <div className='px-4 py-3 mb-6'>
         <QuestionHeader question={question} />
         <QuestionContent question={question} />
         {question.answerContent && (

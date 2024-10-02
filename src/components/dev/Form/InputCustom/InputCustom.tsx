@@ -18,7 +18,8 @@ export default function InputCustom<TFieldValues extends FieldValues>({
   control,
   disabled,
   className = 'mb-3',
-  classNameInput = ''
+  classNameInput = '',
+  onFocus
 }: InputCustomProps<TFieldValues>) {
   const { field } = useController({ name, control })
 
@@ -31,7 +32,14 @@ export default function InputCustom<TFieldValues extends FieldValues>({
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
-              <Input className={classNameInput} disabled={disabled} type={type} placeholder={placeholder} {...field} />
+              <Input
+                onFocus={onFocus}
+                className={classNameInput}
+                disabled={disabled}
+                type={type}
+                placeholder={placeholder}
+                {...field}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
