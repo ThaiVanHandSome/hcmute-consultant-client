@@ -1,5 +1,10 @@
-import { User } from '@/types/user.type'
-import { getAccessTokenFromLocalStorage, getRoleFromLocalStorage, getUserFromLocalStorate } from '@/utils/auth'
+import { User, UserOnline } from '@/types/user.type'
+import {
+  getAccessTokenFromLocalStorage,
+  getOnlineUsersFromLocalStorate,
+  getRoleFromLocalStorage,
+  getUserFromLocalStorate
+} from '@/utils/auth'
 import { createContext, useState } from 'react'
 
 interface AppContextInterface {
@@ -10,6 +15,8 @@ interface AppContextInterface {
   reset: () => void
   role: string
   setRole: React.Dispatch<React.SetStateAction<string>>
+  onlineUsers: UserOnline[] | null
+  setOnlineUsers: React.Dispatch<React.SetStateAction<UserOnline[] | null>>
 }
 
 const initialAppContext: AppContextInterface = {
@@ -19,7 +26,9 @@ const initialAppContext: AppContextInterface = {
   setUser: () => null,
   reset: () => null,
   role: getRoleFromLocalStorage(),
-  setRole: () => null
+  setRole: () => null,
+  onlineUsers: getOnlineUsersFromLocalStorate(),
+  setOnlineUsers: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
@@ -27,6 +36,7 @@ export const AppContext = createContext<AppContextInterface>(initialAppContext)
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
   const [user, setUser] = useState<User | null>(initialAppContext.user)
+  const [onlineUsers, setOnlineUsers] = useState<UserOnline[] | null>(initialAppContext.onlineUsers ?? [])
   const [role, setRole] = useState<string>(initialAppContext.role)
 
   const reset = () => {
@@ -43,7 +53,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setUser,
         reset,
         role,
-        setRole
+        setRole,
+        onlineUsers,
+        setOnlineUsers
       }}
     >
       {children}

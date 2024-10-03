@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Client, over } from 'stompjs'
 import SockJS from 'sockjs-client'
@@ -10,12 +10,14 @@ import { ChatHistoryConfig } from '@/types/params.type'
 import ChatInput from '@/components/dev/Chat/components/ChatInput'
 import ChatHistory from '@/components/dev/Chat/components/ChatHistory'
 import ChatHeader from '@/components/dev/Chat/components/ChatHeader'
+import { AppContext } from '@/contexts/app.context'
 
 interface Props {
   readonly conversation: Conversation | undefined
 }
 
 export default function Chat({ conversation }: Props) {
+  const { onlineUsers } = useContext(AppContext)
   const chatHistoryQueryConfig: ChatHistoryConfig = {
     conversationId: conversation?.id as number,
     page: 0,
@@ -59,7 +61,12 @@ export default function Chat({ conversation }: Props) {
   const connect = () => {
     const Sock = new SockJS('http://localhost:8080/ws')
     stompClient.current = over(Sock)
-    stompClient.current.connect({}, onConnected, onError)
+
+    const accessToken = localStorage.getItem('accessToken')
+    const headers = {
+      Authorization: 'Bearer ' + accessToken
+    }
+    stompClient.current.connect(headers, onConnected, onError)
   }
 
   const disconnect = () => {

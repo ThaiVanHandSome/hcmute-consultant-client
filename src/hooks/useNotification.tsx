@@ -41,7 +41,12 @@ const useNotification = () => {
   const connect = () => {
     const Sock = new SockJS('http://localhost:8080/ws')
     stompClient.current = over(Sock)
-    stompClient.current.connect({}, onConnected, onError)
+
+    const accessToken = localStorage.getItem('accessToken')
+    const headers = {
+      Authorization: 'Bearer ' + accessToken
+    }
+    stompClient.current.connect(headers, onConnected, onError)
   }
 
   useEffect(() => {

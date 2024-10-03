@@ -1,4 +1,4 @@
-import { User } from '@/types/user.type'
+import { User, UserOnline } from '@/types/user.type'
 
 export const AuthenticationTarget = new EventTarget()
 
@@ -33,6 +33,14 @@ export const getUserFromLocalStorate = () => {
 
 export const setUserToLocalStorage = (user: User) => {
   localStorage.setItem('user', JSON.stringify(user))
+}
+
+export const getOnlineUsersFromLocalStorate = () => {
+  return localStorage.getItem('onlineUsers') ? JSON.parse(localStorage.getItem('onlineUsers') as string) : []
+}
+
+export const setOnlineUsersToLocalStorate = (onlineUsers: UserOnline[]) => {
+  localStorage.setItem('onlineUsers', JSON.stringify(onlineUsers))
 }
 
 export const setRoleToLocalStorage = (role: string) => {

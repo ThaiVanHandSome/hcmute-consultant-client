@@ -11,17 +11,14 @@ import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { toast } from '@/hooks/use-toast'
 import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
-import { UserIcon } from '@/icons'
 import { guideTypes } from '@/pages/User/CreateQuestion/CreateQuestion'
 import { CreateQuestionRequest, Question } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
 import { CreateQuestionSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FileIcon, RocketIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { omit } from 'lodash'
-import { User2Icon } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -197,8 +194,8 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
       {isFormReset.current && (
         <Form {...form}>
           <form onSubmit={onSubmit}>
-            <Label className='text-lg italic flex items-center'>
-              <RocketIcon className='size-5 mr-1' /> Nơi tiếp nhận
+            <Label className="text-lg italic relative before:content-['--'] after:content-['--'] before:mr-2 after:ml-2">
+              Nơi tiếp nhận
             </Label>
             <div className='grid grid-cols-8 gap-2 mb-6 mt-1'>
               <div className='col-span-4'>
@@ -224,8 +221,8 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                 />
               </div>
             </div>
-            <Label className='text-lg italic flex items-center'>
-              <User2Icon className='size-5 mr-1' /> Thông tin cá nhân
+            <Label className="text-lg italic relative before:content-['--'] after:content-['--'] before:mr-2 after:ml-2">
+              Thông tin cá nhân
             </Label>
             <div className='grid grid-cols-12 gap-4 mt-1'>
               <div className='col-span-4'>
@@ -278,8 +275,8 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                 />
               </div>
             </div>
-            <Label className='italic text-lg flex items-center'>
-              <FileIcon className='size-5 mr-1' /> Nội dung câu hỏi
+            <Label className="text-lg italic relative before:content-['--'] after:content-['--'] before:mr-2 after:ml-2">
+              Nội dung câu hỏi
             </Label>
             <div className='w-full mt-1'>
               <InputCustom

@@ -5,7 +5,7 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 
-import AuthLayout from '@/layouts/AuthLayout'
+// import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import UserLayout from '@/layouts/UserLayout'
 
@@ -145,27 +145,15 @@ export default function useRouteElement() {
       children: [
         {
           path: path.login,
-          element: (
-            <AuthLayout>
-              <Login />
-            </AuthLayout>
-          )
+          element: <Login />
         },
         {
           path: path.register,
-          element: (
-            <AuthLayout>
-              <Register />
-            </AuthLayout>
-          )
+          element: <Register />
         },
         {
           path: path.forgotPassword,
-          element: (
-            <AuthLayout>
-              <ForgotPassword />
-            </AuthLayout>
-          )
+          element: <ForgotPassword />
         }
       ]
     }

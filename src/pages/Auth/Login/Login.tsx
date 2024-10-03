@@ -59,63 +59,58 @@ export default function Login() {
   })
 
   return (
-    <div className='h-remain-screen'>
-      <div className='grid grid-cols-12 h-full'>
-        <div className='col-span-7'>
-          <img src={BackgroundImage} alt='bg' className='w-full h-full bg-center' />
-        </div>
-        <div className='col-span-5 px-4 py-6 flex items-center justify-center'>
-          <div className='px-6 py-4 bg-white w-full'>
-            <h1 className='font-bold text-xl mb-4 text-center'>Đăng nhập</h1>
-            <div>
-              <Form {...form}>
-                <form onSubmit={onSubmit}>
-                  <InputCustom control={form.control} name='email' placeholder='Email' label='Email' />
-                  <InputCustom
-                    className='mb-0'
-                    type='password'
-                    control={form.control}
-                    name='password'
-                    placeholder='Mật khẩu'
-                    label='Mật khẩu'
-                  />
-                  <Link
-                    to={{
-                      pathname: path.forgotPassword,
-                      search: createSearchParams({
-                        status: forgotPasswordStatus.send
-                      }).toString()
-                    }}
-                    className='inline-block font-bold mt-2 text-sm text-primary'
-                  >
-                    Quên mật khẩu?
-                  </Link>
-                  <Button
-                    isLoading={loginMutation.isPending}
-                    disabled={loginMutation.isPending}
-                    type='submit'
-                    className='w-full mt-4'
-                  >
-                    Đăng nhập
-                  </Button>
-                  <div className='mt-3 text-center text-sm'>
-                    Bạn chưa có tài khoản?{' '}
-                    <Link
-                      to={{
-                        pathname: path.register,
-                        search: createSearchParams({
-                          status: registerStatus.create
-                        }).toString()
-                      }}
-                      className='font-bold text-primary'
-                    >
-                      Đăng ký
-                    </Link>
-                  </div>
-                </form>
-              </Form>
-            </div>
-          </div>
+    <div className='relative h-screen bg-cover bg-center' style={{ backgroundImage: `url(${BackgroundImage})` }}>
+      <div className='absolute inset-0 bg-black opacity-50'></div>
+      <div className='relative z-10 flex items-center justify-center h-full'>
+        <div className='w-full max-w-md bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl shadow-lg p-8'>
+          <h1 className='font-bold text-3xl text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-400 to-green-400 mb-6'>
+            Đăng nhập
+          </h1>
+          <Form {...form}>
+            <form onSubmit={onSubmit}>
+              <InputCustom control={form.control} name='email' placeholder='Email' label='Email' />
+              <InputCustom
+                type='password'
+                control={form.control}
+                name='password'
+                placeholder='Mật khẩu'
+                label='Mật khẩu'
+              />
+              <Link
+                to={{
+                  pathname: path.forgotPassword,
+                  search: createSearchParams({
+                    status: forgotPasswordStatus.send
+                  }).toString()
+                }}
+                className='block text-right text-sm text-primary font-bold mb-4'
+              >
+                Quên mật khẩu?
+              </Link>
+              <Button
+                isLoading={loginMutation.isPending}
+                disabled={loginMutation.isPending}
+                type='submit'
+                className='w-full py-3 bg-primary text-white rounded-full hover:bg-primary-dark transition-all'
+              >
+                Đăng nhập
+              </Button>
+              <div className='mt-6 text-center text-sm text-white'>
+                Bạn chưa có tài khoản?{' '}
+                <Link
+                  to={{
+                    pathname: path.register,
+                    search: createSearchParams({
+                      status: registerStatus.create
+                    }).toString()
+                  }}
+                  className='font-bold text-primary'
+                >
+                  Đăng ký
+                </Link>
+              </div>
+            </form>
+          </Form>
         </div>
       </div>
     </div>

@@ -32,3 +32,10 @@ export interface UserUpdate {
   wardCode: string
   email: string
 }
+
+export interface UserOnline {
+  fullName: string
+  email: string
+  phone: string
+  status: string
+}

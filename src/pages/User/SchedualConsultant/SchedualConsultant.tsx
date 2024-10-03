@@ -95,8 +95,8 @@ export default function SchedualConsultant() {
             <h1 className='font-bold text-2xl text-left uppercase mb-6 text-primary'>Đặt lịch tư vấn</h1>
             <Form {...form}>
               <form onSubmit={onSubmit}>
-                <Label className='text-lg italic flex items-center'>
-                  <RocketIcon className='size-5 mr-1' /> Nơi tiếp nhận
+                <Label className="text-lg italic relative before:content-['--'] after:content-['--'] before:mr-2 after:ml-2">
+                  Nơi tiếp nhận
                 </Label>
                 <div className='w-full grid grid-cols-2 gap-4 mb-6 mt-1'>
                   <div className='col-span-1'>
@@ -118,8 +118,8 @@ export default function SchedualConsultant() {
                     />
                   </div>
                 </div>
-                <Label className='italic text-lg flex items-center'>
-                  <FileIcon className='size-5 mr-1' /> Nội dung câu hỏi
+                <Label className="text-lg italic relative before:content-['--'] after:content-['--'] before:mr-2 after:ml-2">
+                  Nội dung cần tư vấn
                 </Label>
                 <InputCustom
                   className='mt-1 mb-3'

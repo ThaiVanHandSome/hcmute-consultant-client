@@ -2,12 +2,13 @@ import { Toaster } from '@/components/ui/toaster'
 import { AppContext } from '@/contexts/app.context'
 import useNotification from '@/hooks/useNotification'
 import useRouteElement from '@/hooks/useRouteElement'
+import useUserOnline from '@/hooks/useUserOnline'
 import { AuthenticationTarget } from '@/utils/auth'
-import { playNotificationSound } from '@/utils/utils'
 import { useContext, useEffect } from 'react'
 
 function App() {
   useNotification()
+  useUserOnline()
   const routeElement = useRouteElement()
 
   const { reset } = useContext(AppContext)
