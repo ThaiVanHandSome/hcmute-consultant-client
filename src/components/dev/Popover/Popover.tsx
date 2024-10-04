@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
-import { FloatingArrow, FloatingPortal, Placement, arrow, shift, useFloating, useId } from '@floating-ui/react'
+import { FloatingPortal, Placement, shift, useFloating, useId } from '@floating-ui/react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface Props {
@@ -19,16 +19,10 @@ export default function Popover({
   placement = 'bottom'
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(initialOpen)
-  const arrowRef = useRef(null)
-  const { refs, floatingStyles, context } = useFloating({
+  const { refs, floatingStyles } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
-    middleware: [
-      shift(),
-      arrow({
-        element: arrowRef
-      })
-    ],
+    middleware: [shift()],
     placement: placement
   })
 
@@ -55,8 +49,9 @@ export default function Popover({
               animate={{ opacity: 1, zIndex: 50 }}
               exit={{ opacity: 0, zIndex: 50 }}
             >
-              <FloatingArrow ref={arrowRef} context={context} fill='white' />
-              <div className='bg-white relative shadow-lg rounded-lg overflow-hidden'>{renderPopover}</div>
+              <div className='bg-popover text-popover-foreground relative shadow-lg rounded-lg overflow-hidden'>
+                {renderPopover}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

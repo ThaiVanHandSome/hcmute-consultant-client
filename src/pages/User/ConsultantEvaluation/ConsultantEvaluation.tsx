@@ -92,28 +92,30 @@ export default function ConsultantEvaluation() {
   return (
     <div>
       {isFormReset && (
-        <div className='container'>
-          <div className='flex justify-center'>
-            <div className='w-3/4 bg-white px-6 py-2 rounded-lg shadow-lg mt-6'>
-              <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>
-                {!isViewed ? 'Đánh giá ban tư vấn' : 'Kết quả đánh giá'}
-              </h1>
-              <Form {...form}>
-                <EvaluationChooseConsultant form={form} isViewed={isViewed} />
-                <form onSubmit={onSubmit}>
-                  <Separator className='mt-8 mb-4 col-span-12' />
-                  <EvaluationForm form={form} isViewed={isViewed} />
-                  {!isViewed && (
-                    <Button
-                      isLoading={createRatingMutation.isPending}
-                      disabled={createRatingMutation.isPending}
-                      className='px-6 py-2'
-                    >
-                      Gửi kết quả
-                    </Button>
-                  )}
-                </form>
-              </Form>
+        <div className='bg-primary-bg'>
+          <div className='container'>
+            <div className='flex justify-center'>
+              <div className='w-3/4 bg-background text-foreground px-6 py-2 rounded-lg shadow-lg mt-6 border'>
+                <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>
+                  {!isViewed ? 'Đánh giá ban tư vấn' : 'Kết quả đánh giá'}
+                </h1>
+                <Form {...form}>
+                  <EvaluationChooseConsultant form={form} isViewed={isViewed} />
+                  <form onSubmit={onSubmit}>
+                    <Separator className='mt-8 mb-4 col-span-12' />
+                    <EvaluationForm form={form} isViewed={isViewed} />
+                    {!isViewed && (
+                      <Button
+                        isLoading={createRatingMutation.isPending}
+                        disabled={createRatingMutation.isPending}
+                        className='px-6 py-2'
+                      >
+                        Gửi kết quả
+                      </Button>
+                    )}
+                  </form>
+                </Form>
+              </div>
             </div>
           </div>
         </div>

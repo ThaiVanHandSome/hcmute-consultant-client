@@ -38,7 +38,7 @@ export default function NavHeader() {
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    clsx('inline-block capitalize text-gray-500 hover:text-primary hover:transition-all text-sm mb-2', {
+                    clsx('inline-block capitalize text-primary hover:text-primary hover:transition-all text-sm mb-2', {
                       'text-primary font-bold': isActive
                     })
                   }

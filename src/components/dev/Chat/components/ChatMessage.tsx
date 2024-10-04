@@ -28,8 +28,8 @@ export default function ChatMessage({ isSender, chat, avatarCanShow }: Props) {
               {chat.message && (
                 <div
                   className={clsx('ml-2 p-2 rounded-xl max-w-full break-words', {
-                    'bg-primary text-white': isSender,
-                    'bg-slate-200': !isSender
+                    'bg-primary text-primary-foreground': isSender,
+                    'bg-card': !isSender
                   })}
                 >
                   {chat.message}

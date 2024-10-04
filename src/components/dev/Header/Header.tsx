@@ -10,12 +10,13 @@ import path from '@/constants/path'
 import registerStatus from '@/constants/registerStatus'
 import { AppContext } from '@/contexts/app.context'
 import HeaderMessage from '@/components/dev/Header/components/HeaderMessage'
+import { ModeToggle } from '@/components/dev/ModeToggle/ModeToggle'
 
 export default function Header() {
   const { isAuthenticated } = useContext(AppContext)
 
   return (
-    <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-white h-header-height'>
+    <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-background text-foreground h-header-height border'>
       <div className='flex items-center'>
         <a href={path.home}>
           <img src={LogoHCMUTE} alt='logo-hcmute' className='size-16 object-fit' />
@@ -32,17 +33,21 @@ export default function Header() {
                   status: registerStatus.create
                 }).toString()
               }}
+              className='text-primary hover:text-primary-foreground transition-colors'
             >
               Đăng ký
             </Link>
-            <Separator orientation='vertical' className='mx-4 bg-gray-500 h-4' />
-            <Link to={path.login}>Đăng nhập</Link>
+            <Separator orientation='vertical' className='mx-4 bg-border h-4' />
+            <Link to={path.login} className='text-primary hover:text-primary-foreground transition-colors'>
+              Đăng nhập
+            </Link>
           </div>
         )}
         {isAuthenticated && (
           <div className='flex items-center'>
             <HeaderNotification />
             <HeaderMessage />
+            <ModeToggle />
             <UserPopover />
           </div>
         )}

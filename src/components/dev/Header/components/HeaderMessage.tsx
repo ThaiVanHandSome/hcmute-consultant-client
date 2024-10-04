@@ -15,8 +15,8 @@ export default function HeaderMessage() {
 
   return (
     <Link to={path.messages} className='inline-block relative'>
-      <ChatBubbleIcon className='size-6 text-black mr-6' />
-      <p className='font-bold size-5 text-xs rounded-full bg-destructive text-white flex items-center justify-center absolute top-0 right-0 -translate-x-1/2 -translate-y-1/2'>
+      <ChatBubbleIcon className='size-6 text-foreground mr-6' />
+      <p className='font-bold size-5 text-xs rounded-full bg-destructive text-destructive-foreground flex items-center justify-center absolute top-0 right-0 -translate-x-1/2 -translate-y-1/2'>
         {conversations?.data.data?.content?.length ?? 0}
       </p>
     </Link>

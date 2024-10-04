@@ -47,7 +47,7 @@ const userNavData = [
 
 export default function UserLayout() {
   return (
-    <div className='bg-white min-h-remain-screen'>
+    <div className='bg-background text-foreground min-h-remain-screen'>
       <div className='container'>
         <UserLayoutHeader />
         <div className='grid grid-cols-12'>
@@ -60,7 +60,7 @@ export default function UserLayout() {
                     className={({ isActive }) =>
                       clsx('font-semibold w-full px-2 py-2 text-sm flex items-center rounded-md', {
                         'bg-primary text-primary-foreground': isActive,
-                        'hover:bg-gray-100': !isActive
+                        'hover:bg-card hover:text-card-foreground': !isActive
                       })
                     }
                   >
@@ -71,7 +71,7 @@ export default function UserLayout() {
               ))}
             </ul>
           </div>
-          <div className='col-span-9 rounded-md shadow px-4 py-2 bg-white'>
+          <div className='col-span-9 shadow px-4 py-2 bg-background text-foreground border rounded-lg'>
             <Outlet />
           </div>
         </div>

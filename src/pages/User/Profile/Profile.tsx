@@ -8,7 +8,7 @@ import { Form, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
-import { User, UserUpdate } from '@/types/user.type'
+import { UserUpdate } from '@/types/user.type'
 import { FormControlItem } from '@/types/utils.type'
 import { setUserToLocalStorage } from '@/utils/auth'
 import { generateSelectionDataFromLocation } from '@/utils/utils'
@@ -63,7 +63,6 @@ export default function Profile() {
     queryFn: getProvinces
   })
 
-  // generate selection data
   const provincesSelectionData = useMemo(() => {
     const data = provinces?.data.data
     return generateSelectionDataFromLocation(data)
@@ -76,7 +75,6 @@ export default function Profile() {
     enabled: !!provinceCode
   })
 
-  // generate selection data
   const districtsSelectionData = useMemo(() => {
     const data = districts?.data.data
     return generateSelectionDataFromLocation(data)
@@ -89,7 +87,6 @@ export default function Profile() {
     enabled: !!districtCode
   })
 
-  // generate selection data
   const wardsSelectionData = useMemo(() => {
     const data = wards?.data.data
     return generateSelectionDataFromLocation(data)
@@ -104,7 +101,6 @@ export default function Profile() {
     setFile(fileFromLocal)
   }
 
-  // handle set profile data from getting api to form
   useEffect(() => {
     if (profile?.data.data) {
       const res = profile?.data.data
@@ -157,7 +153,7 @@ export default function Profile() {
   })
 
   return (
-    <div>
+    <div className='bg-card text-card-foreground'>
       <div className='grid grid-cols-5'>
         <div className='col-span-3'>
           <Form {...form}>
@@ -218,7 +214,7 @@ export default function Profile() {
               <Button
                 isLoading={updateProfileMutation.isPending}
                 disabled={updateProfileMutation.isPending}
-                className='px-6 py-2'
+                className='px-6 py-2 bg-primary text-primary-foreground'
               >
                 Cập nhật
               </Button>

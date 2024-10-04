@@ -113,9 +113,9 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
   return (
     <div
       aria-hidden='true'
-      className={clsx('flex w-full my-2 p-2 rounded-lg transition-all cursor-pointer', {
-        'bg-gray-200': conversation.id === conversationIdActive,
-        'hover:bg-slate-100': conversation.id !== conversationIdActive
+      className={clsx('flex w-full my-2 p-2 rounded-lg transition-all cursor-pointer border', {
+        'bg-card': conversation.id === conversationIdActive,
+        'hover:bg-card hover:text-card-foreground': conversation.id !== conversationIdActive
       })}
       onClick={handleNavigateToOtherMessage}
     >
@@ -124,7 +124,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
         <p className='font-bold truncate text-sm mb-1'>{receiver?.name}</p>
         {lastMessage && (
           <p className='text-xs truncate '>
-            {lastMessage} . <span className='text-xs text-gray-400'>{elapsedTime}</span>
+            {lastMessage} . <span className='text-xs text-foreground'>{elapsedTime}</span>
           </p>
         )}
       </div>

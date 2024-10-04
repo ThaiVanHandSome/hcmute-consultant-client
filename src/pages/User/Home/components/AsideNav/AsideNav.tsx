@@ -17,16 +17,13 @@ export default function AsideNav() {
     <aside>
       <ScrollArea>
         <div className='px-4 py-2 h-remain-screen'>
-          <div className='mb-2 pt-2 rounded-sm font-bold text-lg px-2 text-gray-500'>Câu hỏi theo đơn vị</div>
+          <div className='mb-2 pt-2 rounded-sm font-bold text-lg px-2 text-primary'>Câu hỏi theo đơn vị</div>
           <ul>
             <li
-              className={clsx(
-                'text-left border-b border-slate-300 hover:font-semibold transition-all text-sm hover:rounded-md',
-                {
-                  'bg-primary text-primary-foreground font-semibold rounded-md': !queryConfig.departmentId,
-                  'hover:bg-slate-200': queryConfig.departmentId
-                }
-              )}
+              className={clsx('text-left border-b hover:font-semibold transition-all text-sm hover:rounded-md', {
+                'bg-primary text-primary-foreground font-semibold rounded-md': !queryConfig.departmentId,
+                'hover:bg-card hover:text-card-foreground': queryConfig.departmentId
+              })}
             >
               <Link
                 to={{
@@ -45,7 +42,7 @@ export default function AsideNav() {
                   {
                     'bg-primary text-primary-foreground font-semibold rounded-md':
                       parseInt(queryConfig.departmentId) === department.id,
-                    'hover:bg-slate-200': parseInt(queryConfig.departmentId) !== department.id
+                    'hover:bg-card hover:text-card-foreground': parseInt(queryConfig.departmentId) !== department.id
                   }
                 )}
               >

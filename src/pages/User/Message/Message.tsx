@@ -66,24 +66,24 @@ export default function Message() {
   }
 
   return (
-    <div className='bg-white h-full'>
+    <div className='bg-background text-foreground h-full'>
       <div className='grid grid-cols-12'>
-        <div className='col-span-4 px-4 border-r border-gray-300 flex flex-col h-remain-screen'>
+        <div className='col-span-4 px-4 border-r flex flex-col h-remain-screen'>
           <h1 className='font-semibold text-xl mb-2 text-primary flex items-center pt-3'>
             <MessageCircleIcon />
             <span className='ml-1'>Nhắn tin</span>
           </h1>
           <div className='flex items-center'>
-            <div className='flex items-center w-full border border-gray-200 rounded-md px-4 py-1 flex-1'>
+            <div className='flex items-center w-full border rounded-md px-4 py-1 flex-1'>
               <div className='flex-1 flex-shrink-0'>
                 <input
                   value={searchText}
                   placeholder='Tìm kiếm'
-                  className='focus:outline-none focus:border-none text-sm w-full'
+                  className='focus:outline-none focus:border-none text-sm w-full bg-background text-foreground'
                   onChange={(e) => setSearchText((e.target as HTMLInputElement)?.value)}
                 />
               </div>
-              <MagnifyingGlassIcon className='size-7 text-gray-400 cursor-pointer' onClick={handleSearch} />
+              <MagnifyingGlassIcon className='size-7 text-foreground cursor-pointer' onClick={handleSearch} />
             </div>
             {role === ROLE.user && <CreateNewConversation conversationQueryParams={conversationQueryParams} />}
           </div>
