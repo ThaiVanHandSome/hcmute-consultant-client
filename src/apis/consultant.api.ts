@@ -33,6 +33,13 @@ export const getRatingById = (id: string) =>
     }
   })
 
+export const getPastRating = (consultantId: string) =>
+  http.get<SuccessResponse<Rating>>('list-consultant-rating-by-department', {
+    params: {
+      consultantId
+    }
+  })
+
 export const getTeacherConsultantsByDepartment = (departmentId: number) =>
   http.get<SuccessResponse<Consultant[]>>('list-consultant-teacher-by-department', {
     params: {

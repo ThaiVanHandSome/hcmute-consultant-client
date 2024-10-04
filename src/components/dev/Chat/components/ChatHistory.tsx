@@ -10,9 +10,18 @@ interface Props {
   readonly chatData?: Chat[]
   readonly sender?: MemberConversation
   readonly receivers?: MemberConversation[]
+  readonly setMessageEdit?: React.Dispatch<
+    React.SetStateAction<
+      | {
+          messageId: number
+          content: string
+        }
+      | undefined
+    >
+  >
 }
 
-export default function GroupedChatMessages({ conversation, chatData, sender, receivers }: Props) {
+export default function GroupedChatMessages({ conversation, chatData, sender, receivers, setMessageEdit }: Props) {
   const groupedMessages = useMemo(() => {
     if (!chatData || chatData.length === 0) return []
 
@@ -54,6 +63,15 @@ export default function GroupedChatMessages({ conversation, chatData, sender, re
     scrollToBottom()
   }, [conversation, chatData])
 
+  const handleChooseMessageEdit = (messageId: number, content: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    setMessageEdit &&
+      setMessageEdit({
+        messageId,
+        content
+      })
+  }
+
   return (
     <>
       <div className='flex flex-col items-center mt-3'>
@@ -72,6 +90,7 @@ export default function GroupedChatMessages({ conversation, chatData, sender, re
                 isSender={isSender}
                 avatarCanShow={chatIndex === 0 && avatarCanShow}
                 chat={chat}
+                handleChooseMessageEdit={handleChooseMessageEdit}
               />
             ))}
           </div>

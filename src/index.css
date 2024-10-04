@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 230 60% 50%;
+    --primary: 210 90.2% 40%;
     --primary-foreground: 210 100% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -34,12 +34,12 @@
 
     --radius: 0.5rem;
 
-    --header-height: 5rem;
+    --header-height: 4rem;
     --primary-bg: 216 20% 95.1%;
   }
 
   .dark {
-    --primary-bg: 216 20% 30%;
+    --primary-bg: 210 40% 10%;
     --background: 220 15% 15%;
     --foreground: 210 20% 90%;
 
@@ -76,6 +76,14 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  .editor {
+    @apply w-full max-w-full overflow-hidden;
+  }
+
+  .editor p {
+    @apply w-full max-w-full break-words;
   }
 
   .editor h1 {

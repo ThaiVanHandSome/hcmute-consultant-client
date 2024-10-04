@@ -1,5 +1,4 @@
 import { getCommonQuestion } from '@/apis/question.api'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { useQuery } from '@tanstack/react-query'
 
 export default function QuestionLibrary() {
@@ -7,20 +6,26 @@ export default function QuestionLibrary() {
     queryKey: ['common-question'],
     queryFn: getCommonQuestion
   })
+
   return (
-    <div className='bg-primary-bg'>
-      <div className='container'>
+    <div className='min-h-screen py-6'>
+      <div className='container mx-auto px-4'>
         <div className='flex justify-center'>
-          <div className='w-2/3 bg-background text-foreground mt-4 px-6 py-2 rounded-lg shadow-lg'>
-            <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>Câu hỏi chung</h1>
-            {commonQuestions?.data.data?.content.map((question) => (
-              <Accordion key={question.id} type='single' collapsible>
-                <AccordionItem value='item-1'>
-                  <AccordionTrigger>{question.content}</AccordionTrigger>
-                  <AccordionContent>{question.answerContent}</AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            ))}
+          <div className='w-full md:w-3/4 lg:w-2/3 bg-background mt-4 px-8 py-6 rounded-lg shadow-2xl'>
+            <h1 className='font-extrabold text-3xl text-center uppercase mb-10 text-primary tracking-wide'>
+              Câu hỏi chung
+            </h1>
+            <div className='space-y-8'>
+              {commonQuestions?.data.data?.content.map((question) => (
+                <div
+                  key={question.id}
+                  className=' p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 border'
+                >
+                  <h2 className='font-semibold text-xl text-indigo-600 mb-4'>{question.content}</h2>
+                  <p className='text-card-foreground leading-relaxed'>{question.answerContent}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

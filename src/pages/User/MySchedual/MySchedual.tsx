@@ -17,8 +17,6 @@ export default function MySchedual() {
     queryFn: () => getAllUserConsultant(schedualQueryConfig)
   })
 
-  console.log(schedualConsultants)
-
   return (
     <div>
       <div className='mb-6'>

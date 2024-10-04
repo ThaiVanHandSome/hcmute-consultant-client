@@ -115,7 +115,7 @@ export default function MyQuestion() {
       </div>
       {/* show detail question */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className='min-w-[800px] max-h-[80vh] overflow-y-auto mt-8'>
+        <DialogContent className='min-w-[800px] w-[800px] max-w-[800px] max-h-[80vh] overflow-y-auto mt-8'>
           {dialogView === dialogViewType.detail && <Question question={questionActive as QuestionType} />}
           {dialogView === dialogViewType.updateQuestion && <QuestionForm question={questionActive} />}
           {dialogView === dialogViewType.deleteConfirm && renderConfirmDeleteQuestion()}

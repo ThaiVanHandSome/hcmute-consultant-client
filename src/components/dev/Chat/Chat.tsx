@@ -2,10 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Client, over } from 'stompjs'
 import SockJS from 'sockjs-client'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { Conversation, MemberConversation } from '@/types/conversation.type'
-import { getChatHistory } from '@/apis/chat.api'
+import { getChatHistory, updateMessage } from '@/apis/chat.api'
 import { ChatHistoryConfig } from '@/types/params.type'
 import ChatInput from '@/components/dev/Chat/components/ChatInput'
 import ChatHistory from '@/components/dev/Chat/components/ChatHistory'
@@ -34,12 +34,21 @@ export default function Chat({ conversation }: Props) {
   }, [conversation])
 
   const [isConnected, setIsConnected] = useState<boolean>(false)
+  const [messageEdit, setMessageEdit] = useState<{
+    messageId: number
+    content: string
+  }>()
 
   const conversationId = conversation?.id
   const { data: chatHistory, refetch } = useQuery({
     queryKey: ['chat-history', chatHistoryQueryConfig],
     queryFn: () => getChatHistory(chatHistoryQueryConfig),
     enabled: !!conversationId
+  })
+
+  const updateMessageMutation = useMutation({
+    mutationFn: ({ messageId, newContent }: { messageId: number; newContent: string }) =>
+      updateMessage(messageId, newContent)
   })
 
   const onPrivateMessage = () => {
@@ -90,6 +99,22 @@ export default function Chat({ conversation }: Props) {
     }
   }
 
+  const handleUpdateMessage = (messageId: number, newContent: string) => {
+    updateMessageMutation.mutate(
+      { messageId, newContent },
+      {
+        onSuccess: () => {
+          refetch()
+          setMessageEdit(undefined)
+        }
+      }
+    )
+  }
+
+  const handleCloseUpdateMessage = () => {
+    setMessageEdit(undefined)
+  }
+
   // connect when exist sender and not connect to Socket
   useEffect(() => {
     if (sender?.id && !isConnected) {
@@ -120,9 +145,15 @@ export default function Chat({ conversation }: Props) {
           sender={sender}
           receivers={receivers}
           chatData={chatHistory?.data.data.content}
+          setMessageEdit={setMessageEdit}
         />
       </div>
-      <ChatInput sendMessage={sendPrivateValue} />
+      <ChatInput
+        messageEdit={messageEdit}
+        sendMessage={sendPrivateValue}
+        handleCloseUpdateMessage={handleCloseUpdateMessage}
+        handleUpdateMessage={handleUpdateMessage}
+      />
     </div>
   )
 }

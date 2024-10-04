@@ -7,3 +7,11 @@ export const getChatHistory = (params: ChatHistoryConfig) =>
   http.get<SuccessResponse<PaginationResponse<Chat[]>>>('chat/history', {
     params
   })
+
+export const updateMessage = (messageId: number, newContent: string) =>
+  http.post<SuccessResponse<string>>('update-message', null, {
+    params: {
+      messageId,
+      newContent
+    }
+  })

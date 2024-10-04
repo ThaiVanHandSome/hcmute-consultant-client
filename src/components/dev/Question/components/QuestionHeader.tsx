@@ -1,7 +1,7 @@
-import { EyeIcon } from '@/icons'
 import { Question } from '@/types/question.type'
 import { formatDate } from '@/utils/utils'
 import { GlobeIcon } from '@radix-ui/react-icons'
+import { EllipsisIcon } from 'lucide-react'
 
 interface Props {
   readonly question: Question
@@ -9,7 +9,7 @@ interface Props {
 
 export default function QuestionHeader({ question }: Props) {
   return (
-    <div className='flex items-start justify-between'>
+    <div className='flex items-start justify-between w-full max-w-full'>
       <div className='flex items-center mb-2'>
         <img src={question.askerAvatarUrl} alt='avatar' className='size-10 mr-2 rounded-full' />
         <div>
@@ -23,8 +23,7 @@ export default function QuestionHeader({ question }: Props) {
         </div>
       </div>
       <div className='flex items-center'>
-        <EyeIcon />
-        <span className='ml-1 font-bold text-sm'>{question.views}</span>
+        <EllipsisIcon />
       </div>
     </div>
   )

@@ -190,11 +190,11 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
   }
 
   return (
-    <>
+    <div className='overflow-hidden'>
       {isFormReset.current && (
         <Form {...form}>
           <form onSubmit={onSubmit}>
-            <Label className="text-lg italic relative before:content-['--'] after:content-['--'] before:mr-2 after:ml-2">
+            <Label className='text-md italic relative inline-flex items-center before:inline-block after:inline-block before:w-4 after:w-4 before:h-[1px] after:h-[1px] before:bg-current after:bg-current before:mr-2 after:ml-2'>
               Nơi tiếp nhận
             </Label>
             <div className='grid grid-cols-8 gap-2 mb-6 mt-1'>
@@ -221,7 +221,7 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                 />
               </div>
             </div>
-            <Label className="text-lg italic relative before:content-['--'] after:content-['--'] before:mr-2 after:ml-2">
+            <Label className='text-md italic relative inline-flex items-center before:inline-block after:inline-block before:w-4 after:w-4 before:h-[1px] after:h-[1px] before:bg-current after:bg-current before:mr-2 after:ml-2'>
               Thông tin cá nhân
             </Label>
             <div className='grid grid-cols-12 gap-4 mt-1'>
@@ -275,7 +275,7 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                 />
               </div>
             </div>
-            <Label className="text-lg italic relative before:content-['--'] after:content-['--'] before:mr-2 after:ml-2">
+            <Label className='text-md italic relative inline-flex items-center before:inline-block after:inline-block before:w-4 after:w-4 before:h-[1px] after:h-[1px] before:bg-current after:bg-current before:mr-2 after:ml-2'>
               Nội dung câu hỏi
             </Label>
             <div className='w-full mt-1'>
@@ -311,6 +311,6 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
           </form>
         </Form>
       )}
-    </>
+    </div>
   )
 }

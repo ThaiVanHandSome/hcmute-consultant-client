@@ -1,4 +1,4 @@
-import { isEmpty, isUndefined, omitBy } from 'lodash'
+import { isUndefined, omitBy } from 'lodash'
 
 import useQueryParams from '@/hooks/useQueryParams'
 import { SchedualListConfig } from '@/types/params.type'

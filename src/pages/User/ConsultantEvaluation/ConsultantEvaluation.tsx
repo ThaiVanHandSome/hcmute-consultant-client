@@ -4,7 +4,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
-import { createRating, getRatingById } from '@/apis/consultant.api'
+import { createRating, getPastRating, getRatingById } from '@/apis/consultant.api'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
@@ -45,12 +45,21 @@ export default function ConsultantEvaluation() {
     mutationFn: (body: RatingFormData) => createRating(body)
   })
 
+  const consultantId = form.watch('consultantId')
+  const { data: pastRating } = useQuery({
+    queryKey: ['past-rating', consultantId],
+    queryFn: () => getPastRating(consultantId),
+    enabled: !!consultantId && !id
+  })
+
   const { data: userRating } = useQuery({
     queryKey: ['user-rating', id],
     queryFn: () => getRatingById(id),
     enabled: !!id
   })
-  const isViewed = !!userRating
+
+  const isViewed = !!userRating || !!pastRating
+  const isDisabledSelection = !!userRating
   const isFormReset = useRef<boolean>(!isViewed)
 
   // handle evaluation process
@@ -68,26 +77,43 @@ export default function ConsultantEvaluation() {
   })
 
   useEffect(() => {
-    if (!userRating) return
-    const data = userRating.data.data
+    if (!userRating && !pastRating) return
+    const data = userRating ? userRating.data.data : pastRating?.data.data
     form.reset({
-      consultantId: String(data.consultant.id),
-      departmentId: String(data.department.id),
-      generalSatisfaction: String(data.generalSatisfaction),
-      generalComment: data.generalComment,
-      expertiseKnowledge: String(data.expertiseKnowledge),
-      expertiseComment: data.expertiseComment,
-      attitude: String(data.attitude),
-      attitudeComment: data.attitudeComment,
-      responseSpeed: String(data.responseSpeed),
-      responseSpeedComment: data.responseSpeedComment,
-      understanding: String(data.understanding),
-      understandingComment: data.understandingComment
+      consultantId: String(data?.consultant.id),
+      departmentId: String(data?.department.id),
+      generalSatisfaction: String(data?.generalSatisfaction),
+      generalComment: data?.generalComment,
+      expertiseKnowledge: String(data?.expertiseKnowledge),
+      expertiseComment: data?.expertiseComment,
+      attitude: String(data?.attitude),
+      attitudeComment: data?.attitudeComment,
+      responseSpeed: String(data?.responseSpeed),
+      responseSpeedComment: data?.responseSpeedComment,
+      understanding: String(data?.understanding),
+      understandingComment: data?.understandingComment
     })
-    console.log(form.watch())
 
     isFormReset.current = true
-  }, [userRating])
+  }, [userRating, pastRating])
+
+  useEffect(() => {
+    if (isViewed) return
+    form.reset({
+      consultantId: String(form.watch('consultantId')),
+      departmentId: String(form.watch('departmentId')),
+      generalSatisfaction: '',
+      generalComment: '',
+      expertiseKnowledge: '',
+      expertiseComment: '',
+      attitude: '',
+      attitudeComment: '',
+      responseSpeed: '',
+      responseSpeedComment: '',
+      understanding: '',
+      understandingComment: ''
+    })
+  }, [isViewed])
 
   return (
     <div>
@@ -96,11 +122,11 @@ export default function ConsultantEvaluation() {
           <div className='container'>
             <div className='flex justify-center'>
               <div className='w-3/4 bg-background text-foreground px-6 py-2 rounded-lg shadow-lg mt-6 border'>
-                <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>
+                <h1 className='font-extrabold text-2xl text-center uppercase mb-6 text-primary'>
                   {!isViewed ? 'Đánh giá ban tư vấn' : 'Kết quả đánh giá'}
                 </h1>
                 <Form {...form}>
-                  <EvaluationChooseConsultant form={form} isViewed={isViewed} />
+                  <EvaluationChooseConsultant form={form} isDisabledSelection={isDisabledSelection} />
                   <form onSubmit={onSubmit}>
                     <Separator className='mt-8 mb-4 col-span-12' />
                     <EvaluationForm form={form} isViewed={isViewed} />

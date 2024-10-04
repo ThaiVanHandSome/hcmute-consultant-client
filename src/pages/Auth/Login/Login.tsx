@@ -62,10 +62,8 @@ export default function Login() {
     <div className='relative h-screen bg-cover bg-center' style={{ backgroundImage: `url(${BackgroundImage})` }}>
       <div className='absolute inset-0 bg-black opacity-50'></div>
       <div className='relative z-10 flex items-center justify-center h-full'>
-        <div className='w-full max-w-md bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl shadow-lg p-8'>
-          <h1 className='font-bold text-3xl text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-400 to-green-400 mb-6'>
-            Đăng nhập
-          </h1>
+        <div className='w-full max-w-md bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg rounded-xl shadow-lg p-8'>
+          <h1 className='font-bold text-3xl text-center mb-6'>Đăng nhập</h1>
           <Form {...form}>
             <form onSubmit={onSubmit}>
               <InputCustom control={form.control} name='email' placeholder='Email' label='Email' />
@@ -83,7 +81,7 @@ export default function Login() {
                     status: forgotPasswordStatus.send
                   }).toString()
                 }}
-                className='block text-right text-sm text-primary font-bold mb-4'
+                className='block text-right text-sm font-bold mb-4'
               >
                 Quên mật khẩu?
               </Link>
@@ -104,7 +102,7 @@ export default function Login() {
                       status: registerStatus.create
                     }).toString()
                   }}
-                  className='font-bold text-primary'
+                  className='font-bold text-foreground'
                 >
                   Đăng ký
                 </Link>

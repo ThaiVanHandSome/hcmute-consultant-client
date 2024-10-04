@@ -18,8 +18,8 @@ export default function Header() {
   return (
     <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-background text-foreground h-header-height border'>
       <div className='flex items-center'>
-        <a href={path.home}>
-          <img src={LogoHCMUTE} alt='logo-hcmute' className='size-16 object-fit' />
+        <a href={path.home} className='bg-white px-2 py-1'>
+          <img src={LogoHCMUTE} alt='logo-hcmute' className='size-12 object-fit filter invert-0' />
         </a>
         <NavHeader />
       </div>

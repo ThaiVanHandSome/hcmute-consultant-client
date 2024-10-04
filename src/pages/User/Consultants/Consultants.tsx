@@ -21,7 +21,7 @@ export default function Consultants() {
       <div className='container'>
         <div className='flex justify-center'>
           <div className='w-[80%] bg-background text-foreground px-2 py-4 shadow-lg rounded-lg'>
-            <h1 className='font-bold text-2xl text-center uppercase mb-6 text-primary'>TƯ VẤN VIÊN</h1>
+            <h1 className='font-extrabold text-2xl text-center uppercase mb-6 text-primary'>TƯ VẤN VIÊN</h1>
             <ConsultantFilter consultantQueryConfig={consultantQueryConfig} />
             <Separator className='my-6' />
             <div className='mb-4'>

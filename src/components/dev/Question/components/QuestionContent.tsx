@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import ColorThief from 'colorthief'
 import { Question } from '@/types/question.type'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 
 interface Props {
   readonly question: Question
@@ -9,6 +10,7 @@ interface Props {
 export default function QuestionContent({ question }: Props) {
   const [dominantColor, setDominantColor] = useState<string | null>(null)
   const [imgSizeStyle, setImgSizeStyle] = useState<string>('80%')
+  const [open, setOpen] = useState<boolean>(false)
   const imgRef = useRef<HTMLImageElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -39,27 +41,34 @@ export default function QuestionContent({ question }: Props) {
   }, [question.fileName])
 
   return (
-    <div className='-mx-4'>
-      <div className='px-4'>
-        <div className='text-blue-600 font-semibold text-sm'>#{question.department.name}</div>
-        <div className='mb-3 text-blue-600 font-semibold text-sm'>#{question.field.name}</div>
-        <div className='font-semibold text-md italic mb-2'>🎯 {question.title}</div>
-        <div dangerouslySetInnerHTML={{ __html: question.content }} className='mb-4'></div>
+    <div className='w-full max-w-full'>
+      <div>
+        <div className='font-semibold text-md italic mb-1'>{question.title}</div>
+        <div dangerouslySetInnerHTML={{ __html: question.content }} className='mb-4 w-full max-w-full'></div>
       </div>
-      {question.fileName.includes('http') && (
-        <div
-          className='flex items-center justify-center rounded-md'
-          ref={containerRef} // Tham chiếu đến block chứa ảnh
-          style={{ backgroundColor: dominantColor ?? 'white' }}
-        >
-          <img
-            ref={imgRef} // Tham chiếu đến ảnh
-            src={question.fileName}
-            alt='content-bg'
-            style={{ width: imgSizeStyle, height: 'auto' }} // Điều chỉnh kích thước ảnh
-          />
-        </div>
-      )}
+      <div className='-mx-4'>
+        {question.fileName.includes('http') && (
+          <div
+            aria-hidden='true'
+            className='flex items-center justify-center rounded-md cursor-pointer'
+            ref={containerRef} // Tham chiếu đến block chứa ảnh
+            style={{ backgroundColor: dominantColor ?? 'white' }}
+            onClick={() => setOpen(true)}
+          >
+            <img
+              ref={imgRef} // Tham chiếu đến ảnh
+              src={question.fileName}
+              alt='content-bg'
+              style={{ width: imgSizeStyle, height: 'auto' }} // Điều chỉnh kích thước ảnh
+            />
+          </div>
+        )}
+      </div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <img src={question.fileName} alt='content-bg' className='w-full' />
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

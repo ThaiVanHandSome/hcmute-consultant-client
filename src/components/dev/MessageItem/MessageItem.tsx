@@ -113,9 +113,9 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
   return (
     <div
       aria-hidden='true'
-      className={clsx('flex w-full my-2 p-2 rounded-lg transition-all cursor-pointer border', {
-        'bg-card': conversation.id === conversationIdActive,
-        'hover:bg-card hover:text-card-foreground': conversation.id !== conversationIdActive
+      className={clsx('flex w-full my-2 p-2 rounded-lg transition-all cursor-pointer', {
+        'bg-secondary text-secondary-foreground': conversation.id === conversationIdActive,
+        'hover:bg-secondary hover:text-secondary-foreground': conversation.id !== conversationIdActive
       })}
       onClick={handleNavigateToOtherMessage}
     >

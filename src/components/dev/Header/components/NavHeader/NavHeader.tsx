@@ -26,10 +26,11 @@ const popoverNavData = [
 
 export default function NavHeader() {
   return (
-    <nav className='flex items-center ml-4'>
+    <nav className='flex items-center space-x-4 ml-4'>
       <NavLinkItem to={path.home} label='Trang chủ' />
       <NavLinkItem to={path.createQuestion} label='Đặt câu hỏi' />
       <NavLinkItem to={path.questionLibrary} label='Thư viện câu hỏi' />
+
       <Popover
         renderPopover={
           <ul className='px-6 py-2 text-center'>
@@ -38,7 +39,7 @@ export default function NavHeader() {
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    clsx('inline-block capitalize text-primary hover:text-primary hover:transition-all text-sm mb-2', {
+                    clsx('inline-block capitalize text-foreground hover:text-primary transition-colors text-sm mb-2', {
                       'text-primary font-bold': isActive
                     })
                   }
@@ -50,7 +51,7 @@ export default function NavHeader() {
           </ul>
         }
       >
-        <div className='mx-2 cursor-pointer capitalize text-gray-500 hover:text-primary hover:transition-all flex items-center'>
+        <div className='mx-2 cursor-pointer capitalize text-gray-500 hover:text-primary transition-all flex items-center'>
           Tư vấn
           <ChevronDownIcon className='ml-1' />
         </div>

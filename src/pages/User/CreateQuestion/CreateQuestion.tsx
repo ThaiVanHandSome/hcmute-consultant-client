@@ -22,7 +22,9 @@ export default function CreateQuestion() {
       <div className='container'>
         <div className='grid grid-cols-12 gap-4'>
           <div className='col-span-9 bg-background text-foreground px-6 py-3 shadow-lg rounded-lg border'>
-            <h1 className='font-bold text-2xl text-left uppercase mb-6 text-primary'>Đặt câu hỏi cho ban tư vấn</h1>
+            <h1 className='font-extrabold text-2xl text-left uppercase mb-6 text-primary tracking-wide'>
+              Đặt câu hỏi cho ban tư vấn
+            </h1>
             <div>
               <QuestionForm setGuideActive={setGuideActive} />
             </div>

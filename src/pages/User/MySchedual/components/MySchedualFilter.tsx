@@ -56,7 +56,7 @@ export default function MySchedualFilter({ queryConfig }: Props) {
     const title = values.title
     if (title) {
       navigate({
-        pathname: path.myQuestions,
+        pathname: path.mySchedual,
         search: createSearchParams({
           ...queryConfig,
           title
