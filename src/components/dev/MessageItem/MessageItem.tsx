@@ -124,7 +124,8 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
         <p className='font-bold truncate text-sm mb-1'>{receiver?.name}</p>
         {lastMessage && (
           <p className='text-xs truncate '>
-            {lastMessage} . <span className='text-xs text-foreground'>{elapsedTime}</span>
+            {lastChat?.recalledForEveryone ? 'Đã thu hồi một tin nhắn' : lastMessage} .{' '}
+            <span className='text-xs text-foreground'>{elapsedTime}</span>
           </p>
         )}
       </div>

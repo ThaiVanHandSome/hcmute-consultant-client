@@ -15,3 +15,17 @@ export const updateMessage = (messageId: number, newContent: string) =>
       newContent
     }
   })
+
+export const recallMessage = (messageId: number) =>
+  http.post<SuccessResponse<string>>('recall-message-self', null, {
+    params: {
+      messageId
+    }
+  })
+
+export const recallMessageAll = (messageId: number) =>
+  http.post<SuccessResponse<string>>('recall-message-all', null, {
+    params: {
+      messageId
+    }
+  })

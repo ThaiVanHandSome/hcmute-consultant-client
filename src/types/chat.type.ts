@@ -5,6 +5,7 @@ export interface Chat {
   message: string
   imageUrl: string
   messageStatus: null
+
   receiver: {
     id: number
     name: string
@@ -15,4 +16,8 @@ export interface Chat {
     name: string
     avatarUrl: string
   }
+  recalledBySender: boolean | null
+  recalledForEveryone: boolean | null
+  edited: boolean | null
+  editedDate: string
 }
