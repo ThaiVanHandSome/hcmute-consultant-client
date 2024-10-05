@@ -62,7 +62,7 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
                       className={clsx('ml-2 p-2 rounded-xl max-w-full break-words', {
                         'bg-primary text-primary-foreground': isSender && !isShowRecalled,
                         'bg-card': !isSender && !isShowRecalled,
-                        'px-4 py-1 shadow my-1': isShowRecalled
+                        'px-4 py-1 shadow my-1 text-sm italic': isShowRecalled
                       })}
                     >
                       {isShowRecalled ? 'Đã gỡ tin nhắn' : chat.message}
