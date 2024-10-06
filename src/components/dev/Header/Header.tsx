@@ -16,11 +16,12 @@ export default function Header() {
   const { isAuthenticated } = useContext(AppContext)
 
   return (
-    <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-background text-foreground h-header-height border'>
+    <header className='w-full shadow-lg py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-primary-bg text-foreground h-header-height'>
       <div className='flex items-center'>
-        <a href={path.home} className='bg-white px-2 py-1'>
-          <img src={LogoHCMUTE} alt='logo-hcmute' className='size-12 object-fit filter invert-0' />
+        <a href={path.home} className='bg-primary-bg dark:bg-white p-1'>
+          <img src={LogoHCMUTE} alt='logo-hcmute' className='w-14 h-14' />
         </a>
+
         <NavHeader />
       </div>
       <div className='flex items-center'>
@@ -33,12 +34,12 @@ export default function Header() {
                   status: registerStatus.create
                 }).toString()
               }}
-              className='text-primary hover:text-primary-foreground transition-colors'
+              className='text-primary hover:text-secondary-foreground transition-colors'
             >
               Đăng ký
             </Link>
             <Separator orientation='vertical' className='mx-4 bg-border h-4' />
-            <Link to={path.login} className='text-primary hover:text-primary-foreground transition-colors'>
+            <Link to={path.login} className='text-primary hover:text-secondary-foreground transition-colors'>
               Đăng nhập
             </Link>
           </div>

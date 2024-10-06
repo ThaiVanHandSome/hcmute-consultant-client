@@ -15,7 +15,7 @@ export default function ConsultantWorking() {
             className='flex items-center px-2 py-2 hover:bg-slate-100 hover:transition-all cursor-pointer rounded-md'
           >
             <AvatarCustom url={user?.avatarUrl} isWorking={true} />
-            <p className='font-semibold'>{onlineUser.fullName}</p>
+            <p className='font-semibold ml-2'>{onlineUser.fullName}</p>
           </li>
         ))}
       </ul>

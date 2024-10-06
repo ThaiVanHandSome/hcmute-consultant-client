@@ -1,6 +1,6 @@
 export default function ConsultActivity() {
   return (
-    <div className='flex mb-3 hover:bg-gray-100 px-2 py-1 hover:transition-all cursor-pointer rounded-md'>
+    <div className='flex mb-3 hover:bg-secondary hover:text-secondary-foreground px-2 py-1 hover:transition-all cursor-pointer rounded-md'>
       <img
         src='https://cdn.zyrosite.com/cdn-ecommerce/store_01H91H2TGHCA5MBN9ET4WFB9GP%2Fassets%2F1695410115152-illustration-graphic-cartoon-character-of-financial-consultation-vector.jpg'
         alt='consult'

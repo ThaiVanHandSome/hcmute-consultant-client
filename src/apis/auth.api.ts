@@ -33,5 +33,5 @@ export const resetPassword = (body: { email: string; newPassword: string }) =>
 export const refreshToken = (body: { refreshToken: string }) =>
   http.post<SuccessResponse<AuthResponse>>(URL_REFRESH_TOKEN, body)
 
-export const updatePassword = (body: { password: string; newPassword: string }) =>
+export const updatePassword = (body: { currentPassword: string; newPassword: string; confirmNewPassword: string }) =>
   http.put<SuccessResponse<string>>('profile/change-password', body)

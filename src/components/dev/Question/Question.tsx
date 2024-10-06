@@ -13,7 +13,10 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 export default function Question({ question, className }: Props) {
   return (
     <div
-      className={clsx(className, 'bg-background text-foreground border rounded-lg shadow w-full max-w-full overflow-hidden')}
+      className={clsx(
+        className,
+        'bg-background text-foreground border rounded-lg shadow-xl w-full max-w-full overflow-hidden'
+      )}
     >
       <div className='px-4 py-3 mb-6'>
         <QuestionHeader question={question} />

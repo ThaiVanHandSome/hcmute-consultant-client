@@ -89,7 +89,7 @@ export default function Login() {
                 isLoading={loginMutation.isPending}
                 disabled={loginMutation.isPending}
                 type='submit'
-                className='w-full py-3 bg-primary text-white rounded-full hover:bg-primary-dark transition-all'
+                className='w-full py-3 bg-primary rounded-full hover:bg-primary-dark transition-all'
               >
                 Đăng nhập
               </Button>

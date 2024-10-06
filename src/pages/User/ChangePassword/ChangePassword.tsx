@@ -26,14 +26,15 @@ export default function ChangePassword() {
   })
 
   const updatePasswordMutation = useMutation({
-    mutationFn: (body: { password: string; newPassword: string }) => updatePassword(body)
+    mutationFn: (body: { currentPassword: string, newPassword: string; confirmNewPassword: string }) => updatePassword(body)
   })
 
   // handle password change process
   const onSubmit = form.handleSubmit((values) => {
     const payload = {
-      password: values.password,
-      newPassword: values.newPassword
+      currentPassword: values.password,
+      newPassword: values.newPassword,
+      confirmNewPassword: values.confirmPassword
     }
     updatePasswordMutation.mutate(payload, {
       onSuccess: (res) => {

@@ -87,7 +87,7 @@ export default function ChatInput({ sendMessage, messageEdit, handleCloseUpdateM
                 control={form.control}
                 name='message'
                 className='mb-0'
-                classNameInput='rounded-lg bg-slate-200'
+                classNameInput='rounded-lg bg-secondary text-secondary-foreground'
                 autoComplete='nope'
               />
             </div>
@@ -107,15 +107,15 @@ export default function ChatInput({ sendMessage, messageEdit, handleCloseUpdateM
             <div className='flex px-2'>
               <div className='flex-1'>
                 <InputCustom
-                  control={form.control}
+                  control={form.control}  
                   name='message'
                   className='mb-0'
-                  classNameInput='rounded-lg bg-slate-200'
+                  classNameInput='rounded-lg bg-secondary text-secondary-foreground'
                   autoComplete='nope'
                 />
               </div>
               <button type='submit'>
-                <CheckCircle2Icon className='size-7 rounded-full bg-card mx-2 cursor-pointer fill-primary text-white' />
+                <CheckCircle2Icon className='size-7 rounded-full bg-card mx-2 cursor-pointer fill-primary text-background' />
               </button>
             </div>
           </div>
