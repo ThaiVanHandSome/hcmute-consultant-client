@@ -1,4 +1,3 @@
-import { Consultant } from '@/types/consultant.type'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -23,6 +22,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { ChevronDownIcon } from 'lucide-react'
 
 interface Props {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly data: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly columns: ColumnDef<any>[]
@@ -95,7 +95,7 @@ export default function DataTable({ data, columns, size }: Props) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className='rounded-md border'>
+      <div className='rounded-md border bg-background'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -6,11 +6,11 @@ interface Props {
   readonly onClick?: () => void
 }
 
-export default function UserPopoverItem({ to, children, onClick }: Props) {
+export default function PopoverItem({ to, children, onClick }: Props) {
   return (
     <li
       aria-hidden='true'
-      className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 border-b border-b-slate-300'
+      className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2'
       onClick={!to ? onClick : () => {}}
     >
       {to && (

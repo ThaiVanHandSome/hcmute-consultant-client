@@ -15,7 +15,7 @@ export default function Question({ question, className }: Props) {
     <div
       className={clsx(
         className,
-        'bg-background text-foreground border rounded-lg shadow-xl w-full max-w-full overflow-hidden'
+        'bg-background text-foreground rounded-lg shadow-xl w-full max-w-full overflow-hidden'
       )}
     >
       <div className='px-4 py-3 mb-6'>

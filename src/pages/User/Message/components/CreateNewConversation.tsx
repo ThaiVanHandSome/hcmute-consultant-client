@@ -1,10 +1,13 @@
 import { getConsultantsByDepartment } from '@/apis/consultant.api'
-import { createUserConversation } from '@/apis/conversation.api'
+import { createGroupConversation, createUserConversation } from '@/apis/conversation.api'
 import { getAllDepartments } from '@/apis/department.api'
+import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
+import { ROLE } from '@/constants/role'
+import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import { ConversationQueryConfig } from '@/hooks/useConversationQueryConfig'
 import { Consultant } from '@/types/consultant.type'
@@ -14,7 +17,7 @@ import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Pencil2Icon } from '@radix-ui/react-icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -22,15 +25,17 @@ interface Props {
   readonly conversationQueryParams: ConversationQueryConfig
 }
 
-export type UserConversationFormData = yup.InferType<typeof CreateConversationSchema>
+export type ConversationFormData = yup.InferType<typeof CreateConversationSchema>
 
 export default function CreateNewConversation({ conversationQueryParams }: Props) {
+  const { role } = useContext(AppContext)
   const queryClient = useQueryClient()
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
 
-  const form = useForm<UserConversationFormData>({
+  const form = useForm<ConversationFormData>({
     defaultValues: {
+      name: '',
       consultantId: '',
       departmentId: ''
     },
@@ -38,7 +43,11 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
   })
 
   const createConversationMutation = useMutation({
-    mutationFn: (body: UserConversationFormData) => createUserConversation(body)
+    mutationFn: (body: ConversationFormData) => createUserConversation(body)
+  })
+
+  const createGroupConversationMutation = useMutation({
+    mutationFn: (body: ConversationFormData) => createGroupConversation(body)
   })
 
   const { data: departments } = useQuery({
@@ -72,7 +81,23 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
 
   // handle create new conversation with new consultant
   const onSubmit = form.handleSubmit((values) => {
-    createConversationMutation.mutate(values, {
+    if (role === ROLE.user) {
+      createConversationMutation.mutate(values, {
+        onSuccess: (res) => {
+          toast({
+            variant: 'success',
+            title: 'Thành công',
+            description: res.data.message
+          })
+          setIsOpenModal(false)
+          queryClient.invalidateQueries({
+            queryKey: ['conversations', conversationQueryParams]
+          })
+        }
+      })
+      return
+    }
+    createGroupConversationMutation.mutate(values, {
       onSuccess: (res) => {
         toast({
           variant: 'success',
@@ -97,6 +122,11 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={onSubmit}>
+            {role === ROLE.consultant && (
+              <div className='mb-4'>
+                <InputCustom control={form.control} name='name' placeholder='Nhập tên nhóm' />
+              </div>
+            )}
             <div className='mb-4'>
               <SelectionCustom
                 control={form.control}

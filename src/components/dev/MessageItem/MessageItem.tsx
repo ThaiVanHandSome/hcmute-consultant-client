@@ -16,6 +16,7 @@ import { TrashIcon } from '@radix-ui/react-icons'
 import { deleteUserConversation } from '@/apis/conversation.api'
 import { toast } from '@/hooks/use-toast'
 import useConversationQueryConfig from '@/hooks/useConversationQueryConfig'
+import DialogAddMember from '@/components/dev/MessageItem/components/DialogAddMember'
 
 interface Props {
   readonly conversationIdActive?: number
@@ -121,7 +122,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
     >
       <AvatarCustom url={receiver?.avatarUrl} className='size-11' />
       <div className='w-[80%] ml-2'>
-        <p className='font-bold truncate text-sm mb-1'>{receiver?.name}</p>
+        <p className='font-bold truncate text-sm mb-1'>{conversation.isGroup ? conversation.name : receiver?.name}</p>
         {lastMessage && (
           <p className='text-xs truncate '>
             {lastChat?.recalledForEveryone ? 'Đã thu hồi một tin nhắn' : lastMessage} .{' '}
@@ -141,6 +142,9 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
             >
               <TrashIcon />
               <span className='ml-1'>Xóa đoạn chat</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <DialogAddMember />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -16,7 +16,9 @@ const path = {
   userDashBoard: '/user/dashboard',
   questionLibrary: '/question-library',
   messages: '/messages',
-  consultantMessages: '/consultant-messages'
+  consultantMessages: '/consultant-messages',
+  manage: '/manage',
+  manageQuestion: '/manage/questions'
 } as const
 
 export default path

@@ -3,8 +3,6 @@ import Chat from '@/components/dev/Chat'
 import MessageItem from '@/components/dev/MessageItem'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
-import { ROLE } from '@/constants/role'
-import { AppContext } from '@/contexts/app.context'
 import useConversationQueryConfig from '@/hooks/useConversationQueryConfig'
 import useQueryParams from '@/hooks/useQueryParams'
 import CreateNewConversation from '@/pages/User/Message/components/CreateNewConversation'
@@ -12,11 +10,10 @@ import { Conversation } from '@/types/conversation.type'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import { MessageCircleIcon } from 'lucide-react'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 
 export default function Message() {
-  const { role } = useContext(AppContext)
   const { id } = useQueryParams()
   const navigate = useNavigate()
   const conversationQueryParams = useConversationQueryConfig()
@@ -85,7 +82,7 @@ export default function Message() {
               </div>
               <MagnifyingGlassIcon className='size-7 text-foreground cursor-pointer' onClick={handleSearch} />
             </div>
-            {role === ROLE.user && <CreateNewConversation conversationQueryParams={conversationQueryParams} />}
+            <CreateNewConversation conversationQueryParams={conversationQueryParams} />
           </div>
           <Separator className='mt-4' />
           <div className='mt-3 flex-grow overflow-y-auto h-full'>

@@ -17,7 +17,7 @@ export default function AsideNav() {
     <aside>
       <ScrollArea>
         <div className='px-4 py-2 h-remain-screen'>
-          <div className='mb-2 pt-2 rounded-sm font-bold text-lg px-2 text-primary'>Câu hỏi theo đơn vị</div>
+          <div className='mb-2 pt-2 rounded-sm font-bold text-lg px-2 text-gray-500'>Câu hỏi theo đơn vị</div>
           <ul>
             <li
               className={clsx('text-left hover:font-semibold transition-all text-sm hover:rounded-md', {
@@ -37,14 +37,11 @@ export default function AsideNav() {
             {departments?.data.data?.map((department) => (
               <li
                 key={department.id}
-                className={clsx(
-                  'text-left hover:font-semibold transition-all text-sm hover:rounded-md',
-                  {
-                    'bg-primary text-primary-foreground font-semibold rounded-md':
-                      parseInt(queryConfig.departmentId) === department.id,
-                    'hover:bg-card hover:text-card-foreground': parseInt(queryConfig.departmentId) !== department.id
-                  }
-                )}
+                className={clsx('text-left hover:font-semibold transition-all text-sm hover:rounded-md', {
+                  'bg-primary text-primary-foreground font-semibold rounded-md':
+                    parseInt(queryConfig.departmentId) === department.id,
+                  'hover:bg-card hover:text-card-foreground': parseInt(queryConfig.departmentId) !== department.id
+                })}
               >
                 <Link
                   to={{

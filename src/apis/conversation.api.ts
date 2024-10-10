@@ -1,13 +1,19 @@
 import { ROLE } from '@/constants/role'
 import { ConversationQueryConfig } from '@/hooks/useConversationQueryConfig'
-import { UserConversationFormData } from '@/pages/User/Message/components/CreateNewConversation'
+import { ConversationFormData } from '@/pages/User/Message/components/CreateNewConversation'
 import { Conversation } from '@/types/conversation.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import { getRoleFromLocalStorage } from '@/utils/auth'
 import http from '@/utils/http'
+import { omit } from 'lodash'
 
-export const createUserConversation = (body: UserConversationFormData) =>
-  http.post<SuccessResponse<Conversation>>('user/conversation/create', body)
+export const createUserConversation = (body: ConversationFormData) => {
+  const newBody = omit(body, ['name'])
+  return http.post<SuccessResponse<Conversation>>('user/conversation/create', newBody)
+}
+
+export const createGroupConversation = (body: ConversationFormData) =>
+  http.post<SuccessResponse<string>>('consultant/conversation/create', body)
 
 export const deleteUserConversation = (conversationId: number) =>
   http.delete<SuccessResponse<string>>('user/conversation/delete', {

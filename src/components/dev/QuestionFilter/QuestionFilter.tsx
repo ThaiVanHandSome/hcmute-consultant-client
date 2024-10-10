@@ -5,7 +5,6 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import path from '@/constants/path'
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { QuestionStatus } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
@@ -18,9 +17,10 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 
 interface Props {
   readonly queryConfig: QuestionQueryConfig
+  readonly path: string
 }
 
-export default function MyQuestionFilter({ queryConfig }: Props) {
+export default function QuestionFilter({ queryConfig, path }: Props) {
   const navigate = useNavigate()
 
   const form = useForm({
@@ -76,7 +76,7 @@ export default function MyQuestionFilter({ queryConfig }: Props) {
     const title = values.title
     if (title) {
       navigate({
-        pathname: path.myQuestions,
+        pathname: path,
         search: createSearchParams({
           ...queryConfig,
           title
@@ -88,7 +88,7 @@ export default function MyQuestionFilter({ queryConfig }: Props) {
   // when form values change, navigate to get new data with new params
   useEffect(() => {
     navigate({
-      pathname: path.myQuestions,
+      pathname: path,
       search: createSearchParams({
         ...queryConfig,
         departmentId: departmentId || '',

@@ -4,15 +4,18 @@ import { QuestionCircle, Spinner } from '@/icons'
 import Question from '@/components/dev/Question'
 import { Question as QuestionType } from '@/types/question.type'
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 import path from '@/constants/path'
+import { AppContext } from '@/contexts/app.context'
+import { ROLE } from '@/constants/role'
 
 export default function ListQuestion() {
   const initialQuestionQueryConfig: QuestionQueryConfig = useQuestionQueryConfig()
   const [listQuestion, setListQuestion] = useState<QuestionType[]>([])
   const [questionQueryConfig, setQuestionQueryConfig] = useState(initialQuestionQueryConfig)
+  const { role } = useContext(AppContext)
 
   const {
     data: questions,
@@ -62,22 +65,24 @@ export default function ListQuestion() {
 
   return (
     <div>
-      <div className='px-6 py-6 rounded-lg shadow-lg bg-gradient-to-r from-blue-400 to-purple-500 text-white mb-6 flex justify-between items-center'>
-        <div className='flex'>
-          <QuestionCircle className='text-3xl text-white mb-4 animate-bounce size-9 mr-2' />
-          <div>
-            <p className='text-xl font-semibold mb-2'>Bạn cần ban tư vấn hỗ trợ</p>
-            <p className='text-md mb-4'>Hãy đặt câu hỏi ngay nhé</p>
+      {role === ROLE.user && (
+        <div className='px-6 py-6 rounded-lg shadow-lg bg-gradient-to-r from-blue-400 to-purple-500 text-white mb-6 flex justify-between items-center'>
+          <div className='flex'>
+            <QuestionCircle className='text-3xl text-white mb-4 animate-bounce size-9 mr-2' />
+            <div>
+              <p className='text-xl font-semibold mb-2'>Bạn cần ban tư vấn hỗ trợ</p>
+              <p className='text-md mb-4'>Hãy đặt câu hỏi ngay nhé</p>
+            </div>
           </div>
+          <Link to={path.createQuestion}>
+            <Button className='bg-[#054bb4] text-white font-semibold px-5 py-2 rounded-md hover:bg-blue-600 transition duration-300'>
+              Đặt câu hỏi
+            </Button>
+          </Link>
         </div>
-        <Link to={path.createQuestion}>
-          <Button className='bg-[#054bb4] text-white font-semibold px-5 py-2 rounded-md hover:bg-blue-600 transition duration-300'>
-            Đặt câu hỏi
-          </Button>
-        </Link>
-      </div>
+      )}
 
-      <div>
+      <div className='space-y-6'>
         {listQuestion.map((question) => (
           <Question key={question.id} question={question} />
         ))}

@@ -1,17 +1,17 @@
 import { useContext } from 'react'
 
-import { CalendarIcon, DashboardIcon } from '@radix-ui/react-icons'
+import { DashboardIcon } from '@radix-ui/react-icons'
 import { LogOutIcon } from 'lucide-react'
 
 import Popover from '@/components/dev/Popover'
 import path from '@/constants/path'
-import { QuestionCircle, UserIcon } from '@/icons'
+import { UserIcon } from '@/icons'
 import { AppContext } from '@/contexts/app.context'
 import { clearLS } from '@/utils/auth'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import PopoverItem from '@/components/dev/Header/components/PopoverItem'
 
-export default function UserPopover() {
+export default function ConsultantPopover() {
   const { setIsAuthenticated, user, setUser, setRole } = useContext(AppContext)
 
   const handleLogout = () => {
@@ -34,33 +34,22 @@ export default function UserPopover() {
     },
     {
       id: 2,
-      to: path.myQuestions,
+      to: path.userDashBoard,
       children: (
         <>
-          <QuestionCircle />
-          <span className='ml-1'>Câu hỏi của tôi</span>
-        </>
-      ),
-      onClick: undefined
-    },
-    {
-      id: 2,
-      to: path.mySchedual,
-      children: (
-        <>
-          <CalendarIcon />
-          <span className='ml-1'>Lịch tư vấn của tôi</span>
+          <DashboardIcon />
+          <span className='ml-1'>Thống kê</span>
         </>
       ),
       onClick: undefined
     },
     {
       id: 3,
-      to: path.userDashBoard,
+      to: path.manageQuestion,
       children: (
         <>
           <DashboardIcon />
-          <span className='ml-1'>Thống kê</span>
+          <span className='ml-1'>Quản lý</span>
         </>
       ),
       onClick: undefined

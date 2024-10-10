@@ -25,10 +25,17 @@ import SchedualConsultant from '@/pages/User/SchedualConsultant'
 import UserDashBoard from '@/pages/User/UserDashBoard'
 import MySchedual from '@/pages/User/MySchedual'
 import MyRating from '@/pages/User/MyRating'
+import ManageLayout from '@/layouts/ManageLayout'
+import ManageQuestion from '@/pages/Consultant/ManageQuestion'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
   return isAuthenticated ? <Outlet /> : <Navigate to={path.login} />
+}
+
+function ProtectedConsultantRoute() {
+  const { role } = useContext(AppContext)
+  return role === 'TUVANVIEN' ? <Outlet /> : <Navigate to={path.home} />
 }
 
 function RejectedRoute() {
@@ -134,6 +141,22 @@ export default function useRouteElement() {
             {
               path: path.userDashBoard,
               element: <UserDashBoard />
+            }
+          ]
+        },
+        {
+          path: '',
+          element: <ProtectedConsultantRoute />,
+          children: [
+            {
+              path: path.manage,
+              element: <ManageLayout />,
+              children: [
+                {
+                  path: path.manageQuestion,
+                  element: <ManageQuestion />
+                }
+              ]
             }
           ]
         }

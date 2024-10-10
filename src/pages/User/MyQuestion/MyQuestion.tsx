@@ -13,8 +13,8 @@ import QuestionStatisticView from '@/components/dev/QuestionStatisticView/Questi
 import { toast } from '@/hooks/use-toast'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import Question from '@/components/dev/Question'
-import MyQuestionFilter from '@/pages/User/MyQuestion/components/MyQuestionFilter'
 import QuestionForm from '@/components/dev/QuestionForm'
+import QuestionFilter from '@/components/dev/QuestionFilter'
 
 export const dialogViewType = {
   detail: 'detail',
@@ -87,7 +87,7 @@ export default function MyQuestion() {
     <div>
       <div>
         <div className='mb-6'>
-          <MyQuestionFilter queryConfig={queryConfig} />
+          <QuestionFilter queryConfig={queryConfig} path={path.myQuestions} />
         </div>
         <Separator className='my-8' />
         <div>

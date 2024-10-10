@@ -153,7 +153,7 @@ export default function Profile() {
   })
 
   return (
-    <div className='bg-card text-card-foreground'>
+    <div>
       <div className='grid grid-cols-5'>
         <div className='col-span-3'>
           <Form {...form}>
