@@ -103,3 +103,10 @@ export const playNotificationSound = () => {
     })
   }
 }
+
+export function isImageFile(fileName: string): boolean {
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'svg']
+  const fileExtension = fileName.split('.').pop()?.toLowerCase()
+  if (!fileExtension) return false
+  return imageExtensions.includes(fileExtension)
+}

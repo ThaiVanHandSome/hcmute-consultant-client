@@ -12,7 +12,7 @@ export default function ConsultantWorking() {
         {onlineUsers?.map((onlineUser, index) => (
           <li
             key={index}
-            className='flex items-center px-2 py-2 hover:bg-slate-100 hover:transition-all cursor-pointer rounded-md'
+            className='flex items-center px-2 py-2 hover:bg-secondary hover:transition-all cursor-pointer rounded-md'
           >
             <AvatarCustom url={user?.avatarUrl} isWorking={true} />
             <p className='font-semibold ml-2'>{onlineUser.fullName}</p>

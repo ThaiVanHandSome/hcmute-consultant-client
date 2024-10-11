@@ -59,3 +59,10 @@ export interface QuestionStatus {
   key: StatusKey
   displayName: string
 }
+
+export interface Answer {
+  questionId: number
+  title: string
+  content: string
+  statusApproval: boolean
+}

@@ -30,9 +30,9 @@ export default function NavHeader() {
   ]
   return (
     <nav className='flex items-center space-x-4 ml-4'>
-      <NavLinkItem to={path.home} label='Trang chủ' />
       {role === ROLE.user && (
         <>
+          <NavLinkItem to={path.home} label='Trang chủ' />
           <NavLinkItem to={path.createQuestion} label='Đặt câu hỏi' />
           <NavLinkItem to={path.questionLibrary} label='Thư viện câu hỏi' />
 
@@ -59,7 +59,7 @@ export default function NavHeader() {
               </ul>
             }
           >
-            <div className='mx-2 cursor-pointer capitalize text-gray-500 hover:text-primary transition-all flex items-center'>
+            <div className='mx-2 cursor-pointer text-foreground hover:text-primary transition-all flex items-center'>
               Tư vấn
               <ChevronDownIcon className='ml-1' />
             </div>

@@ -1,11 +1,23 @@
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
-import { CreateQuestionRequest, CreateQuestionResponse, Question, QuestionStatus } from '@/types/question.type'
+import { Answer, CreateQuestionRequest, CreateQuestionResponse, Question, QuestionStatus } from '@/types/question.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
 
 export const getAllQuestion = (params: QuestionQueryConfig) =>
   http.get<SuccessResponse<PaginationResponse<Question[]>>>('list-question', {
     params
+  })
+
+export const getQuestionByConsultant = (params: QuestionQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<Question[]>>>('consultant/question-answer/list', {
+    params
+  })
+
+export const getQuestionById = (questionId: number) =>
+  http.get<SuccessResponse<Question>>('consultant/question/detail', {
+    params: {
+      questionId
+    }
   })
 
 export const getCommonQuestion = () => http.get<SuccessResponse<PaginationResponse<Question[]>>>('list-common-question')
@@ -47,3 +59,17 @@ export const deleteUserQuestion = (id: number) =>
       id
     }
   })
+
+export const answerTheQuestion = (params: Answer, file: File) =>
+  http.post<SuccessResponse<string>>(
+    'consultant/answer/create',
+    {
+      file
+    },
+    {
+      params,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  )

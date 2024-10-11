@@ -1,9 +1,10 @@
-import { getAllQuestion } from '@/apis/question.api'
-import DataTable from '@/components/dev/DataTable'
+import { getAllQuestion, getQuestionByConsultant } from '@/apis/question.api'
+import PaginationCustom from '@/components/dev/PaginationCustom'
 import QuestionFilter from '@/components/dev/QuestionFilter'
+import QuestionItem from '@/components/dev/QuestionItem'
+import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import useQuestionQueryConfig from '@/hooks/useQuestionQueryConfig'
-import { colums } from '@/pages/Consultant/ManageQuestion/components/columns'
 import { useQuery } from '@tanstack/react-query'
 
 export default function ManageQuestion() {
@@ -11,7 +12,7 @@ export default function ManageQuestion() {
 
   const { data: questions } = useQuery({
     queryKey: ['questions', questionQueryConfig],
-    queryFn: () => getAllQuestion(questionQueryConfig)
+    queryFn: () => getQuestionByConsultant(questionQueryConfig)
   })
   return (
     <div className='space-y-6'>
@@ -22,11 +23,15 @@ export default function ManageQuestion() {
       <div>
         <QuestionFilter queryConfig={questionQueryConfig} path={path.manageQuestion} />
       </div>
-      <div>
-        {questions && (
-          <DataTable columns={colums} data={questions?.data.data.content} size={questions?.data.data.size} />
-        )}
+      <Separator />
+      <div className='rounded-md shadow-lg bg-background'>
+        {questions && questions.data.data.content.map((question) => <QuestionItem question={question} />)}
       </div>
+      <PaginationCustom
+        path={path.manageQuestion}
+        queryConfig={questionQueryConfig}
+        pageSize={questions?.data.data.size as number}
+      />
     </div>
   )
 }

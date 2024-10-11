@@ -18,7 +18,8 @@ const path = {
   messages: '/messages',
   consultantMessages: '/consultant-messages',
   manage: '/manage',
-  manageQuestion: '/manage/questions'
+  manageQuestion: '/manage/questions',
+  questionDetail: '/manage/questions/detail/:id'
 } as const
 
 export default path

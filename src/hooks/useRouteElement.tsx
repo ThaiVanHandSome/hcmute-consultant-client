@@ -27,6 +27,7 @@ import MySchedual from '@/pages/User/MySchedual'
 import MyRating from '@/pages/User/MyRating'
 import ManageLayout from '@/layouts/ManageLayout'
 import ManageQuestion from '@/pages/Consultant/ManageQuestion'
+import QuestionDetail from '@/pages/Consultant/QuestionDetail/QuestionDetail'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -155,6 +156,10 @@ export default function useRouteElement() {
                 {
                   path: path.manageQuestion,
                   element: <ManageQuestion />
+                },
+                {
+                  path: path.questionDetail,
+                  element: <QuestionDetail />
                 }
               ]
             }
