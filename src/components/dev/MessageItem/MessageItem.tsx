@@ -114,7 +114,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
   return (
     <div
       aria-hidden='true'
-      className={clsx('flex w-full my-2 p-2 rounded-lg transition-all cursor-pointer', {
+      className={clsx('flex items-center w-full my-2 p-2 rounded-lg transition-all cursor-pointer', {
         'bg-secondary text-secondary-foreground': conversation.id === conversationIdActive,
         'hover:bg-secondary hover:text-secondary-foreground': conversation.id !== conversationIdActive
       })}
@@ -132,20 +132,19 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
       </div>
       <div className='flex items-center'>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <EllipsisIcon className='size-5' />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem
-              className='text-sm text-destructive font-semibold cursor-pointer'
+            <div
+              aria-hidden='true'
+              className='text-sm text-destructive font-semibold cursor-pointer flex items-center px-2 py-1 hover:bg-secondary rounded transition-all'
               onClick={handleDeleteConversation}
             >
               <TrashIcon />
               <span className='ml-1'>Xóa đoạn chat</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <DialogAddMember />
-            </DropdownMenuItem>
+            </div>
+            <DialogAddMember conversation={conversation} />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -83,7 +83,20 @@ export const RatingSchema = yup.object({
 })
 
 export const CreateConversationSchema = yup.object({
-  name: yup.string(),
   consultantId: yup.string().required('Bạn phải chọn người tư vấn'),
   departmentId: yup.string().required('Bạn phải chọn phòng ban')
+})
+
+export const CreateGroupConversationSchema = yup.object({
+  name: yup.string()
+})
+
+export const SchedualConfirmSchema = yup.object({
+  mode: yup.string(),
+  statusPublic: yup.string(),
+  statusConfirmed: yup.string(),
+  title: yup.string().required('Bạn phải nhập tiêu đề'),
+  content: yup.string().required('Bạn phải nhập nội dung cần được tư vấn'),
+  location: yup.string(),
+  link: yup.string()
 })

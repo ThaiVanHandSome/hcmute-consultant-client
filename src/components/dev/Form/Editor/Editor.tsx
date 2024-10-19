@@ -8,15 +8,18 @@ interface EditorProps<TFieldValues extends FieldValues = FieldValues> {
   readonly control: Control<TFieldValues>
   readonly name: FieldPath<TFieldValues>
   readonly className?: string
+  readonly disabled?: boolean
 }
 
 export default function Editor<TFieldValues extends FieldValues>({
   name,
   label,
   control,
-  className = 'mb-3'
+  className = 'mb-3',
+  disabled = false
 }: EditorProps<TFieldValues>) {
   const { field } = useController({ name, control })
+
   return (
     <div className={className}>
       <Label className='ml-1 mb-2'>{label}</Label>
@@ -26,7 +29,13 @@ export default function Editor<TFieldValues extends FieldValues>({
         render={() => (
           <FormItem>
             <FormControl>
-              <ReactQuill theme='snow' value={field.value} onChange={field.onChange} />
+              <ReactQuill
+                theme='snow'
+                value={field.value}
+                onChange={field.onChange}
+                className='bg-background text-foreground'
+                readOnly={disabled}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

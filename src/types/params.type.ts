@@ -29,6 +29,9 @@ export interface SchedualListConfig extends PaginationConfig {
   title: string
   startDate: Date
   endDate: Date
+  statusPublic: boolean
+  statusConfirmed: boolean
+  mode: boolean
 }
 
 export interface RatingListConfig extends PaginationConfig {

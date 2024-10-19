@@ -60,6 +60,14 @@ export const deleteUserQuestion = (id: number) =>
     }
   })
 
+export const deleteQuestionByConsultant = (questionId: number, reason: string) =>
+  http.delete<SuccessResponse<string>>('consultant/question/delete', {
+    params: {
+      questionId,
+      reason
+    }
+  })
+
 export const answerTheQuestion = (params: Answer, file: File) =>
   http.post<SuccessResponse<string>>(
     'consultant/answer/create',

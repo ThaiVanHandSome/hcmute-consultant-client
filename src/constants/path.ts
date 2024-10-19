@@ -19,7 +19,9 @@ const path = {
   consultantMessages: '/consultant-messages',
   manage: '/manage',
   manageQuestion: '/manage/questions',
-  questionDetail: '/manage/questions/detail/:id'
+  manageSchedule: '/manage/schedules',
+  questionDetail: '/manage/questions/detail/:id',
+  schedualDetail: '/manage/schedules/detail/:id'
 } as const
 
 export default path

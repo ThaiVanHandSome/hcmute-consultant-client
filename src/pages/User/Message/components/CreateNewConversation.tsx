@@ -12,7 +12,7 @@ import { toast } from '@/hooks/use-toast'
 import { ConversationQueryConfig } from '@/hooks/useConversationQueryConfig'
 import { Consultant } from '@/types/consultant.type'
 import { FormControlItem } from '@/types/utils.type'
-import { CreateConversationSchema } from '@/utils/rules'
+import { CreateConversationSchema, CreateGroupConversationSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Pencil2Icon } from '@radix-ui/react-icons'
@@ -26,6 +26,7 @@ interface Props {
 }
 
 export type ConversationFormData = yup.InferType<typeof CreateConversationSchema>
+export type GroupConversationFormData = yup.InferType<typeof CreateGroupConversationSchema>
 
 export default function CreateNewConversation({ conversationQueryParams }: Props) {
   const { role } = useContext(AppContext)
@@ -33,13 +34,19 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
 
-  const form = useForm<ConversationFormData>({
+  const createConversationForm = useForm<ConversationFormData>({
     defaultValues: {
-      name: '',
       consultantId: '',
       departmentId: ''
     },
     resolver: yupResolver(CreateConversationSchema)
+  })
+
+  const createGroupConversationForm = useForm<GroupConversationFormData>({
+    defaultValues: {
+      name: ''
+    },
+    resolver: yupResolver(CreateGroupConversationSchema)
   })
 
   const createConversationMutation = useMutation({
@@ -47,7 +54,7 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
   })
 
   const createGroupConversationMutation = useMutation({
-    mutationFn: (body: ConversationFormData) => createGroupConversation(body)
+    mutationFn: (body: GroupConversationFormData) => createGroupConversation(body)
   })
 
   const { data: departments } = useQuery({
@@ -61,7 +68,7 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
     return generateSelectionData(data)
   }, [departments])
 
-  const departmentId = form.watch('departmentId')
+  const departmentId = createConversationForm.watch('departmentId')
   const { data: consultants } = useQuery({
     queryKey: ['consultantsByDepartment', departmentId],
     queryFn: () => getConsultantsByDepartment(departmentId),
@@ -80,24 +87,8 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
   }, [consultants])
 
   // handle create new conversation with new consultant
-  const onSubmit = form.handleSubmit((values) => {
-    if (role === ROLE.user) {
-      createConversationMutation.mutate(values, {
-        onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            title: 'Thành công',
-            description: res.data.message
-          })
-          setIsOpenModal(false)
-          queryClient.invalidateQueries({
-            queryKey: ['conversations', conversationQueryParams]
-          })
-        }
-      })
-      return
-    }
-    createGroupConversationMutation.mutate(values, {
+  const onUserSubmit = createConversationForm.handleSubmit((values) => {
+    createConversationMutation.mutate(values, {
       onSuccess: (res) => {
         toast({
           variant: 'success',
@@ -111,6 +102,23 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
       }
     })
   })
+
+  const onConsultantSubmit = createGroupConversationForm.handleSubmit((values) =>
+    createGroupConversationMutation.mutate(values, {
+      onSuccess: (res) => {
+        toast({
+          variant: 'success',
+          title: 'Thành công',
+          description: res.data.message
+        })
+        setIsOpenModal(false)
+        queryClient.invalidateQueries({
+          queryKey: ['conversations', conversationQueryParams]
+        })
+      }
+    })
+  )
+
   return (
     <Dialog open={isOpenModal} onOpenChange={setIsOpenModal}>
       <DialogTrigger asChild>
@@ -120,41 +128,57 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
         <DialogHeader>
           <DialogTitle>Tạo đoạn chat mới</DialogTitle>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={onSubmit}>
-            {role === ROLE.consultant && (
+        {role === ROLE.user && (
+          <Form {...createConversationForm}>
+            <form onSubmit={onUserSubmit}>
               <div className='mb-4'>
-                <InputCustom control={form.control} name='name' placeholder='Nhập tên nhóm' />
+                <SelectionCustom
+                  control={createConversationForm.control}
+                  name='departmentId'
+                  placeholder='Chọn phòng ban'
+                  data={departmentsSelectionData}
+                />
               </div>
-            )}
-            <div className='mb-4'>
-              <SelectionCustom
-                control={form.control}
-                name='departmentId'
-                placeholder='Chọn phòng ban'
-                data={departmentsSelectionData}
-              />
-            </div>
-            <div className='mb-4'>
-              <SelectionCustom
-                control={form.control}
-                name='consultantId'
-                placeholder='Chọn tư vấn viên'
-                data={consultantsSelectionData}
-              />
-            </div>
-            <div className='flex items-center justify-center'>
-              <Button
-                isLoading={createConversationMutation.isPending}
-                disabled={createConversationMutation.isPending}
-                type='submit'
-                className='w-full'
-              >
-                Tạo
-              </Button>
-            </div>
-          </form>
-        </Form>
+              <div className='mb-4'>
+                <SelectionCustom
+                  control={createConversationForm.control}
+                  name='consultantId'
+                  placeholder='Chọn tư vấn viên'
+                  data={consultantsSelectionData}
+                />
+              </div>
+              <div className='flex items-center justify-center'>
+                <Button
+                  isLoading={createConversationMutation.isPending}
+                  disabled={createConversationMutation.isPending}
+                  type='submit'
+                  className='w-full'
+                >
+                  Tạo
+                </Button>
+              </div>
+            </form>
+          </Form>
+        )}
+        {role === ROLE.consultant && (
+          <Form {...createGroupConversationForm}>
+            <form onSubmit={onConsultantSubmit}>
+              <div className='mb-4'>
+                <InputCustom control={createGroupConversationForm.control} name='name' placeholder='Nhập tên nhóm' />
+              </div>
+              <div className='flex items-center justify-center'>
+                <Button
+                  isLoading={createGroupConversationMutation.isPending}
+                  disabled={createGroupConversationMutation.isPending}
+                  type='submit'
+                  className='w-full'
+                >
+                  Tạo
+                </Button>
+              </div>
+            </form>
+          </Form>
+        )}
       </DialogContent>
     </Dialog>
   )

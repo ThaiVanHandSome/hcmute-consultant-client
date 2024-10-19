@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
+import DialogDeleteQuestion from '@/pages/Consultant/QuestionDetail/components/DialogDeleteQuestion'
 import { Answer } from '@/types/question.type'
 import { formatDate, isImageFile } from '@/utils/utils'
 import { TrashIcon } from '@radix-ui/react-icons'
@@ -114,8 +115,8 @@ export default function QuestionDetail() {
           </div>
         </div>
       </div>
-      <div className='bg-background px-6 rounded-lg shadow-xl flex items-center justify-center'>
-        <div className='w-2/3 bg-primary-bg px-4 py-2'>
+      <div className='bg-background px-6 rounded-lg shadow-xl flex items-center justify-center py-2'>
+        <div className='w-2/3 bg-primary-bg px-4 py-2 rounded-xl'>
           <div dangerouslySetInnerHTML={{ __html: question?.content as string }}></div>
           {question?.fileName && (
             <>
@@ -145,12 +146,15 @@ export default function QuestionDetail() {
       )}
 
       <div
-        className={clsx('flex items-center space-x-2 mt-4', {
+        className={clsx('flex items-center justify-between space-x-2 mt-4', {
           hidden: showToAnswer
         })}
       >
-        <Button onClick={handleOpenToAnswer}>Phản hồi</Button>
-        <Button variant='outline'>Chuyển tiếp</Button>
+        <div className='space-x-2'>
+          <Button onClick={handleOpenToAnswer}>Phản hồi</Button>
+          <Button variant='outline'>Chuyển tiếp</Button>
+        </div>
+        <DialogDeleteQuestion questionId={parseInt(id as string)} />
       </div>
       {showToAnswer && (
         <div className='mt-4 flex gap-2'>

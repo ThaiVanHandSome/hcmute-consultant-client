@@ -13,6 +13,7 @@ import HeaderMessage from '@/components/dev/Header/components/HeaderMessage'
 import { ModeToggle } from '@/components/dev/ModeToggle/ModeToggle'
 import ConsultantPopover from '@/components/dev/Header/components/ConsultantPopover'
 import { ROLE } from '@/constants/role'
+import { ClipboardIcon } from '@radix-ui/react-icons'
 
 export default function Header() {
   const { isAuthenticated, role } = useContext(AppContext)
@@ -50,6 +51,11 @@ export default function Header() {
           <div className='flex items-center'>
             <HeaderNotification />
             <HeaderMessage />
+            {role === ROLE.consultant && (
+              <Link to={path.manageQuestion}>
+                <ClipboardIcon className='size-6 text-foreground mr-2' />
+              </Link>
+            )}
             <ModeToggle />
             {role === ROLE.user && <UserPopover />}
             {role === ROLE.consultant && <ConsultantPopover />}

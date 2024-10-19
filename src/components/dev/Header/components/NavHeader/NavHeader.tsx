@@ -33,7 +33,7 @@ export default function NavHeader() {
       {role === ROLE.user && (
         <>
           <NavLinkItem to={path.home} label='Trang chủ' />
-          <NavLinkItem to={path.createQuestion} label='Đặt câu hỏi' />
+          <NavLinkItem isEmphasize to={path.createQuestion} label='Đặt câu hỏi' />
           <NavLinkItem to={path.questionLibrary} label='Thư viện câu hỏi' />
 
           <Popover

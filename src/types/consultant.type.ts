@@ -16,9 +16,27 @@ export interface SchedualConsultant {
     id: number
     name: string
   }
+  userName: string
   consultantName: string
   title: string
   content: string
   mode: boolean
   statusPublic: boolean
+  statusConfirmed: boolean
+  consultationDate: string
+  consultationTime: string
+  location: string
+  link: string
+}
+
+export interface SchedualConfirm {
+  title: string
+  content: string
+  consultationDate: string
+  consultationTime: string
+  location?: string
+  link?: string
+  mode: boolean
+  statusPublic: boolean
+  statusConfirmed: boolean
 }

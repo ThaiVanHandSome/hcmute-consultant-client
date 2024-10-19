@@ -17,6 +17,7 @@ export default function InputCustom<TFieldValues extends FieldValues>({
   type = 'text',
   control,
   disabled,
+  readOnly,
   className = 'mb-3',
   classNameInput = '',
   onFocus
@@ -33,6 +34,7 @@ export default function InputCustom<TFieldValues extends FieldValues>({
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <Input
+                readOnly={readOnly}
                 onFocus={onFocus}
                 className={classNameInput}
                 disabled={disabled}

@@ -9,6 +9,7 @@ export interface User {
   avatarUrl: string
   gender: string
   email: string
+  name: string
   address: {
     line: string
     provinceCode: string

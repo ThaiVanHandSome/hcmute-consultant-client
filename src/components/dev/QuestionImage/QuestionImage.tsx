@@ -54,7 +54,7 @@ export default function QuestionImage({ url }: Props) {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className='max-w-[900px] max-h-[80vh] overflow-x-auto'>
           <img src={url} alt='content-bg' className='w-full' />
         </DialogContent>
       </Dialog>

@@ -66,7 +66,7 @@ export default function ListQuestion() {
   return (
     <div>
       {role === ROLE.user && (
-        <div className='px-6 py-6 rounded-lg shadow-lg bg-gradient-to-r from-blue-400 to-purple-500 text-white mb-6 flex justify-between items-center'>
+        <div className=' px-6 py-6 rounded-lg shadow-lg bg-gradient-to-r from-blue-400 to-purple-500 text-white mb-6 flex justify-between items-center z-50 bg-opacity-20 backdrop-filter backdrop-blur-lg'>
           <div className='flex'>
             <QuestionCircle className='text-3xl text-white mb-4 animate-bounce size-9 mr-2' />
             <div>

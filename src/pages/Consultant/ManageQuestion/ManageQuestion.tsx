@@ -1,4 +1,4 @@
-import { getAllQuestion, getQuestionByConsultant } from '@/apis/question.api'
+import { getQuestionByConsultant } from '@/apis/question.api'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import QuestionFilter from '@/components/dev/QuestionFilter'
 import QuestionItem from '@/components/dev/QuestionItem'
@@ -25,7 +25,7 @@ export default function ManageQuestion() {
       </div>
       <Separator />
       <div className='rounded-md shadow-lg bg-background'>
-        {questions && questions.data.data.content.map((question) => <QuestionItem question={question} />)}
+        {questions?.data.data.content.map((question) => <QuestionItem question={question} />)}
       </div>
       <PaginationCustom
         path={path.manageQuestion}

@@ -136,4 +136,49 @@
   *::-webkit-scrollbar-thumb:active {
     background: rgba(0, 0, 0, 0.9);
   }
+
+  .flaming-text {
+    color: #ff4500 !important; /* Màu cam đậm hơn */
+    font-weight: bold;
+    position: relative;
+    text-shadow:
+      0 0 30px #ff4500,
+      /* Ánh sáng cam đậm */ 0 0 40px #ff8c00,
+      /* Ánh sáng cam nhạt */ 0 0 50px #ffd700,
+      /* Ánh sáng vàng đậm */ 0 0 60px #ff8c00,
+      /* Ánh sáng cam nhạt */ 0 0 80px #ff4500,
+      /* Ánh sáng cam đậm hơn */ 0 0 90px #ff0000; /* Màu đỏ đậm */
+    animation: flameAnimation 1.5s infinite; /* Giảm thời gian animation để hiệu ứng nhanh hơn */
+  }
+
+  /* Tạo chuyển động để ngọn lửa lung linh */
+  @keyframes flameAnimation {
+    0% {
+      text-shadow:
+        0 0 30px #ff4500,
+        0 0 40px #ff8c00,
+        0 0 50px #ffd700,
+        0 0 60px #ff8c00,
+        0 0 80px #ff4500,
+        0 0 90px #ff0000;
+    }
+    50% {
+      text-shadow:
+        0 0 40px #ff4500,
+        0 0 50px #ff8c00,
+        0 0 60px #ffd700,
+        0 0 70px #ff8c00,
+        0 0 90px #ff4500,
+        0 0 100px #ff0000;
+    }
+    100% {
+      text-shadow:
+        0 0 30px #ff4500,
+        0 0 40px #ff8c00,
+        0 0 50px #ffd700,
+        0 0 60px #ff8c00,
+        0 0 80px #ff4500,
+        0 0 90px #ff0000;
+    }
+  }
 }

@@ -5,13 +5,16 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { ROLE } from '@/constants/role'
+import { AppContext } from '@/contexts/app.context'
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { QuestionStatus } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
 import { generateSelectionData, parseDate } from '@/utils/utils'
 import { useQuery } from '@tanstack/react-query'
+import clsx from 'clsx'
 import { format } from 'date-fns'
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 
@@ -21,6 +24,7 @@ interface Props {
 }
 
 export default function QuestionFilter({ queryConfig, path }: Props) {
+  const { role } = useContext(AppContext)
   const navigate = useNavigate()
 
   const form = useForm({
@@ -102,16 +106,23 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit}>
-        <div className='grid grid-cols-4 gap-2 mb-4'>
-          <div className='col-span-1'>
-            <SelectionCustom
-              control={form.control}
-              name='departmentId'
-              placeholder='Đơn vị'
-              defaultValue={queryConfig.departmentId}
-              data={departmentsSelectionData}
-            />
-          </div>
+        <div
+          className={clsx('grid gap-2 mb-4', {
+            'grid-cols-4': role === ROLE.user,
+            'grid-cols-3': role === ROLE.consultant
+          })}
+        >
+          {role === ROLE.user && (
+            <div className='col-span-1'>
+              <SelectionCustom
+                control={form.control}
+                name='departmentId'
+                placeholder='Đơn vị'
+                defaultValue={queryConfig.departmentId}
+                data={departmentsSelectionData}
+              />
+            </div>
+          )}
           <div className='col-span-1'>
             <SelectionCustom
               control={form.control}

@@ -12,7 +12,7 @@ export default function Home() {
         <div className='w-[320px] fixed top-[var(--header-height)] pt-4'>
           <AsideNav />
         </div>
-        <div className='ml-[320px] mr-[320px] px-28 flex-1'>
+        <div className='ml-[320px] mr-[360px] px-16 flex-1'>
           <ListQuestion />
         </div>
         <div className='w-[360px] fixed top-[var(--header-height)] right-0 pt-4'>

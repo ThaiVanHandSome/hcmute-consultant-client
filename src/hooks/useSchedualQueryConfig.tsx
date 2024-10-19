@@ -18,7 +18,10 @@ export default function useSchedualQueryConfig() {
       title: queryParams?.title,
       departmentId: queryParams?.departmentId,
       startDate: queryParams?.startDate,
-      endDate: queryParams.endDate
+      endDate: queryParams.endDate,
+      statusPublic: queryParams.statusPublic,
+      statusConfirmed: queryParams.statusConfirmed,
+      mode: queryParams.mode
     },
     isUndefined
   ) as SchedualQueryConfig

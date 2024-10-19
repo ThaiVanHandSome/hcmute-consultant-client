@@ -1,3 +1,4 @@
+import DialogViewSchedualDetail from '@/pages/User/MySchedual/components/DialogViewSchedualDetail'
 import { SchedualConsultant } from '@/types/consultant.type'
 import { ColumnDef } from '@tanstack/react-table'
 
@@ -32,8 +33,11 @@ export const columns: ColumnDef<SchedualConsultant>[] = [
     cell: ({ row }) => <div className='capitalize '>{row.getValue('title')}</div>
   },
   {
-    accessorKey: 'content',
-    header: 'Nội dung',
-    cell: ({ row }) => <div dangerouslySetInnerHTML={{ __html: row.getValue('content') }} />
+    accessorKey: 'action',
+    header: '',
+    cell: ({ row }) => {
+      const schedual: SchedualConsultant = row.original
+      return <DialogViewSchedualDetail schedule={schedual} />
+    }
   }
 ]
