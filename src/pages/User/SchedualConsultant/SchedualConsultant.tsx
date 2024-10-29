@@ -79,7 +79,6 @@ export default function SchedualConsultant() {
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
         navigate(path.home)

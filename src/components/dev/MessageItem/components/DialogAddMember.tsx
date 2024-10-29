@@ -48,7 +48,6 @@ export default function DialogAddMember({ conversation }: Props) {
         onSuccess: (res) => {
           toast({
             variant: 'success',
-            title: 'Thành công',
             description: res.data.message
           })
           setOpen(false)
@@ -79,9 +78,8 @@ export default function DialogAddMember({ conversation }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <div className='text-sm font-semibold cursor-pointer flex items-center px-2 py-1 hover:bg-secondary rounded transition-all'>
-          <PlusIcon />
-          <span className='ml-1'>Thêm thành viên</span>
+        <div className='size-9 flex items-center justify-center rounded-full hover:bg-secondary cursor-pointer'>
+          <PlusIcon className='size-4 text-secondary-foreground' />
         </div>
       </DialogTrigger>
       <DialogContent>

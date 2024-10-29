@@ -1,4 +1,4 @@
-import { getQuestionByConsultant } from '@/apis/question.api'
+import { getQuestions } from '@/apis/question.api'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import QuestionFilter from '@/components/dev/QuestionFilter'
 import QuestionItem from '@/components/dev/QuestionItem'
@@ -12,7 +12,7 @@ export default function ManageQuestion() {
 
   const { data: questions } = useQuery({
     queryKey: ['questions', questionQueryConfig],
-    queryFn: () => getQuestionByConsultant(questionQueryConfig)
+    queryFn: () => getQuestions(questionQueryConfig)
   })
   return (
     <div className='space-y-6'>
@@ -25,12 +25,12 @@ export default function ManageQuestion() {
       </div>
       <Separator />
       <div className='rounded-md shadow-lg bg-background'>
-        {questions?.data.data.content.map((question) => <QuestionItem question={question} />)}
+        {questions?.data.data.content.map((question) => <QuestionItem key={question.id} question={question} />)}
       </div>
       <PaginationCustom
         path={path.manageQuestion}
         queryConfig={questionQueryConfig}
-        pageSize={questions?.data.data.size as number}
+        pageSize={questions?.data.data.totalPages as number}
       />
     </div>
   )

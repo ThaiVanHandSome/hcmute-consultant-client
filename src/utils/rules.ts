@@ -44,7 +44,6 @@ export const CreateQuestionSchema = yup.object({
   studentCode: yup.string(),
   firstName: yup.string().required('Bạn phải nhập họ'),
   lastName: yup.string().required('Bạn phải nhập tên'),
-  email: yup.string().required('Bạn phải nhập email'),
   title: yup.string().required('Bạn phải nhập tiêu đề câu hỏi'),
   content: yup
     .string()
@@ -99,4 +98,9 @@ export const SchedualConfirmSchema = yup.object({
   content: yup.string().required('Bạn phải nhập nội dung cần được tư vấn'),
   location: yup.string(),
   link: yup.string()
+})
+
+export const AddPostSchema = yup.object({
+  title: yup.string().required('Bạn phải nhập tiêu đề'),
+  content: yup.string().required('Bạn phải nhập nội dung')
 })

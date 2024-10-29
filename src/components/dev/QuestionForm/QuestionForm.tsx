@@ -64,7 +64,6 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
       roleAskId: '',
       title: '',
       content: '',
-      email: '',
       firstName: '',
       lastName: '',
       statusPublic: true,
@@ -81,7 +80,6 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
       roleAskId: String(question?.roleAsk.id),
       title: question?.title,
       content: question?.content,
-      email: '',
       firstName: question?.askerFirstname,
       lastName: question?.askerLastname,
       statusPublic: true,
@@ -144,7 +142,6 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
           onSuccess: (res) => {
             toast({
               variant: 'success',
-              title: 'Thành công',
               description: res.data.message
             })
 
@@ -165,7 +162,6 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
         onSuccess: (res) => {
           toast({
             variant: 'success',
-            title: 'Thành công',
             description: res.data.message
           })
 
@@ -224,7 +220,7 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
             <Label className='text-md italic relative inline-flex items-center before:inline-block after:inline-block before:w-4 after:w-4 before:h-[1px] after:h-[1px] before:bg-current after:bg-current before:mr-2 after:ml-2'>
               Thông tin cá nhân
             </Label>
-            <div className='grid grid-cols-12 gap-4 mt-1'>
+            <div className='grid grid-cols-8 gap-4 mt-1'>
               <div className='col-span-4'>
                 <InputCustom
                   onFocus={() => handleFocus(guideTypes.firstName)}
@@ -243,6 +239,8 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                   label='Tên'
                 />
               </div>
+            </div>
+            <div className='grid grid-cols-8 gap-3 mb-4'>
               <div className='col-span-4'>
                 <SelectionCustom
                   control={form.control}
@@ -252,17 +250,6 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                   defaultValue={String(question?.roleAsk.id)}
                   onFocus={() => handleFocus(guideTypes.role)}
                   label='Vai trò'
-                />
-              </div>
-            </div>
-            <div className='grid grid-cols-12 gap-3 mb-4'>
-              <div className='col-span-8'>
-                <InputCustom
-                  onFocus={() => handleFocus(guideTypes.email)}
-                  control={form.control}
-                  name='email'
-                  placeholder='Email'
-                  label='Email'
                 />
               </div>
               <div className='col-span-4'>

@@ -16,7 +16,7 @@ import { ChartStatistics } from '@/types/statistics.type'
 interface Props {
   readonly year: string
   readonly label: string
-  readonly getData: (n: number) => Promise<AxiosResponse<SuccessResponse<ChartStatistics[]>, any>>
+  readonly getData: (year: number) => Promise<AxiosResponse<SuccessResponse<ChartStatistics[]>, any>>
   readonly keyFn: string
 }
 

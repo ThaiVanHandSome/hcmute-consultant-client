@@ -40,3 +40,14 @@ export interface SchedualConfirm {
   statusPublic: boolean
   statusConfirmed: boolean
 }
+
+export interface ConsultantStatistic {
+  totalQuestionsInDay: number
+  totalForwardedQuestions: number
+  totalDeletedQuestions: number
+  totalAnswersGiven: number
+  totalAnswerApproval: number
+  totalConsultantSchedule: number
+  totalApprovedPosts: number
+  totalConversations: number
+}

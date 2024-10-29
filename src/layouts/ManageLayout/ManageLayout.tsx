@@ -2,7 +2,7 @@ import Header from '@/components/dev/Header'
 import path from '@/constants/path'
 import { QuestionCircle } from '@/icons'
 import clsx from 'clsx'
-import { CalendarDaysIcon } from 'lucide-react'
+import { CalendarDaysIcon, ClipboardPlusIcon } from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom'
 
 const asideNavData = [
@@ -15,6 +15,11 @@ const asideNavData = [
     path: path.manageSchedule,
     icon: <CalendarDaysIcon className='size-5' />,
     label: 'Lịch tư vấn'
+  },
+  {
+    path: path.managePost,
+    icon: <ClipboardPlusIcon className='size-5' />,
+    label: 'Bài đăng'
   }
 ]
 

@@ -14,14 +14,18 @@ const path = {
   consultantEvaluation: '/consultant-evaluation',
   scheduleConsultant: '/schedule-consultant',
   userDashBoard: '/user/dashboard',
+  consultantDashboard: '/user/consultant-dashboard',
   questionLibrary: '/question-library',
   messages: '/messages',
   consultantMessages: '/consultant-messages',
   manage: '/manage',
   manageQuestion: '/manage/questions',
   manageSchedule: '/manage/schedules',
+  managePost: '/manage/posts',
   questionDetail: '/manage/questions/detail/:id',
-  schedualDetail: '/manage/schedules/detail/:id'
+  schedualDetail: '/manage/schedules/detail/:id',
+  postDetail: '/manage/posts/detail/:id',
+  post: '/posts/:id'
 } as const
 
 export default path

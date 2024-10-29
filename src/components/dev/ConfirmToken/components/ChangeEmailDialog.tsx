@@ -40,7 +40,6 @@ export default function ChangeEmailDialog({ email, isDisabledTriggerButton }: Pr
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
       },

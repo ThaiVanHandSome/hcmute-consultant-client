@@ -50,7 +50,7 @@ export default function UserLayout() {
     },
     {
       id: 1,
-      path: path.userDashBoard,
+      path: role === ROLE.user ? path.userDashBoard : path.consultantDashboard,
       icon: <DashboardIcon className='size-5' />,
       label: 'Thống kê',
       hidden: false

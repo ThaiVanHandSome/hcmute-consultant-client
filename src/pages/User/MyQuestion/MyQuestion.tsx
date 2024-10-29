@@ -1,5 +1,4 @@
-import { deleteUserQuestion } from '@/apis/question.api'
-import { getAllQuestionsOfUser } from '@/apis/user.api'
+import { deleteQuestion, getQuestions } from '@/apis/question.api'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -36,21 +35,20 @@ export default function MyQuestion() {
   }
 
   const { data: questionsOfUser, refetch } = useQuery({
-    queryKey: ['questions-of-user', queryConfig],
-    queryFn: () => getAllQuestionsOfUser(queryConfig)
+    queryKey: ['questions', queryConfig],
+    queryFn: () => getQuestions(queryConfig)
   })
 
   const deleteQuestionMutation = useMutation({
-    mutationFn: (id: number) => deleteUserQuestion(id)
+    mutationFn: (id: number) => deleteQuestion(id)
   })
 
-  const deleteQuestion = () => {
+  const handleDeleteQuestion = () => {
     if (!questionActive?.id) return
     deleteQuestionMutation.mutate(questionActive?.id, {
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
         refetch()
@@ -75,7 +73,7 @@ export default function MyQuestion() {
           isLoading={deleteQuestionMutation.isPending}
           variant='destructive'
           className='ml-3 px-4 flex-shrink-0'
-          onClick={deleteQuestion}
+          onClick={handleDeleteQuestion}
         >
           Xóa
         </Button>

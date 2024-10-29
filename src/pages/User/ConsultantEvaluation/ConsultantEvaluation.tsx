@@ -68,7 +68,6 @@ export default function ConsultantEvaluation() {
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
         navigate(path.home)

@@ -44,3 +44,7 @@ export interface RatingListConfig extends PaginationConfig {
 export interface ChatHistoryConfig extends PaginationConfig {
   conversationId: number
 }
+
+export interface PostListConfig extends PaginationConfig {
+  isApproved: boolean
+}

@@ -1,4 +1,3 @@
-import { getAllUserConsultant } from '@/apis/user.api'
 import { Separator } from '@/components/ui/separator'
 import useSchedualQueryConfig from '@/hooks/useSchedualQueryConfig'
 import MySchedualFilter from '@/pages/User/MySchedual/components/MySchedualFilter'
@@ -8,13 +7,14 @@ import DataTable from '@/components/dev/DataTable'
 import { columns } from '@/pages/User/MySchedual/components/columns'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import path from '@/constants/path'
+import { getScheduals } from '@/apis/user.api'
 
 export default function MySchedual() {
   const schedualQueryConfig = useSchedualQueryConfig()
 
   const { data: schedualConsultants } = useQuery({
     queryKey: ['schedual-consultants', schedualQueryConfig],
-    queryFn: () => getAllUserConsultant(schedualQueryConfig)
+    queryFn: () => getScheduals(schedualQueryConfig)
   })
 
   return (

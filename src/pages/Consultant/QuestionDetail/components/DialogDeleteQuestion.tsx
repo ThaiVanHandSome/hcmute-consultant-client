@@ -32,7 +32,6 @@ export default function DialogDeleteQuestion({ questionId }: Props) {
         onSuccess: (res) => {
           toast({
             variant: 'success',
-            title: 'Thành công',
             description: res.data.message
           })
           setOpen(false)

@@ -8,8 +8,8 @@ export const getAllQuestion = (params: QuestionQueryConfig) =>
     params
   })
 
-export const getQuestionByConsultant = (params: QuestionQueryConfig) =>
-  http.get<SuccessResponse<PaginationResponse<Question[]>>>('consultant/question-answer/list', {
+export const getQuestions = (params: QuestionQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<Question[]>>>('/question-answer/list', {
     params
   })
 
@@ -53,8 +53,8 @@ export const updateQuestion = (questionId: number, params: CreateQuestionRequest
 
 export const getAllQuestionStatus = () => http.get<SuccessResponse<QuestionStatus[]>>('list-filter-status-options')
 
-export const deleteUserQuestion = (id: number) =>
-  http.delete<SuccessResponse<string>>('user/question/delete', {
+export const deleteQuestion = (id: number) =>
+  http.delete<SuccessResponse<string>>('question/delete', {
     params: {
       id
     }
@@ -81,3 +81,6 @@ export const answerTheQuestion = (params: Answer, file: File) =>
       }
     }
   )
+
+export const forwardQuestion = (body: { toDepartmentId: number; questionId: number; consultantId: number }) =>
+  http.post<SuccessResponse<string>>('consultant/forward-question/forward', body)

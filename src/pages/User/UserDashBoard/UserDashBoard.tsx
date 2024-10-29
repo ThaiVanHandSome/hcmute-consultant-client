@@ -15,7 +15,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import ChartWithYear from '@/pages/User/UserDashBoard/components/ChartWithYear'
+import ChartWithYear from '@/components/dev/ChartWithYear'
 import { ChartStatistics } from '@/types/statistics.type'
 import { SuccessResponse } from '@/types/utils.type'
 import { useQuery } from '@tanstack/react-query'
@@ -140,7 +140,8 @@ export default function UserDashBoard() {
           year={year}
           label={selectedType?.label as string}
           getData={
-            selectedType?.getData as (n: number) => Promise<AxiosResponse<SuccessResponse<ChartStatistics[]>, any>>
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            selectedType?.getData as (year: number) => Promise<AxiosResponse<SuccessResponse<ChartStatistics[]>, any>>
           }
           keyFn={selectedType?.keyFn as string}
         />

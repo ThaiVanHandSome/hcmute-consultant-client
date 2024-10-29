@@ -40,7 +40,6 @@ export default function ChangePassword() {
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
         form.reset(formDefaultValue) // reset all inputs value when change password successfully

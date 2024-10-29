@@ -11,12 +11,13 @@ import { ChatHistoryConfig } from '@/types/params.type'
 import { getChatHistory } from '@/apis/chat.api'
 import { AppContext } from '@/contexts/app.context'
 import { EllipsisIcon } from 'lucide-react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { TrashIcon } from '@radix-ui/react-icons'
-import { deleteUserConversation } from '@/apis/conversation.api'
+import { deleteConversation } from '@/apis/conversation.api'
 import { toast } from '@/hooks/use-toast'
 import useConversationQueryConfig from '@/hooks/useConversationQueryConfig'
-import DialogAddMember from '@/components/dev/MessageItem/components/DialogAddMember'
+import DialogConversationDetail from '@/components/dev/MessageItem/components/DialogConversationDetail'
+import { ROLE } from '@/constants/role'
 
 interface Props {
   readonly conversationIdActive?: number
@@ -25,6 +26,7 @@ interface Props {
 
 export default function MessageItem({ conversation, conversationIdActive }: Props) {
   const queryClient = useQueryClient()
+  const { role } = useContext(AppContext)
 
   const conversationQueryParams = useConversationQueryConfig()
   const chatHistoryQueryConfig: ChatHistoryConfig = {
@@ -65,7 +67,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
   }
 
   const deleteConversationMutation = useMutation({
-    mutationFn: (id: number) => deleteUserConversation(id)
+    mutationFn: (id: number) => deleteConversation(id)
   })
 
   const handleDeleteConversation = () => {
@@ -73,7 +75,6 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
         queryClient.invalidateQueries({
@@ -136,6 +137,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
             <EllipsisIcon className='size-5' />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
+            {role === ROLE.consultant && <DialogConversationDetail conversation={conversation} />}
             <div
               aria-hidden='true'
               className='text-sm text-destructive font-semibold cursor-pointer flex items-center px-2 py-1 hover:bg-secondary rounded transition-all'
@@ -144,7 +146,6 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
               <TrashIcon />
               <span className='ml-1'>Xóa đoạn chat</span>
             </div>
-            <DialogAddMember conversation={conversation} />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

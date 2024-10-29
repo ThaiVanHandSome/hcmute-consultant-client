@@ -11,6 +11,7 @@ import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import DialogDeleteQuestion from '@/pages/Consultant/QuestionDetail/components/DialogDeleteQuestion'
+import DialogForwardQuestion from '@/pages/Consultant/QuestionDetail/components/DialogForwardQuestion'
 import { Answer } from '@/types/question.type'
 import { formatDate, isImageFile } from '@/utils/utils'
 import { TrashIcon } from '@radix-ui/react-icons'
@@ -73,7 +74,6 @@ export default function QuestionDetail() {
         onSuccess: (res) => {
           toast({
             variant: 'success',
-            title: 'Thành công',
             description: res.data.message
           })
           navigate(path.manageQuestion)
@@ -152,7 +152,7 @@ export default function QuestionDetail() {
       >
         <div className='space-x-2'>
           <Button onClick={handleOpenToAnswer}>Phản hồi</Button>
-          <Button variant='outline'>Chuyển tiếp</Button>
+          <DialogForwardQuestion questionId={question?.id as number} />
         </div>
         <DialogDeleteQuestion questionId={parseInt(id as string)} />
       </div>

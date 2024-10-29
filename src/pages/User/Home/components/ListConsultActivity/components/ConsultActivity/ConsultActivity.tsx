@@ -1,22 +1,21 @@
-export default function ConsultActivity() {
+import { Post } from '@/types/post.type'
+import { isImageFile } from '@/utils/utils'
+import { Link } from 'react-router-dom'
+
+interface Props {
+  readonly post: Post
+}
+
+export default function ConsultActivity({ post }: Props) {
   return (
-    <div className='flex mb-3 hover:bg-secondary hover:text-secondary-foreground px-2 py-1 hover:transition-all cursor-pointer rounded-md'>
-      <img
-        src='https://cdn.zyrosite.com/cdn-ecommerce/store_01H91H2TGHCA5MBN9ET4WFB9GP%2Fassets%2F1695410115152-illustration-graphic-cartoon-character-of-financial-consultation-vector.jpg'
-        alt='consult'
-        className='size-24 mr-2 rounded-md'
-      />
-      <div>
-        <p className='font-semibold text-md line-clamp-2 mb-1'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit quis obcaecati magni velit quas fugiat unde
-          maiores consectetur at repellat?
-        </p>
-        <p className='text-xs line-clamp-2'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis, quasi minus. Animi incidunt quae
-          doloribus? Nulla vel facere quod. Non consequatur deserunt corrupti facilis, ex cumque dolore voluptatibus!
-          Esse, officiis?
-        </p>
+    <Link
+      to={`/posts/${post.userId}`}
+      className='flex mb-3 hover:bg-secondary hover:text-secondary-foreground px-2 py-1 hover:transition-all cursor-pointer rounded-md'
+    >
+      {isImageFile(post.fileName) && <img src={post.fileName} alt='consult' className='size-24 mr-2 rounded-md' />}
+      <div className='flex items-center'>
+        <p className='font-semibold text-md line-clamp-2 mb-1'>{post.title}</p>
       </div>
-    </div>
+    </Link>
   )
 }

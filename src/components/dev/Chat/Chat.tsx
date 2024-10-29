@@ -16,6 +16,8 @@ interface Props {
 }
 
 export default function Chat({ conversation }: Props) {
+  const isGroup = conversation?.isGroup
+
   const chatHistoryQueryConfig: ChatHistoryConfig = {
     conversationId: conversation?.id as number,
     page: 0,
@@ -95,7 +97,11 @@ export default function Chat({ conversation }: Props) {
         conversationId: conversation.id
       }
       refetch()
-      stompClient.current.send('/app/private-message', {}, JSON.stringify(chatMessage))
+      if (!isGroup) {
+        stompClient.current.send('/app/private-message', {}, JSON.stringify(chatMessage))
+      } else {
+        stompClient.current.send('/app/group-message', {}, JSON.stringify(chatMessage))
+      }
     }
   }
 

@@ -142,7 +142,6 @@ export default function Profile() {
         onSuccess: (res) => {
           toast({
             variant: 'success',
-            title: 'Thành công',
             description: res.data.message
           })
           setUser(res.data.data)

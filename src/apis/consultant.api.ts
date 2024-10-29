@@ -1,6 +1,5 @@
 import { ConsultantQueryConfig } from '@/hooks/useConsultantQueryConfig'
 import { RatingQueryConfig } from '@/hooks/useRatingQueryConfig'
-import { SchedualQueryConfig } from '@/hooks/useSchedualQueryConfig'
 import { RatingFormData } from '@/pages/User/ConsultantEvaluation/ConsultantEvaluation'
 import { Consultant, SchedualConfirm, SchedualConsultant } from '@/types/consultant.type'
 import { Rating } from '@/types/rating.type'
@@ -23,12 +22,12 @@ export const createRating = (body: RatingFormData) =>
   http.post<SuccessResponse<RatingFormData>>('user/rating/create', body)
 
 export const getAllRating = (params: RatingQueryConfig) =>
-  http.get<SuccessResponse<PaginationResponse<Rating[]>>>('user/rating/list', {
+  http.get<SuccessResponse<PaginationResponse<Rating[]>>>('rating/list', {
     params
   })
 
 export const getRatingById = (id: string) =>
-  http.get<SuccessResponse<Rating>>('user/rating', {
+  http.get<SuccessResponse<Rating>>('rating/detail', {
     params: {
       id
     }
@@ -48,13 +47,8 @@ export const getTeacherConsultantsByDepartment = (departmentId: number) =>
     }
   })
 
-export const getSchedualByConsultant = (params: SchedualQueryConfig) =>
-  http.get<SuccessResponse<PaginationResponse<SchedualConsultant[]>>>('consultant/consultation-schedule/list', {
-    params
-  })
-
 export const getSchedualById = (scheduleId: number) =>
-  http.get<SuccessResponse<SchedualConsultant>>('consultant/consultation-schedule/detail', {
+  http.get<SuccessResponse<SchedualConsultant>>('consultation-schedule/detail', {
     params: {
       scheduleId
     }

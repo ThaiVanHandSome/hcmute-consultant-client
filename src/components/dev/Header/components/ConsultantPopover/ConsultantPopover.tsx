@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 
 import { DashboardIcon } from '@radix-ui/react-icons'
-import { LogOutIcon } from 'lucide-react'
+import { ChartNoAxesGantt, LogOutIcon } from 'lucide-react'
 
 import Popover from '@/components/dev/Popover'
 import path from '@/constants/path'
@@ -34,7 +34,7 @@ export default function ConsultantPopover() {
     },
     {
       id: 2,
-      to: path.userDashBoard,
+      to: path.consultantDashboard,
       children: (
         <>
           <DashboardIcon />
@@ -48,7 +48,7 @@ export default function ConsultantPopover() {
       to: path.manageQuestion,
       children: (
         <>
-          <DashboardIcon />
+          <ChartNoAxesGantt className='size-5' strokeWidth={1.25} />
           <span className='ml-1'>Quản lý</span>
         </>
       ),

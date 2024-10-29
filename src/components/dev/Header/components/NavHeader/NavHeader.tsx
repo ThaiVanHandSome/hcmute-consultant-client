@@ -66,6 +66,7 @@ export default function NavHeader() {
           </Popover>
         </>
       )}
+      {role === ROLE.consultant && <NavLinkItem isEmphasize to={path.manageQuestion} label='Quản lý' />}
     </nav>
   )
 }

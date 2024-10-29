@@ -17,7 +17,7 @@ import { SchedualConfirmSchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { isEmpty, omitBy } from 'lodash'
+import { omitBy } from 'lodash'
 import { EllipsisVertical, ReplyIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -132,7 +132,6 @@ export default function SchedualDetail() {
         onSuccess: (res) => {
           toast({
             variant: 'success',
-            title: 'Thành công',
             description: res.data.message
           })
           navigate(path.manageSchedule)

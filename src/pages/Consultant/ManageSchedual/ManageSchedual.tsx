@@ -1,6 +1,8 @@
-import { getSchedualByConsultant } from '@/apis/consultant.api'
+import { getScheduals } from '@/apis/user.api'
+import Paginate from '@/components/dev/PaginationCustom'
 import SchedualItem from '@/components/dev/SchedualItem'
 import { Separator } from '@/components/ui/separator'
+import path from '@/constants/path'
 import useSchedualQueryConfig from '@/hooks/useSchedualQueryConfig'
 import SchedualFilter from '@/pages/Consultant/ManageSchedual/components/SchedualFilter'
 import { useQuery } from '@tanstack/react-query'
@@ -10,7 +12,7 @@ export default function ManageSchedual() {
 
   const { data: schedualResponse } = useQuery({
     queryKey: ['schedules', schedualQueryConfig],
-    queryFn: () => getSchedualByConsultant(schedualQueryConfig)
+    queryFn: () => getScheduals(schedualQueryConfig)
   })
   const schedules = schedualResponse?.data.data.content
 
@@ -22,7 +24,16 @@ export default function ManageSchedual() {
       </div>
       <SchedualFilter queryConfig={schedualQueryConfig} />
       <Separator />
-      <div className='bg-background'>{schedules?.map((schedule) => <SchedualItem key={schedule.id} schedual={schedule} />)}</div>
+      <div className='bg-background'>
+        {schedules?.map((schedule) => <SchedualItem key={schedule.id} schedual={schedule} />)}
+      </div>
+      <div>
+        <Paginate
+          path={path.manageSchedule}
+          pageSize={schedualResponse?.data.data.totalPages as number}
+          queryConfig={schedualQueryConfig}
+        />
+      </div>
     </div>
   )
 }

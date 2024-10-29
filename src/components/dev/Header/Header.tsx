@@ -5,7 +5,6 @@ import LogoHCMUTE from '@/assets/images/logos/logo_hcmute_3.png'
 import HeaderNotification from '@/components/dev/Header/components/HeaderNotification'
 import NavHeader from '@/components/dev/Header/components/NavHeader'
 import UserPopover from '@/components/dev/Header/components/UserPopover/UserPopover'
-import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import registerStatus from '@/constants/registerStatus'
 import { AppContext } from '@/contexts/app.context'
@@ -13,7 +12,7 @@ import HeaderMessage from '@/components/dev/Header/components/HeaderMessage'
 import { ModeToggle } from '@/components/dev/ModeToggle/ModeToggle'
 import ConsultantPopover from '@/components/dev/Header/components/ConsultantPopover'
 import { ROLE } from '@/constants/role'
-import { ClipboardIcon } from '@radix-ui/react-icons'
+import { Button } from '@/components/ui/button'
 
 export default function Header() {
   const { isAuthenticated, role } = useContext(AppContext)
@@ -29,33 +28,28 @@ export default function Header() {
       </div>
       <div className='flex items-center'>
         {!isAuthenticated && (
-          <div className='flex items-center'>
-            <Link
-              to={{
-                pathname: path.register,
-                search: createSearchParams({
-                  status: registerStatus.create
-                }).toString()
-              }}
-              className='text-primary hover:text-secondary-foreground transition-colors'
-            >
-              Đăng ký
-            </Link>
-            <Separator orientation='vertical' className='mx-4 bg-border h-4' />
-            <Link to={path.login} className='text-primary hover:text-secondary-foreground transition-colors'>
-              Đăng nhập
-            </Link>
+          <div className='flex items-center space-x-4'>
+            <Button size='sm' variant='outline'>
+              <Link
+                to={{
+                  pathname: path.register,
+                  search: createSearchParams({
+                    status: registerStatus.create
+                  }).toString()
+                }}
+              >
+                Đăng ký
+              </Link>
+            </Button>
+            <Button size='sm'>
+              <Link to={path.login}>Đăng nhập</Link>
+            </Button>
           </div>
         )}
         {isAuthenticated && (
           <div className='flex items-center'>
             <HeaderNotification />
             <HeaderMessage />
-            {role === ROLE.consultant && (
-              <Link to={path.manageQuestion}>
-                <ClipboardIcon className='size-6 text-foreground mr-2' />
-              </Link>
-            )}
             <ModeToggle />
             {role === ROLE.user && <UserPopover />}
             {role === ROLE.consultant && <ConsultantPopover />}

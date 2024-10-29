@@ -11,6 +11,7 @@ import UserLayout from '@/layouts/UserLayout'
 
 import ForgotPassword from '@/pages/Auth/ForgotPassword'
 import Login from '@/pages/Auth/Login'
+import LoginV2 from '@/pages/Auth/LoginV2'
 import Register from '@/pages/Auth/Register'
 import ChangePassword from '@/pages/User/ChangePassword'
 import ConsultantEvaluation from '@/pages/User/ConsultantEvaluation'
@@ -30,6 +31,10 @@ import ManageQuestion from '@/pages/Consultant/ManageQuestion'
 import QuestionDetail from '@/pages/Consultant/QuestionDetail/QuestionDetail'
 import ManageSchedual from '@/pages/Consultant/ManageSchedual'
 import SchedualDetail from '@/pages/Consultant/SchedualDetail'
+import ManagePost from '@/pages/Consultant/ManagePost'
+import PostDetail from '@/pages/Consultant/PostDetail'
+import ConsultantDashboard from '@/pages/Consultant/ConsultantDashboard'
+import Post from '@/pages/User/Post'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -114,6 +119,14 @@ export default function useRouteElement() {
           )
         },
         {
+          path: path.post,
+          element: (
+            <MainLayout>
+              <Post />
+            </MainLayout>
+          )
+        },
+        {
           path: path.user,
           element: (
             <MainLayout>
@@ -164,12 +177,34 @@ export default function useRouteElement() {
                   element: <ManageSchedual />
                 },
                 {
+                  path: path.managePost,
+                  element: <ManagePost />
+                },
+                {
                   path: path.questionDetail,
                   element: <QuestionDetail />
                 },
                 {
                   path: path.schedualDetail,
                   element: <SchedualDetail />
+                },
+                {
+                  path: path.postDetail,
+                  element: <PostDetail />
+                }
+              ]
+            },
+            {
+              path: path.user,
+              element: (
+                <MainLayout>
+                  <UserLayout />
+                </MainLayout>
+              ),
+              children: [
+                {
+                  path: path.consultantDashboard,
+                  element: <ConsultantDashboard />
                 }
               ]
             }
@@ -183,7 +218,7 @@ export default function useRouteElement() {
       children: [
         {
           path: path.login,
-          element: <Login />
+          element: <LoginV2 />
         },
         {
           path: path.register,

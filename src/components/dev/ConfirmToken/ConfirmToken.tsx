@@ -53,7 +53,6 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
       }

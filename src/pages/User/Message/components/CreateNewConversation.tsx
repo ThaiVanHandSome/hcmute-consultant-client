@@ -92,7 +92,6 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
         setIsOpenModal(false)
@@ -108,7 +107,6 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
       onSuccess: (res) => {
         toast({
           variant: 'success',
-          title: 'Thành công',
           description: res.data.message
         })
         setIsOpenModal(false)
