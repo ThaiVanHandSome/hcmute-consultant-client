@@ -8,13 +8,14 @@ interface Props {
 
 export default function ConsultActivity({ post }: Props) {
   return (
-    <Link
-      to={`/posts/${post.id}`}
-      className='flex mb-3 hover:bg-secondary hover:text-secondary-foreground px-2 py-1 hover:transition-all cursor-pointer rounded-md'
-    >
-      {isImageFile(post.fileName) && <img src={post.fileName} alt='consult' className='size-16 mr-2 rounded-md' />}
-      <div className='flex items-center'>
-        <p className='font-semibold text-md line-clamp-2 mb-1'>{post.title}</p>
+    <Link to={`/posts/${post.id}`} className='block'>
+      <div className='flex mb-3 hover:bg-secondary hover:text-secondary-foreground px-2 py-1 hover:transition-all cursor-pointer rounded-md overflow-hidden items-center'>
+        {isImageFile(post.fileName) && (
+          <div className='w-16 h-16 mr-2'>
+            <img src={post.fileName} alt='consult' className='object-fill w-full h-full block rounded-md' />
+          </div>
+        )}
+        <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{post.title}</p>
       </div>
     </Link>
   )

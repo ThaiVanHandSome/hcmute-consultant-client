@@ -102,6 +102,7 @@ module.exports = {
         }
       })
     }),
-    require('tailwindcss-animate')
+    require('tailwindcss-animate'),
+    require('@tailwindcss/line-clamp')
   ]
 }

@@ -10,14 +10,13 @@ import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import { AppContext } from '@/contexts/app.context'
 import usePostQueryConfig from '@/hooks/usePostQueryConfig'
-import { Post as PostType } from '@/types/post.type'
 import { isImageFile } from '@/utils/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { MessageCircleIcon, SendIcon } from 'lucide-react'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useParams } from 'react-router-dom'
+import { Link, createSearchParams, useParams } from 'react-router-dom'
 
 export default function Post() {
   const form = useForm({
@@ -33,8 +32,6 @@ export default function Post() {
   }
   const params = useParams()
   const id = parseInt(params.id as string)
-
-  const [postActive, setPostActive] = useState<PostType>()
 
   const { data: posts } = useQuery({
     queryKey: ['posts', postQueryConfig],
@@ -82,23 +79,24 @@ export default function Post() {
       <div className='col-span-4 px-3 py-1 border-r bg-background'>
         <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các hoạt động tự vấn</div>
         {posts?.data.data.content.map((post) => (
-          <div
-            aria-hidden='true'
-            onClick={() => setPostActive(post)}
+          <Link
             key={post.id}
-            // to={`/posts/${post.id}`}
-            className={clsx('flex mb-3  px-2 py-1 hover:transition-all cursor-pointer rounded-md w-full', {
+            to={{
+              pathname: `/posts/${post.id}`,
+              search: createSearchParams(postQueryConfig).toString()
+            }}
+            className={clsx('flex mb-3 px-2 py-1 hover:transition-all cursor-pointer rounded-md w-full', {
               'hover:bg-secondary hover:text-secondary-foreground': id !== post.id,
               'bg-secondary text-secondary-foreground': id === post.id
             })}
           >
             {isImageFile(post.fileName) && (
-              <img src={post.fileName} alt='consult' className='size-16 mr-2 rounded-md' />
+              <div className='w-16 h-16 mr-2'>
+                <img src={post.fileName} alt='consult' className='object-fill w-full h-full block rounded-md' />
+              </div>
             )}
-            <div className='flex items-center'>
-              <p className='font-semibold text-md line-clamp-2 mb-1'>{post.title}</p>
-            </div>
-          </div>
+            <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{post.title}</p>
+          </Link>
         ))}
         <Separator className='my-2' />
         <div>
@@ -112,20 +110,20 @@ export default function Post() {
         </div>
       </div>
       <div className='col-span-8'>
-        <div className='px-2 py-3 shadow-lg flex items-center justify-between shadow-md'>
+        <div className='px-2 py-3 flex items-center justify-between shadow-md'>
           <div className='flex items-center space-x-1'>
-            <AvatarCustom url={postActive?.avatarUrl} />
-            <p className='text-sm font-semibold'>{postActive?.name}</p>
+            <AvatarCustom url={post?.avatarUrl} />
+            <p className='text-sm font-semibold'>{post?.name}</p>
           </div>
           <div>
-            <p className='text-xs italic'>{postActive?.createdAt}</p>
+            <p className='text-xs italic'>{post?.createdAt}</p>
           </div>
         </div>
         <div className='bg-background'>
           <div className='px-4 py-2 min-h-2'>
-            <p>{postActive?.title}</p>
-            <div dangerouslySetInnerHTML={{ __html: postActive?.content as string }} className='mb-2'></div>
-            <QuestionImage url={postActive?.fileName as string} />
+            <p>{post?.title}</p>
+            <div dangerouslySetInnerHTML={{ __html: post?.content as string }} className='mb-2'></div>
+            <QuestionImage url={post?.fileName as string} />
           </div>
           <div className='px-3 py-1 space-y-2'>
             <div className='flex items-center space-x-1'>
@@ -151,9 +149,7 @@ export default function Post() {
               </Form>
             </div>
             <Separator className='my-4' />
-            <div>
-              {comments?.data.data.map((comment) => <CommentItem key={comment.id_comment} comment={comment} />)}
-            </div>
+            <div>{comments?.data.data.map((comment) => <CommentItem key={comment.id} comment={comment} />)}</div>
           </div>
         </div>
       </div>

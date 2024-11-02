@@ -24,3 +24,10 @@ export const replyComment = (commentFatherId: number, text: string) =>
       text
     }
   })
+
+export const deleteComment = (commentId: number) =>
+  http.delete<SuccessResponse<string>>('comment/delete', {
+    params: {
+      commentId
+    }
+  })
