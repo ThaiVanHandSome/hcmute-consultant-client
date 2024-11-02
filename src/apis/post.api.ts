@@ -14,3 +14,10 @@ export const createPost = (body: PostRequest) =>
       'Content-Type': 'multipart/form-data'
     }
   })
+
+export const getPostDetail = (id: number) =>
+  http.get<SuccessResponse<Post>>('post/detail', {
+    params: {
+      id
+    }
+  })

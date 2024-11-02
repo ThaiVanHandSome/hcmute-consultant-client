@@ -1,4 +1,4 @@
-import { getQuestions } from '@/apis/question.api'
+import { getAllQuestion } from '@/apis/question.api'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import QuestionFilter from '@/components/dev/QuestionFilter'
 import QuestionItem from '@/components/dev/QuestionItem'
@@ -12,7 +12,7 @@ export default function ManageQuestion() {
 
   const { data: questions } = useQuery({
     queryKey: ['questions', questionQueryConfig],
-    queryFn: () => getQuestions(questionQueryConfig)
+    queryFn: () => getAllQuestion(questionQueryConfig)
   })
   return (
     <div className='space-y-6'>

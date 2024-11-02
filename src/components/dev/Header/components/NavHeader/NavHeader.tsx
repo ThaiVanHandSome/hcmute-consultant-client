@@ -29,7 +29,7 @@ export default function NavHeader() {
     }
   ]
   return (
-    <nav className='flex items-center space-x-4 ml-4'>
+    <nav className='flex items-center space-x-4 ml-4 font-semibold'>
       {role === ROLE.user && (
         <>
           <NavLinkItem to={path.home} label='Trang chủ' />

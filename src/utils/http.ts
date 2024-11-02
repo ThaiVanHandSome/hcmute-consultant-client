@@ -66,7 +66,6 @@ class HTTP {
           const message = data?.message || error.message
           toast({
             variant: 'destructive',
-            title: 'Thất bại',
             description: message
           })
         }

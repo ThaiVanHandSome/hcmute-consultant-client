@@ -1,4 +1,4 @@
-import { deleteQuestion, getQuestions } from '@/apis/question.api'
+import { deleteQuestion, getAllQuestion } from '@/apis/question.api'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -36,7 +36,7 @@ export default function MyQuestion() {
 
   const { data: questionsOfUser, refetch } = useQuery({
     queryKey: ['questions', queryConfig],
-    queryFn: () => getQuestions(queryConfig)
+    queryFn: () => getAllQuestion(queryConfig)
   })
 
   const deleteQuestionMutation = useMutation({

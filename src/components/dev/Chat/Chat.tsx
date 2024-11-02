@@ -59,7 +59,11 @@ export default function Chat({ conversation }: Props) {
 
   const onConnected = () => {
     setIsConnected(true)
-    stompClient.current?.subscribe('/user/' + sender?.id + '/private', onPrivateMessage)
+    if (!isGroup) {
+      stompClient.current?.subscribe('/user/' + sender?.id + '/private', onPrivateMessage)
+    } else {
+      stompClient.current?.subscribe('/user/' + sender?.id + '/group', onPrivateMessage)
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

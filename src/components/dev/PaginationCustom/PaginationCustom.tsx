@@ -15,6 +15,8 @@ interface Props {
   readonly pageSize: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly queryConfig: any
+  readonly RANGE?: number
+  readonly showChooseQuantity?: boolean
 }
 
 // if total page is 10
@@ -29,8 +31,7 @@ interface Props {
 // page 9 active: 1 2 ... 7 8 9 10
 // page 10 active: 1 2 ... 8 9 10
 
-const RANGE = 2
-export default function Paginate({ path, queryConfig, pageSize }: Props) {
+export default function Paginate({ path, queryConfig, pageSize, RANGE = 2, showChooseQuantity = true }: Props) {
   const navigate = useNavigate()
   const page = Number(queryConfig.page)
   const renderPagination = () => {
@@ -137,22 +138,24 @@ export default function Paginate({ path, queryConfig, pageSize }: Props) {
           </PaginationContent>
         </Pagination>
       </div>
-      <div className='absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2'>
-        <Select defaultValue={queryConfig.size} onValueChange={handleValueChange}>
-          <SelectTrigger>
-            <SelectValue placeholder='Theme' />
-          </SelectTrigger>
-          <SelectContent className='!px-4'>
-            {Array(6)
-              .fill(1)
-              .map((item, index) => (
-                <SelectItem key={index} value={String(item * (index + 1) * 5)}>
-                  {item * (index + 1) * 5}
-                </SelectItem>
-              ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {showChooseQuantity && (
+        <div className='absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2'>
+          <Select defaultValue={queryConfig.size} onValueChange={handleValueChange}>
+            <SelectTrigger>
+              <SelectValue placeholder='Theme' />
+            </SelectTrigger>
+            <SelectContent className='!px-4'>
+              {Array(6)
+                .fill(1)
+                .map((item, index) => (
+                  <SelectItem key={index} value={String(item * (index + 1) * 5)}>
+                    {item * (index + 1) * 5}
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
     </div>
   )
 }

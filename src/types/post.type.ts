@@ -6,12 +6,15 @@ export interface PostRequest {
 }
 
 export interface Post {
+  id: number
   anonymous: boolean
   approved: boolean
   content: string
-  createdAt: string  
+  createdAt: string
   fileName: string
   title: string
   userId: number
   views: number
+  name: string
+  avatarUrl: string
 }

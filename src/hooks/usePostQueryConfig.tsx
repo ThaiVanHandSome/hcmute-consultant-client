@@ -12,7 +12,7 @@ export default function usePostQueryConfig() {
     {
       page: queryParams.page ?? '0',
       size: queryParams.size ?? '5',
-      sortBy: queryParams.sortBy ?? 'firstName',
+      sortBy: queryParams.sortBy ?? 'createdAt',
       sortDir: queryParams.sortDir ?? 'desc',
       isApproved: queryParams.isApproved ?? true
     },
