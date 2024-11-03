@@ -40,3 +40,5 @@ export interface UserOnline {
   phone: string
   status: string
 }
+
+export type Role = 'TUVANVIEN' | 'TRUONGBANTUVAN' | 'ADMIN'

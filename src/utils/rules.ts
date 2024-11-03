@@ -104,3 +104,24 @@ export const AddPostSchema = yup.object({
   title: yup.string().required('Bạn phải nhập tiêu đề'),
   content: yup.string().required('Bạn phải nhập nội dung')
 })
+
+export const DistrictSchema = yup.object({
+  code: yup.string().required('Bạn phải nhập mã'),
+  codeName: yup.string().required('Bạn phải nhập tên mã'),
+  fullName: yup.string().required('Bạn phải nhập toàn bộ tên'),
+  fullNameEn: yup.string().required('Bạn phải nhập toàn bộ tên (English)'),
+  name: yup.string().required('Bạn phải nhập tên'),
+  nameEn: yup.string().required('Bạn phải nhập tên (English)'),
+  provinceCode: yup.string().required('Bạn phải chọn tỉnh/thành phố')
+})
+
+export const WardSchema = yup.object({
+  code: yup.string().required('Bạn phải nhập mã'),
+  codeName: yup.string().required('Bạn phải nhập tên mã'),
+  fullName: yup.string().required('Bạn phải nhập toàn bộ tên'),
+  fullNameEn: yup.string().required('Bạn phải nhập toàn bộ tên (English)'),
+  name: yup.string().required('Bạn phải nhập tên'),
+  nameEn: yup.string().required('Bạn phải nhập tên (English)'),
+  districtCode: yup.string().required('Bạn phải chọn tỉnh/thành phố'),
+  provinceCode: yup.string()
+})

@@ -10,7 +10,6 @@ import MainLayout from '@/layouts/MainLayout'
 import UserLayout from '@/layouts/UserLayout'
 
 import ForgotPassword from '@/pages/Auth/ForgotPassword'
-import Login from '@/pages/Auth/Login'
 import LoginV2 from '@/pages/Auth/LoginV2'
 import Register from '@/pages/Auth/Register'
 import ChangePassword from '@/pages/User/ChangePassword'
@@ -27,23 +26,28 @@ import UserDashBoard from '@/pages/User/UserDashBoard'
 import MySchedual from '@/pages/User/MySchedual'
 import MyRating from '@/pages/User/MyRating'
 import ManageLayout from '@/layouts/ManageLayout'
-import ManageQuestion from '@/pages/Consultant/ManageQuestion'
-import QuestionDetail from '@/pages/Consultant/QuestionDetail/QuestionDetail'
-import ManageSchedual from '@/pages/Consultant/ManageSchedual'
-import SchedualDetail from '@/pages/Consultant/SchedualDetail'
-import ManagePost from '@/pages/Consultant/ManagePost'
-import PostDetail from '@/pages/Consultant/PostDetail'
-import ConsultantDashboard from '@/pages/Consultant/ConsultantDashboard'
+import ManageQuestion from '@/pages/Manage/ManageQuestion'
+import QuestionDetail from '@/pages/Manage/QuestionDetail'
+import ManageSchedual from '@/pages/Manage/ManageSchedual'
+import SchedualDetail from '@/pages/Manage/SchedualDetail'
+import ManagePost from '@/pages/Manage/ManagePost'
+import PostDetail from '@/pages/Manage/PostDetail'
+import ConsultantDashboard from '@/pages/Manage/ConsultantDashboard'
 import Post from '@/pages/User/Post'
+import ManageCommonQuestion from '@/pages/Manage/ManageCommonQuestion'
+import { ROLE } from '@/constants/role'
+import { Role } from '@/types/user.type'
+import ManageDistrict from '@/pages/Manage/ManageDistrict'
+import ManageWard from '@/pages/Manage/ManageWard'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
   return isAuthenticated ? <Outlet /> : <Navigate to={path.login} />
 }
 
-function ProtectedConsultantRoute() {
+function ProtectedManageRoute() {
   const { role } = useContext(AppContext)
-  return role === 'TUVANVIEN' ? <Outlet /> : <Navigate to={path.home} />
+  return [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role) ? <Outlet /> : <Navigate to={path.home} />
 }
 
 function RejectedRoute() {
@@ -162,7 +166,7 @@ export default function useRouteElement() {
         },
         {
           path: '',
-          element: <ProtectedConsultantRoute />,
+          element: <ProtectedManageRoute />,
           children: [
             {
               path: path.manage,
@@ -191,6 +195,18 @@ export default function useRouteElement() {
                 {
                   path: path.postDetail,
                   element: <PostDetail />
+                },
+                {
+                  path: path.manageCommonQuestion,
+                  element: <ManageCommonQuestion />
+                },
+                {
+                  path: path.manageDistrict,
+                  element: <ManageDistrict />
+                },
+                {
+                  path: path.manageWard,
+                  element: <ManageWard />
                 }
               ]
             },

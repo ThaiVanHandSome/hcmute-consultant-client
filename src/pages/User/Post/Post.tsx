@@ -1,4 +1,5 @@
 import { createComment, getComments } from '@/apis/comment.api'
+import { countLikeOfPost, getPostRecord, likePost, unLikePost } from '@/apis/like.api'
 import { getPostDetail, getPosts } from '@/apis/post.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import CommentItem from '@/components/dev/CommentItem'
@@ -13,8 +14,8 @@ import usePostQueryConfig from '@/hooks/usePostQueryConfig'
 import { isImageFile } from '@/utils/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { MessageCircleIcon, SendIcon } from 'lucide-react'
-import { useContext } from 'react'
+import { MessageCircleIcon, SendIcon, ThumbsUp } from 'lucide-react'
+import { useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, createSearchParams, useParams } from 'react-router-dom'
 
@@ -51,9 +52,51 @@ export default function Post() {
     enabled: !!id
   })
 
+  const { data: countLikes, refetch: refetchCountLikes } = useQuery({
+    queryKey: ['count-like-of-posts', id],
+    queryFn: () => countLikeOfPost(id),
+    enabled: !!id
+  })
+
+  const { data: postRecordRes, refetch: refetchPostRecord } = useQuery({
+    queryKey: ['post-record', id],
+    queryFn: () => getPostRecord(id),
+    enabled: !!id
+  })
+  const isLikedPost = useMemo(() => {
+    const postRecord = postRecordRes?.data.data
+    return postRecord?.some((item) => item.likeKey.userId === user?.id) ?? false
+  }, [postRecordRes])
+
   const createCommentMutation = useMutation({
     mutationFn: ({ postId, text }: { postId: number; text: string }) => createComment(postId, text)
   })
+
+  const likePostMutation = useMutation({
+    mutationFn: (postId: number) => likePost(postId)
+  })
+
+  const unLikePostMutation = useMutation({
+    mutationFn: (postId: number) => unLikePost(postId)
+  })
+
+  const handleTogglePost = () => {
+    if (!isLikedPost) {
+      likePostMutation.mutate(id, {
+        onSuccess: () => {
+          refetchCountLikes()
+          refetchPostRecord()
+        }
+      })
+      return
+    }
+    unLikePostMutation.mutate(id, {
+      onSuccess: () => {
+        refetchCountLikes()
+        refetchPostRecord()
+      }
+    })
+  }
 
   const onSubmit = form.handleSubmit((values) => {
     const text = values.comment
@@ -111,12 +154,25 @@ export default function Post() {
       </div>
       <div className='col-span-8'>
         <div className='px-2 py-3 flex items-center justify-between shadow-md'>
-          <div className='flex items-center space-x-1'>
-            <AvatarCustom url={post?.avatarUrl} />
-            <p className='text-sm font-semibold'>{post?.name}</p>
+          <div className='flex items-center space-x-2'>
+            <div className='flex items-center space-x-1'>
+              <AvatarCustom url={post?.avatarUrl} />
+              <p className='text-sm font-semibold'>{post?.name}</p>
+            </div>
+            <div>
+              <p className='text-xs italic'>{post?.createdAt}</p>
+            </div>
           </div>
-          <div>
-            <p className='text-xs italic'>{post?.createdAt}</p>
+          <div className='flex items-center space-x-1'>
+            <ThumbsUp
+              className={clsx('size-5', {
+                'fill-primary text-background': isLikedPost,
+                'fill-none text-primary': !isLikedPost
+              })}
+              strokeWidth='0.4'
+              onClick={handleTogglePost}
+            />
+            <span className='font-semibold text-sm'>{countLikes?.data?.data ?? '0'}</span>
           </div>
         </div>
         <div className='bg-background'>

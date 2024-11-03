@@ -10,6 +10,14 @@ export const createComment = (postId: number, text: string) =>
     }
   })
 
+export const updateComment = (commentId: number, text: string) =>
+  http.put<SuccessResponse<string>>('comment/update', null, {
+    params: {
+      commentId,
+      text
+    }
+  })
+
 export const getComments = (postId: number) =>
   http.get<SuccessResponse<Comment[]>>('comment/get-comment-by-post', {
     params: {

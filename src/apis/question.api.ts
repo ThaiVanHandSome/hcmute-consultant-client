@@ -1,5 +1,13 @@
+import { CommonQuestionQueryConfig } from '@/hooks/useCommonQuestionQueryConfig'
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
-import { Answer, CreateQuestionRequest, CreateQuestionResponse, Question, QuestionStatus } from '@/types/question.type'
+import {
+  Answer,
+  CommonQuestion,
+  CreateQuestionRequest,
+  CreateQuestionResponse,
+  Question,
+  QuestionStatus
+} from '@/types/question.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
 
@@ -20,7 +28,8 @@ export const getQuestionById = (questionId: number) =>
     }
   })
 
-export const getCommonQuestion = () => http.get<SuccessResponse<PaginationResponse<Question[]>>>('list-common-question')
+export const getCommonQuestion = () =>
+  http.get<SuccessResponse<PaginationResponse<CommonQuestion[]>>>('list-common-question')
 
 export const createNewQuestion = (params: CreateQuestionRequest, file?: File) =>
   http.post<SuccessResponse<CreateQuestionResponse>>(
@@ -84,3 +93,15 @@ export const answerTheQuestion = (params: Answer, file: File) =>
 
 export const forwardQuestion = (body: { toDepartmentId: number; questionId: number; consultantId: number }) =>
   http.post<SuccessResponse<string>>('consultant/forward-question/forward', body)
+
+export const getCommonQuestionAdvisor = (params: CommonQuestionQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<CommonQuestion[]>>>('advisor-admin/list-common-question', {
+    params
+  })
+
+export const deleteCommonQuestionAdvisor = (id: number) =>
+  http.delete<SuccessResponse<CommonQuestion[]>>('advisor-admin/common-question/delete', {
+    params: {
+      id
+    }
+  })

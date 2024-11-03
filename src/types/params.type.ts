@@ -48,3 +48,15 @@ export interface ChatHistoryConfig extends PaginationConfig {
 export interface PostListConfig extends PaginationConfig {
   isApproved: boolean
 }
+
+export interface CommonQuestionListConfig extends PaginationConfig {
+  title: string
+}
+
+export interface DistrictListConfig extends PaginationConfig {
+  provinceCode: string
+}
+
+export interface WardListConfig extends PaginationConfig {
+  districtCode: string
+}

@@ -13,6 +13,7 @@ import { ModeToggle } from '@/components/dev/ModeToggle/ModeToggle'
 import ConsultantPopover from '@/components/dev/Header/components/ConsultantPopover'
 import { ROLE } from '@/constants/role'
 import { Button } from '@/components/ui/button'
+import { Role } from '@/types/user.type'
 
 export default function Header() {
   const { isAuthenticated, role } = useContext(AppContext)
@@ -52,7 +53,7 @@ export default function Header() {
             <HeaderMessage />
             <ModeToggle />
             {role === ROLE.user && <UserPopover />}
-            {role === ROLE.consultant && <ConsultantPopover />}
+            {[ROLE.consultant, ROLE.admin, ROLE.advisor].includes(role as Role) && <ConsultantPopover />}
           </div>
         )}
       </div>

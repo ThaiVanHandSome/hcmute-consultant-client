@@ -9,6 +9,7 @@ import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { QuestionStatus } from '@/types/question.type'
+import { Role } from '@/types/user.type'
 import { FormControlItem } from '@/types/utils.type'
 import { generateSelectionData, parseDate } from '@/utils/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -109,7 +110,7 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
         <div
           className={clsx('grid gap-2 mb-4', {
             'grid-cols-4': role === ROLE.user,
-            'grid-cols-3': role === ROLE.consultant
+            'grid-cols-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
           })}
         >
           {role === ROLE.user && (

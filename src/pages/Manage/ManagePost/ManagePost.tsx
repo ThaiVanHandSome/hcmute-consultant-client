@@ -4,7 +4,7 @@ import PostItem from '@/components/dev/PostItem'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import usePostQueryConfig from '@/hooks/usePostQueryConfig'
-import DialogAddPost from '@/pages/Consultant/ManagePost/components/DialogAddPost'
+import DialogAddPost from '@/pages/Manage/ManagePost/components/DialogAddPost'
 import { useQuery } from '@tanstack/react-query'
 
 export default function ManagePost() {

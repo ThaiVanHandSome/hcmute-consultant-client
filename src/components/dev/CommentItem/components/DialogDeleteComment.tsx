@@ -31,10 +31,10 @@ export default function DialogDeleteComment({ comment }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <p className='px-2 py-1 hover:bg-secondary hover:text-secondary-foreground cursor-pointer w-full text-sm'>
+      <DialogTrigger className='w-full text-left'>
+        <div className='px-2 py-1 hover:bg-secondary hover:text-secondary-foreground cursor-pointer w-full text-sm'>
           Delete
-        </p>
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

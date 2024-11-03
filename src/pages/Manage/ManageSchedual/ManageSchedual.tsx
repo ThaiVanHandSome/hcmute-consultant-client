@@ -4,7 +4,7 @@ import SchedualItem from '@/components/dev/SchedualItem'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import useSchedualQueryConfig from '@/hooks/useSchedualQueryConfig'
-import SchedualFilter from '@/pages/Consultant/ManageSchedual/components/SchedualFilter'
+import SchedualFilter from '@/pages/Manage/ManageSchedual/components/SchedualFilter'
 import { useQuery } from '@tanstack/react-query'
 
 export default function ManageSchedual() {
