@@ -25,7 +25,7 @@ export default function ManageLayout() {
           path: path.manageCommonQuestion,
           icon: <CreativeCommonsIcon className='size-5' />,
           label: 'Câu hỏi chung',
-          enabled: true
+          enabled: 1 === 1
         }
       ],
       enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
