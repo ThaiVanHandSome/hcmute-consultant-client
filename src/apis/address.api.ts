@@ -1,6 +1,7 @@
 import { DistrictQueryConfig } from '@/hooks/useDistrictQueryConfig'
+import { ProvinceQueryConfig } from '@/hooks/useProvinceQueryConfig'
 import { WardQueryConfig } from '@/hooks/useWardQueryConfig'
-import { DistrictType, WardType } from '@/types/location.type'
+import { DistrictType, ProvinceType, WardType } from '@/types/location.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
 
@@ -95,6 +96,52 @@ export const updateWardAdmin = (ward: WardType) =>
 
 export const deleteWardAdmin = (code: string) =>
   http.delete<SuccessResponse<string>>('admin/ward/delete', {
+    params: {
+      code
+    }
+  })
+
+export const getProvinceAdmin = (params: ProvinceQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<ProvinceType[]>>>('admin/province/list', {
+    params
+  })
+
+export const addProvinceAdmin = (province: ProvinceType) =>
+  http.post<SuccessResponse<string>>(
+    'admin/province/create',
+    {
+      name: province.name,
+      nameEn: province.nameEn,
+      fullName: province.fullName,
+      fullNameEn: province.fullNameEn,
+      codeName: province.codeName
+    },
+    {
+      params: {
+        code: province.code
+      }
+    }
+  )
+
+export const updateProvinceAdmin = (province: ProvinceType) =>
+  http.put<SuccessResponse<string>>(
+    'admin/province/update',
+    {
+      name: province.name,
+      nameEn: province.nameEn,
+      fullName: province.fullName,
+      fullNameEn: province.fullNameEn,
+      codeName: province.codeName
+    },
+    {
+      params: {
+        code: province.code
+      }
+    }
+  )
+
+export const deleteProvinceAdmin = (code: string) =>
+  http.delete<SuccessResponse<string>>('admin/province/delete', {
     params: {
       code
     }

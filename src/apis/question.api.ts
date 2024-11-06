@@ -22,7 +22,7 @@ export const getQuestions = (params: QuestionQueryConfig) =>
   })
 
 export const getQuestionById = (questionId: number) =>
-  http.get<SuccessResponse<Question>>('consultant/question/detail', {
+  http.get<SuccessResponse<Question>>('question/detail', {
     params: {
       questionId
     }

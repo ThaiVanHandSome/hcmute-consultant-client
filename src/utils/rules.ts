@@ -125,3 +125,21 @@ export const WardSchema = yup.object({
   districtCode: yup.string().required('Bạn phải chọn tỉnh/thành phố'),
   provinceCode: yup.string()
 })
+
+export const ProvinceSchema = yup.object({
+  code: yup.string().required('Bạn phải nhập mã'),
+  codeName: yup.string().required('Bạn phải nhập tên mã'),
+  fullName: yup.string().required('Bạn phải nhập toàn bộ tên'),
+  fullNameEn: yup.string().required('Bạn phải nhập toàn bộ tên (English)'),
+  name: yup.string().required('Bạn phải nhập tên'),
+  nameEn: yup.string().required('Bạn phải nhập tên (English)')
+})
+
+export const RoleSchema = yup.object({
+  name: yup.string().required('Bạn phải nhập tên')
+})
+
+export const ConsultantRoleSchema = yup.object({
+  name: yup.string().required('Bạn phải nhập tên'),
+  roleId: yup.string().required('Bạn phải nhập mã role')
+})

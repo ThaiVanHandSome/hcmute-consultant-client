@@ -5,7 +5,7 @@ import { AppContext } from '@/contexts/app.context'
 import { QuestionCircle } from '@/icons'
 import { Role } from '@/types/user.type'
 import clsx from 'clsx'
-import { CalendarDaysIcon, ClipboardPlusIcon, CreativeCommonsIcon, MapPinIcon } from 'lucide-react'
+import { CalendarDaysIcon, ClipboardPlusIcon, CreativeCommonsIcon, FingerprintIcon, MapPinIcon } from 'lucide-react'
 import { useContext } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
@@ -55,6 +55,24 @@ export default function ManageLayout() {
       enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
     },
     {
+      title: 'Quyền',
+      children: [
+        {
+          path: path.manageRole,
+          icon: <FingerprintIcon className='size-5' />,
+          label: 'Quyền người dùng',
+          enabled: true
+        },
+        {
+          path: path.manageConsultantRole,
+          icon: <FingerprintIcon className='size-5' />,
+          label: 'Quyền tư vấn viên',
+          enabled: true
+        }
+      ],
+      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+    },
+    {
       title: 'Địa chỉ',
       children: [
         {
@@ -67,6 +85,12 @@ export default function ManageLayout() {
           path: path.manageWard,
           icon: <MapPinIcon className='size-5' />,
           label: 'Phường/Xã',
+          enabled: true
+        },
+        {
+          path: path.manageProvince,
+          icon: <MapPinIcon className='size-5' />,
+          label: 'Tỉnh/Thành phố',
           enabled: true
         }
       ],

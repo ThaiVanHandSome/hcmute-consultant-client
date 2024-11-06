@@ -60,3 +60,12 @@ export interface DistrictListConfig extends PaginationConfig {
 export interface WardListConfig extends PaginationConfig {
   districtCode: string
 }
+
+export interface RoleListConfig extends PaginationConfig {
+  name: string
+}
+
+export interface ConsultantRoleListConfig extends PaginationConfig {
+  name: string
+  roleId: number
+}
