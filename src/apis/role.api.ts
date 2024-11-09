@@ -58,3 +58,34 @@ export const deleteAdminConsultantRole = (id: number) =>
       id
     }
   })
+
+export const getAdminAskRole = (params: ConsultantRoleQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<ConsultantRoleType[]>>>('admin/role-ask/list', {
+    params
+  })
+
+export const createAdminAskRole = (roleId: string, name: string) =>
+  http.post<SuccessResponse<string>>('admin/role-ask/create', {
+    name,
+    roleId
+  })
+
+export const updateAdminAskRole = (id: number, name: string) =>
+  http.put<SuccessResponse<string>>(
+    'admin/role-ask/update',
+    {
+      name
+    },
+    {
+      params: {
+        id
+      }
+    }
+  )
+
+export const deleteAdminAskRole = (id: number) =>
+  http.delete<SuccessResponse<string>>('admin/role-ask/delete', {
+    params: {
+      id
+    }
+  })

@@ -18,7 +18,8 @@ export default function useQuestionQueryConfig() {
       departmentId: queryParams.departmentId,
       status: queryParams.status,
       startDate: queryParams.startDate,
-      endDate: queryParams.endDate
+      endDate: queryParams.endDate,
+      statusApproval: false
     },
     isUndefined
   ) as QuestionQueryConfig

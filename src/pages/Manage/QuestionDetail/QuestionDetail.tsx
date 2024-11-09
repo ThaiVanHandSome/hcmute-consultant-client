@@ -1,4 +1,4 @@
-import { answerTheQuestion, getQuestionById } from '@/apis/question.api'
+import { answerTheQuestion, getDeleteLog, getQuestionById } from '@/apis/question.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import FileItem from '@/components/dev/FileItem'
 import Editor from '@/components/dev/Form/Editor'
@@ -17,7 +17,7 @@ import { formatDate, isImageFile } from '@/utils/utils'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { EllipsisVertical, ReplyIcon } from 'lucide-react'
+import { AlertTriangleIcon, EllipsisVertical, ReplyIcon } from 'lucide-react'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -42,6 +42,12 @@ export default function QuestionDetail() {
 
   const answerMutation = useMutation({
     mutationFn: ({ params, file }: { params: Answer; file: File }) => answerTheQuestion(params, file)
+  })
+
+  const { data: deleteLog } = useQuery({
+    queryKey: ['deletion-log', id],
+    queryFn: () => getDeleteLog(parseInt(id as string)),
+    enabled: !!id
   })
 
   const form = useForm({
@@ -82,6 +88,31 @@ export default function QuestionDetail() {
     )
   })
 
+  const onSubmitWithStatus = () => {
+    form.handleSubmit((values) => {
+      if (!question || !values.content || !file) return
+      values.content = `<div class="editor">${values.content}</div>`
+      const params: Answer = {
+        questionId: question?.id,
+        content: values.content,
+        title: 'answer',
+        statusApproval: true
+      }
+      answerMutation.mutate(
+        { params, file },
+        {
+          onSuccess: (res) => {
+            toast({
+              variant: 'success',
+              description: res.data.message
+            })
+            navigate(path.manageQuestion)
+          }
+        }
+      )
+    })()
+  }
+
   useEffect(() => {
     if (showToAnswer) {
       window.scrollTo({
@@ -115,6 +146,23 @@ export default function QuestionDetail() {
           </div>
         </div>
       </div>
+      {deleteLog?.data && (
+        <div className='bg-red-100 text-red-700 px-6 py-4 shadow-lg rounded-lg flex items-start gap-2 mb-3'>
+          <AlertTriangleIcon className='w-5 h-5 text-red-700 mt-1' />
+          <div>
+            <span className='font-semibold block'>Lý do bị xóa: {deleteLog.data.data.reason}</span>
+            <div className='text-sm text-red-600 mt-1'>
+              <span>
+                <b>Người xóa:</b> {deleteLog.data.data.deletedBy}
+              </span>
+              <span className='ml-4'>
+                <b>Thời gian xóa:</b> {new Date(deleteLog.data.data.deletedAt).toLocaleString()}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className='bg-background px-6 rounded-lg shadow-xl flex items-center justify-center py-2'>
         <div className='w-2/3 bg-primary-bg px-4 py-2 rounded-xl'>
           <div dangerouslySetInnerHTML={{ __html: question?.content as string }}></div>
@@ -173,9 +221,20 @@ export default function QuestionDetail() {
                   )}
                 </div>
                 <div className='flex items-center justify-between'>
-                  <Button isLoading={answerMutation.isPending} disabled={answerMutation.isPending}>
-                    Gửi
-                  </Button>
+                  <div className='flex items-center space-x-2'>
+                    <Button isLoading={answerMutation.isPending} disabled={answerMutation.isPending}>
+                      Gửi
+                    </Button>
+                    <Button
+                      type='button'
+                      variant='secondary'
+                      isLoading={answerMutation.isPending}
+                      disabled={answerMutation.isPending}
+                      onClick={onSubmitWithStatus}
+                    >
+                      Preview
+                    </Button>
+                  </div>
                   <div aria-hidden='true' onClick={() => setShowToAnswer(false)} className='cursor-pointer'>
                     <TrashIcon className='size-5' />
                   </div>

@@ -69,3 +69,19 @@ export interface ConsultantRoleListConfig extends PaginationConfig {
   name: string
   roleId: number
 }
+
+export interface FieldListConfig extends PaginationConfig {
+  name: string
+  departmentId: number
+}
+
+export interface DepartmentListConfig extends PaginationConfig {
+  name: string
+}
+
+export interface UserListConfig extends PaginationConfig {
+  name: string
+  email: string
+  isOnline: boolean
+  isActivity: boolean
+}

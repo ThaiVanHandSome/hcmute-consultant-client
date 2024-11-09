@@ -42,3 +42,22 @@ export interface UserOnline {
 }
 
 export type Role = 'TUVANVIEN' | 'TRUONGBANTUVAN' | 'ADMIN'
+
+export interface AdminUser {
+  id: number
+  createdAt: string
+  isActivity: boolean
+  username: string
+  email: string
+  department: {
+    id: number
+    name: string
+  }
+  role: {
+    id: number
+    name: string
+  }
+  roleConsultant: string
+  lastActivity: string
+  isOnline: boolean
+}

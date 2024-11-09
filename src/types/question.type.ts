@@ -22,6 +22,7 @@ export interface Question {
   answerCreatedAt: string
   answerAvatarUrl: string
   questionFilterStatus: string
+  filterStatus: string[]
 }
 
 export interface CommonQuestion {
@@ -87,4 +88,12 @@ export interface Answer {
   title: string
   content: string
   statusApproval: boolean
+}
+
+export interface DeletionLog {
+  deletedAt: string
+  deletedBy: string
+  questionId: number
+  questionTitle: string
+  reason: string
 }

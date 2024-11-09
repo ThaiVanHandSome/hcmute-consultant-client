@@ -22,22 +22,24 @@ export default function Home() {
         </div>
         <div className='ml-[320px] mr-[360px] flex-1'>
           {role === ROLE.user && (
-            <div className='px-6 py-6 shadow-lg bg-gradient-to-r from-blue-400 to-purple-500 text-white mb-6 flex justify-between items-center z-50 bg-opacity-20 backdrop-filter backdrop-blur-lg w-full'>
-              <div className='flex'>
-                <QuestionCircle className='text-3xl text-white mb-4 animate-bounce size-9 mr-2' />
-                <div>
-                  <p className='text-xl font-semibold mb-2'>Bạn cần ban tư vấn hỗ trợ</p>
-                  <p className='text-md mb-4'>Hãy đặt câu hỏi ngay nhé</p>
+            <div className='flex items-center justify-center mt-4'>
+              <div className='w-[90%] px-6 py-6 bg-gradient-to-r from-blue-400 to-purple-500 text-white mb-6 flex justify-between items-center z-10 bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl shadow-xl'>
+                <div className='flex'>
+                  <QuestionCircle className='text-3xl text-white mb-4 animate-bounce size-9 mr-2' />
+                  <div>
+                    <p className='text-xl font-semibold mb-2'>Bạn cần ban tư vấn hỗ trợ</p>
+                    <p className='text-md mb-4'>Hãy đặt câu hỏi ngay nhé</p>
+                  </div>
                 </div>
+                <Link to={path.createQuestion}>
+                  <Button className='bg-[#054bb4] text-white font-semibold px-5 py-2 rounded-md hover:bg-blue-600 transition duration-300'>
+                    Đặt câu hỏi
+                  </Button>
+                </Link>
               </div>
-              <Link to={path.createQuestion}>
-                <Button className='bg-[#054bb4] text-white font-semibold px-5 py-2 rounded-md hover:bg-blue-600 transition duration-300'>
-                  Đặt câu hỏi
-                </Button>
-              </Link>
             </div>
           )}
-          <div className='px-16 w-full'>
+          <div className='px-12 w-full'>
             <ListQuestion />
           </div>
         </div>

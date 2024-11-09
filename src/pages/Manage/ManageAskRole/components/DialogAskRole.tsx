@@ -1,4 +1,4 @@
-import { createAdminConsultantRole } from '@/apis/role.api'
+import { createAdminAskRole, updateAdminAskRole } from '@/apis/role.api'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -7,6 +7,7 @@ import { toast } from '@/hooks/use-toast'
 import useConsultantQueryConfig from '@/hooks/useConsultantQueryConfig'
 import { ConsultantRoleType } from '@/types/role.type'
 import { ConsultantRoleSchema } from '@/utils/rules'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -19,51 +20,51 @@ interface Props {
 
 type FormData = yup.InferType<typeof ConsultantRoleSchema>
 
-export default function DialogConsultantRole({ children, role }: Props) {
+export default function DialogAskRole({ children, role }: Props) {
   const isUpdate = !!role
 
   const queryClient = useQueryClient()
-  const consultantRoleQueryConfig = useConsultantQueryConfig()
+  const askRoleQueryConfig = useConsultantQueryConfig()
   const [open, setOpen] = useState<boolean>(false)
 
   const form = useForm<FormData>({
     defaultValues: {
       name: role?.name ?? '',
-      // eslint-disable-next-line no-constant-binary-expression
-      roleId: String(role?.roleId) ?? ''
-    }
+      roleId: String(role?.roleId ?? '')
+    },
+    resolver: yupResolver(ConsultantRoleSchema)
   })
 
-  const createConsultantRoleMutation = useMutation({
-    mutationFn: ({ roleId, name }: { roleId: string; name: string }) => createAdminConsultantRole(roleId, name)
+  const createAskRoleMutation = useMutation({
+    mutationFn: ({ roleId, name }: { roleId: string; name: string }) => createAdminAskRole(roleId, name)
   })
 
-  // const updateRoleMutation = useMutation({
-  //   mutationFn: ({ id, name }: { id: number; name: string }) => updateAdminRole(id, name)
-  // })
+  const updateAskRoleMutation = useMutation({
+    mutationFn: ({ id, name }: { id: number; name: string }) => updateAdminAskRole(id, name)
+  })
 
   const onSubmit = form.handleSubmit((values) => {
     const name = values.name
     if (isUpdate) {
-      // const id = role.id
-      // updateRoleMutation.mutate(
-      //   { id, name },
-      //   {
-      //     onSuccess: (res) => {
-      //       toast({
-      //         variant: 'success',
-      //         description: res.data.message
-      //       })
-      //       setOpen(false)
-      //       queryClient.invalidateQueries({
-      //         queryKey: ['admin-roles', roleQueryConfig]
-      //       })
-      //     }
-      //   }
-      // )
+      const id = role.id
+      updateAskRoleMutation.mutate(
+        { id, name },
+        {
+          onSuccess: (res) => {
+            toast({
+              variant: 'success',
+              description: res.data.message
+            })
+            setOpen(false)
+            queryClient.invalidateQueries({
+              queryKey: ['admin-ask-roles', askRoleQueryConfig]
+            })
+          }
+        }
+      )
       return
     }
-    createConsultantRoleMutation.mutate(
+    createAskRoleMutation.mutate(
       {
         ...values
       },
@@ -75,7 +76,7 @@ export default function DialogConsultantRole({ children, role }: Props) {
           })
           setOpen(false)
           queryClient.invalidateQueries({
-            queryKey: ['admin-consultant-roles', consultantRoleQueryConfig]
+            queryKey: ['admin-ask-roles', askRoleQueryConfig]
           })
         }
       }
@@ -87,7 +88,7 @@ export default function DialogConsultantRole({ children, role }: Props) {
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isUpdate ? 'Chỉnh sửa quyền tư vấn viên' : 'Thêm quyền tư vấn viên'}</DialogTitle>
+          <DialogTitle>{isUpdate ? 'Chỉnh sửa quyền người hỏi' : 'Thêm quyền người hỏi'}</DialogTitle>
         </DialogHeader>
         <div>
           <Form {...form}>
@@ -95,8 +96,8 @@ export default function DialogConsultantRole({ children, role }: Props) {
               <InputCustom control={form.control} name='name' placeholder='Tên quyền' label='Tên' />
               <InputCustom control={form.control} name='roleId' placeholder='Mã quyền' label='Mã quyền' />
               <Button
-                disabled={createConsultantRoleMutation.isPending}
-                isLoading={createConsultantRoleMutation.isPending}
+                disabled={createAskRoleMutation.isPending || updateAskRoleMutation.isPending}
+                isLoading={createAskRoleMutation.isPending || updateAskRoleMutation.isPending}
               >
                 {isUpdate ? 'Lưu' : 'Thêm'}
               </Button>

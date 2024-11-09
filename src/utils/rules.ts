@@ -143,3 +143,14 @@ export const ConsultantRoleSchema = yup.object({
   name: yup.string().required('Bạn phải nhập tên'),
   roleId: yup.string().required('Bạn phải nhập mã role')
 })
+
+export const FieldSchema = yup.object({
+  name: yup.string().required('Bạn phải nhập tên'),
+  departmentId: yup.string().required('Bạn phải chọn khoa')
+})
+
+export const DepartmentSchema = yup.object({
+  name: yup.string().required('Bạn phải nhập tên'),
+  description: yup.string().required('Bạn phải nhập mô tả'),
+  logo: yup.string().required()
+})

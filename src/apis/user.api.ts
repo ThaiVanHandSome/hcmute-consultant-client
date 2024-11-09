@@ -1,7 +1,8 @@
 import { SchedualQueryConfig } from '@/hooks/useSchedualQueryConfig'
+import { UserQueryConfig } from '@/hooks/useUserQueryConfig'
 import { ConsultantSchedualFormData } from '@/pages/User/SchedualConsultant/SchedualConsultant'
 import { SchedualConsultant } from '@/types/consultant.type'
-import { User, UserUpdate } from '@/types/user.type'
+import { AdminUser, User, UserUpdate } from '@/types/user.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
 
@@ -26,5 +27,10 @@ export const createUserConsultant = (body: ConsultantSchedualFormData) =>
 
 export const getScheduals = (params: SchedualQueryConfig) =>
   http.get<SuccessResponse<PaginationResponse<SchedualConsultant[]>>>('consultation-schedule/list', {
+    params
+  })
+
+export const getAdminUser = (params: UserQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<AdminUser[]>>>('admin/account/list', {
     params
   })

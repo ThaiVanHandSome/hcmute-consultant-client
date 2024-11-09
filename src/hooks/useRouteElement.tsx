@@ -42,6 +42,10 @@ import ManageWard from '@/pages/Manage/ManageWard'
 import ManageProvince from '@/pages/Manage/ManageProvince'
 import ManageRole from '@/pages/Manage/ManageRole'
 import ManageConsultantRole from '@/pages/Manage/ManageConsultantRole'
+import ManageAskRole from '@/pages/Manage/ManageAskRole'
+import ManageField from '@/pages/Manage/ManageField'
+import ManageDepartment from '@/pages/Manage/ManageDepartment'
+import ManageUser from '@/pages/Manage/ManageUser'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -222,6 +226,22 @@ export default function useRouteElement() {
                 {
                   path: path.manageConsultantRole,
                   element: <ManageConsultantRole />
+                },
+                {
+                  path: path.manageAskRole,
+                  element: <ManageAskRole />
+                },
+                {
+                  path: path.manageField,
+                  element: <ManageField />
+                },
+                {
+                  path: path.manageDepartment,
+                  element: <ManageDepartment />
+                },
+                {
+                  path: path.manageUser,
+                  element: <ManageUser />
                 }
               ]
             },

@@ -5,13 +5,34 @@ import { AppContext } from '@/contexts/app.context'
 import { QuestionCircle } from '@/icons'
 import { Role } from '@/types/user.type'
 import clsx from 'clsx'
-import { CalendarDaysIcon, ClipboardPlusIcon, CreativeCommonsIcon, FingerprintIcon, MapPinIcon } from 'lucide-react'
+import {
+  CalendarDaysIcon,
+  CaptionsIcon,
+  ClipboardPlusIcon,
+  CreativeCommonsIcon,
+  FingerprintIcon,
+  MapPinIcon,
+  SchoolIcon,
+  User2Icon
+} from 'lucide-react'
 import { useContext } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
 export default function ManageLayout() {
   const { role } = useContext(AppContext)
   const asideNav = [
+    {
+      title: 'Người dùng',
+      children: [
+        {
+          path: path.manageUser,
+          icon: <User2Icon className='size-5' />,
+          label: 'Tài khoản',
+          enabled: true
+        }
+      ],
+      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+    },
     {
       title: 'Câu hỏi',
       children: [
@@ -68,6 +89,12 @@ export default function ManageLayout() {
           icon: <FingerprintIcon className='size-5' />,
           label: 'Quyền tư vấn viên',
           enabled: true
+        },
+        {
+          path: path.manageAskRole,
+          icon: <FingerprintIcon className='size-5' />,
+          label: 'Quyền người hỏi',
+          enabled: true
         }
       ],
       enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
@@ -95,13 +122,31 @@ export default function ManageLayout() {
         }
       ],
       enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+    },
+    {
+      title: 'Khác',
+      children: [
+        {
+          path: path.manageField,
+          icon: <CaptionsIcon className='size-5' />,
+          label: 'Lĩnh vực',
+          enabled: true
+        },
+        {
+          path: path.manageDepartment,
+          icon: <SchoolIcon className='size-5' />,
+          label: 'Khoa',
+          enabled: true
+        }
+      ],
+      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
     }
   ]
   return (
     <div>
       <Header />
       <div className='gap-2 bg-background mt-[var(--header-height)] min-h-remain-screen relative'>
-        <div className='w-[250px] fixed top-[var(--header-height)] left-0 bottom-0 bg-background py-4 px-4 space-y-4 border-r'>
+        <div className='w-[250px] fixed top-[var(--header-height)] left-0 bottom-0 bg-background py-4 px-4 space-y-4 border-r overflow-y-auto'>
           {asideNav
             .map((item) => {
               if (!item.enabled) return null

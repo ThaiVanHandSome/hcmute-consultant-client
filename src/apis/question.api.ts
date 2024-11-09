@@ -5,6 +5,7 @@ import {
   CommonQuestion,
   CreateQuestionRequest,
   CreateQuestionResponse,
+  DeletionLog,
   Question,
   QuestionStatus
 } from '@/types/question.type'
@@ -70,7 +71,7 @@ export const deleteQuestion = (id: number) =>
   })
 
 export const deleteQuestionByConsultant = (questionId: number, reason: string) =>
-  http.delete<SuccessResponse<string>>('consultant/question/delete', {
+  http.delete<SuccessResponse<string>>('question/delete', {
     params: {
       questionId,
       reason
@@ -90,6 +91,13 @@ export const answerTheQuestion = (params: Answer, file: File) =>
       }
     }
   )
+
+export const getDeleteLog = (questionId: number) =>
+  http.get<SuccessResponse<DeletionLog>>('deletion-log/detail', {
+    params: {
+      questionId
+    }
+  })
 
 export const forwardQuestion = (body: { toDepartmentId: number; questionId: number; consultantId: number }) =>
   http.post<SuccessResponse<string>>('consultant/forward-question/forward', body)
