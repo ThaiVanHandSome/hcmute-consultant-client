@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AppContext } from '@/contexts/app.context'
 import { useContext, useEffect, useRef } from 'react'
 import SockJS from 'sockjs-client'
@@ -14,12 +15,14 @@ export default function useUserOnline() {
   }
 
   const onConnected = () => {
-    stompClient.current?.subscribe('/user/online-users', onUserOnline)
+    if (user?.id) {
+      stompClient.current?.subscribe(`/user/${user.id}/online-users`, onUserOnline)
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onError = (err: any) => {
-    console.log(err)
+    console.log('Lỗi kết nối WebSocket:', err)
   }
 
   const connect = () => {
@@ -38,9 +41,11 @@ export default function useUserOnline() {
       connect()
     }
     return () => {
-      stompClient.current?.disconnect(() => {
-        console.log('Disconnected successfully')
-      })
+      if (stompClient.current) {
+        stompClient.current.disconnect(() => {
+          console.log('Ngắt kết nối thành công')
+        })
+      }
     }
   }, [user?.id])
 
