@@ -1,4 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import DialogCommonQuestion from '@/pages/Manage/ManageCommonQuestion/components/DialogCommonQuestion'
 import DialogDeleteCommonQuestion from '@/pages/Manage/ManageCommonQuestion/components/DialogDeleteCommonQuestion'
 import DialogViewCommonQuestion from '@/pages/Manage/ManageCommonQuestion/components/DialogViewCommonQuestion'
 import { CommonQuestion } from '@/types/question.type'
@@ -34,7 +35,9 @@ export default function CommonQuestionTable({ commonQuestions }: Props) {
                   <DialogViewCommonQuestion question={question}>
                     <EyeIcon className='size-5' strokeWidth={1.5} />
                   </DialogViewCommonQuestion>
-                  <Edit2Icon className='size-4' strokeWidth={1.5} />
+                  <DialogCommonQuestion question={question}>
+                    <Edit2Icon className='size-4' strokeWidth={1.5} />
+                  </DialogCommonQuestion>
                   <DialogDeleteCommonQuestion question={question}>
                     <TrashIcon className='size-5 text-destructive' />
                   </DialogDeleteCommonQuestion>

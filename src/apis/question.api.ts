@@ -1,5 +1,6 @@
 import { CommonQuestionQueryConfig } from '@/hooks/useCommonQuestionQueryConfig'
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
+import { CommonQuesionFormData } from '@/pages/Manage/ManageCommonQuestion/components/DialogCommonQuestion'
 import {
   Answer,
   CommonQuestion,
@@ -113,3 +114,38 @@ export const deleteCommonQuestionAdvisor = (id: number) =>
       id
     }
   })
+
+export const approvalAnswer = (questionId: number, content: string, file?: File) =>
+  http.post<SuccessResponse<string>>(
+    'advisor-admin/answer/review',
+    {
+      file
+    },
+    {
+      params: {
+        questionId,
+        content
+      },
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  )
+
+export const updateAdminCommonQuestion = (commonQuestionId: number, data: CommonQuesionFormData, file: File) =>
+  http.put<SuccessResponse<string>>(
+    'advisor-admin/common-question/update',
+    { file },
+    {
+      params: {
+        commonQuestionId,
+        title: data.title,
+        content: data.content,
+        answerTitle: data.answerTitle,
+        answerContent: data.answerContent
+      },
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  )

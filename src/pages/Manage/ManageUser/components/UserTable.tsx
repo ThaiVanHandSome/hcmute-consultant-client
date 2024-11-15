@@ -1,5 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import DialogViewUserDetail from '@/pages/Manage/ManageUser/components/DialogViewUserDetail'
 import { AdminUser } from '@/types/user.type'
+import { EyeOpenIcon } from '@radix-ui/react-icons'
 
 interface Props {
   readonly users?: AdminUser[]
@@ -29,6 +31,13 @@ export default function UserTable({ users }: Props) {
               <TableCell>{user?.department?.name}</TableCell>
               <TableCell>{user.role.name}</TableCell>
               <TableCell>{user.lastActivity}</TableCell>
+              <TableCell>
+                <div className='flex items-center space-x-2'>
+                  <DialogViewUserDetail id={user.id}>
+                    <EyeOpenIcon />
+                  </DialogViewUserDetail>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

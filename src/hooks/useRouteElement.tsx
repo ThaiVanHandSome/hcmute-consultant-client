@@ -46,6 +46,7 @@ import ManageAskRole from '@/pages/Manage/ManageAskRole'
 import ManageField from '@/pages/Manage/ManageField'
 import ManageDepartment from '@/pages/Manage/ManageDepartment'
 import ManageUser from '@/pages/Manage/ManageUser'
+import ManageApprovalAnswer from '@/pages/Manage/ManageApprovalAnswer/ManageApprovalAnswer'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -242,6 +243,14 @@ export default function useRouteElement() {
                 {
                   path: path.manageUser,
                   element: <ManageUser />
+                },
+                {
+                  path: path.manageApprovalAnswer,
+                  element: <ManageApprovalAnswer />
+                },
+                {
+                  path: path.approvalQuestionDetail,
+                  element: <QuestionDetail />
                 }
               ]
             },

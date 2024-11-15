@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom'
 
 interface Props {
   readonly question?: Question
+  readonly isApproval?: boolean
 }
 
-export default function QuestionItem({ question }: Props) {
+export default function QuestionItem({ question, isApproval = false }: Props) {
+  const endPoint = isApproval
+    ? `/manage/approval-answers/detail/${question?.id}?status=APPROVAL`
+    : `/manage/questions/detail/${question?.id}`
   return (
-    <Link to={`/manage/questions/detail/${question?.id}`}>
+    <Link to={endPoint}>
       <div className='hover:bg-secondary hover:text-secondary-foreground hover:shadow-lg rounded-md cursor-pointer py-2 px-4 border-b '>
         <div className='flex items-center justify-between mb-1'>
           <Badge>{question?.field.name}</Badge>

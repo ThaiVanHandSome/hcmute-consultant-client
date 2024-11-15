@@ -19,7 +19,7 @@ export default function useQuestionQueryConfig() {
       status: queryParams.status,
       startDate: queryParams.startDate,
       endDate: queryParams.endDate,
-      statusApproval: false
+      statusApproval: queryParams.statusApproval ?? 'false'
     },
     isUndefined
   ) as QuestionQueryConfig

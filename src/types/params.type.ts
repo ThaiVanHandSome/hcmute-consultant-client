@@ -22,6 +22,7 @@ export interface QuestionListConfig extends PaginationConfig {
   title: string
   startDate: Date
   endDate: Date
+  statusApproval: string
 }
 
 export interface SchedualListConfig extends PaginationConfig {

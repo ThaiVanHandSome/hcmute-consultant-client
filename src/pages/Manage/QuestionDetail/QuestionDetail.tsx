@@ -1,4 +1,4 @@
-import { answerTheQuestion, getDeleteLog, getQuestionById } from '@/apis/question.api'
+import { answerTheQuestion, approvalAnswer, getDeleteLog, getQuestionById } from '@/apis/question.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import FileItem from '@/components/dev/FileItem'
 import Editor from '@/components/dev/Form/Editor'
@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
+import useQueryParams from '@/hooks/useQueryParams'
 import DialogDeleteQuestion from '@/pages/Manage/QuestionDetail/components/DialogDeleteQuestion'
 import DialogForwardQuestion from '@/pages/Manage/QuestionDetail/components/DialogForwardQuestion'
 import { Answer } from '@/types/question.type'
@@ -25,13 +26,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 export default function QuestionDetail() {
   const { user } = useContext(AppContext)
   const { id } = useParams()
+  const { status } = useQueryParams()
+  const isApproval = status === 'APPROVAL'
   const navigate = useNavigate()
 
   const [showToAnswer, setShowToAnswer] = useState<boolean>(false)
   const [file, setFile] = useState<File>()
-  const previewImage = useMemo(() => {
-    return file ? URL.createObjectURL(file) : ''
-  }, [file])
 
   const { data: questionResponse } = useQuery({
     queryKey: ['question', id],
@@ -40,8 +40,17 @@ export default function QuestionDetail() {
   })
   const question = questionResponse?.data.data
 
+  const previewImage = useMemo(() => {
+    return file ? URL.createObjectURL(file) : isApproval ? question?.fileName : ''
+  }, [file, question])
+
   const answerMutation = useMutation({
     mutationFn: ({ params, file }: { params: Answer; file: File }) => answerTheQuestion(params, file)
+  })
+
+  const approvalAnswerMutation = useMutation({
+    mutationFn: ({ questionId, content, file }: { questionId: number; content: string; file: File }) =>
+      approvalAnswer(questionId, content, file)
   })
 
   const { data: deleteLog } = useQuery({
@@ -52,7 +61,7 @@ export default function QuestionDetail() {
 
   const form = useForm({
     defaultValues: {
-      content: ''
+      content: isApproval ? question?.answerContent : ''
     }
   })
 
@@ -66,26 +75,42 @@ export default function QuestionDetail() {
   }
 
   const onSubmit = form.handleSubmit((values) => {
-    if (!question || !values.content || !file) return
-    values.content = `<div class="editor">${values.content}</div>`
-    const params: Answer = {
-      questionId: question?.id,
-      content: values.content,
-      title: 'answer',
-      statusApproval: false
-    }
-    answerMutation.mutate(
-      { params, file },
-      {
-        onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
-          navigate(path.manageQuestion)
-        }
+    if (!isApproval) {
+      values.content = `<div class="editor">${values.content}</div>`
+      const params: Answer = {
+        questionId: question?.id as number,
+        content: values.content,
+        title: 'answer',
+        statusApproval: false
       }
-    )
+      answerMutation.mutate(
+        { params, file },
+        {
+          onSuccess: (res) => {
+            toast({
+              variant: 'success',
+              description: res.data.message
+            })
+            navigate(path.manageQuestion)
+          }
+        }
+      )
+      return
+    }
+    const payload = {
+      questionId: question.id as number,
+      content: values.content,
+      file
+    }
+    approvalAnswerMutation.mutate(payload, {
+      onSuccess: (res) => {
+        toast({
+          variant: 'success',
+          description: res.data.message
+        })
+        navigate(path.manageApprovalAnswer)
+      }
+    })
   })
 
   const onSubmitWithStatus = () => {
@@ -112,6 +137,13 @@ export default function QuestionDetail() {
       )
     })()
   }
+
+  useEffect(() => {
+    if (!isApproval) return
+    if (!form.watch('content') && question) {
+      form.setValue('content', question.answerContent)
+    }
+  }, [question, isApproval])
 
   useEffect(() => {
     if (showToAnswer) {
@@ -199,8 +231,8 @@ export default function QuestionDetail() {
         })}
       >
         <div className='space-x-2'>
-          <Button onClick={handleOpenToAnswer}>Phản hồi</Button>
-          <DialogForwardQuestion questionId={question?.id as number} />
+          <Button onClick={handleOpenToAnswer}>{isApproval ? 'Đánh giá' : 'Phản hồi'}</Button>
+          {!isApproval && <DialogForwardQuestion questionId={question?.id as number} />}
         </div>
         <DialogDeleteQuestion questionId={parseInt(id as string)} />
       </div>
@@ -222,18 +254,23 @@ export default function QuestionDetail() {
                 </div>
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center space-x-2'>
-                    <Button isLoading={answerMutation.isPending} disabled={answerMutation.isPending}>
-                      Gửi
-                    </Button>
                     <Button
-                      type='button'
-                      variant='secondary'
-                      isLoading={answerMutation.isPending}
-                      disabled={answerMutation.isPending}
-                      onClick={onSubmitWithStatus}
+                      isLoading={answerMutation.isPending || approvalAnswerMutation.isPending}
+                      disabled={answerMutation.isPending || approvalAnswerMutation.isPending}
                     >
-                      Preview
+                      {!isApproval ? 'Gửi' : 'Phê duyệt'}
                     </Button>
+                    {!isApproval && (
+                      <Button
+                        type='button'
+                        variant='secondary'
+                        isLoading={answerMutation.isPending}
+                        disabled={answerMutation.isPending}
+                        onClick={onSubmitWithStatus}
+                      >
+                        Preview
+                      </Button>
+                    )}
                   </div>
                   <div aria-hidden='true' onClick={() => setShowToAnswer(false)} className='cursor-pointer'>
                     <TrashIcon className='size-5' />

@@ -18,6 +18,24 @@ export interface User {
   }
 }
 
+export interface UserDetail {
+  id: number
+  studentCode: string
+  schoolName: string
+  firstName: string
+  lastName: string
+  phone: string
+  avatarUrl: string
+  gender: string
+  name: string
+  address: {
+    line: string
+    provinceFullName: string
+    districtFullName: string
+    wardFullName: string
+  }
+}
+
 export interface UserUpdate {
   username: string
   studentCode: string

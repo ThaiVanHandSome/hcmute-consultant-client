@@ -43,6 +43,12 @@ export default function ManageLayout() {
           enabled: true
         },
         {
+          path: path.manageApprovalAnswer,
+          icon: <QuestionCircle className='size-5' />,
+          label: 'Phê duyệt',
+          enabled: true
+        },
+        {
           path: path.manageCommonQuestion,
           icon: <CreativeCommonsIcon className='size-5' />,
           label: 'Câu hỏi chung',

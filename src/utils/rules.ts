@@ -154,3 +154,10 @@ export const DepartmentSchema = yup.object({
   description: yup.string().required('Bạn phải nhập mô tả'),
   logo: yup.string().required()
 })
+
+export const CommonQuestionSchema = yup.object({
+  title: yup.string().required('Bạn phải nhập tiêu đề câu hỏi'),
+  content: yup.string().required('Bạn phải nhập nội dung câu hỏi'),
+  answerTitle: yup.string().required('Bạn phải nhập tiêu đề câu trả lời'),
+  answerContent: yup.string().required('Bạn phải nhập nội dung câu trả lời')
+})
