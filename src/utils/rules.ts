@@ -161,3 +161,7 @@ export const CommonQuestionSchema = yup.object({
   answerTitle: yup.string().required('Bạn phải nhập tiêu đề câu trả lời'),
   answerContent: yup.string().required('Bạn phải nhập nội dung câu trả lời')
 })
+
+export const AnswerSchema = yup.object({
+  content: yup.string().required('Bạn phải nhập nội dung câu trả lời')
+})

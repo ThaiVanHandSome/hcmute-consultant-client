@@ -1,4 +1,5 @@
 import { getCommonQuestionAdvisor } from '@/apis/question.api'
+import ExportCustom from '@/components/dev/ExportCustom'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
@@ -30,12 +31,15 @@ export default function ManageCommonQuestion() {
           <h1 className='font-semibold text-lg'>Câu hỏi chung</h1>
           <p className='text-sm italic'>Quản lý câu hỏi chung</p>
         </div>
-        <DialogCommonQuestion>
-          <Button className='space-x-1'>
-            <PlusIcon />
-            <span>Thêm câu hỏi chung</span>
-          </Button>
-        </DialogCommonQuestion>
+        <div className='flex items-center space-x-2'>
+          <DialogCommonQuestion>
+            <Button className='space-x-1'>
+              <PlusIcon />
+              <span>Thêm câu hỏi chung</span>
+            </Button>
+          </DialogCommonQuestion>
+          <ExportCustom dataType='commonQuestion' queryConfig={commonQuestionQueryConfig} />
+        </div>
       </div>
       <div>
         <Form {...form}>

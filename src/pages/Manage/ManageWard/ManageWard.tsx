@@ -1,5 +1,6 @@
 import { getWardAdmin } from '@/apis/address.api'
 import { getDistricts, getProvinces } from '@/apis/location.api'
+import ExportCustom from '@/components/dev/ExportCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import Paginate from '@/components/dev/PaginationCustom'
 import { Button } from '@/components/ui/button'
@@ -74,12 +75,15 @@ export default function ManageWard() {
           <h1 className='font-semibold text-lg'>Phường/Xã</h1>
           <p className='text-sm italic'>Quản lý Phường/Xã</p>
         </div>
-        <DialogWard>
-          <Button>
-            <PlusIcon />
-            <span>Thêm Phường/Xã</span>
-          </Button>
-        </DialogWard>
+        <div className='flex items-center space-x-2'>
+          <DialogWard>
+            <Button>
+              <PlusIcon />
+              <span>Thêm Phường/Xã</span>
+            </Button>
+          </DialogWard>
+          <ExportCustom dataType='ward' queryConfig={wardQueryConfig} />
+        </div>
       </div>
       <div>
         <Form {...form}>

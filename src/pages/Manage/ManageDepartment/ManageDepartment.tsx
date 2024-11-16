@@ -1,4 +1,5 @@
 import { getAdminDepartment } from '@/apis/department.api'
+import ExportCustom from '@/components/dev/ExportCustom'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import Paginate from '@/components/dev/PaginationCustom'
 import { Button } from '@/components/ui/button'
@@ -47,12 +48,15 @@ export default function ManageDepartment() {
           <h1 className='font-semibold text-lg'>Khoa</h1>
           <p className='text-sm italic'>Quản lý khoa</p>
         </div>
-        <DialogDepartment>
-          <Button>
-            <PlusIcon />
-            <span>Thêm khoa</span>
-          </Button>
-        </DialogDepartment>
+        <div className='flex items-center space-x-2'>
+          <DialogDepartment>
+            <Button>
+              <PlusIcon />
+              <span>Thêm khoa</span>
+            </Button>
+          </DialogDepartment>
+          <ExportCustom dataType='department' queryConfig={departmentQueryConfig} />
+        </div>
       </div>
       <div>
         <Form {...form}>

@@ -4,6 +4,7 @@ import FileItem from '@/components/dev/FileItem'
 import Editor from '@/components/dev/Form/Editor'
 import QuestionImage from '@/components/dev/QuestionImage'
 import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -13,12 +14,13 @@ import { toast } from '@/hooks/use-toast'
 import useQueryParams from '@/hooks/useQueryParams'
 import DialogDeleteQuestion from '@/pages/Manage/QuestionDetail/components/DialogDeleteQuestion'
 import DialogForwardQuestion from '@/pages/Manage/QuestionDetail/components/DialogForwardQuestion'
+import DialogUpdateAnswer from '@/pages/Manage/QuestionDetail/components/DialogUpdateAnswer'
 import { Answer } from '@/types/question.type'
 import { formatDate, isImageFile } from '@/utils/utils'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { AlertTriangleIcon, EllipsisVertical, ReplyIcon } from 'lucide-react'
+import { AlertTriangleIcon, EllipsisIcon, EllipsisVertical, ReplyIcon } from 'lucide-react'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -98,7 +100,7 @@ export default function QuestionDetail() {
       return
     }
     const payload = {
-      questionId: question.id as number,
+      questionId: question?.id as number,
       content: values.content,
       file
     }
@@ -214,11 +216,28 @@ export default function QuestionDetail() {
         <div className='flex w-full max-w-full mt-3'>
           <AvatarCustom url={question.answerAvatarUrl} className='size-8 mr-2' />
           <div className='flex-1'>
-            <div className='rounded-2xl bg-secondary text-secondary-foreground px-4 py-2'>
-              <div className='font-bold text-sm'>
-                {question.answerUserLastname} {question.answerUserFirstname}
+            <div className='flex items-center space-x-1'>
+              <div className='flex-1 rounded-2xl bg-secondary text-secondary-foreground px-4 py-2'>
+                <div className='font-bold text-sm'>
+                  {question.answerUserLastname} {question.answerUserFirstname}
+                </div>
+                <div dangerouslySetInnerHTML={{ __html: question.answerContent }} className='text-sm'></div>
               </div>
-              <div dangerouslySetInnerHTML={{ __html: question.answerContent }} className='text-sm'></div>
+              <div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <EllipsisIcon className='size-4' />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className='px-2'>
+                    <DialogUpdateAnswer question={question}>
+                      <span className='font-semibold text-sm'>Chỉnh sửa</span>
+                    </DialogUpdateAnswer>
+                    <DropdownMenuItem>
+                      <span className='text-destructive font-semibold cursor-pointer'>Xóa</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
             <div className='text-[10px] ml-4'>{formatDate(question.answerCreatedAt)}</div>
           </div>

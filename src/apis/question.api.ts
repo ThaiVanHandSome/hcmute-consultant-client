@@ -7,6 +7,7 @@ import {
   CreateQuestionRequest,
   CreateQuestionResponse,
   DeletionLog,
+  MyAnswer,
   Question,
   QuestionStatus
 } from '@/types/question.type'
@@ -144,6 +145,20 @@ export const updateAdminCommonQuestion = (commonQuestionId: number, data: Common
         answerTitle: data.answerTitle,
         answerContent: data.answerContent
       },
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  )
+
+export const updateAnswer = (params: MyAnswer, file: File) =>
+  http.put<SuccessResponse<string>>(
+    'answer/update',
+    {
+      file
+    },
+    {
+      params,
       headers: {
         'Content-Type': 'multipart/form-data'
       }

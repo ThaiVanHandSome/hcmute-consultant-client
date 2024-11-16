@@ -1,5 +1,6 @@
 import { getAllDepartments } from '@/apis/department.api'
 import { getAdminField } from '@/apis/field.api'
+import ExportCustom from '@/components/dev/ExportCustom'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import Paginate from '@/components/dev/PaginationCustom'
@@ -75,12 +76,15 @@ export default function ManageField() {
           <h1 className='font-semibold text-lg'>Lĩnh vực</h1>
           <p className='text-sm italic'>Quản lý lĩnh vực</p>
         </div>
-        <DialogField>
-          <Button>
-            <PlusIcon />
-            <span>Thêm lĩnh vực</span>
-          </Button>
-        </DialogField>
+        <div className='flex items-center space-x-2'>
+          <DialogField>
+            <Button>
+              <PlusIcon />
+              <span>Thêm lĩnh vực</span>
+            </Button>
+          </DialogField>
+          <ExportCustom dataType='field' queryConfig={fieldQueryConfig} />
+        </div>
       </div>
       <div>
         <Form {...form}>

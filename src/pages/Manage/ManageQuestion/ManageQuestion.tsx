@@ -1,7 +1,9 @@
 import { getQuestions } from '@/apis/question.api'
+import ExportCustom from '@/components/dev/ExportCustom'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import QuestionFilter from '@/components/dev/QuestionFilter'
 import QuestionItem from '@/components/dev/QuestionItem'
+import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import useQuestionQueryConfig from '@/hooks/useQuestionQueryConfig'
@@ -16,9 +18,12 @@ export default function ManageQuestion() {
   })
   return (
     <div className='space-y-6'>
-      <div>
-        <h1 className='font-semibold text-lg'>Câu hỏi</h1>
-        <p className='text-sm italic'>Quản lý câu hỏi</p>
+      <div className='flex items-center justify-between'>
+        <div>
+          <h1 className='font-semibold text-lg'>Câu hỏi</h1>
+          <p className='text-sm italic'>Quản lý câu hỏi</p>
+        </div>
+        <ExportCustom dataType='question' queryConfig={questionQueryConfig} />
       </div>
       <div>
         <QuestionFilter queryConfig={questionQueryConfig} path={path.manageQuestion} />

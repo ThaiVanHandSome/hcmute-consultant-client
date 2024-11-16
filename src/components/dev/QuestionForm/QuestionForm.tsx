@@ -185,6 +185,8 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
     }
   }
 
+  console.log('content', form.watch('content'))
+
   return (
     <div className='overflow-hidden'>
       {isFormReset.current && (

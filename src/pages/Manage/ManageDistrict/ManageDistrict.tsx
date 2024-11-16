@@ -1,5 +1,6 @@
 import { getDistrictAdmin } from '@/apis/address.api'
 import { getProvinces } from '@/apis/location.api'
+import ExportCustom from '@/components/dev/ExportCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import Paginate from '@/components/dev/PaginationCustom'
 import { Button } from '@/components/ui/button'
@@ -59,12 +60,15 @@ export default function ManageDistrict() {
           <h1 className='font-semibold text-lg'>Quận/Huyện</h1>
           <p className='text-sm italic'>Quản lý Quận/Huyện</p>
         </div>
-        <DialogDistrict>
-          <Button>
-            <PlusIcon />
-            <span>Thêm Quận/Huyện</span>
-          </Button>
-        </DialogDistrict>
+        <div className='flex items-center space-x-2'>
+          <DialogDistrict>
+            <Button>
+              <PlusIcon />
+              <span>Thêm Quận/Huyện</span>
+            </Button>
+          </DialogDistrict>
+          <ExportCustom dataType='district' queryConfig={districtQueryConfig} />
+        </div>
       </div>
       <div>
         <Form {...form}>

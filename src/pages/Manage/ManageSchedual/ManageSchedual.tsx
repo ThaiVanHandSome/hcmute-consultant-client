@@ -1,4 +1,5 @@
 import { getScheduals } from '@/apis/user.api'
+import ExportCustom from '@/components/dev/ExportCustom'
 import Paginate from '@/components/dev/PaginationCustom'
 import SchedualItem from '@/components/dev/SchedualItem'
 import { Separator } from '@/components/ui/separator'
@@ -18,9 +19,12 @@ export default function ManageSchedual() {
 
   return (
     <div className='space-y-6'>
-      <div>
-        <h1 className='font-semibold text-lg'>Lịch tư vấn</h1>
-        <p className='text-sm italic'>Quản lý lịch tư vấn</p>
+      <div className='flex items-center justify-between'>
+        <div>
+          <h1 className='font-semibold text-lg'>Lịch tư vấn</h1>
+          <p className='text-sm italic'>Quản lý lịch tư vấn</p>
+        </div>
+        <ExportCustom dataType='consultationSchedule' queryConfig={schedualQueryConfig} />
       </div>
       <SchedualFilter queryConfig={schedualQueryConfig} />
       <Separator />

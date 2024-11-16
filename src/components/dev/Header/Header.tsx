@@ -50,7 +50,7 @@ export default function Header() {
         {isAuthenticated && (
           <div className='flex items-center'>
             <HeaderNotification />
-            {/* <HeaderMessage /> */}
+            <HeaderMessage />
             <ModeToggle />
             {role === ROLE.user && <UserPopover />}
             {[ROLE.consultant, ROLE.admin, ROLE.advisor].includes(role as Role) && <ConsultantPopover />}

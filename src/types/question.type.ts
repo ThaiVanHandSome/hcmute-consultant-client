@@ -16,6 +16,7 @@ export interface Question {
   askerLastname: string
   askerAvatarUrl: string
   answerTitle: string
+  answerId: number
   answerContent: string
   answerUserFirstname: string
   answerUserLastname: string
@@ -85,6 +86,13 @@ export interface QuestionStatus {
 
 export interface Answer {
   questionId: number
+  title: string
+  content: string
+  statusApproval: boolean
+}
+
+export interface MyAnswer {
+  answerId: number
   title: string
   content: string
   statusApproval: boolean

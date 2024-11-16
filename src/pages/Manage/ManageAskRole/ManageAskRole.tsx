@@ -1,4 +1,5 @@
 import { getAdminAskRole } from '@/apis/role.api'
+import ExportCustom from '@/components/dev/ExportCustom'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import Paginate from '@/components/dev/PaginationCustom/PaginationCustom'
 import { Button } from '@/components/ui/button'
@@ -46,12 +47,15 @@ export default function ManageAskRole() {
           <h1 className='font-semibold text-lg'>Quyền người hỏi</h1>
           <p className='text-sm italic'>Quản lý quyền người hỏi</p>
         </div>
-        <DialogAskRole>
-          <Button>
-            <PlusIcon />
-            <span>Thêm quyền người hỏi</span>
-          </Button>
-        </DialogAskRole>
+        <div className='flex items-center space-x-2'>
+          <DialogAskRole>
+            <Button>
+              <PlusIcon />
+              <span>Thêm quyền người hỏi</span>
+            </Button>
+          </DialogAskRole>
+          <ExportCustom dataType='roleAsk' queryConfig={consultantRoleQueryConfig} />
+        </div>
       </div>
       <div>
         <Form {...form}>
