@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { MyAnswer, Question } from '@/types/question.type'
 import { AnswerSchema } from '@/utils/rules'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -15,11 +15,12 @@ import * as yup from 'yup'
 interface Props {
   readonly question?: Question
   readonly children: React.ReactNode
+  readonly refetch: any
 }
 
 type FormData = yup.InferType<typeof AnswerSchema>
 
-export default function DialogUpdateAnswer({ question, children }: Props) {
+export default function DialogUpdateAnswer({ question, children, refetch }: Props) {
   const form = useForm<FormData>({
     defaultValues: {
       content: question?.answerContent ?? ''
@@ -27,7 +28,6 @@ export default function DialogUpdateAnswer({ question, children }: Props) {
   })
 
   const [open, setOpen] = useState<boolean>(false)
-  const queryClient = useQueryClient()
   const [file, setFile] = useState<File>()
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : question ? question?.fileName : ''
@@ -53,9 +53,7 @@ export default function DialogUpdateAnswer({ question, children }: Props) {
       { params, file: file as File },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['question', question?.id]
-          })
+          refetch()
           setOpen(false)
         }
       }

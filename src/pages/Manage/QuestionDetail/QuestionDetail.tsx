@@ -12,6 +12,7 @@ import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import useQueryParams from '@/hooks/useQueryParams'
+import DialogDeleteAnswer from '@/pages/Manage/QuestionDetail/components/DialogDeleteAnswer'
 import DialogDeleteQuestion from '@/pages/Manage/QuestionDetail/components/DialogDeleteQuestion'
 import DialogForwardQuestion from '@/pages/Manage/QuestionDetail/components/DialogForwardQuestion'
 import DialogUpdateAnswer from '@/pages/Manage/QuestionDetail/components/DialogUpdateAnswer'
@@ -35,7 +36,7 @@ export default function QuestionDetail() {
   const [showToAnswer, setShowToAnswer] = useState<boolean>(false)
   const [file, setFile] = useState<File>()
 
-  const { data: questionResponse } = useQuery({
+  const { data: questionResponse, refetch } = useQuery({
     queryKey: ['question', id],
     queryFn: () => getQuestionById(parseInt(id as string)),
     enabled: !!id
@@ -228,13 +229,13 @@ export default function QuestionDetail() {
                   <DropdownMenuTrigger>
                     <EllipsisIcon className='size-4' />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className='px-2'>
-                    <DialogUpdateAnswer question={question}>
+                  <DropdownMenuContent className='px-2 flex flex-col items-start'>
+                    <DialogUpdateAnswer question={question} refetch={refetch}>
                       <span className='font-semibold text-sm'>Chỉnh sửa</span>
                     </DialogUpdateAnswer>
-                    <DropdownMenuItem>
-                      <span className='text-destructive font-semibold cursor-pointer'>Xóa</span>
-                    </DropdownMenuItem>
+                    <DialogDeleteAnswer question={question} refetch={refetch}>
+                      <span className='font-semibold text-sm text-destructive'>Xóa</span>
+                    </DialogDeleteAnswer>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

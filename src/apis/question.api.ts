@@ -164,3 +164,10 @@ export const updateAnswer = (params: MyAnswer, file: File) =>
       }
     }
   )
+
+export const deleteAnswer = (id: number) =>
+  http.delete<SuccessResponse<string>>('answer/delete', {
+    params: {
+      id
+    }
+  })

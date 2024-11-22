@@ -30,7 +30,7 @@ export default function ExportCustom({ dataType, queryConfig }: Props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem onClick={() => handleExport('pdf')}>Export pdf</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleExport('excel')}>Export excel</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleExport('csv')}>Export excel</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

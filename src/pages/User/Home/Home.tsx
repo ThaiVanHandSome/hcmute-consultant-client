@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div>
       <div className='flex relative'>
-        <div className='w-[320px] fixed top-[var(--header-height)] pt-4 bg-background'>
+        <div className='w-[320px] fixed top-[var(--header-height)] pt-4'>
           <AsideNav />
         </div>
         <div className='ml-[320px] mr-[360px] flex-1'>
@@ -43,7 +43,7 @@ export default function Home() {
             <ListQuestion />
           </div>
         </div>
-        <div className='w-[360px] fixed top-[var(--header-height)] right-0 pt-4 bg-background'>
+        <div className='w-[360px] fixed top-[var(--header-height)] right-0 pt-4 '>
           <ScrollArea>
             <div className='h-remain-screen'>
               <ListConsultActivity />

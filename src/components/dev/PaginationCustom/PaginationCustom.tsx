@@ -152,6 +152,7 @@ export default function Paginate({ path, queryConfig, pageSize, RANGE = 2, showC
                     {item * (index + 1) * 5}
                   </SelectItem>
                 ))}
+              <SelectItem value='1000000'>All</SelectItem>
             </SelectContent>
           </Select>
         </div>
