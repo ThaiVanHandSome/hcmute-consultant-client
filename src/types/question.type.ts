@@ -22,6 +22,7 @@ export interface Question {
   answerUserLastname: string
   answerCreatedAt: string
   answerAvatarUrl: string
+  answerFileName: string
   questionFilterStatus: string
   filterStatus: string[]
 }

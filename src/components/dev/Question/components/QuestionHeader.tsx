@@ -17,7 +17,7 @@ export default function QuestionHeader({ question }: Props) {
             {question.askerFirstname} {question.askerLastname}
           </div>
           <div className='text-xs text-gray-400 flex items-center'>
-            <span className='mr-1'>{formatDate(question.createdAt)}</span>
+            <span className='mr-1'>Tạo vào ngày {formatDate(question.createdAt)}</span>
             <GlobeIcon />
           </div>
         </div>

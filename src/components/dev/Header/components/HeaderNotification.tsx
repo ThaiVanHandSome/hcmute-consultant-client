@@ -19,7 +19,7 @@ export default function HeaderNotification() {
       renderPopover={
         <div>
           <div className='flex items-center space-x-2 px-3 py-1'>
-            <BellIcon className='size-5' />
+            <BellIcon className='!size-5' />
             <p className='font-bold text-primary'>Thông báo</p>
           </div>
           <Separator />
@@ -38,8 +38,8 @@ export default function HeaderNotification() {
       }
     >
       <div className='relative'>
-        <BellIcon className='size-6 text-foreground mr-6' />
-        <p className='font-bold size-5 text-xs rounded-full bg-destructive text-destructive-foreground flex items-center justify-center absolute top-0 right-1 -translate-x-1/2 -translate-y-1/2'>
+        <BellIcon className='size-5 text-foreground mr-6' />
+        <p className='font-bold size-4 text-xs rounded-full bg-destructive text-destructive-foreground flex items-center justify-center absolute top-0 right-2 -translate-x-1/2 -translate-y-1/2'>
           {numberOfNotification < 10 ? numberOfNotification : '9+'}
         </p>
       </div>

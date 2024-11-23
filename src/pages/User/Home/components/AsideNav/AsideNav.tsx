@@ -29,7 +29,7 @@ export default function AsideNav() {
                 to={{
                   pathname: path.home
                 }}
-                className='py-3 px-3 block'
+                className='py-3 px-3 block font-semibold'
               >
                 Tất cả phòng ban
               </Link>
@@ -50,7 +50,7 @@ export default function AsideNav() {
                       departmentId: String(department.id)
                     }).toString()
                   }}
-                  className='py-3 px-3 block'
+                  className='py-3 px-3 block font-semibold'
                 >
                   {department.name}
                 </Link>

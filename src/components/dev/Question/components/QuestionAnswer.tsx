@@ -1,4 +1,5 @@
 import AvatarCustom from '@/components/dev/AvatarCustom'
+import FileShow from '@/components/dev/FileShow'
 import { Question } from '@/types/question.type'
 import { formatDate } from '@/utils/utils'
 
@@ -15,7 +16,8 @@ export default function QuestionAnswer({ question }: Props) {
           <div className='font-bold text-sm'>
             {question.answerUserLastname} {question.answerUserFirstname}
           </div>
-          <div dangerouslySetInnerHTML={{ __html: question.answerContent }} className='text-sm'></div>
+          <div dangerouslySetInnerHTML={{ __html: question.answerContent }} className='text-sm mb-2'></div>
+          <FileShow url={question.answerFileName} />
         </div>
         <div className='text-[10px] ml-4'>{formatDate(question.answerCreatedAt)}</div>
       </div>
