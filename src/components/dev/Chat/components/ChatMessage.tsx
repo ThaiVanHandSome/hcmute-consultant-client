@@ -7,6 +7,7 @@ import { EllipsisIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import DialogUnsend from '@/components/dev/Chat/components/DialogUnsend'
 import DialogRemoveMessage from '@/components/dev/Chat/components/DialogRemoveMessage'
+import { formatDate } from '@/utils/utils'
 
 interface Props {
   readonly isSender: boolean
@@ -67,6 +68,7 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
                       })}
                     >
                       {chat.message}
+                      <p className='text-[10px] !text-muted text-right'>{formatDate(chat.date, true)}</p>
                     </div>
                   )}
                   {chat.imageUrl && !isShowRecalled && (
