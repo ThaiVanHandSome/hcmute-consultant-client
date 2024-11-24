@@ -26,7 +26,8 @@ export default function useUserOnline() {
   }
 
   const connect = () => {
-    const Sock = new SockJS('http://localhost:8080/ws')
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL
+    const Sock = new SockJS(`${SERVER_URL}/ws`)
     stompClient.current = over(Sock)
 
     const accessToken = localStorage.getItem('accessToken')

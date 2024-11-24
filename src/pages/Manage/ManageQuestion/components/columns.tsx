@@ -1,5 +1,5 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import DialogAnswerQuestion from '@/pages/Consultant/ManageQuestion/components/DialogAnswerQuestion'
+import DialogAnswerQuestion from '@/pages/Manage/ManageQuestion/components/DialogAnswerQuestion'
 import { Question } from '@/types/question.type'
 import { ColumnDef } from '@tanstack/react-table'
 import { EllipsisIcon } from 'lucide-react'

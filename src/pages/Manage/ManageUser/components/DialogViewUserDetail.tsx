@@ -1,4 +1,5 @@
 import { getUserDetail } from '@/apis/user.api'
+import AvatarCustom from '@/components/dev/AvatarCustom'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import RadioGroupCustom from '@/components/dev/Form/RadioGroupCustom'
 import { Button } from '@/components/ui/button'
@@ -49,8 +50,6 @@ export default function DialogViewUserDetail({ id, children }: Props) {
     enabled: !!id && open
   })
 
-  console.log(user)
-
   useEffect(() => {
     if (user?.data.data) {
       const res = user?.data.data
@@ -68,18 +67,21 @@ export default function DialogViewUserDetail({ id, children }: Props) {
     }
   }, [user, form])
 
-  const onSubmit = form.handleSubmit((values) => {})
+  const onSubmit = form.handleSubmit(() => {})
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className='max-h-[90vh] overflow-y-auto'>
         <DialogHeader>
           <DialogTitle>Thông tin cá nhân</DialogTitle>
         </DialogHeader>
         <div>
           <Form {...form}>
             <form onSubmit={onSubmit}>
+              <div>
+                <AvatarCustom url={user?.data.data.avatarUrl} className='size-24' />
+              </div>
               <div className='grid grid-cols-2 mb-3 gap-4'>
                 <div className='col-span-1'>
                   <InputCustom control={form.control} name='firstName' label='Họ' placeholder='Họ' />

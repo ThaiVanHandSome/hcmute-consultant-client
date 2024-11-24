@@ -1,7 +1,5 @@
-import path from '@/constants/path'
 import { Post } from '@/types/post.type'
 import { EyeOpenIcon } from '@radix-ui/react-icons'
-import { Link } from 'react-router-dom'
 
 interface Props {
   readonly post: Post
@@ -9,7 +7,7 @@ interface Props {
 
 export default function PostItem({ post }: Props) {
   return (
-    <Link to={path.postDetail}>
+    <a href={`/posts/${post.id}`} target='_blank' rel='noopener noreferrer'>
       <div className='hover:bg-secondary hover:text-secondary-foreground hover:shadow-lg rounded-md cursor-pointer py-2 px-4 border-b'>
         <div className='grid grid-cols-12 items-center gap-4 text-sm py-1'>
           <div className='col-span-2 text-sm font-semibold text-left italic'>{post.createdAt}</div>
@@ -22,6 +20,6 @@ export default function PostItem({ post }: Props) {
           </div>
         </div>
       </div>
-    </Link>
+    </a>
   )
 }

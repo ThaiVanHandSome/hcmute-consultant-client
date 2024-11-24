@@ -234,4 +234,21 @@
       border-right-color: transparent;
     }
   }
+
+  @keyframes move-grid {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 20px 20px;
+    }
+  }
+
+  .grid-background {
+    background-color: #f9f9f9;
+    background-image: linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+      linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
+    background-size: 25px 25px;
+    animation: move-grid 10s linear infinite;
+  }
 }

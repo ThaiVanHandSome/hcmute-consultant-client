@@ -13,6 +13,8 @@ import {
 import { parseJWT } from '@/utils/utils'
 import axios, { AxiosError, AxiosInstance, HttpStatusCode, InternalAxiosRequestConfig } from 'axios'
 
+const API_URL = import.meta.env.VITE_API_URL
+
 class HTTP {
   instance: AxiosInstance
   access_token: string
@@ -21,7 +23,7 @@ class HTTP {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://localhost:8080/api/v1/',
+      baseURL: API_URL,
       timeout: 100000
     })
 

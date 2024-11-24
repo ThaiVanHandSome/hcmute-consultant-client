@@ -177,7 +177,7 @@ export const BellIcon = ({ className }: Props) => {
       viewBox='0 0 24 24'
       strokeWidth={1.5}
       stroke='currentColor'
-      className={className}
+      className={classNames}
     >
       <path
         strokeLinecap='round'

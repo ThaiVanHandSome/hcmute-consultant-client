@@ -43,7 +43,6 @@ export default function DialogConsultantRole({ children, role }: Props) {
   // })
 
   const onSubmit = form.handleSubmit((values) => {
-    const name = values.name
     if (isUpdate) {
       // const id = role.id
       // updateRoleMutation.mutate(

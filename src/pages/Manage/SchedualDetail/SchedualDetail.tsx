@@ -124,7 +124,7 @@ export default function SchedualDetail() {
         statusPublic: getBoolean(values.statusPublic)
       },
       (value) => value === ''
-    )
+    ) as unknown as SchedualConfirm
     const scheduleId = schedule?.id as number
     confirmSchedualMutation.mutate(
       { body, scheduleId },

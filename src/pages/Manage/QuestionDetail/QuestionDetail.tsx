@@ -4,7 +4,7 @@ import FileItem from '@/components/dev/FileItem'
 import Editor from '@/components/dev/Form/Editor'
 import QuestionImage from '@/components/dev/QuestionImage'
 import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -87,7 +87,7 @@ export default function QuestionDetail() {
         statusApproval: false
       }
       answerMutation.mutate(
-        { params, file },
+        { params, file: file as File },
         {
           onSuccess: (res) => {
             toast({
@@ -102,8 +102,8 @@ export default function QuestionDetail() {
     }
     const payload = {
       questionId: question?.id as number,
-      content: values.content,
-      file
+      content: values.content as string,
+      file: file as File
     }
     approvalAnswerMutation.mutate(payload, {
       onSuccess: (res) => {

@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { Question } from '@/types/question.type'
+import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 
 interface Props {
@@ -18,7 +19,15 @@ export default function QuestionItem({ question, isApproval = false }: Props) {
           <Badge>{question?.field.name}</Badge>
           <div className='flex items-center space-x-1 justify-end'>
             {question?.filterStatus.map((status) => (
-              <Badge variant='secondary' key={status}>
+              <Badge
+                variant='secondary'
+                key={status}
+                className={clsx({
+                  'bg-destructive text-destructive-foreground': status === 'Câu hỏi đã xóa',
+                  'bg-green-500 text-white': status === 'Câu hỏi đã trả lời',
+                  'bg-orange-100 text-orange-800': status === 'Câu hỏi chưa trả lời'
+                })}
+              >
                 {status}
               </Badge>
             ))}
@@ -26,7 +35,7 @@ export default function QuestionItem({ question, isApproval = false }: Props) {
         </div>
         <div className='grid grid-cols-12 items-center gap-4 text-sm py-1'>
           <div className='col-span-3 font-semibold truncate'>{question?.department.name}</div>
-          <div className='col-span-7 truncate'>{question?.title}</div>
+          <div className='col-span-7 truncate font-semibold'>{question?.title}</div>
           <div className='col-span-2 text-xs text-right italic'>
             {new Date(question?.createdAt ?? '').toLocaleDateString()}
           </div>
