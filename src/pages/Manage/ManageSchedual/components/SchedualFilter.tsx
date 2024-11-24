@@ -51,13 +51,25 @@ const modeSelectionData: FormControlItem[] = [
   }
 ]
 
+const typeSelectionData: FormControlItem[] = [
+  {
+    value: 'true',
+    label: 'Lịch tư vấn'
+  },
+  {
+    value: 'false',
+    label: 'Buổi tư vấn'
+  }
+]
+
 export default function SchedualFilter({ queryConfig }: Props) {
   const form = useForm({
     defaultValues: {
       title: '',
       statusPublic: '',
       statusConfirmed: '',
-      mode: ''
+      mode: '',
+      type: 'false'
     }
   })
 
@@ -76,6 +88,7 @@ export default function SchedualFilter({ queryConfig }: Props) {
   const statusPublic = getBoolean(form.watch('statusPublic'))
   const statusConfirmed = getBoolean(form.watch('statusConfirmed'))
   const mode = getBoolean(form.watch('mode'))
+  const type = form.watch('type')
 
   const onSubmit = form.handleSubmit((values) => {
     const title = values.title
@@ -98,6 +111,7 @@ export default function SchedualFilter({ queryConfig }: Props) {
             statusPublic: String(statusPublic),
             statusConfirmed: String(statusConfirmed),
             mode: String(mode),
+            type,
             startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
             endDate: endDate ? format(endDate, 'yyyy-MM-dd') : ''
           },
@@ -105,7 +119,7 @@ export default function SchedualFilter({ queryConfig }: Props) {
         )
       ).toString()
     })
-  }, [startDate, endDate, statusPublic, statusConfirmed, mode])
+  }, [startDate, endDate, statusPublic, statusConfirmed, mode, type])
 
   return (
     <div>
@@ -135,7 +149,16 @@ export default function SchedualFilter({ queryConfig }: Props) {
               <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
             </div>
             <div className='grid grid-cols-5 gap-4'>
-              <div className='col-span-4'>
+              <div className='col-span-1'>
+                <SelectionCustom
+                  control={form.control}
+                  name='type'
+                  data={typeSelectionData}
+                  placeholder='Lịch tư vấn/Buổi tư vấn'
+                  defaultValue='false'
+                />
+              </div>
+              <div className='col-span-3'>
                 <InputCustom control={form.control} name='title' placeholder='Nhập tiêu đề để tìm kiếm' />
               </div>
               <Button className='col-span-1'>Tìm kiếm</Button>

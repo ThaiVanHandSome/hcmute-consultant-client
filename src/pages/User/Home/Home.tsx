@@ -5,12 +5,12 @@ import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import { QuestionCircle } from '@/icons'
 import AsideNav from '@/pages/User/Home/components/AsideNav'
-import ConsultantWorking from '@/pages/User/Home/components/ConsultantWorking'
-import ListConsultActivity from '@/pages/User/Home/components/ListConsultActivity'
 import ListQuestion from '@/pages/User/Home/components/ListQuestion'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import LogoTabline from '@/assets/images/logos/Logo_Tabline.png'
+import ListPost from '@/pages/User/Home/components/ListPost'
+import ListConsultActivity from '@/pages/User/Home/components/ListConsultActivity'
 
 export default function Home() {
   const { role } = useContext(AppContext)
@@ -47,8 +47,8 @@ export default function Home() {
           <ScrollArea>
             <div className='h-remain-screen'>
               <img src={LogoTabline} alt='logo-hcmute' className='w-96 object-cover mb-4' />
+              <ListPost />
               <ListConsultActivity />
-              <ConsultantWorking />
             </div>
           </ScrollArea>
         </div>

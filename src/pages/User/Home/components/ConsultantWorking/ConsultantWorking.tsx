@@ -6,7 +6,7 @@ export default function ConsultantWorking() {
   const { user, onlineUsers } = useContext(AppContext)
 
   return (
-    <div className='rounded-md shadow-md bg-primary-bg'>
+    <div className='rounded-md bg-background'>
       <div className='mb-2 rounded-sm font-bold text-lg px-2 text-gray-500'>Liên hệ</div>
       <ul>
         {onlineUsers?.length !== 0 ? (

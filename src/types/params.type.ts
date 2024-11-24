@@ -33,6 +33,7 @@ export interface SchedualListConfig extends PaginationConfig {
   statusPublic: boolean
   statusConfirmed: boolean
   mode: boolean
+  type: boolean
 }
 
 export interface RatingListConfig extends PaginationConfig {

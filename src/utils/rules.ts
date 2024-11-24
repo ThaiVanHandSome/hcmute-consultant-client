@@ -165,3 +165,15 @@ export const CommonQuestionSchema = yup.object({
 export const AnswerSchema = yup.object({
   content: yup.string().required('Bạn phải nhập nội dung câu trả lời')
 })
+
+export const CreateScheduleSchema = yup.object({
+  title: yup.string().required('Bạn phải nhập tiêu đề buổi tư vấn'),
+  content: yup.string().required('Bạn phải nhập nội dung buổi tư vấn'),
+  consultationDate: yup.string(),
+  consultationTime: yup.string(),
+  location: yup.string(),
+  link: yup.string(),
+  mode: yup.boolean(),
+  statusPublic: yup.boolean(),
+  type: yup.boolean()
+})

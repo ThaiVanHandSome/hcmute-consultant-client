@@ -1,5 +1,6 @@
 import { ConsultantQueryConfig } from '@/hooks/useConsultantQueryConfig'
 import { RatingQueryConfig } from '@/hooks/useRatingQueryConfig'
+import { CreateScheduleFormData } from '@/pages/Manage/ManageSchedual/components/DialogCreateSchedule'
 import { RatingFormData } from '@/pages/User/ConsultantEvaluation/ConsultantEvaluation'
 import { Consultant, SchedualConfirm, SchedualConsultant } from '@/types/consultant.type'
 import { Rating } from '@/types/rating.type'
@@ -60,3 +61,6 @@ export const confirmSchedual = (scheduleId: number, body: SchedualConfirm) =>
       scheduleId
     }
   })
+
+export const createSchedule = (body: CreateScheduleFormData) =>
+  http.post<SuccessResponse<string>>('advisor-admin/consultation-schedule/create', body)

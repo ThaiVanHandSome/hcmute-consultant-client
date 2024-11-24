@@ -21,7 +21,8 @@ export default function useSchedualQueryConfig() {
       endDate: queryParams.endDate,
       statusPublic: queryParams.statusPublic,
       statusConfirmed: queryParams.statusConfirmed,
-      mode: queryParams.mode
+      mode: queryParams.mode,
+      type: queryParams.type ?? false
     },
     isUndefined
   ) as SchedualQueryConfig

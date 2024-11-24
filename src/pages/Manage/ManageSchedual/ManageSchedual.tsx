@@ -2,10 +2,13 @@ import { getScheduals } from '@/apis/user.api'
 import ExportCustom from '@/components/dev/ExportCustom'
 import Paginate from '@/components/dev/PaginationCustom'
 import SchedualItem from '@/components/dev/SchedualItem'
+import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import useSchedualQueryConfig from '@/hooks/useSchedualQueryConfig'
+import DialogCreateSchedule from '@/pages/Manage/ManageSchedual/components/DialogCreateSchedule'
 import SchedualFilter from '@/pages/Manage/ManageSchedual/components/SchedualFilter'
+import { PlusIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 
 export default function ManageSchedual() {
@@ -24,7 +27,15 @@ export default function ManageSchedual() {
           <h1 className='font-semibold text-lg'>Lịch tư vấn</h1>
           <p className='text-sm italic'>Quản lý lịch tư vấn</p>
         </div>
-        <ExportCustom dataType='consultationSchedule' queryConfig={schedualQueryConfig} />
+        <div className='flex items-center space-x-2'>
+          <ExportCustom dataType='consultationSchedule' queryConfig={schedualQueryConfig} />
+          <DialogCreateSchedule>
+            <Button>
+              <PlusIcon />
+              <span>Thêm buổi tư vấn</span>
+            </Button>
+          </DialogCreateSchedule>
+        </div>
       </div>
       <SchedualFilter queryConfig={schedualQueryConfig} />
       <Separator />
