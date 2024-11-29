@@ -17,11 +17,11 @@ export default function DialogViewSchedualDetail({ schedule }: Props) {
         <div className='space-y-3'>
           <div className='grid grid-cols-3 gap-2'>
             <div className='col-span-1 font-bold italic'>Khoa:</div>
-            <div className='col-span-2'>{schedule.department.name}</div>
+            <div className='col-span-2'>{schedule?.department?.name}</div>
           </div>
           <div className='grid grid-cols-3 gap-2'>
             <div className='col-span-1 font-bold italic'>Tư vấn viên:</div>
-            <div className='col-span-2'>{schedule.consultantName}</div>
+            <div className='col-span-2'>{schedule?.consultantName}</div>
           </div>
           <div className='grid grid-cols-3 gap-2'>
             <div className='col-span-1 font-bold italic'>Thời gian:</div>

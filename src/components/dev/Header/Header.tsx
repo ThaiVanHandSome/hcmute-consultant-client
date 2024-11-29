@@ -20,7 +20,7 @@ export default function Header() {
   const { isAuthenticated, role } = useContext(AppContext)
 
   return (
-    <header className='w-full border-b py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-background text-foreground h-header-height'>
+    <header className='w-full border-b py-2 px-12 flex items-center justify-between fixed top-0 left-0 z-30 bg-background text-foreground h-header-height backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='flex items-center'>
         <a href={path.home} className='flex items-center space-x-3'>
           <img src={LogoHCMUTE} alt='logo-hcmute' className='w-10 h-10' />

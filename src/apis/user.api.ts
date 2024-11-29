@@ -1,7 +1,8 @@
+import { ConsultationQueryConfig } from '@/hooks/useConsultationQueryConfig'
 import { SchedualQueryConfig } from '@/hooks/useSchedualQueryConfig'
 import { UserQueryConfig } from '@/hooks/useUserQueryConfig'
 import { ConsultantSchedualFormData } from '@/pages/User/SchedualConsultant/SchedualConsultant'
-import { SchedualConsultant } from '@/types/consultant.type'
+import { ConsultationType, SchedualConsultant } from '@/types/consultant.type'
 import { AdminUser, User, UserDetail, UserUpdate } from '@/types/user.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
@@ -40,4 +41,9 @@ export const getUserDetail = (id: number) =>
     params: {
       id
     }
+  })
+
+export const getConsultationJoin = (params: ConsultationQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<ConsultationType[]>>>('/user/consultation-schedule/list-join', {
+    params
   })

@@ -177,3 +177,10 @@ export const CreateScheduleSchema = yup.object({
   statusPublic: yup.boolean(),
   type: yup.boolean()
 })
+
+export const ForwardQuestionSchema = yup.object({
+  title: yup.string().required('Bạn phải nhập tiêu đề'),
+  toDepartmentId: yup.string().required('Bạn phải chọn phòng ban chuyển tiếp đến'),
+  consultantId: yup.string().required('Bạn phải chọn tư vấn viên'),
+  questionId: yup.string().required('Bạn phải nhập câu hỏi')
+})

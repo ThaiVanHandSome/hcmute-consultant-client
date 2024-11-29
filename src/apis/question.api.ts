@@ -1,12 +1,15 @@
 import { CommonQuestionQueryConfig } from '@/hooks/useCommonQuestionQueryConfig'
+import { ForwardQuestionQueryConfig } from '@/hooks/useForwardQuestionQueryConfig'
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { CommonQuesionFormData } from '@/pages/Manage/ManageCommonQuestion/components/DialogCommonQuestion'
+import { ForwardQuestionFormData } from '@/pages/Manage/ManageForwardQuestion/components/DialogForwardQuestion'
 import {
   Answer,
   CommonQuestion,
   CreateQuestionRequest,
   CreateQuestionResponse,
   DeletionLog,
+  ForwardQuestion,
   MyAnswer,
   Question,
   QuestionStatus
@@ -169,5 +172,24 @@ export const deleteAnswer = (id: number) =>
   http.delete<SuccessResponse<string>>('answer/delete', {
     params: {
       id
+    }
+  })
+
+export const getForwardQuestion = (params: ForwardQuestionQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<ForwardQuestion[]>>>('/forward-question/list', {
+    params
+  })
+
+export const updateForwardQuestion = (body: ForwardQuestionFormData, forwardQuestionId: number) =>
+  http.put<SuccessResponse<string>>('forward-question/update', body, {
+    params: {
+      forwardQuestionId
+    }
+  })
+
+export const deleteForwardQuestion = (forwardQuestionId: number) =>
+  http.delete<SuccessResponse<string>>('forward-question/delete', {
+    params: {
+      forwardQuestionId
     }
   })

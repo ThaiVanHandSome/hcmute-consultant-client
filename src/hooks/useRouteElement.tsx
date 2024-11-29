@@ -47,6 +47,9 @@ import ManageField from '@/pages/Manage/ManageField'
 import ManageDepartment from '@/pages/Manage/ManageDepartment'
 import ManageUser from '@/pages/Manage/ManageUser'
 import ManageApprovalAnswer from '@/pages/Manage/ManageApprovalAnswer/ManageApprovalAnswer'
+import ScheduleActivity from '@/pages/User/ScheduleActivity'
+import ManageForwardQuestion from '@/pages/Manage/ManageForwardQuestion'
+import Consultation from '@/pages/User/Consultation'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -139,6 +142,14 @@ export default function useRouteElement() {
           )
         },
         {
+          path: path.scheduleActivity,
+          element: (
+            <MainLayout>
+              <ScheduleActivity />
+            </MainLayout>
+          )
+        },
+        {
           path: path.user,
           element: (
             <MainLayout>
@@ -167,6 +178,10 @@ export default function useRouteElement() {
               element: <MySchedual />
             },
             {
+              path: path.consultation,
+              element: <Consultation />
+            },
+            {
               path: path.userDashBoard,
               element: <UserDashBoard />
             }
@@ -183,6 +198,10 @@ export default function useRouteElement() {
                 {
                   path: path.manageQuestion,
                   element: <ManageQuestion />
+                },
+                {
+                  path: path.manageForwardQuestion,
+                  element: <ManageForwardQuestion />
                 },
                 {
                   path: path.manageSchedule,

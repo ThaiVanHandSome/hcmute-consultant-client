@@ -51,3 +51,17 @@ export interface ConsultantStatistic {
   totalApprovedPosts: number
   totalConversations: number
 }
+
+export interface ConsultationType {
+  id: number
+  user: {
+    id: number
+    name: string
+  }
+  consultationSchedule: {
+    id: number
+    title: string
+  }
+  registeredAt: string
+  status: boolean
+}

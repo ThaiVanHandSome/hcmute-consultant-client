@@ -63,6 +63,7 @@ export default function Post() {
     queryFn: () => getPostRecord(id),
     enabled: !!id
   })
+
   const isLikedPost = useMemo(() => {
     const postRecord = postRecordRes?.data.data
     return postRecord?.some((item) => item.likeKey.userId === user?.id) ?? false

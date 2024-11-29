@@ -49,6 +49,12 @@ export default function ManageLayout() {
           enabled: true
         },
         {
+          path: path.manageForwardQuestion,
+          icon: <QuestionCircle className='size-5' />,
+          label: 'Câu hỏi chuyển tiếp',
+          enabled: true
+        },
+        {
           path: path.manageCommonQuestion,
           icon: <CreativeCommonsIcon className='size-5' />,
           label: 'Câu hỏi chung',

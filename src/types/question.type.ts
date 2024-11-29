@@ -2,6 +2,21 @@ import { Department } from '@/types/department.type'
 import { Field } from '@/types/field.type'
 import { RoleAsk } from '@/types/roleAsk.type'
 
+export interface ForwardQuestion {
+  id: number
+  title: string
+  fromDepartment: Department
+  toDepartment: Department
+  consultant: {
+    id: number
+    name: string
+  }
+  statusForward: boolean
+  createdBy: number
+  createdAt: string
+  questionId: number
+}
+
 export interface Question {
   id: number
   department: Department
@@ -25,6 +40,7 @@ export interface Question {
   answerFileName: string
   questionFilterStatus: string
   filterStatus: string[]
+  forwardQuestionDTO: ForwardQuestion
 }
 
 export interface CommonQuestion {

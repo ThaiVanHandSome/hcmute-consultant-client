@@ -198,6 +198,38 @@ export default function QuestionDetail() {
         </div>
       )}
 
+      {question?.forwardQuestionDTO && (
+        <div className='bg-secondary text-secondary-foreground px-6 py-4 shadow-lg rounded-lg flex items-start gap-2 mb-3'>
+          <div className='w-5 h-5 flex-shrink-0 text-primary mt-1'>
+            <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
+              <path
+                fillRule='evenodd'
+                d='M18 10A8 8 0 112 10a8 8 0 0116 0zm-8-3a1 1 0 100-2 1 1 0 000 2zm-1 8a1 1 0 102 0V9a1 1 0 10-2 0v6z'
+                clipRule='evenodd'
+              />
+            </svg>
+          </div>
+          <div>
+            <span className='font-semibold block text-md'>{question?.forwardQuestionDTO.title}</span>
+
+            <div className='text-sm mt-1'>
+              <div className='text-primary'>
+                <b>Chuyển từ:</b> {question?.forwardQuestionDTO.fromDepartment.name}
+              </div>
+              <div className='text-primary mt-1'>
+                <b>Chuyển đến:</b> {question?.forwardQuestionDTO.toDepartment.name}
+              </div>
+              <div className='text-primary mt-1'>
+                <b>Tư vấn viên thực hiện:</b> {question?.forwardQuestionDTO.consultant.name}
+              </div>
+              <div className='text-primary mt-1'>
+                <b>Thời gian chuyển tiếp:</b> {question?.forwardQuestionDTO.createdAt}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className='bg-background px-6 rounded-lg shadow-xl flex items-center justify-center py-2'>
         <div className='w-2/3 bg-primary-bg px-4 py-2 rounded-xl'>
           <div dangerouslySetInnerHTML={{ __html: question?.content as string }}></div>

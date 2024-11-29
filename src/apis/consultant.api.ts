@@ -64,3 +64,15 @@ export const confirmSchedual = (scheduleId: number, body: SchedualConfirm) =>
 
 export const createSchedule = (body: CreateScheduleFormData) =>
   http.post<SuccessResponse<string>>('advisor-admin/consultation-schedule/create', body)
+
+export const getScheduleDetail = (scheduleId: number) =>
+  http.get<SuccessResponse<SchedualConsultant>>('consultation-schedule/detail', {
+    params: {
+      scheduleId
+    }
+  })
+
+export const joinSchedule = (consultationScheduleId: number) =>
+  http.post<SuccessResponse<string>>('user/consultation-schedule/join', {
+    consultationScheduleId
+  })

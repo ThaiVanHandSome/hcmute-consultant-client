@@ -43,6 +43,13 @@ export default function UserLayout() {
     },
     {
       id: 1,
+      path: path.consultation,
+      icon: <CalendarIcon className='size-5' />,
+      label: 'Buổi tư vấn',
+      hidden: role !== ROLE.user
+    },
+    {
+      id: 1,
       path: path.myRating,
       icon: <RulerHorizontalIcon className='size-5' />,
       label: 'Đánh giá của tôi',

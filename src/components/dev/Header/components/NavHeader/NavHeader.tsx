@@ -45,7 +45,7 @@ export default function NavHeader() {
                       to={item.path}
                       className={({ isActive }) =>
                         clsx(
-                          'inline-block capitalize text-foreground hover:text-primary transition-colors text-sm mb-2',
+                          'text-sm inline-block capitalize text-foreground hover:text-primary transition-colors mb-2',
                           {
                             'text-primary font-bold': isActive
                           }
@@ -59,7 +59,7 @@ export default function NavHeader() {
               </ul>
             }
           >
-            <div className='mx-2 cursor-pointer text-foreground hover:text-primary transition-all flex items-center'>
+            <div className='text-sm mx-2 cursor-pointer text-foreground hover:text-primary transition-all flex items-center'>
               Tư vấn
               <ChevronDownIcon className='ml-1' />
             </div>

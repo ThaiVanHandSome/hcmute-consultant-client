@@ -13,6 +13,7 @@ const path = {
   consultants: '/consultants',
   consultantEvaluation: '/consultant-evaluation',
   scheduleConsultant: '/schedule-consultant',
+  consultation: '/user/consultations',
   userDashBoard: '/user/dashboard',
   consultantDashboard: '/user/consultant-dashboard',
   questionLibrary: '/question-library',
@@ -20,6 +21,7 @@ const path = {
   consultantMessages: '/consultant-messages',
   manage: '/manage',
   manageQuestion: '/manage/questions',
+  manageForwardQuestion: '/manage/forward-questions',
   manageSchedule: '/manage/schedules',
   managePost: '/manage/posts',
   manageCommonQuestion: '/manage/common-questions',
@@ -37,6 +39,7 @@ const path = {
   questionDetail: '/manage/questions/detail/:id',
   schedualDetail: '/manage/schedules/detail/:id',
   postDetail: '/manage/posts/detail/:id',
+  scheduleActivity: '/schedule-activities/:id',
   post: '/posts/:id'
 } as const
 

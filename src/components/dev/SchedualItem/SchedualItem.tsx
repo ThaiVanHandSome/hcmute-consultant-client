@@ -11,7 +11,7 @@ export default function SchedualItem({ schedual }: Props) {
     <Link to={`/manage/schedules/detail/${schedual?.id}`}>
       <div className='hover:bg-secondary hover:text-secondary-foreground hover:shadow-lg rounded-md cursor-pointer py-2 px-4 border-b '>
         <div className='grid grid-cols-12 items-center gap-4 text-sm py-1'>
-          <div className='col-span-3 font-semibold truncate'>{schedual?.department.name}</div>
+          <div className='col-span-3 font-semibold truncate'>{schedual?.department?.name}</div>
           <div className='col-span-5 truncate'>{schedual?.title}</div>
           <div className='col-span-4 text-xs text-right italic space-x-2'>
             <span className='text-xs italic'>

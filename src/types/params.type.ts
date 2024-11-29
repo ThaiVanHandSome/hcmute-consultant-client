@@ -36,6 +36,11 @@ export interface SchedualListConfig extends PaginationConfig {
   type: boolean
 }
 
+export interface ConsultationListConfig extends PaginationConfig {
+  startDate: Date
+  endDate: Date
+}
+
 export interface RatingListConfig extends PaginationConfig {
   departmentId: number
   consultantName: string
@@ -86,4 +91,10 @@ export interface UserListConfig extends PaginationConfig {
   email: string
   isOnline: boolean
   isActivity: boolean
+}
+
+export interface ForwardQuestionListConfig extends PaginationConfig {
+  title: string
+  startDate: string
+  endDate: string
 }
