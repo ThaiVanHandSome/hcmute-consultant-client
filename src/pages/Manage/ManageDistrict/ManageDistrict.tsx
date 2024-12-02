@@ -62,7 +62,7 @@ export default function ManageDistrict() {
         </div>
         <div className='flex items-center space-x-2'>
           <DialogDistrict>
-            <Button>
+            <Button size='sm'>
               <PlusIcon />
               <span>Thêm Quận/Huyện</span>
             </Button>
@@ -80,6 +80,7 @@ export default function ManageDistrict() {
                   name='provinceCode'
                   data={provincesSelectionData}
                   placeholder='Tỉnh/Thành phố'
+                  label='Tỉnh/Thành phố'
                 />
               </div>
             </div>

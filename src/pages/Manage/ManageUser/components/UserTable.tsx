@@ -11,15 +11,15 @@ export default function UserTable({ users }: Props) {
   return (
     <div>
       <Table className='font-semibold bg-background'>
-        <TableHeader>
+        <TableHeader className='bg-primary'>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Username</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Khoa</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Hoạt động</TableHead>
-            <TableHead></TableHead>
+            <TableHead className='!text-primary-foreground'>ID</TableHead>
+            <TableHead className='!text-primary-foreground'>Username</TableHead>
+            <TableHead className='!text-primary-foreground'>Email</TableHead>
+            <TableHead className='!text-primary-foreground'>Khoa</TableHead>
+            <TableHead className='!text-primary-foreground'>Role</TableHead>
+            <TableHead className='!text-primary-foreground'>Hoạt động</TableHead>
+            <TableHead className='!text-primary-foreground'></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

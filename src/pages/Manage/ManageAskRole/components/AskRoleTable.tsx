@@ -12,13 +12,13 @@ interface Props {
 export default function AskRoleTable({ roles }: Props) {
   return (
     <Table className='bg-background font-semibold'>
-      <TableHeader>
+      <TableHeader className='bg-primary'>
         <TableRow>
-          <TableHead>ID</TableHead>
-          <TableHead>Tên</TableHead>
-          <TableHead>Mã quyền</TableHead>
-          <TableHead>Ngày tạo</TableHead>
-          <TableHead>Action</TableHead>
+          <TableHead className='!text-primary-foreground'>ID</TableHead>
+          <TableHead className='!text-primary-foreground'>Tên</TableHead>
+          <TableHead className='!text-primary-foreground'>Mã quyền</TableHead>
+          <TableHead className='!text-primary-foreground'>Ngày tạo</TableHead>
+          <TableHead className='!text-primary-foreground'>Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

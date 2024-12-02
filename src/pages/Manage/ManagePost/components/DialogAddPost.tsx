@@ -63,7 +63,7 @@ export default function DialogAddPost() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>
+        <Button size='sm'>
           <PlusIcon />
           <span>Thêm bài đăng</span>
         </Button>

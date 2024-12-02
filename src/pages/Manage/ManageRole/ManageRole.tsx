@@ -46,7 +46,7 @@ export default function ManageRole() {
           <p className='text-sm italic'>Quản lý quyền</p>
         </div>
         <DialogRole>
-          <Button>
+          <Button size='sm'>
             <PlusIcon />
             <span>Thêm quyền</span>
           </Button>

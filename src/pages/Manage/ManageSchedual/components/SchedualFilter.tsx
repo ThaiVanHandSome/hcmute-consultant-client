@@ -132,21 +132,24 @@ export default function SchedualFilter({ queryConfig }: Props) {
                 name='statusPublic'
                 data={statusPublicSelectionData}
                 placeholder='Public/Private'
+                label='Trạng thái'
               />
               <SelectionCustom
                 control={form.control}
                 name='statusConfirmed'
                 data={statusConfirmedSelectionData}
                 placeholder='Confirm/Not Confirm'
+                label='Phê duyệt'
               />
               <SelectionCustom
                 control={form.control}
                 name='mode'
                 data={modeSelectionData}
                 placeholder='Online/Offline'
+                label='Hình thức'
               />
-              <DatePicker date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
-              <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
+              <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
+              <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
             </div>
             <div className='grid grid-cols-5 gap-4'>
               <div className='col-span-1'>

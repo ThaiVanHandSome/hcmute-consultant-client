@@ -13,13 +13,13 @@ export default function DepartmentTable({ departments }: Props) {
   return (
     <div>
       <Table className='font-semibold bg-background'>
-        <TableHeader>
+        <TableHeader className='bg-primary'>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Tên</TableHead>
-            <TableHead>Mô tả</TableHead>
-            <TableHead>Ngày tạo</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead className='!text-primary-foreground'>ID</TableHead>
+            <TableHead className='!text-primary-foreground'>Tên</TableHead>
+            <TableHead className='!text-primary-foreground'>Mô tả</TableHead>
+            <TableHead className='!text-primary-foreground'>Ngày tạo</TableHead>
+            <TableHead className='!text-primary-foreground'>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

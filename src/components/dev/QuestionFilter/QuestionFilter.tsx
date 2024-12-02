@@ -4,7 +4,8 @@ import DatePicker from '@/components/dev/DatePicker'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
+import { Form, FormLabel } from '@/components/ui/form'
+import { Label } from '@/components/ui/label'
 import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
@@ -119,6 +120,7 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
                 control={form.control}
                 name='departmentId'
                 placeholder='Đơn vị'
+                label='Đơn vị'
                 defaultValue={queryConfig.departmentId}
                 data={departmentsSelectionData}
               />
@@ -129,15 +131,16 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
               control={form.control}
               name='status'
               placeholder='Trạng thái'
+              label='Trạng thái'
               defaultValue={queryConfig.status}
               data={questionsStatusSelectionData}
             />
           </div>
           <div className='col-span-1'>
-            <DatePicker date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
+            <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
           </div>
           <div className='col-span-1'>
-            <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
+            <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
           </div>
         </div>
         <div className='grid grid-cols-5 gap-4'>

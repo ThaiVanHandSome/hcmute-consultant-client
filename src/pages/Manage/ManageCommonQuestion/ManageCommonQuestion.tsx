@@ -33,7 +33,7 @@ export default function ManageCommonQuestion() {
         </div>
         <div className='flex items-center space-x-2'>
           <DialogCommonQuestion>
-            <Button className='space-x-1'>
+            <Button size='sm' className='space-x-1'>
               <PlusIcon />
               <span>Thêm câu hỏi chung</span>
             </Button>

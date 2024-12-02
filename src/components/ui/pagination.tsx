@@ -42,7 +42,7 @@ const PaginationLink = ({ className, isActive, to, disabled, size = 'icon', ...p
         variant: isActive ? 'outline' : 'ghost',
         size
       }),
-      disabled && 'cursor-not-allowed pointer-events-none',
+      disabled && 'cursor-not-allowed pointer-events-none text-accent',
       className
     )}
     {...props}

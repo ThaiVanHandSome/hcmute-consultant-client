@@ -24,7 +24,7 @@ export default function ExportCustom({ dataType, queryConfig }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button isLoading={exportMutation.isPending} disabled={exportMutation.isPending}>
+        <Button size='sm' isLoading={exportMutation.isPending} disabled={exportMutation.isPending}>
           Export
         </Button>
       </DropdownMenuTrigger>

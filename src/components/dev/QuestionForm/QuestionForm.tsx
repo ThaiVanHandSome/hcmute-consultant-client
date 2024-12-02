@@ -11,7 +11,6 @@ import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { toast } from '@/hooks/use-toast'
 import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
-import { guideTypes } from '@/pages/User/CreateQuestion/CreateQuestion'
 import { CreateQuestionRequest, Question } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
 import { CreateQuestionSchema } from '@/utils/rules'
@@ -26,25 +25,11 @@ import * as yup from 'yup'
 
 interface Props {
   readonly question?: Question
-  readonly setGuideActive?: React.Dispatch<
-    React.SetStateAction<
-      | 'department'
-      | 'field'
-      | 'role'
-      | 'studentId'
-      | 'firstName'
-      | 'lastName'
-      | 'email'
-      | 'title'
-      | 'content'
-      | undefined
-    >
-  >
 }
 
 type FormData = yup.InferType<typeof CreateQuestionSchema>
 
-export default function QuestionForm({ question, setGuideActive }: Props) {
+export default function QuestionForm({ question }: Props) {
   const isUpdate = !!question
 
   const queryClient = useQueryClient()
@@ -179,14 +164,6 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
     setFile(fileFromLocal)
   }
 
-  const handleFocus = (fieldName: keyof typeof guideTypes) => {
-    if (setGuideActive) {
-      setGuideActive(fieldName)
-    }
-  }
-
-  console.log('content', form.watch('content'))
-
   return (
     <div className='overflow-hidden'>
       {isFormReset.current && (
@@ -204,7 +181,8 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                   label='Đơn vị'
                   data={departmentsSelectionData}
                   defaultValue={String(question?.department.id)}
-                  onFocus={() => handleFocus(guideTypes.department)}
+                  isRequired
+                  infoText='Chọn đơn vị mà bạn muốn đặt câu hỏi. Tuy nhiên, nếu bạn chưa biết nên hỏi đơn vị nào, bạn cứ chọn 1 đơn vị, trưởng ban của đơn vị sẽ chuyển tiếp câu hỏi của bạn đến một đơn vị thích hợp.'
                 />
               </div>
               <div className='col-span-4'>
@@ -215,30 +193,33 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                   label='Lĩnh vực'
                   data={fieldsSelectionData}
                   defaultValue={String(question?.field.id)}
-                  onFocus={() => handleFocus(guideTypes.field)}
+                  isRequired
+                  infoText='Chọn lĩnh vực mà bạn muốn hỏi. Chẳng hạn nếu bạn muốn hỏi về học bổng bạn có thể chọn Điểm rèn luyện - Học bổng'
                 />
               </div>
             </div>
             <Label className='text-md italic relative inline-flex items-center before:inline-block after:inline-block before:w-4 after:w-4 before:h-[1px] after:h-[1px] before:bg-current after:bg-current before:mr-2 after:ml-2'>
               Thông tin cá nhân
             </Label>
-            <div className='grid grid-cols-8 gap-4 mt-1'>
+            <div className='grid grid-cols-8 gap-4 mt-1 mb-2'>
               <div className='col-span-4'>
                 <InputCustom
-                  onFocus={() => handleFocus(guideTypes.firstName)}
                   control={form.control}
                   name='firstName'
                   placeholder='Họ'
                   label='Họ'
+                  isRequired
+                  infoText='Nhập họ của bạn. Vui lòng nhập họ có nghĩa, không dùng các biệt danh GenZ'
                 />
               </div>
               <div className='col-span-4'>
                 <InputCustom
-                  onFocus={() => handleFocus(guideTypes.lastName)}
                   control={form.control}
                   name='lastName'
                   placeholder='Tên'
                   label='Tên'
+                  isRequired
+                  infoText='Nhập tên của bạn. Vui lòng nhập tên có nghĩa, không dùng các biệt danh GenZ'
                 />
               </div>
             </div>
@@ -250,17 +231,18 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
                   placeholder='Vai trò'
                   data={roleAskSelectionData}
                   defaultValue={String(question?.roleAsk.id)}
-                  onFocus={() => handleFocus(guideTypes.role)}
                   label='Vai trò'
+                  isRequired
+                  infoText='Bạn là ai? Học sinh, Sinh viên hay Phụ huynh,...'
                 />
               </div>
               <div className='col-span-4'>
                 <InputCustom
-                  onFocus={() => handleFocus(guideTypes.studentId)}
                   control={form.control}
                   name='studentCode'
                   placeholder='Mã số sinh viên'
                   label='Mã số sinh viên'
+                  helperText='Nhập mã số sinh viên của bạn nếu bạn cần hỗ trợ chi tiết hơn'
                 />
               </div>
             </div>
@@ -269,14 +251,21 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
             </Label>
             <div className='w-full mt-1'>
               <InputCustom
-                onFocus={() => handleFocus(guideTypes.title)}
                 control={form.control}
                 name='title'
                 placeholder='Tiêu đề'
                 label='Tiêu đề'
+                isRequired
+                infoText='Tóm tắt vấn đề mà bạn cần hỏi là gì'
               />
             </div>
-            <Editor control={form.control} name='content' label='Nội dung' />
+            <Editor
+              control={form.control}
+              name='content'
+              label='Nội dung'
+              isRequired
+              infoText='Nêu rõ vấn đề mà bạn cần hỏi. Cần nêu chi tiết để tư vấn viên có thể hỗ trợ bạn tốt hơn.'
+            />
             <div className='mb-4'>
               <div className='grid w-full max-w-sm items-center gap-1.5'>
                 <Label htmlFor='file'>Tệp đính kèm</Label>
@@ -285,12 +274,12 @@ export default function QuestionForm({ question, setGuideActive }: Props) {
               </div>
             </div>
             <CheckboxCustom control={form.control} name='statusPublic' label='Chế độ công khai' />
-            <div className='flex items-center justify-center'>
+            <div className='flex items-center justify-end'>
               <Button
                 isLoading={createQuestionMutation.isPending || updateQuestionMutation.isPending}
                 disabled={createQuestionMutation.isPending || updateQuestionMutation.isPending}
                 type='submit'
-                className='text-center w-1/3'
+                className='text-center'
               >
                 {isUpdate ? 'Chỉnh sửa câu hỏi' : 'Gửi câu hỏi'}
               </Button>

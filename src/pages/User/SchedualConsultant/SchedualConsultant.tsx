@@ -104,6 +104,8 @@ export default function SchedualConsultant() {
                       placeholder='Đơn vị'
                       label='Đơn vị'
                       data={departmentsSelectionData}
+                      isRequired
+                      infoText='Chọn đơn vị mà bạn muốn đặt lịch tư vấn'
                     />
                   </div>
                   <div className='col-span-1'>
@@ -113,6 +115,8 @@ export default function SchedualConsultant() {
                       placeholder='Tư vấn viên'
                       label='Tư vấn viên'
                       data={consultantsSelectionData}
+                      isRequired
+                      infoText='Chọn tư vấn viên bạn muốn nhờ sự tư vấn'
                     />
                   </div>
                 </div>
@@ -125,19 +129,25 @@ export default function SchedualConsultant() {
                   name='title'
                   placeholder='Tiêu đề'
                   label='Tiêu đề'
+                  isRequired
+                  infoText='Tóm tắt vấn đề mà bạn cần được tư vấn là gì?'
                 />
-                <Editor label='Nội dung' control={form.control} name='content' />
+                <Editor
+                  label='Nội dung'
+                  control={form.control}
+                  name='content'
+                  isRequired
+                  infoText='Nêu rõ vấn đề mà bạn cần được tư vấn. Cần nêu chi tiết để tư vấn viên có thể hỗ trợ bạn tốt hơn.'
+                />
                 <CheckboxCustom control={form.control} name='statusPublic' label='Chế độ công khai' />
                 <CheckboxCustom control={form.control} name='mode' label='Online' />
-                <div className='flex items-center justify-center'>
-                  <Button type='submit' className='w-1/3'>
-                    Đặt lịch
-                  </Button>
+                <div className='flex items-center justify-end'>
+                  <Button type='submit'>Đặt lịch</Button>
                 </div>
               </form>
             </Form>
           </div>
-          <div className='col-span-3 mt-6'>
+          <div className='col-span-3 mt-6 text-sm'>
             <div className='px-4 py-4 bg-background text-foreground rounded-lg shadow-md mb-6'>
               <p className='text-xl font-semibold text-blue-600 mb-2 uppercase'>Tiêu chí</p>
               <p className='text-md mb-3'>

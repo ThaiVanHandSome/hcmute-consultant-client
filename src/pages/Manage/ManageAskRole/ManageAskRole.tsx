@@ -49,7 +49,7 @@ export default function ManageAskRole() {
         </div>
         <div className='flex items-center space-x-2'>
           <DialogAskRole>
-            <Button>
+            <Button size='sm'>
               <PlusIcon />
               <span>Thêm quyền người hỏi</span>
             </Button>

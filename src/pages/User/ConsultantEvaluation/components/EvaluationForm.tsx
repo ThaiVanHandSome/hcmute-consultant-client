@@ -11,13 +11,13 @@ interface Props {
 export default function EvaluationForm({ form, isViewed = false }: Props) {
   return (
     <div className='grid grid-cols-12 mt-8 text-left text-sm'>
-      <div className='col-span-12 grid grid-cols-12 text-center'>
+      <div className='col-span-12 grid grid-cols-12 text-center sticky bg-background top-[var(--header-height)]'>
         <div className='col-span-2'></div>
-        <div className='col-span-2 font-bold text-destructive'>😞 Rất không hài lòng</div>
-        <div className='col-span-2 font-bold text-yellow-500'>😔 Không hài lòng</div>
-        <div className='col-span-2 font-bold text-cyan-400'>😐 Bình thường</div>
-        <div className='col-span-2 font-bold text-purple-800'>😊 Hài lòng</div>
-        <div className='col-span-2 font-bold text-green-700'>😄 Rất hài lòng</div>
+        <div className='col-span-2 font-bold '>Rất không hài lòng</div>
+        <div className='col-span-2 font-bold '>Không hài lòng</div>
+        <div className='col-span-2 font-bold '>Bình thường</div>
+        <div className='col-span-2 font-bold '>Hài lòng</div>
+        <div className='col-span-2 font-bold '>Rất hài lòng</div>
       </div>
       <Separator className='my-4 col-span-12' />
       <Evaluation

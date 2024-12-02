@@ -87,15 +87,16 @@ export default function MyRatingFilter({ queryConfig }: Props) {
               control={form.control}
               name='departmentId'
               placeholder='Đơn vị'
+              label='Đơn vị'
               defaultValue={queryConfig.departmentId}
               data={departmentsSelectionData}
             />
           </div>
           <div className='col-span-1'>
-            <DatePicker date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
+            <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
           </div>
           <div className='col-span-1'>
-            <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
+            <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
           </div>
         </div>
         <div className='grid grid-cols-5 gap-4'>

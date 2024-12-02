@@ -30,7 +30,7 @@ export default function ManageSchedual() {
         <div className='flex items-center space-x-2'>
           <ExportCustom dataType='consultationSchedule' queryConfig={schedualQueryConfig} />
           <DialogCreateSchedule>
-            <Button>
+            <Button size='sm'>
               <PlusIcon />
               <span>Thêm buổi tư vấn</span>
             </Button>

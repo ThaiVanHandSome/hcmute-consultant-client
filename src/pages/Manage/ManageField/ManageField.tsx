@@ -78,7 +78,7 @@ export default function ManageField() {
         </div>
         <div className='flex items-center space-x-2'>
           <DialogField>
-            <Button>
+            <Button size='sm'>
               <PlusIcon />
               <span>Thêm lĩnh vực</span>
             </Button>
@@ -89,19 +89,22 @@ export default function ManageField() {
       <div>
         <Form {...form}>
           <form onSubmit={onSubmit}>
-            <div className='grid grid-cols-12 gap-2'>
-              <div className='col-span-3'>
+            <div className='col-span-3'>
+              <div className='grid grid-cols-4 mb-2'>
                 <SelectionCustom
                   control={form.control}
                   name='departmentId'
                   data={departmentsSelectionData}
                   placeholder='Khoa'
+                  label='Khoa'
                 />
               </div>
+            </div>
+            <div className='grid grid-cols-12 gap-2'>
               <div className='col-span-4'>
                 <InputCustom control={form.control} name='name' placeholder='Nhập tên để tìm kiếm' />
               </div>
-              <div className='col-span-1'>
+              <div className='col-span-2'>
                 <Button>Tìm kiếm</Button>
               </div>
             </div>

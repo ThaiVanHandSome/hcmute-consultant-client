@@ -16,7 +16,7 @@ interface Props {
 
 export default function DatePicker({ date, setDate, placeholder, label, disabled }: Props) {
   return (
-    <div>
+    <div className='flex flex-col space-y-2'>
       {label && <Label>{label}</Label>}
       <Popover>
         <PopoverTrigger asChild>

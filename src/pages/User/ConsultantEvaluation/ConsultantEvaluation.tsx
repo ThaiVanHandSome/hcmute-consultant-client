@@ -130,13 +130,15 @@ export default function ConsultantEvaluation() {
                     <Separator className='mt-8 mb-4 col-span-12' />
                     <EvaluationForm form={form} isViewed={isViewed} />
                     {!isViewed && (
-                      <Button
-                        isLoading={createRatingMutation.isPending}
-                        disabled={createRatingMutation.isPending}
-                        className='px-6 py-2'
-                      >
-                        Gửi kết quả
-                      </Button>
+                      <div className='flex items-center justify-end'>
+                        <Button
+                          isLoading={createRatingMutation.isPending}
+                          disabled={createRatingMutation.isPending}
+                          className='px-6 py-2'
+                        >
+                          Gửi kết quả
+                        </Button>
+                      </div>
                     )}
                   </form>
                 </Form>

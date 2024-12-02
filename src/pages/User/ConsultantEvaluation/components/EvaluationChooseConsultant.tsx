@@ -53,6 +53,8 @@ export default function EvaluationChooseConsultant({ form, isDisabledSelection =
           placeholder='Chọn phòng ban'
           data={departmentsSelectionData}
           disabled={isDisabledSelection}
+          label='Phòng ban'
+          isRequired
         />
       </div>
       <div className='col-span-1'>
@@ -62,6 +64,8 @@ export default function EvaluationChooseConsultant({ form, isDisabledSelection =
           placeholder='Chọn tư vấn viên'
           data={consultantsSelectionData}
           disabled={isDisabledSelection}
+          label='Tư vấn viên'
+          isRequired
         />
       </div>
     </div>

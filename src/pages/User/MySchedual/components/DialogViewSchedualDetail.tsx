@@ -10,7 +10,7 @@ export default function DialogViewSchedualDetail({ schedule }: Props) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Xem chi tiết</Button>
+        <Button variant='secondary'>Xem chi tiết</Button>
       </DialogTrigger>
       <DialogContent className='max-w-[800px]'>
         <h1 className='font-semibold text-center text-xl mb-3'>Chi tiết lịch tư vấn</h1>

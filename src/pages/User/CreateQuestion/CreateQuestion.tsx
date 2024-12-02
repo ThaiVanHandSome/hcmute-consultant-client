@@ -1,22 +1,7 @@
 import QuestionForm from '@/components/dev/QuestionForm'
-import UserGuide from '@/pages/User/CreateQuestion/components/UserGuide'
 import { MailWarningIcon } from 'lucide-react'
-import { useState } from 'react'
-
-export const guideTypes = {
-  department: 'department',
-  field: 'field',
-  role: 'role',
-  studentId: 'studentId',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  email: 'email',
-  title: 'title',
-  content: 'content'
-} as const
 
 export default function CreateQuestion() {
-  const [guideActive, setGuideActive] = useState<keyof typeof guideTypes>()
   return (
     <div className='py-6 grid-background'>
       <div className='container'>
@@ -26,10 +11,10 @@ export default function CreateQuestion() {
               Đặt câu hỏi cho ban tư vấn
             </h1>
             <div>
-              <QuestionForm setGuideActive={setGuideActive} />
+              <QuestionForm />
             </div>
           </div>
-          <div className='col-span-3'>
+          <div className='col-span-3 text-sm'>
             <div className='px-4 py-4 bg-background text-foreground rounded-lg shadow-xl border mb-6'>
               <p className='text-xl font-semibold text-blue-600 mb-2 uppercase'>Tiêu chí</p>
               <p className='text-md text-foreground mb-3'>
@@ -51,12 +36,6 @@ export default function CreateQuestion() {
                 </p>
               </div>
             </div>
-
-            {guideActive && (
-              <div className=' rounded-lg shadow'>
-                <UserGuide guideType={guideActive} />
-              </div>
-            )}
           </div>
         </div>
       </div>

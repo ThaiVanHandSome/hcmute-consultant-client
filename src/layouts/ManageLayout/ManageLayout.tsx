@@ -1,4 +1,6 @@
+import AvatarCustom from '@/components/dev/AvatarCustom'
 import Header from '@/components/dev/Header'
+import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
@@ -19,7 +21,7 @@ import { useContext } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
 export default function ManageLayout() {
-  const { role } = useContext(AppContext)
+  const { role, user } = useContext(AppContext)
   const asideNav = [
     {
       title: 'Người dùng',
@@ -158,7 +160,20 @@ export default function ManageLayout() {
     <div>
       <Header />
       <div className='gap-2 bg-background mt-[var(--header-height)] min-h-remain-screen relative'>
-        <div className='w-[250px] fixed top-[var(--header-height)] left-0 bottom-0 bg-background py-4 px-4 space-y-4 border-r overflow-y-auto'>
+        <div className='w-[250px] fixed top-[var(--header-height)] left-0 bottom-0 bg-primary text-primary-foreground py-4 px-4 space-y-4 border-r overflow-y-auto'>
+          <div className='flex items-center justify-center'>
+            <img src='https://tracuuxettuyen.hcmute.edu.vn/assets/img/logo/ute_logo.png' alt='logo' className='w-24' />
+          </div>
+          <div className='flex items-center space-x-2'>
+            <AvatarCustom url={user?.avatarUrl} />
+            <div className='text-sm font-semibold'>
+              <p>
+                {user?.lastName} {user?.firstName}
+              </p>
+              <p>{role === ROLE.consultant ? 'Tư vấn viên' : role === ROLE.advisor ? 'Trưởng ban' : 'Admin'}</p>
+            </div>
+          </div>
+          <Separator className='my-2' />
           {asideNav
             .map((item) => {
               if (!item.enabled) return null
@@ -171,7 +186,7 @@ export default function ManageLayout() {
                       to={child.path}
                       className={({ isActive }) =>
                         clsx('px-3 py-2 rounded-md text-sm flex items-center justify-start gap-2 w-full', {
-                          'bg-primary text-primary-foreground font-semibold': isActive,
+                          'bg-secondary text-secondary-foreground  font-semibold': isActive,
                           'hover:bg-secondary hover:text-secondary-foreground transition-all': !isActive
                         })
                       }
@@ -184,7 +199,7 @@ export default function ManageLayout() {
 
               return (
                 <div key={item.title}>
-                  <p className='font-semibold text-lg mb-1 ml-2'>{item.title}</p>
+                  <p className='font-semibold text-lg mb-1 ml-2 text-yellow-200'>{item.title}</p>
                   <div className='space-y-1'>{childrenElement}</div>
                 </div>
               )

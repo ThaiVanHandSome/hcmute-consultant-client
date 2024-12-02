@@ -76,7 +76,7 @@ export default function ManageWard() {
         </div>
         <div className='flex items-center space-x-2'>
           <DialogWard>
-            <Button>
+            <Button size='sm'>
               <PlusIcon />
               <span>Thêm Phường/Xã</span>
             </Button>

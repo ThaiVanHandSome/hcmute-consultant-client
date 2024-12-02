@@ -38,7 +38,7 @@ export default function NavHeader() {
 
           <Popover
             renderPopover={
-              <ul className='px-6 py-2 text-center'>
+              <ul className='px-6 py-2'>
                 {popoverNavData.map((item) => (
                   <li key={item.id}>
                     <NavLink
@@ -66,7 +66,7 @@ export default function NavHeader() {
           </Popover>
         </>
       )}
-      {role === ROLE.consultant && <NavLinkItem isEmphasize to={path.manageQuestion} label='Quản lý' />}
+      {role && role !== ROLE.user && <NavLinkItem isEmphasize to={path.manageQuestion} label='Quản lý' />}
     </nav>
   )
 }

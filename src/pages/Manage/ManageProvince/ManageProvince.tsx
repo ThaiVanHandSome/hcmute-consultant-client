@@ -27,7 +27,7 @@ export default function ManageProvince() {
         </div>
         <div className='flex items-center space-x-2'>
           <DialogProvince>
-            <Button>
+            <Button size='sm'>
               <PlusIcon />
               <span>Thêm Tỉnh/Thành phố</span>
             </Button>

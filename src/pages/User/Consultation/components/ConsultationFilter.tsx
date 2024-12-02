@@ -1,4 +1,5 @@
 import DatePicker from '@/components/dev/DatePicker'
+import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { ConsultationQueryConfig } from '@/hooks/useConsultationQueryConfig'
 import { parseDate } from '@/utils/utils'
@@ -38,10 +39,10 @@ export default function ConsultationFilter({ queryConfig }: Props) {
   return (
     <div className='grid grid-cols-2 gap-2 mb-4'>
       <div className='col-span-1'>
-        <DatePicker date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
+        <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
       </div>
       <div className='col-span-1'>
-        <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
+        <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
       </div>
     </div>
   )

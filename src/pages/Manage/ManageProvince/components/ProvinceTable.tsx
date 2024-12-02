@@ -13,15 +13,15 @@ export default function ProvinceTable({ provinces }: Props) {
   return (
     <div className='bg-background rounded-md font-semibold'>
       <Table>
-        <TableHeader>
+        <TableHeader className='bg-primary'>
           <TableRow>
-            <TableHead>Mã</TableHead>
-            <TableHead>Tên Mã</TableHead>
-            <TableHead>Tên (Full)</TableHead>
-            <TableHead>Tên (Full English)</TableHead>
-            <TableHead>Tên</TableHead>
-            <TableHead>Tên (English)</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead className='!text-primary-foreground'>Mã</TableHead>
+            <TableHead className='!text-primary-foreground'>Tên Mã</TableHead>
+            <TableHead className='!text-primary-foreground'>Tên (Full)</TableHead>
+            <TableHead className='!text-primary-foreground'>Tên (Full English)</TableHead>
+            <TableHead className='!text-primary-foreground'>Tên</TableHead>
+            <TableHead className='!text-primary-foreground'>Tên (English)</TableHead>
+            <TableHead className='!text-primary-foreground'>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

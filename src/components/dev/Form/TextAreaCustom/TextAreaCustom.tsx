@@ -1,10 +1,11 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { InfoIcon } from 'lucide-react'
 import { Control, FieldPath, FieldValues, useController } from 'react-hook-form'
 
-interface InputCustomProps<TFieldValues extends FieldValues = FieldValues>
+interface TextAreaCustomProps<TFieldValues extends FieldValues = FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
   readonly label?: string
   readonly control: Control<TFieldValues>
@@ -15,11 +16,10 @@ interface InputCustomProps<TFieldValues extends FieldValues = FieldValues>
   readonly infoText?: string
 }
 
-export default function InputCustom<TFieldValues extends FieldValues>({
+export default function TextAreaCustom<TFieldValues extends FieldValues>({
   name,
   placeholder,
   label,
-  type = 'text',
   control,
   disabled,
   readOnly,
@@ -27,9 +27,8 @@ export default function InputCustom<TFieldValues extends FieldValues>({
   classNameInput = '',
   helperText,
   infoText,
-  isRequired = false,
-  onFocus
-}: InputCustomProps<TFieldValues>) {
+  isRequired = false
+}: TextAreaCustomProps<TFieldValues>) {
   const { field } = useController({ name, control })
 
   return (
@@ -65,12 +64,10 @@ export default function InputCustom<TFieldValues extends FieldValues>({
               </div>
             )}
             <FormControl>
-              <Input
+              <Textarea
                 readOnly={readOnly}
-                onFocus={onFocus}
                 className={classNameInput}
                 disabled={disabled}
-                type={type}
                 placeholder={placeholder}
                 {...field}
               />

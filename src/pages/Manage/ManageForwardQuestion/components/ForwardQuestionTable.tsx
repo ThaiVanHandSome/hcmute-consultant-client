@@ -13,14 +13,14 @@ export default function ForwardQuestionTable({ forwardQuestions }: Props) {
   return (
     <Table className='bg-background font-semibold'>
       <TableHeader>
-        <TableRow>
-          <TableHead>ID</TableHead>
-          <TableHead>Chuyển đến</TableHead>
-          <TableHead>Tiêu đề</TableHead>
-          <TableHead>Tư vấn viên</TableHead>
-          <TableHead>Thời gian</TableHead>
-          <TableHead>Câu hỏi</TableHead>
-          <TableHead></TableHead>
+        <TableRow className='bg-primary !text-primary-foreground'>
+          <TableHead className='!text-primary-foreground'>ID</TableHead>
+          <TableHead className='!text-primary-foreground'>Chuyển đến</TableHead>
+          <TableHead className='!text-primary-foreground'>Tiêu đề</TableHead>
+          <TableHead className='!text-primary-foreground'>Tư vấn viên</TableHead>
+          <TableHead className='!text-primary-foreground'>Thời gian</TableHead>
+          <TableHead className='!text-primary-foreground'>Câu hỏi</TableHead>
+          <TableHead className='!text-primary-foreground'></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

@@ -64,12 +64,14 @@ export default function ManageForwardQuestionFilter({ queryConfig }: Props) {
       <form onSubmit={onSubmit}>
         <div className='grid grid-cols-4 gap-2 mb-4'>
           <div className='col-span-1'>
-            <DatePicker date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
+            <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
           </div>
           <div className='col-span-1'>
-            <DatePicker date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
+            <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
           </div>
-          <div className='col-span-1'>
+        </div>
+        <div className='grid grid-cols-5 gap-2 mb-4'>
+          <div className='col-span-4'>
             <InputCustom className='mb-0' control={form.control} name='title' placeholder='Nhập tiêu đề để tìm kiếm' />
           </div>
           <div className='col-span-1 flex items-center'>

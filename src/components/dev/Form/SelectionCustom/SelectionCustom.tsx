@@ -1,7 +1,9 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { FormControlItem } from '@/types/utils.type'
+import { InfoIcon } from 'lucide-react'
 import { Control, FieldPath, FieldValues, Path, PathValue, useController } from 'react-hook-form'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 interface SelectionCustomProps<TFieldValues extends FieldValues = FieldValues> {
   readonly placeholder?: string
@@ -13,6 +15,9 @@ interface SelectionCustomProps<TFieldValues extends FieldValues = FieldValues> {
   readonly defaultValue?: PathValue<TFieldValues, Path<TFieldValues>>
   readonly disabled?: boolean
   readonly onFocus?: () => void
+  readonly helperText?: string
+  readonly isRequired?: boolean
+  readonly infoText?: string
 }
 
 export default function SelectionCustom<TFieldValues extends FieldValues>({
@@ -24,6 +29,9 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
   data,
   defaultValue,
   disabled = false,
+  helperText,
+  infoText,
+  isRequired = false,
   onFocus
 }: SelectionCustomProps<TFieldValues>) {
   const { field } = useController({
@@ -39,7 +47,31 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
         name={name}
         render={() => (
           <FormItem>
-            {label && <FormLabel>{label}</FormLabel>}
+            {label && (
+              <div className='flex items-center space-x-1'>
+                <FormLabel>{label}</FormLabel>
+                {isRequired && (
+                  <span
+                    className='font-semibold text-destructive'
+                    style={{
+                      lineHeight: 0
+                    }}
+                  >
+                    *
+                  </span>
+                )}
+                {infoText && (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <InfoIcon className='size-3 text-primary' strokeWidth={1.25} />
+                      </TooltipTrigger>
+                      <TooltipContent className='bg-primary text-primary-foreground'>{infoText}</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                )}
+              </div>
+            )}
             <Select
               disabled={disabled}
               onValueChange={field.onChange}
@@ -58,6 +90,7 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
                 ))}
               </SelectContent>
             </Select>
+            {helperText && <FormDescription className='text-xs'>{helperText}</FormDescription>}
             <FormMessage />
           </FormItem>
         )}

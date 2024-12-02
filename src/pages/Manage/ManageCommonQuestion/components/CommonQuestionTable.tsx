@@ -13,14 +13,14 @@ interface Props {
 export default function CommonQuestionTable({ commonQuestions }: Props) {
   return (
     <div className='bg-background text-foreground rounded-md font-semibold'>
-      <Table>
-        <TableHeader>
+      <Table className='rounded-md'>
+        <TableHeader className='bg-primary'>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Khoa</TableHead>
-            <TableHead>Tiêu đề</TableHead>
-            <TableHead>Ngày tạo</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead className='!text-primary-foreground'>ID</TableHead>
+            <TableHead className='!text-primary-foreground'>Khoa</TableHead>
+            <TableHead className='!text-primary-foreground'>Tiêu đề</TableHead>
+            <TableHead className='!text-primary-foreground'>Ngày tạo</TableHead>
+            <TableHead className='!text-primary-foreground'>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

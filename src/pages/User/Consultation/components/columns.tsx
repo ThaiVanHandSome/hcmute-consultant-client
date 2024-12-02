@@ -3,11 +3,6 @@ import { ColumnDef } from '@tanstack/react-table'
 
 export const columns: ColumnDef<ConsultationType>[] = [
   {
-    accessorKey: 'id',
-    header: 'Id',
-    cell: ({ row }) => <div className='capitalize font-semibold'>{row.getValue('id')}</div>
-  },
-  {
     accessorKey: 'consultationSchedule',
     header: 'Tiêu đề',
     cell: ({ row }) => (

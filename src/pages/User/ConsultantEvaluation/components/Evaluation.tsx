@@ -1,5 +1,6 @@
 import InputCustom from '@/components/dev/Form/InputCustom'
 import RadioGroupCustom from '@/components/dev/Form/RadioGroupCustom'
+import TextAreaCustom from '@/components/dev/Form/TextAreaCustom'
 import { FormControlItem } from '@/types/utils.type'
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
@@ -46,7 +47,7 @@ export default function Evaluation<TFieldValues extends FieldValues>({
       <div className='col-span-12 grid grid-cols-12 mt-3 py-2 border-b border-gray-300'>
         <div className='col-span-2 flex items-center italic'>Nhận xét</div>
         <div className='col-span-10'>
-          <InputCustom
+          <TextAreaCustom
             disabled={isViewed}
             name={inputName}
             control={control}

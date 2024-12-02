@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 210 90.2% 40%;
+    --primary: 203.83 100% 27.65%;
     --primary-foreground: 210 100% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -249,6 +249,5 @@
     background-image: linear-gradient(to right, #e0e0e0 1px, transparent 1px),
       linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
     background-size: 25px 25px;
-    animation: move-grid 10s linear infinite;
   }
 }
