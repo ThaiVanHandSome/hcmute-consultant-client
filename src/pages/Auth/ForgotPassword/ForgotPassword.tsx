@@ -30,7 +30,7 @@ export default function ForgotPassword() {
   return (
     <div className='h-[100vh]'>
       <div className='grid grid-cols-12 h-full'>
-        <div className='col-span-5 px-6 py-4'>
+        <div className='col-span-12 lg:col-span-5 px-6 py-4'>
           <h1 className='font-bold text-xl mb-4 text-center'>Quên mật khẩu</h1>
           {status === forgotPasswordStatus.send && <EmailForm setEmail={setEmail} />}
           {status === forgotPasswordStatus.confirm && (
@@ -38,7 +38,7 @@ export default function ForgotPassword() {
           )}
           {status === forgotPasswordStatus.changePassword && <ChangePasswordWhenForgot email={email} />}
         </div>
-        <div className='col-span-7'>
+        <div className='hidden lg:block col-span-7'>
           <img src={BackgroundImage} alt='bg' className='w-full h-full bg-center' />
         </div>
       </div>

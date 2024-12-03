@@ -47,7 +47,7 @@ export default function ScheduleActivity() {
 
   return (
     <div className='h-remain-screen grid grid-cols-12'>
-      <div className='col-span-4 px-3 py-1 border-r bg-background'>
+      <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-background'>
         <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các hoạt động tự vấn</div>
         {scheduleActivities?.data.data.content.map((scheduleActivity) => (
           <Link
@@ -78,7 +78,7 @@ export default function ScheduleActivity() {
           />
         </div>
       </div>
-      <div className='col-span-8'>
+      <div className='col-span-12 lg:col-span-8'>
         <div className='px-2 py-3 flex items-center justify-between shadow-md'>
           <div className='flex items-center space-x-2'>
             <div className='flex items-center space-x-1'>

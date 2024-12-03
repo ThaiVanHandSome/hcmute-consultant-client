@@ -120,7 +120,7 @@ export default function ConsultantEvaluation() {
         <div className='bg-primary-bg  grid-background'>
           <div className='container'>
             <div className='flex justify-center'>
-              <div className='w-3/4 bg-background text-foreground px-6 py-2 rounded-lg shadow-xl border mt-6'>
+              <div className='lg:w-3/4 w-full bg-background text-foreground px-6 py-2 rounded-lg shadow-xl border mt-6'>
                 <h1 className='font-extrabold text-2xl text-center uppercase mb-6 text-primary'>
                   {!isViewed ? 'Đánh giá ban tư vấn' : 'Kết quả đánh giá'}
                 </h1>

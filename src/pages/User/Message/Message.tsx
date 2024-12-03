@@ -65,7 +65,7 @@ export default function Message() {
   return (
     <div className='bg-background text-foreground h-full'>
       <div className='grid grid-cols-12'>
-        <div className='col-span-4 px-4 border-r flex flex-col h-remain-screen'>
+        <div className='hidden lg:flex col-span-4 px-4 border-r flex-col h-remain-screen'>
           <h1 className='font-semibold text-xl mb-2 text-primary flex items-center pt-3'>
             <MessageCircleIcon />
             <span className='ml-1'>Nhắn tin</span>
@@ -95,7 +95,9 @@ export default function Message() {
             ))}
           </div>
         </div>
-        <div className='col-span-8'>{conversationActive && <Chat conversation={conversationActive} />}</div>
+        <div className='col-span-12 lg:col-span-8'>
+          {conversationActive && <Chat conversation={conversationActive} />}
+        </div>
       </div>
     </div>
   )

@@ -11,19 +11,21 @@ import { Link } from 'react-router-dom'
 import LogoTabline from '@/assets/images/logos/Logo_Tabline.png'
 import ListPost from '@/pages/User/Home/components/ListPost'
 import ListConsultActivity from '@/pages/User/Home/components/ListConsultActivity'
+import HeaderNotification from '@/components/dev/Header/components/HeaderNotification'
+import HeaderMessage from '@/components/dev/Header/components/HeaderMessage'
 
 export default function Home() {
   const { role } = useContext(AppContext)
   return (
     <div>
       <div className='flex relative'>
-        <div className='w-[320px] fixed top-[var(--header-height)] pt-4 border-r'>
+        <div className='hidden lg:block w-[320px] fixed top-[var(--header-height)] pt-4 border-r'>
           <AsideNav />
         </div>
-        <div className='ml-[320px] mr-[360px] flex-1'>
+        <div className='ml-0 lg:ml-[320px] mr-0 lg:mr-[360px] flex-1'>
           {role === ROLE.user && (
             <div className='flex items-center justify-center mt-4'>
-              <div className='w-[90%] px-6 py-6 bg-gradient-to-r from-blue-400 to-purple-500 text-white  flex justify-between items-center z-10 bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl shadow-xl'>
+              <div className='lg:w-[90%] w-[95%] px-6 py-6 bg-gradient-to-r from-blue-400 to-purple-500 text-white  flex flex-col lg:flex-row space-y-2 lg:space-y-0 justify-between items-center z-10 bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl shadow-xl'>
                 <div className='flex'>
                   <QuestionCircle className='text-3xl text-white mb-4 animate-bounce size-9 mr-2' />
                   <div>
@@ -39,11 +41,11 @@ export default function Home() {
               </div>
             </div>
           )}
-          <div className='px-12 w-full mt-4'>
+          <div className='lg:px-12 px-2 w-full mt-4'>
             <ListQuestion />
           </div>
         </div>
-        <div className='w-[360px] fixed top-[var(--header-height)] right-0 pt-4 px-2 border-l'>
+        <div className='hidden lg:block w-[360px] fixed top-[var(--header-height)] right-0 pt-4 px-2 border-l'>
           <ScrollArea>
             <div className='h-remain-screen'>
               <img src={LogoTabline} alt='logo-hcmute' className='w-96 object-cover mb-4' />

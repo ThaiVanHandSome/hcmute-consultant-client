@@ -46,7 +46,7 @@ export default function EvaluationChooseConsultant({ form, isDisabledSelection =
 
   return (
     <div className='grid grid-cols-2 gap-4'>
-      <div className='col-span-1'>
+      <div className='col-span-2 lg:col-span-1'>
         <SelectionCustom
           control={form.control}
           name='departmentId'
@@ -57,7 +57,7 @@ export default function EvaluationChooseConsultant({ form, isDisabledSelection =
           isRequired
         />
       </div>
-      <div className='col-span-1'>
+      <div className='col-span-2 lg:col-span-1'>
         <SelectionCustom
           control={form.control}
           name='consultantId'

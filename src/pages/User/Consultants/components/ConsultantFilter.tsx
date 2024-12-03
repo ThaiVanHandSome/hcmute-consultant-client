@@ -74,7 +74,7 @@ export default function ConsultantFilter({ consultantQueryConfig }: Props) {
     <Form {...form}>
       <form onSubmit={onSubmit}>
         <div className='grid grid-cols-12 gap-4 items-center'>
-          <div className='col-span-4'>
+          <div className='col-span-12 lg:col-span-4'>
             <SelectionCustom
               className='mb-0'
               control={form.control}
@@ -84,10 +84,10 @@ export default function ConsultantFilter({ consultantQueryConfig }: Props) {
               data={departmentsSelectionData}
             />
           </div>
-          <div className='col-span-6'>
+          <div className='col-span-8 lg:col-span-6'>
             <InputCustom className='mb-0' control={form.control} name='name' placeholder='Nhập tên ban tư vấn' />
           </div>
-          <div className='col-span-2'>
+          <div className='col-span-4 lg:col-span-2'>
             <Button type='submit' className='w-full'>
               Tìm kiếm
             </Button>

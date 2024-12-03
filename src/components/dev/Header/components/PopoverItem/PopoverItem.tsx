@@ -9,8 +9,8 @@ interface Props {
 export default function PopoverItem({ to, children, onClick }: Props) {
   return (
     <li
-      aria-hidden='true'
-      className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2'
+      aria-hidden='false'
+      className='hover:font-bold hover:transition-all hover:text-primary text-sm py-2 z-50'
       onClick={!to ? onClick : () => {}}
     >
       {to && (

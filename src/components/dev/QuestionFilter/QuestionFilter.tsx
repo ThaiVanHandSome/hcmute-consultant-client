@@ -115,7 +115,12 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
           })}
         >
           {role === ROLE.user && (
-            <div className='col-span-1'>
+            <div
+              className={clsx('lg:col-span-1', {
+                'col-span-4': role === ROLE.user,
+                'col-span-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+              })}
+            >
               <SelectionCustom
                 control={form.control}
                 name='departmentId'
@@ -126,7 +131,12 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
               />
             </div>
           )}
-          <div className='col-span-1'>
+          <div
+            className={clsx('lg:col-span-1', {
+              'col-span-4': role === ROLE.user,
+              'col-span-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+            })}
+          >
             <SelectionCustom
               control={form.control}
               name='status'
@@ -136,18 +146,28 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
               data={questionsStatusSelectionData}
             />
           </div>
-          <div className='col-span-1'>
+          <div
+            className={clsx('lg:col-span-1', {
+              'col-span-4': role === ROLE.user,
+              'col-span-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+            })}
+          >
             <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
           </div>
-          <div className='col-span-1'>
+          <div
+            className={clsx('lg:col-span-1', {
+              'col-span-4': role === ROLE.user,
+              'col-span-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+            })}
+          >
             <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
           </div>
         </div>
         <div className='grid grid-cols-5 gap-4'>
-          <div className='col-span-4'>
+          <div className='col-span-3 lg:col-span-4'>
             <InputCustom className='mb-0' control={form.control} name='title' placeholder='Nhập tiêu đề để tìm kiếm' />
           </div>
-          <div className='col-span-1 flex items-center'>
+          <div className='col-span-2 lg:col-span-1 flex items-center'>
             <Button className='w-full'>Tìm kiếm</Button>
           </div>
         </div>

@@ -66,7 +66,7 @@ export default function UserDashBoard() {
   })
 
   const renderStatisticItem = (label: string, value: number) => (
-    <div className='col-span-1 px-6 py-2 rounded-lg shadow-lg text-center'>
+    <div className='col-span-2 lg:col-span-1 px-6 py-2 rounded-lg shadow-lg text-center'>
       <div className='font-bold text-4xl mb-2 text-primary text-[#2563eb]'>{value}</div>
       <div className='text-sm'>{label}</div>
     </div>

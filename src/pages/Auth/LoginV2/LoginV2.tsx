@@ -63,7 +63,7 @@ export default function Login() {
   return (
     <div className='w-full h-remain-screen'>
       <div className='grid grid-cols-12 gap-4'>
-        <div className='col-span-8'>
+        <div className='hidden lg:block col-span-8'>
           <Carousel
             plugins={[
               Autoplay({
@@ -103,9 +103,11 @@ export default function Login() {
             </CarouselContent>
           </Carousel>
         </div>
-        <div className='col-span-4 flex flex-col items-center space-y-4 py-6'>
+        <div className='col-span-12 lg:col-span-4 flex flex-col items-center space-y-4 py-6'>
           <img src={LogoHCMUTE} alt='logo-hcmute' className='size-28' />
-          <p className='text-lg uppercase font-semibold'>TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT TP.HCM</p>
+          <p className='text-lg uppercase font-semibold text-center lg:text-left'>
+            TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT TP.HCM
+          </p>
           <div className='w-[90%] px-4 py-2 bg-primary-bg rounded-lg mt-6'>
             <p className='font-bold text-2xl text-primary'>ĐĂNG NHẬP</p>
             <p className='my-2 text-sm mb-4 text-gray-500'>Tư vấn và hỗ trợ sinh viên</p>

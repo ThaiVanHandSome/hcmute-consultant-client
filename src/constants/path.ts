@@ -11,6 +11,7 @@ const path = {
   mySchedual: '/user/schedual-consutants',
   myRating: '/user/ratings',
   consultants: '/consultants',
+  chats: '/chats',
   consultantEvaluation: '/consultant-evaluation',
   scheduleConsultant: '/schedule-consultant',
   consultation: '/user/consultations',
@@ -40,7 +41,9 @@ const path = {
   schedualDetail: '/manage/schedules/detail/:id',
   postDetail: '/manage/posts/detail/:id',
   scheduleActivity: '/schedule-activities/:id',
-  post: '/posts/:id'
+  scheduleActivities: '/schedule-activities',
+  post: '/posts/:id',
+  posts: '/posts'
 } as const
 
 export default path

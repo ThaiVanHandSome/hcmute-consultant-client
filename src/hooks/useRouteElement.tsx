@@ -50,6 +50,9 @@ import ManageApprovalAnswer from '@/pages/Manage/ManageApprovalAnswer/ManageAppr
 import ScheduleActivity from '@/pages/User/ScheduleActivity'
 import ManageForwardQuestion from '@/pages/Manage/ManageForwardQuestion'
 import Consultation from '@/pages/User/Consultation'
+import PostMobile from '@/pages/User/PostMobile'
+import ConsultActivityMobile from '@/pages/User/ConsultActivityMobile'
+import Chats from '@/pages/User/Chats'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -134,10 +137,34 @@ export default function useRouteElement() {
           )
         },
         {
+          path: path.posts,
+          element: (
+            <MainLayout>
+              <PostMobile />
+            </MainLayout>
+          )
+        },
+        {
           path: path.post,
           element: (
             <MainLayout>
               <Post />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.scheduleActivities,
+          element: (
+            <MainLayout>
+              <ConsultActivityMobile />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.chats,
+          element: (
+            <MainLayout>
+              <Chats />
             </MainLayout>
           )
         },

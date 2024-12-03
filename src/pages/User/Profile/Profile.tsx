@@ -153,8 +153,8 @@ export default function Profile() {
 
   return (
     <div>
-      <div className='grid grid-cols-5'>
-        <div className='col-span-3'>
+      <div className='grid grid-cols-5 '>
+        <div className='order-2 lg:order-1 col-span-5 lg:col-span-3'>
           <Form {...form}>
             <form onSubmit={onSubmit}>
               <InputCustom disabled control={form.control} name='username' label='Username' />
@@ -180,7 +180,7 @@ export default function Profile() {
                 <div className='mb-5'>
                   <FormLabel className='w-full mb-2 block'>Địa chỉ</FormLabel>
                   <div className='grid grid-cols-3 gap-4'>
-                    <div className='col-span-1'>
+                    <div className='col-span-3 lg:col-span-1'>
                       <SelectionCustom
                         control={form.control}
                         name='provinceCode'
@@ -189,7 +189,7 @@ export default function Profile() {
                         data={provincesSelectionData}
                       />
                     </div>
-                    <div className='col-span-1'>
+                    <div className='col-span-3 lg:col-span-1'>
                       <SelectionCustom
                         control={form.control}
                         name='districtCode'
@@ -198,7 +198,7 @@ export default function Profile() {
                         data={districtsSelectionData}
                       />
                     </div>
-                    <div className='col-span-1'>
+                    <div className='col-span-3 lg:col-span-1'>
                       <SelectionCustom
                         control={form.control}
                         name='wardCode'
@@ -220,7 +220,7 @@ export default function Profile() {
             </form>
           </Form>
         </div>
-        <div className='col-span-2'>
+        <div className='order-1 lg:order-2 col-span-5 lg:col-span-2'>
           <div className='flex flex-col items-center'>
             <img src={previewImage || profile?.data.data.avatarUrl} alt='avatar' className='size-56 rounded-full' />
             <Button variant='secondary' className='mt-4' onClick={() => btnChooseImageRef.current?.click()}>

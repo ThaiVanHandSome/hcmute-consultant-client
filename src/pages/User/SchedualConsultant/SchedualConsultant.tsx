@@ -89,7 +89,7 @@ export default function SchedualConsultant() {
     <div className='bg-primary-bg min-h-[100vh] grid-background'>
       <div className='container'>
         <div className='grid grid-cols-12 gap-4'>
-          <div className='bg-background text-foreground px-6 py-2 col-span-9 rounded-lg shadow-xl border mt-6'>
+          <div className='bg-background text-foreground px-6 py-2 col-span-12 lg:col-span-9 rounded-lg shadow-xl border mt-6'>
             <h1 className='font-extrabold text-2xl text-left uppercase mb-6 text-primary'>Đặt lịch tư vấn</h1>
             <Form {...form}>
               <form onSubmit={onSubmit}>
@@ -97,7 +97,7 @@ export default function SchedualConsultant() {
                   Nơi tiếp nhận
                 </Label>
                 <div className='w-full grid grid-cols-2 gap-4 mb-6 mt-1'>
-                  <div className='col-span-1'>
+                  <div className='col-span-2 lg:col-span-1'>
                     <SelectionCustom
                       control={form.control}
                       name='departmentId'
@@ -108,7 +108,7 @@ export default function SchedualConsultant() {
                       infoText='Chọn đơn vị mà bạn muốn đặt lịch tư vấn'
                     />
                   </div>
-                  <div className='col-span-1'>
+                  <div className='col-span-2 lg:col-span-1'>
                     <SelectionCustom
                       control={form.control}
                       name='consultantId'
@@ -147,7 +147,7 @@ export default function SchedualConsultant() {
               </form>
             </Form>
           </div>
-          <div className='col-span-3 mt-6 text-sm'>
+          <div className='hidden lg:block col-span-3 mt-6 text-sm'>
             <div className='px-4 py-4 bg-background text-foreground rounded-lg shadow-md mb-6'>
               <p className='text-xl font-semibold text-blue-600 mb-2 uppercase'>Tiêu chí</p>
               <p className='text-md mb-3'>

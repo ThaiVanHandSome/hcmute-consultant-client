@@ -173,7 +173,7 @@ export default function QuestionForm({ question }: Props) {
               Nơi tiếp nhận
             </Label>
             <div className='grid grid-cols-8 gap-2 mb-6 mt-1'>
-              <div className='col-span-4'>
+              <div className='col-span-8 lg:col-span-4'>
                 <SelectionCustom
                   control={form.control}
                   name='departmentId'
@@ -185,7 +185,7 @@ export default function QuestionForm({ question }: Props) {
                   infoText='Chọn đơn vị mà bạn muốn đặt câu hỏi. Tuy nhiên, nếu bạn chưa biết nên hỏi đơn vị nào, bạn cứ chọn 1 đơn vị, trưởng ban của đơn vị sẽ chuyển tiếp câu hỏi của bạn đến một đơn vị thích hợp.'
                 />
               </div>
-              <div className='col-span-4'>
+              <div className='col-span-8 lg:col-span-4'>
                 <SelectionCustom
                   control={form.control}
                   name='fieldId'
@@ -202,7 +202,7 @@ export default function QuestionForm({ question }: Props) {
               Thông tin cá nhân
             </Label>
             <div className='grid grid-cols-8 gap-4 mt-1 mb-2'>
-              <div className='col-span-4'>
+              <div className='col-span-8 lg:col-span-4'>
                 <InputCustom
                   control={form.control}
                   name='firstName'
@@ -212,7 +212,7 @@ export default function QuestionForm({ question }: Props) {
                   infoText='Nhập họ của bạn. Vui lòng nhập họ có nghĩa, không dùng các biệt danh GenZ'
                 />
               </div>
-              <div className='col-span-4'>
+              <div className='col-span-8 lg:col-span-4'>
                 <InputCustom
                   control={form.control}
                   name='lastName'
@@ -224,7 +224,7 @@ export default function QuestionForm({ question }: Props) {
               </div>
             </div>
             <div className='grid grid-cols-8 gap-3 mb-4'>
-              <div className='col-span-4'>
+              <div className='col-span-8 lg:col-span-4'>
                 <SelectionCustom
                   control={form.control}
                   name='roleAskId'
@@ -236,7 +236,7 @@ export default function QuestionForm({ question }: Props) {
                   infoText='Bạn là ai? Học sinh, Sinh viên hay Phụ huynh,...'
                 />
               </div>
-              <div className='col-span-4'>
+              <div className='col-span-8 lg:col-span-4'>
                 <InputCustom
                   control={form.control}
                   name='studentCode'

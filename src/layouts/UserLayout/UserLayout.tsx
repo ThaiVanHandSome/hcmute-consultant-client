@@ -71,7 +71,7 @@ export default function UserLayout() {
       <div className='container'>
         <UserLayoutHeader />
         <div className='grid grid-cols-12'>
-          <div className='col-span-3 pr-4'>
+          <div className='hidden lg:block col-span-3 pr-4'>
             <ul>
               {newUserNavData.map((item) => (
                 <li key={item.id} className='mb-2'>
@@ -91,7 +91,7 @@ export default function UserLayout() {
               ))}
             </ul>
           </div>
-          <div className='col-span-9 shadow-xl px-4 py-2 bg-background text-foreground rounded-lg'>
+          <div className='col-span-12 lg:col-span-9 shadow-xl px-4 py-2 bg-background text-foreground rounded-lg'>
             <Outlet />
           </div>
         </div>

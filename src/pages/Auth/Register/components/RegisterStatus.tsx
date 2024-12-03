@@ -65,7 +65,7 @@ export default function RegisterStatus({ status }: Props) {
   )
 
   return (
-    <div className='flex items-center my-6'>
+    <div className='hidden lg:flex items-center my-6'>
       {registerStatusInfo.map((item, index) => (
         <div key={item.status} className='flex items-center'>
           <div className='flex items-center'>

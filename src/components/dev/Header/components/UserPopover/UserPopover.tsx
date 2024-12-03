@@ -82,7 +82,7 @@ export default function UserPopover() {
     <Popover
       placement='bottom'
       renderPopover={
-        <div className='w-[200px] px-4 py-2 bg-card text-card-foreground'>
+        <div className='w-[200px] px-4 py-2 bg-card text-card-foreground z-50'>
           <ul>
             {userPopoverData.map((item) => (
               <PopoverItem key={item.id} to={item.to} onClick={item.onClick}>

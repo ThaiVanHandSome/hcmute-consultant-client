@@ -5,7 +5,7 @@ import { useContext } from 'react'
 export default function UserLayoutHeader() {
   const { user } = useContext(AppContext)
   return (
-    <div className='flex items-center py-4'>
+    <div className='hidden lg:flex items-center py-4'>
       <AvatarCustom url={user?.avatarUrl} className='size-14' />
       <div className='ml-3'>
         <p>{user?.username}</p>

@@ -82,7 +82,7 @@ export default function MyRatingFilter({ queryConfig }: Props) {
     <Form {...form}>
       <form onSubmit={onSubmit}>
         <div className='grid grid-cols-3 gap-2 mb-4'>
-          <div className='col-span-1'>
+          <div className='col-span-3 lg:col-span-1'>
             <SelectionCustom
               control={form.control}
               name='departmentId'
@@ -92,15 +92,15 @@ export default function MyRatingFilter({ queryConfig }: Props) {
               data={departmentsSelectionData}
             />
           </div>
-          <div className='col-span-1'>
+          <div className='col-span-3 lg:col-span-1'>
             <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
           </div>
-          <div className='col-span-1'>
+          <div className='col-span-3 lg:col-span-1'>
             <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
           </div>
         </div>
         <div className='grid grid-cols-5 gap-4'>
-          <div className='col-span-4'>
+          <div className='col-span-3 lg:col-span-4'>
             <InputCustom
               className='mb-0'
               control={form.control}
@@ -108,7 +108,7 @@ export default function MyRatingFilter({ queryConfig }: Props) {
               placeholder='Nhập tư vấn viên để tìm kiếm'
             />
           </div>
-          <div className='col-span-1 flex items-center'>
+          <div className='col-span-2 lg:col-span-1 flex items-center'>
             <Button className='w-full'>Tìm kiếm</Button>
           </div>
         </div>
