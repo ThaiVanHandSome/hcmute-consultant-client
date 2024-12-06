@@ -1,7 +1,9 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import DialogUser from '@/pages/Manage/ManageUser/components/DialogUser'
 import DialogViewUserDetail from '@/pages/Manage/ManageUser/components/DialogViewUserDetail'
 import { AdminUser } from '@/types/user.type'
 import { EyeOpenIcon } from '@radix-ui/react-icons'
+import { Edit2Icon } from 'lucide-react'
 
 interface Props {
   readonly users?: AdminUser[]
@@ -36,6 +38,9 @@ export default function UserTable({ users }: Props) {
                   <DialogViewUserDetail id={user.id}>
                     <EyeOpenIcon />
                   </DialogViewUserDetail>
+                  <DialogUser user={user}>
+                    <Edit2Icon className='size-4' strokeWidth={1.5} />
+                  </DialogUser>
                 </div>
               </TableCell>
             </TableRow>

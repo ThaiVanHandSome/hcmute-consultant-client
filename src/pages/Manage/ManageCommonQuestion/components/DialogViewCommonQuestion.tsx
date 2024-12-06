@@ -1,8 +1,7 @@
-import FileItem from '@/components/dev/FileItem'
-import QuestionImage from '@/components/dev/QuestionImage'
+import FileShow from '@/components/dev/FileShow'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
 import { CommonQuestion } from '@/types/question.type'
-import { isImageFile } from '@/utils/utils'
 
 interface Props {
   readonly children?: React.ReactNode
@@ -21,17 +20,14 @@ export default function DialogViewCommonQuestion({ children, question }: Props) 
           <p className='text-lg font-medium text-foreground'>{question.title}</p>
           <div className='text-foreground leading-relaxed' dangerouslySetInnerHTML={{ __html: question.content }}></div>
 
-          {isImageFile(question?.fileName ?? '') ? (
-            <div className='mt-4 -mx-4'>
-              <QuestionImage url={question.fileName} />
-            </div>
-          ) : (
-            <FileItem url={question?.fileName} />
-          )}
+          <FileShow url={question.file} />
 
           <div className='mt-6'>
             <blockquote className='border-l-4 border-gray-300 pl-4 italic text-foreground bg-background rounded-md p-4'>
+              <Label className='text-sm font-semibold mb-3'>Câu trả lời</Label>
+              <p className='text-lg font-medium text-foreground'>{question.answerTitle}</p>
               <div dangerouslySetInnerHTML={{ __html: question.answerContent }}></div>
+              <FileShow url={question.fileAnswer} />
             </blockquote>
           </div>
         </div>

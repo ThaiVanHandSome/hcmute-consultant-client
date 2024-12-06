@@ -115,7 +115,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
   return (
     <div
       aria-hidden='true'
-      className={clsx('flex items-center w-full my-2 p-2 rounded-lg transition-all cursor-pointer', {
+      className={clsx('flex items-center w-full px-2 py-3 transition-all cursor-pointer', {
         'bg-secondary text-secondary-foreground': conversation.id === conversationIdActive,
         'hover:bg-secondary hover:text-secondary-foreground': conversation.id !== conversationIdActive
       })}
@@ -123,7 +123,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
     >
       <AvatarCustom url={receiver?.avatarUrl} className='size-11' />
       <div className='w-[80%] ml-2'>
-        <p className='font-bold truncate text-sm mb-1'>{conversation.isGroup ? conversation.name : receiver?.name}</p>
+        <p className='font-bold truncate text-xs mb-1'>{conversation.isGroup ? conversation.name : receiver?.name}</p>
         {lastMessage && (
           <p className='text-xs truncate '>
             {lastChat?.recalledForEveryone ? 'Đã thu hồi một tin nhắn' : lastMessage} .{' '}

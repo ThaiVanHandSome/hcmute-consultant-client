@@ -72,7 +72,23 @@ export const getScheduleDetail = (scheduleId: number) =>
     }
   })
 
-export const joinSchedule = (consultationScheduleId: number) =>
-  http.post<SuccessResponse<string>>('user/consultation-schedule/join', {
-    consultationScheduleId
+export const joinSchedule = (scheduleId: number) =>
+  http.post<SuccessResponse<string>>('user/consultation-schedule/join', null, {
+    params: {
+      scheduleId
+    }
+  })
+
+export const checkJoinConsultation = (scheduleId: number) =>
+  http.post<SuccessResponse<string>>('user/consultation-schedule/check', null, {
+    params: {
+      scheduleId
+    }
+  })
+
+export const cancelConsultation = (scheduleId: number) =>
+  http.post<SuccessResponse<string>>('user/consultation-schedule/cancel', null, {
+    params: {
+      scheduleId
+    }
   })

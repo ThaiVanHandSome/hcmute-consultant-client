@@ -13,15 +13,12 @@ import path from '@/constants/path'
 import { ErrorResponse } from '@/types/utils.type'
 import { PasswordRecoverySchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
-
-interface Props {
-  readonly setEmail: React.Dispatch<React.SetStateAction<string>>
-}
+import { useState } from 'react'
 
 type SendEmailFormData = Pick<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>
 const SendEmailSchema = PasswordRecoverySchema.pick(['emailRequest'])
 
-export default function EmailForm({ setEmail }: Props) {
+export default function EmailForm() {
   const sendEmailForm = useForm<SendEmailFormData>({
     defaultValues: {
       emailRequest: ''
@@ -42,11 +39,11 @@ export default function EmailForm({ setEmail }: Props) {
     }
     sendCodeToEmailMutation.mutate(payload, {
       onSuccess: () => {
-        setEmail(payload.emailRequest)
         navigate({
           pathname: path.forgotPassword,
           search: createSearchParams({
-            status: forgotPasswordStatus.confirm
+            status: forgotPasswordStatus.confirm,
+            email: values.emailRequest
           }).toString()
         })
       },

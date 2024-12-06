@@ -26,7 +26,30 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
   const isShowRecalled = chat.recalledForEveryone
 
   return (
-    <>
+    <div>
+      {avatarCanShow && (
+        <div
+          className={clsx('flex items-center mb-2', {
+            'justify-end': isSender,
+            'justify-start': !isSender
+          })}
+        >
+          <div
+            className={clsx('flex items-center space-x-2', {
+              'flex-row-reverse': isSender,
+              'flex-row': !isSender
+            })}
+          >
+            <AvatarCustom url={chat.sender.avatarUrl} className='size-10' />
+            <div>
+              <p className='text-sm font-semibold'>
+                {chat.sender.name} {isSender && '(You)'}
+              </p>
+              <p className='text-xs text-secondary-foreground'>{formatDate(chat.date, true)}</p>
+            </div>
+          </div>
+        </div>
+      )}
       {!isHidden && (
         <div
           className={clsx('flex my-1', {
@@ -57,8 +80,6 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
                       </DropdownMenuContent>
                     </DropdownMenu>
                   )}
-                  {!isSender && avatarCanShow && <AvatarCustom url={chat.sender.avatarUrl} className='size-8' />}
-                  {!isSender && !avatarCanShow && <div className='size-8'></div>}
                   {chat.message && (
                     <div
                       className={clsx('ml-2 p-2 rounded-xl max-w-full break-words', {
@@ -68,7 +89,7 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
                       })}
                     >
                       {chat.message}
-                      <p className='text-[10px] !text-muted text-right'>{formatDate(chat.date, true)}</p>
+                      {/* <p className='text-[10px] !text-muted text-right'>{formatDate(chat.date, true)}</p> */}
                     </div>
                   )}
                   {chat.imageUrl && !isShowRecalled && (
@@ -95,6 +116,6 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
           </TooltipProvider>
         </div>
       )}
-    </>
+    </div>
   )
 }

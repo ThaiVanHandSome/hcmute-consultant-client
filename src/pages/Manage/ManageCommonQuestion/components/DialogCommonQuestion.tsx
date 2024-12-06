@@ -1,4 +1,5 @@
-import { updateAdminCommonQuestion } from '@/apis/question.api'
+import { createAdminCommonQuestion, updateAdminCommonQuestion } from '@/apis/question.api'
+import FileShow from '@/components/dev/FileShow'
 import Editor from '@/components/dev/Form/Editor'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
@@ -31,9 +32,16 @@ export default function DialogCommonQuestion({ question, children }: Props) {
   const queryClient = useQueryClient()
   const commonQuestionQueryConfig = useCommonQuestionQueryConfig()
   const [file, setFile] = useState<File>()
-  const previewImage = useMemo(() => {
-    if (isImageFile((file?.name as string) ?? '')) return file ? URL.createObjectURL(file) : (question?.fileName ?? '')
+  const [fileAnswer, setFileAnswer] = useState<File>()
+
+  const previewImageAsk = useMemo(() => {
+    if (isImageFile((file?.name as string) ?? '')) return file ? URL.createObjectURL(file) : (question?.file ?? '')
   }, [file])
+
+  const previewImageAnswer = useMemo(() => {
+    if (isImageFile((fileAnswer?.name as string) ?? ''))
+      return fileAnswer ? URL.createObjectURL(fileAnswer) : (question?.fileAnswer ?? '')
+  }, [fileAnswer])
 
   const form = useForm<CommonQuesionFormData>({
     defaultValues: {
@@ -45,28 +53,39 @@ export default function DialogCommonQuestion({ question, children }: Props) {
     resolver: yupResolver(CommonQuestionSchema)
   })
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'answer' | 'ask') => {
     const fileFromLocal = event.target.files?.[0]
-    setFile(fileFromLocal)
+    if (type === 'ask') {
+      setFile(fileFromLocal)
+      return
+    }
+    setFileAnswer(fileFromLocal)
   }
 
   const updateCommonQuestionMutation = useMutation({
     mutationFn: ({
       commonQuestionId,
       data,
-      file
+      file,
+      fileAnswer
     }: {
       commonQuestionId: number
       data: CommonQuesionFormData
       file: File
-    }) => updateAdminCommonQuestion(commonQuestionId, data, file)
+      fileAnswer: File
+    }) => updateAdminCommonQuestion(commonQuestionId, data, file, fileAnswer)
+  })
+
+  const createCommonQuestionMutation = useMutation({
+    mutationFn: ({ data, file, fileAnswer }: { data: CommonQuesionFormData; file: File; fileAnswer: File }) =>
+      createAdminCommonQuestion(data, file, fileAnswer)
   })
 
   const onSubmit = form.handleSubmit((values) => {
     if (isUpdate) {
       const commonQuestionId = question.commonQuestionId
       updateCommonQuestionMutation.mutate(
-        { commonQuestionId, data: values, file: file as File },
+        { commonQuestionId, data: values, file: file as File, fileAnswer: fileAnswer as File },
         {
           onSuccess: (res) => {
             toast({
@@ -80,7 +99,23 @@ export default function DialogCommonQuestion({ question, children }: Props) {
           }
         }
       )
+      return
     }
+    createCommonQuestionMutation.mutate(
+      { data: values, file: file as File, fileAnswer: fileAnswer as File },
+      {
+        onSuccess: (res) => {
+          toast({
+            variant: 'success',
+            description: res.data.message
+          })
+          queryClient.invalidateQueries({
+            queryKey: ['common-questions', commonQuestionQueryConfig]
+          })
+          setOpen(false)
+        }
+      }
+    )
   })
 
   return (
@@ -100,6 +135,14 @@ export default function DialogCommonQuestion({ question, children }: Props) {
                 label='Tiêu đề câu hỏi'
               />
               <Editor control={form.control} name='content' label='Nội dung câu hỏi' />
+              <div className='mb-4'>
+                <div className='grid w-full max-w-sm items-center gap-1.5'>
+                  <Label htmlFor='file'>Tệp đính kèm câu hỏi</Label>
+                  <Input id='file' type='file' onChange={(e) => handleFileChange(e, 'ask')} />
+                  {previewImageAsk && <img src={previewImageAsk} alt='fileUploadImage' className='object-cover h-64' />}
+                  {!previewImageAsk && <FileShow url={question?.file} />}
+                </div>
+              </div>
               <InputCustom
                 control={form.control}
                 name='answerTitle'
@@ -109,12 +152,20 @@ export default function DialogCommonQuestion({ question, children }: Props) {
               <Editor control={form.control} name='answerContent' label='Nội dung câu câu trả lời' />
               <div className='mb-4'>
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
-                  <Label htmlFor='file'>Tệp đính kèm</Label>
-                  <Input id='file' type='file' onChange={handleFileChange} />
-                  {previewImage && <img src={previewImage} alt='fileUploadImage' className='object-cover h-64' />}
+                  <Label htmlFor='file'>Tệp đính kèm câu trả lời</Label>
+                  <Input id='file' type='file' onChange={(e) => handleFileChange(e, 'answer')} />
+                  {previewImageAnswer && (
+                    <img src={previewImageAnswer} alt='fileUploadImage' className='object-cover h-64' />
+                  )}
+                  {!previewImageAnswer && <FileShow url={question?.fileAnswer} />}
                 </div>
               </div>
-              <Button>{isUpdate ? 'Lưu' : 'Thêm'}</Button>
+              <Button
+                disabled={updateCommonQuestionMutation.isPending || createCommonQuestionMutation.isPending}
+                isLoading={updateCommonQuestionMutation.isPending || createCommonQuestionMutation.isPending}
+              >
+                {isUpdate ? 'Lưu' : 'Thêm'}
+              </Button>
             </form>
           </Form>
         </div>

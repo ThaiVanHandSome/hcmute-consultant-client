@@ -1,5 +1,6 @@
 import { getCommonQuestion } from '@/apis/question.api'
 import FileShow from '@/components/dev/FileShow'
+import { Label } from '@/components/ui/label'
 import { useQuery } from '@tanstack/react-query'
 
 export default function QuestionLibrary() {
@@ -24,11 +25,15 @@ export default function QuestionLibrary() {
                     className='text-foreground leading-relaxed'
                     dangerouslySetInnerHTML={{ __html: question.content }}
                   ></div>
-                  <FileShow url={question.fileName} />
+
+                  <FileShow url={question.file} />
 
                   <div className='mt-6'>
                     <blockquote className='border-l-4 border-gray-300 pl-4 italic text-foreground bg-background rounded-md p-4'>
+                      <Label className='text-sm font-semibold mb-3'>Câu trả lời</Label>
+                      <p className='text-lg font-medium text-foreground'>{question.answerTitle}</p>
                       <div dangerouslySetInnerHTML={{ __html: question.answerContent }}></div>
+                      <FileShow url={question.fileAnswer} />
                     </blockquote>
                   </div>
                 </div>

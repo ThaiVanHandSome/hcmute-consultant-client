@@ -33,7 +33,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+      enabled: [ROLE.admin].includes(role as Role)
     },
     {
       title: 'Câu hỏi',
@@ -42,25 +42,25 @@ export default function ManageLayout() {
           path: path.manageQuestion,
           icon: <QuestionCircle className='size-5' />,
           label: 'Câu hỏi',
-          enabled: true
+          enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
         },
         {
           path: path.manageApprovalAnswer,
           icon: <QuestionCircle className='size-5' />,
           label: 'Phê duyệt',
-          enabled: true
+          enabled: [ROLE.admin, ROLE.advisor].includes(role as Role)
         },
         {
           path: path.manageForwardQuestion,
           icon: <QuestionCircle className='size-5' />,
           label: 'Câu hỏi chuyển tiếp',
-          enabled: true
+          enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
         },
         {
           path: path.manageCommonQuestion,
           icon: <CreativeCommonsIcon className='size-5' />,
           label: 'Câu hỏi chung',
-          enabled: 1 === 1
+          enabled: [ROLE.admin, ROLE.advisor].includes(role as Role)
         }
       ],
       enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
@@ -87,7 +87,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+      enabled: [ROLE.admin, ROLE.advisor].includes(role as Role)
     },
     {
       title: 'Quyền',
@@ -111,7 +111,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+      enabled: [ROLE.admin].includes(role as Role)
     },
     {
       title: 'Địa chỉ',
@@ -135,7 +135,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+      enabled: [ROLE.admin].includes(role as Role)
     },
     {
       title: 'Khác',
@@ -153,7 +153,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+      enabled: [ROLE.admin].includes(role as Role)
     }
   ]
   return (

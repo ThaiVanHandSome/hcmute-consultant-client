@@ -13,18 +13,15 @@ import { PasswordRecoverySchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
-
-interface Props {
-  readonly email: string
-}
+import useQueryParams from '@/hooks/useQueryParams'
 
 type ChangePasswordFormData = Omit<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>
 const ChangePasswordSchema = PasswordRecoverySchema.omit(['emailRequest'])
 
-export default function ChangePasswordWhenForgot({ email }: Props) {
+export default function ChangePasswordWhenForgot() {
+  const { email, token } = useQueryParams() as unknown as { email: string, token: string }
   const changePasswordForm = useForm<ChangePasswordFormData>({
     defaultValues: {
-      password: '',
       newPassword: '',
       confirmPassword: ''
     },
@@ -34,14 +31,16 @@ export default function ChangePasswordWhenForgot({ email }: Props) {
   const navigate = useNavigate()
 
   const changePasswordMutation = useMutation({
-    mutationFn: (body: { email: string; newPassword: string }) => resetPassword(body)
+    mutationFn: (body: { email: string; newPassword: string; repeatPassword: string; token: string }) => resetPassword(body)
   })
 
   // handle change password process
   const onChangePassword = changePasswordForm.handleSubmit((values: ChangePasswordFormData) => {
     const payload = {
       email,
-      newPassword: values.newPassword
+      newPassword: values.newPassword,
+      repeatPassword: values.confirmPassword,
+      token
     }
     changePasswordMutation.mutate(payload, {
       onSuccess: (res) => {
@@ -68,13 +67,6 @@ export default function ChangePasswordWhenForgot({ email }: Props) {
   return (
     <Form {...changePasswordForm}>
       <form onSubmit={onChangePassword}>
-        <InputCustom
-          type='password'
-          control={changePasswordForm.control}
-          name='password'
-          label='Mật khẩu hiện tại'
-          placeholder='Mật khẩu hiện tại'
-        />
         <InputCustom
           type='password'
           control={changePasswordForm.control}

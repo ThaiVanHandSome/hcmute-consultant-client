@@ -153,7 +153,7 @@ export default function Profile() {
 
   return (
     <div>
-      <div className='grid grid-cols-5 '>
+      <div className='grid grid-cols-5'>
         <div className='order-2 lg:order-1 col-span-5 lg:col-span-3'>
           <Form {...form}>
             <form onSubmit={onSubmit}>

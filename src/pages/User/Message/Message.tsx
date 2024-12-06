@@ -65,12 +65,12 @@ export default function Message() {
   return (
     <div className='bg-background text-foreground h-full'>
       <div className='grid grid-cols-12'>
-        <div className='hidden lg:flex col-span-4 px-4 border-r flex-col h-remain-screen'>
-          <h1 className='font-semibold text-xl mb-2 text-primary flex items-center pt-3'>
+        <div className='hidden lg:flex col-span-4 border-r flex-col h-remain-screen'>
+          <h1 className='font-semibold text-xl mb-2 text-primary flex items-center pt-3 px-4'>
             <MessageCircleIcon />
             <span className='ml-1'>Nhắn tin</span>
           </h1>
-          <div className='flex items-center'>
+          <div className='flex items-center px-4'>
             <div className='flex items-center w-full border rounded-md px-4 py-1 flex-1'>
               <div className='flex-1 flex-shrink-0'>
                 <input

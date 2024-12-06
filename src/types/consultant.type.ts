@@ -42,14 +42,16 @@ export interface SchedualConfirm {
 }
 
 export interface ConsultantStatistic {
-  totalQuestionsInDay: number
-  totalForwardedQuestions: number
-  totalDeletedQuestions: number
-  totalAnswersGiven: number
-  totalAnswerApproval: number
-  totalConsultantSchedule: number
-  totalApprovedPosts: number
-  totalConversations: number
+  totalQuestions: 8
+  totalForwardedQuestions: 0
+  totalDeletedQuestions: 1
+  totalAnswersGiven: 5
+  totalAnswerApproval: 0
+  totalConfirmedConsultantSchedule: 0
+  totalApprovedPosts: 0
+  totalConversations: 2
+  totalRatings: 2
+  totalUniqueUsersAdvisedByMessages: 0
 }
 
 export interface ConsultationType {

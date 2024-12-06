@@ -21,7 +21,7 @@ export default function TimePickerCustom({ time, setTime, placeholder, label, di
   }
 
   return (
-    <div>
+    <div className='flex flex-col space-x-2'>
       {label && <Label>{label}</Label>}
       <Popover>
         <PopoverTrigger asChild>

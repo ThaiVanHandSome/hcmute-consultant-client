@@ -10,7 +10,6 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useEffect, useState } from 'react'
 interface Props {
   readonly path: string
   readonly pageSize: number
@@ -34,9 +33,7 @@ interface Props {
 
 export default function Paginate({ path, queryConfig, pageSize, RANGE = 2, showChooseQuantity = true }: Props) {
   const navigate = useNavigate()
-  const [range, setRange] = useState<number>(RANGE)
   const page = Number(queryConfig.page)
-
   const renderPagination = () => {
     let dotAfter = false
     let dotBefore = false
@@ -67,15 +64,15 @@ export default function Paginate({ path, queryConfig, pageSize, RANGE = 2, showC
       .fill(1)
       .map((_, index) => {
         const pageNumber = index
-        if (page <= range * 2 + 1 && pageNumber > page + range && pageNumber < pageSize - range + 1) {
+        if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
           return renderDotAfter()
-        } else if (page > range * 2 + 1 && page < pageSize - range * 2) {
-          if (pageNumber < page - range && pageNumber > range) {
+        } else if (page > RANGE * 2 + 1 && page < pageSize - RANGE * 2) {
+          if (pageNumber < page - RANGE && pageNumber > RANGE) {
             return renderDotBefore()
-          } else if (pageNumber > page + range && pageNumber <= pageSize - range) {
+          } else if (pageNumber > page + RANGE && pageNumber <= pageSize - RANGE) {
             return renderDotAfter()
           }
-        } else if (page >= pageSize - range * 2 && pageNumber < page - range && pageNumber > range) {
+        } else if (page >= pageSize - RANGE * 2 && pageNumber < page - RANGE && pageNumber > RANGE) {
           return renderDotBefore()
         }
         return (
@@ -125,8 +122,7 @@ export default function Paginate({ path, queryConfig, pageSize, RANGE = 2, showC
                 disabled={page === 0}
               />
             </PaginationItem>
-            <div className='hidden lg:block'>{renderPagination()}</div>
-            <div className='size-9 text-sm flex items-center justify-center border rounded-lg'>{page + 1}</div>
+            {renderPagination()}
             <PaginationItem>
               <PaginationNext
                 to={{
@@ -143,7 +139,7 @@ export default function Paginate({ path, queryConfig, pageSize, RANGE = 2, showC
         </Pagination>
       </div>
       {showChooseQuantity && (
-        <div className='hidden lg:block absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2'>
+        <div className='absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2'>
           <Select defaultValue={queryConfig.size} onValueChange={handleValueChange}>
             <SelectTrigger>
               <SelectValue placeholder='Theme' />

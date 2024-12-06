@@ -74,10 +74,6 @@ export default function GroupedChatMessages({ conversation, chatData, sender, re
 
   return (
     <>
-      <div className='flex flex-col items-center mt-3'>
-        <AvatarCustom url={conversation?.isGroup ? sender?.avatarUrl : receivers?.[0].avatarUrl} className='size-44' />
-        <p className='font-bold text-xl'>{conversation?.isGroup ? conversation.name : receivers?.[0].name}</p>
-      </div>
       {groupedMessages.map((group) => {
         const isSender = group[0].sender.id === sender?.id
         const avatarCanShow = true

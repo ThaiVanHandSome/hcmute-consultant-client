@@ -1,13 +1,17 @@
-import { getUserDetail } from '@/apis/user.api'
+import { getUserDetail, updateAdminUser } from '@/apis/user.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import RadioGroupCustom from '@/components/dev/Form/RadioGroupCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { toast } from '@/hooks/use-toast'
+import useUserQueryConfig from '@/hooks/useUserQueryConfig'
 import { FormControlItem } from '@/types/utils.type'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
+import { isImageFile } from '@/utils/utils'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const radioGroupData: FormControlItem[] = [
@@ -26,9 +30,23 @@ interface Props {
   readonly id: number
 }
 
+export interface AdminUserData {
+  id: number
+  schoolName: string
+  firstName: string
+  lastName: string
+  phone: string
+  gender: string
+  line: string
+  provinceFullName: string
+  districtFullName: string
+  wardFullName: string
+}
+
 export default function DialogViewUserDetail({ id, children }: Props) {
   const [open, setOpen] = useState<boolean>(false)
   const isFormReset = useRef<boolean>(false)
+  const [file, setFile] = useState<File>()
 
   const form = useForm({
     defaultValues: {
@@ -50,6 +68,15 @@ export default function DialogViewUserDetail({ id, children }: Props) {
     enabled: !!id && open
   })
 
+  const previewAvatarUrl = useMemo(() => {
+    if (!user) return
+    return file ? URL.createObjectURL(file) : (user?.data.data.avatarUrl ?? '')
+  }, [file, user])
+
+  const inputFileRef = useRef<HTMLInputElement>()
+  const queryClient = useQueryClient()
+  const userQueryConfig = useUserQueryConfig()
+
   useEffect(() => {
     if (user?.data.data) {
       const res = user?.data.data
@@ -67,7 +94,45 @@ export default function DialogViewUserDetail({ id, children }: Props) {
     }
   }, [user, form])
 
-  const onSubmit = form.handleSubmit(() => {})
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'answer' | 'ask') => {
+    const fileFromLocal = event.target.files?.[0]
+    setFile(fileFromLocal)
+  }
+
+  const handleChooseImage = () => {
+    if (!inputFileRef) return
+    inputFileRef.current?.click()
+  }
+
+  const updateAdminUserMutation = useMutation({
+    mutationFn: ({ params, avatarUrl }: { params: AdminUserData; avatarUrl: File }) =>
+      updateAdminUser(params, avatarUrl)
+  })
+
+  const onSubmit = form.handleSubmit((values) => {
+    const { districtFullName, provinceFullName, wardFullName, ...rest } = values
+    const params = {
+      ...rest,
+      id
+    }
+    updateAdminUserMutation.mutate(
+      {
+        params: params as AdminUserData,
+        avatarUrl: file as File
+      },
+      {
+        onSuccess: (res) => {
+          toast({
+            description: res.data.message
+          })
+          setOpen(false)
+          queryClient.invalidateQueries({
+            queryKey: ['admin-users', userQueryConfig]
+          })
+        }
+      }
+    )
+  })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -79,9 +144,18 @@ export default function DialogViewUserDetail({ id, children }: Props) {
         <div>
           <Form {...form}>
             <form onSubmit={onSubmit}>
-              <div>
-                <AvatarCustom url={user?.data.data.avatarUrl} className='size-24' />
-              </div>
+              <Input
+                ref={inputFileRef}
+                id='file'
+                type='file'
+                className='hidden'
+                onChange={(e) => handleFileChange(e, 'answer')}
+              />
+              {previewAvatarUrl && (
+                <div aria-hidden='true' onClick={handleChooseImage}>
+                  <AvatarCustom url={previewAvatarUrl} className='size-28' />
+                </div>
+              )}
               <div className='grid grid-cols-2 mb-3 gap-4'>
                 <div className='col-span-1'>
                   <InputCustom control={form.control} name='firstName' label='Họ' placeholder='Họ' />
@@ -102,7 +176,7 @@ export default function DialogViewUserDetail({ id, children }: Props) {
               <InputCustom disabled control={form.control} name='provinceFullName' label='Tỉnh' />
               <InputCustom disabled control={form.control} name='districtFullName' label='Huyện' />
               <InputCustom disabled control={form.control} name='wardFullName' label='Xã' />
-              <Button className='px-6 py-2 bg-primary text-primary-foreground'>Cập nhật</Button>
+              <Button disabled={updateAdminUserMutation.isPending} isLoading={updateAdminUserMutation.isPending} className='px-6 py-2 bg-primary text-primary-foreground'>Cập nhật</Button>
             </form>
           </Form>
         </div>

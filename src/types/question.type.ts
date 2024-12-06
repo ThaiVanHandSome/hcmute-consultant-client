@@ -46,23 +46,15 @@ export interface Question {
 export interface CommonQuestion {
   commonQuestionId: number
   department: Department
-  field: Field
-  roleAsk: RoleAsk
-  title: string
+  answerContent: string
+  answerTitle: string
   content: string
   createdAt: string
-  views: number
-  fileName: string
-  askerFirstname: string
-  askerLastname: string
-  askerAvatarUrl: string
-  answerTitle: string
-  answerContent: string
-  answerUserFirstname: string
-  answerUserLastname: string
-  answerCreatedAt: string
-  answerAvatarUrl: string
-  questionFilterStatus: string
+  createdBy: { id: number; name: string }
+  file: string
+  fileAnswer: string
+  status: boolean
+  title: string
 }
 
 export interface CreateQuestionRequest {

@@ -1,6 +1,8 @@
 import { ConsultationQueryConfig } from '@/hooks/useConsultationQueryConfig'
 import { SchedualQueryConfig } from '@/hooks/useSchedualQueryConfig'
 import { UserQueryConfig } from '@/hooks/useUserQueryConfig'
+import { AccountRequest } from '@/pages/Manage/ManageUser/components/DialogUser'
+import { AdminUserData } from '@/pages/Manage/ManageUser/components/DialogViewUserDetail'
 import { ConsultantSchedualFormData } from '@/pages/User/SchedualConsultant/SchedualConsultant'
 import { ConsultationType, SchedualConsultant } from '@/types/consultant.type'
 import { AdminUser, User, UserDetail, UserUpdate } from '@/types/user.type'
@@ -46,4 +48,25 @@ export const getUserDetail = (id: number) =>
 export const getConsultationJoin = (params: ConsultationQueryConfig) =>
   http.get<SuccessResponse<PaginationResponse<ConsultationType[]>>>('/user/consultation-schedule/list-join', {
     params
+  })
+
+export const updateAdminUser = (params: AdminUserData, avatarUrl: File) =>
+http.put<SuccessResponse<string>>(
+    'admin/user-information/update',
+    {
+      avatarUrl
+    },
+    {
+      params,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  )
+
+export const updateAdminAccount = (id: number, body: AccountRequest) =>
+  http.put<SuccessResponse<string>>('admin/account/update', body, {
+    params: {
+      id
+    }
   })

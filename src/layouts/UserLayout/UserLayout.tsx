@@ -91,7 +91,7 @@ export default function UserLayout() {
               ))}
             </ul>
           </div>
-          <div className='col-span-12 lg:col-span-9 shadow-xl px-4 py-2 bg-background text-foreground rounded-lg'>
+          <div className='col-span-12 lg:col-span-9 shadow-xl px-4 py-2 bg-background text-foreground rounded-lg border'>
             <Outlet />
           </div>
         </div>

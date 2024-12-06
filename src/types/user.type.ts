@@ -57,6 +57,7 @@ export interface UserOnline {
   email: string
   phone: string
   status: string
+  avatarUrl: string
 }
 
 export type Role = 'TUVANVIEN' | 'TRUONGBANTUVAN' | 'ADMIN'

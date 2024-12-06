@@ -92,7 +92,7 @@ export default function ConsultantDashboard() {
   const statisticsData = [
     {
       label: 'Tổng số câu hỏi trong ngày',
-      value: consultantStatistics?.data.data.totalQuestionsInDay
+      value: consultantStatistics?.data.data.totalQuestions
     },
     {
       label: 'Tổng số câu hỏi đã chuyển tiếp',
@@ -108,7 +108,7 @@ export default function ConsultantDashboard() {
     },
     {
       label: 'Tổng số lịch tư vấn',
-      value: consultantStatistics?.data.data.totalConsultantSchedule
+      value: consultantStatistics?.data.data.totalConfirmedConsultantSchedule
     },
     {
       label: 'Tổng số bài đăng',
@@ -117,6 +117,14 @@ export default function ConsultantDashboard() {
     {
       label: 'Tổng số cuộc hội thoại',
       value: consultantStatistics?.data.data.totalConversations
+    },
+    {
+      label: 'Tổng số đánh giá nhận được',
+      value: consultantStatistics?.data.data.totalRatings
+    },
+    {
+      label: 'Tổng số người dùng được tư vấn qua tin nhắn',
+      value: consultantStatistics?.data.data.totalUniqueUsersAdvisedByMessages
     }
   ]
 

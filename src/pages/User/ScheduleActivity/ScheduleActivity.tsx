@@ -1,4 +1,4 @@
-import { getScheduleDetail, joinSchedule } from '@/apis/consultant.api'
+import { cancelConsultation, checkJoinConsultation, getScheduleDetail, joinSchedule } from '@/apis/consultant.api'
 import { getScheduals } from '@/apis/user.api'
 import Paginate from '@/components/dev/PaginationCustom/PaginationCustom'
 import { Button } from '@/components/ui/button'
@@ -34,6 +34,16 @@ export default function ScheduleActivity() {
     mutationFn: (id: number) => joinSchedule(id)
   })
 
+  const cancelScheduleMutation = useMutation({
+    mutationFn: (id: number) => cancelConsultation(id)
+  })
+
+  const { data: isJoinRes, refetch } = useQuery({
+    queryKey: ['check-join', id],
+    queryFn: () => checkJoinConsultation(id)
+  })
+  const isJoin = isJoinRes?.data.data
+
   const handleJoinSchedule = () => {
     const id = scheduleActivity?.id
     joinScheduleMutation.mutate(id as number, {
@@ -41,6 +51,19 @@ export default function ScheduleActivity() {
         toast({
           description: res.data.message
         })
+        refetch()
+      }
+    })
+  }
+
+  const handleCancelSchedule = () => {
+    const id = scheduleActivity?.id
+    cancelScheduleMutation.mutate(id as number, {
+      onSuccess: (res) => {
+        toast({
+          description: res.data.message
+        })
+        refetch()
       }
     })
   }
@@ -110,13 +133,25 @@ export default function ScheduleActivity() {
                 </p>
               )}
               <p>Vui lòng chọn tham gia nếu bạn muốn tham gia nhé!</p>
-              <Button
-                disabled={joinScheduleMutation.isPending}
-                isLoading={joinScheduleMutation.isPending}
-                onClick={handleJoinSchedule}
-              >
-                Tham gia
-              </Button>
+              {!isJoin && (
+                <Button
+                  disabled={joinScheduleMutation.isPending}
+                  isLoading={joinScheduleMutation.isPending}
+                  onClick={handleJoinSchedule}
+                >
+                  Tham gia
+                </Button>
+              )}
+              {isJoin && (
+                <Button
+                  variant='destructive'
+                  disabled={cancelScheduleMutation.isPending}
+                  isLoading={cancelScheduleMutation.isPending}
+                  onClick={handleCancelSchedule}
+                >
+                  Hủy
+                </Button>
+              )}
             </div>
           </div>
         </div>

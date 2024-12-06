@@ -17,12 +17,12 @@ export default function DialogDeleteCommonQuestion({ children, question }: Props
   const commonQuestionQueryConfig = useCommonQuestionQueryConfig()
   const [open, setOpen] = useState<boolean>(false)
 
-  const deleteCommonQuestion = useMutation({
+  const deleteCommonQuestionMutation = useMutation({
     mutationFn: (commonQuestionId: number) => deleteCommonQuestionAdvisor(commonQuestionId)
   })
 
   const handleDelete = () => {
-    deleteCommonQuestion.mutate(question.commonQuestionId, {
+    deleteCommonQuestionMutation.mutate(question.commonQuestionId, {
       onSuccess: (res) => {
         toast({
           variant: 'success',
@@ -49,7 +49,12 @@ export default function DialogDeleteCommonQuestion({ children, question }: Props
             <Button variant='outline' onClick={() => setOpen(false)}>
               Hủy
             </Button>
-            <Button variant='destructive' onClick={handleDelete}>
+            <Button
+              disabled={deleteCommonQuestionMutation.isPending}
+              isLoading={deleteCommonQuestionMutation.isPending}
+              variant='destructive'
+              onClick={handleDelete}
+            >
               Xác nhận
             </Button>
           </div>

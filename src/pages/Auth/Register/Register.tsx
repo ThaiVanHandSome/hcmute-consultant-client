@@ -12,10 +12,9 @@ import { RegisterStatusType } from '@/types/auth.type'
 import RegisterForm from '@/pages/Auth/Register/components/RegisterForm'
 
 export default function Register() {
-  const { status } = useQueryParams()
+  const { status, email } = useQueryParams()
 
   const [isConfirmSuccess, setIsConfirmSuccess] = useState<boolean>(false)
-  const [email, setEmail] = useState<string>('')
 
   const navigate = useNavigate()
 
@@ -25,7 +24,8 @@ export default function Register() {
       navigate({
         pathname: path.register,
         search: createSearchParams({
-          status: registerStatus.success
+          status: registerStatus.success,
+          email
         }).toString()
       })
     }
@@ -38,10 +38,8 @@ export default function Register() {
           <h1 className='font-bold capitalize mb-4 text-xl'>Đăng ký tài khoản</h1>
           <RegisterStatus status={status as RegisterStatusType} />
           <div className='w-full lg:w-2/3 flex-shrink-0 px-4 py-2 shadow-md rounded'>
-            {status === registerStatus.create && <RegisterForm setEmail={setEmail} />}
-            {status === registerStatus.confirm && (
-              <ConfirmToken email={email} setIsConfirmSuccess={setIsConfirmSuccess} />
-            )}
+            {status === registerStatus.create && <RegisterForm />}
+            {status === registerStatus.confirm && <ConfirmToken setIsConfirmSuccess={setIsConfirmSuccess} />}
             {status === registerStatus.success && (
               <div className='flex flex-col items-center'>
                 <SuccessIcon className='size-44 text-green-500' />

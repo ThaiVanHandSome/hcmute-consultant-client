@@ -26,13 +26,9 @@ const radioGroupData: FormControlItem[] = [
   }
 ]
 
-interface Props {
-  readonly setEmail: React.Dispatch<React.SetStateAction<string>>
-}
-
 export type RegisterFormData = yup.InferType<typeof RegisterSchema>
 
-export default function RegisterForm({ setEmail }: Props) {
+export default function RegisterForm() {
   const form = useForm<RegisterFormData>({
     defaultValues: {
       username: '',
@@ -54,11 +50,11 @@ export default function RegisterForm({ setEmail }: Props) {
   const onSubmit = (values: RegisterFormData) => {
     registerMutation.mutate(values, {
       onSuccess: () => {
-        setEmail(form.getValues('email'))
         navigate({
           pathname: path.register,
           search: createSearchParams({
-            status: registerStatus.confirm
+            status: registerStatus.confirm,
+            email: form.getValues('email')
           }).toString()
         })
       },

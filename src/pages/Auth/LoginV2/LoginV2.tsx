@@ -64,7 +64,7 @@ export default function Login() {
     <div className='w-full h-remain-screen'>
       <div className='grid grid-cols-12 gap-4'>
         <div className='hidden lg:block col-span-8'>
-          <Carousel
+          {/* <Carousel
             plugins={[
               Autoplay({
                 delay: 2000
@@ -101,7 +101,12 @@ export default function Login() {
                 />
               </CarouselItem>
             </CarouselContent>
-          </Carousel>
+          </Carousel> */}
+          <img
+            src='https://mtg.1cdn.vn/2020/12/04/eee.jpg'
+            alt='hcmute'
+            className='w-full h-[100vh] bg-cover bg-center'
+          />
         </div>
         <div className='col-span-12 lg:col-span-4 flex flex-col items-center space-y-4 py-6'>
           <img src={LogoHCMUTE} alt='logo-hcmute' className='size-28' />

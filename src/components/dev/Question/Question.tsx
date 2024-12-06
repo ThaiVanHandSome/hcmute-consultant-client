@@ -6,6 +6,7 @@ import QuestionHeader from '@/components/dev/Question/components/QuestionHeader'
 import QuestionContent from '@/components/dev/Question/components/QuestionContent'
 import QuestionAnswer from '@/components/dev/Question/components/QuestionAnswer'
 import { MessageCircleIcon } from 'lucide-react'
+import QuestionAction from '@/components/dev/Question/components/QuestionAction'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   readonly question: QuestionType
@@ -22,6 +23,7 @@ export default function Question({ question, className }: Props) {
       <div className='px-4 py-3 mb-6'>
         <QuestionHeader question={question} />
         <QuestionContent question={question} />
+        <QuestionAction question={question}/>
         {question.answerContent && (
           <>
             <Separator className='my-4' />

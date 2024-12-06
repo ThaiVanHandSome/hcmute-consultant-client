@@ -7,7 +7,8 @@ export interface Comment {
   postId: number
   user: {
     id: number
-    name: string
+    firstName: string
+    lastName: string
     avatarUrl: string
   }
 }

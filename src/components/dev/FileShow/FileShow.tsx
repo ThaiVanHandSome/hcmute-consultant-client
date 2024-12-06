@@ -4,7 +4,7 @@ import { isImageFile } from '@/utils/utils'
 import clsx from 'clsx'
 
 interface Props {
-  readonly url: string
+  readonly url?: string
   readonly className?: string
 }
 

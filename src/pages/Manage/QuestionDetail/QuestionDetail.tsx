@@ -181,7 +181,7 @@ export default function QuestionDetail() {
           </div>
         </div>
       </div>
-      {deleteLog?.data && (
+      {deleteLog?.data?.data?.reason != null ? (
         <div className='bg-red-100 text-red-700 px-6 py-4 shadow-lg rounded-lg flex items-start gap-2 mb-3'>
           <AlertTriangleIcon className='w-5 h-5 text-red-700 mt-1' />
           <div>
@@ -196,6 +196,8 @@ export default function QuestionDetail() {
             </div>
           </div>
         </div>
+      ) : (
+        <div className='text-sm text-gray-500'></div>
       )}
 
       {question?.forwardQuestionDTO && (

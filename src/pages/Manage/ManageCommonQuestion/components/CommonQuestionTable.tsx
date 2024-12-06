@@ -29,7 +29,7 @@ export default function CommonQuestionTable({ commonQuestions }: Props) {
               <TableCell>{question.commonQuestionId}</TableCell>
               <TableCell>{question.department.name}</TableCell>
               <TableCell>{question.title}</TableCell>
-              <TableCell>{question.answerCreatedAt}</TableCell>
+              <TableCell>{question.createdAt}</TableCell>
               <TableCell>
                 <div className='flex items-center space-x-2'>
                   <DialogViewCommonQuestion question={question}>

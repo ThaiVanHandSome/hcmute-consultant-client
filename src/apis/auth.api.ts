@@ -27,7 +27,7 @@ export const sendCodeToEmailToChangePassword = (body: { emailRequest: string }) 
 export const verifyCodeWhenForgotPassword = (body: { emailRequest: string; code: string }) =>
   http.post('auth/verify-code', body)
 
-export const resetPassword = (body: { email: string; newPassword: string }) =>
+export const resetPassword = (body: { email: string; newPassword: string; repeatPassword: string; token: string }) =>
   http.post<SuccessResponse<string>>('auth/reset-password', body)
 
 export const refreshToken = (body: { refreshToken: string }) =>

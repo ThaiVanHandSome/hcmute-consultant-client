@@ -14,15 +14,17 @@ import { toast } from '@/hooks/use-toast'
 import { ConfirmTokenSchema } from '@/utils/rules'
 import { Separator } from '@/components/ui/separator'
 import ResendButton from '@/components/dev/ConfirmToken/components/ResendButton'
+import useQueryParams from '@/hooks/useQueryParams'
 
 type FormData = yup.InferType<typeof ConfirmTokenSchema>
 
 interface Props {
-  readonly email: string
+  readonly setToken?: React.Dispatch<React.SetStateAction<string>>
   readonly setIsConfirmSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
+export default function ConfirmToken({ setToken, setIsConfirmSuccess }: Props) {
+  const { email } = useQueryParams() as unknown as { email: string }
   const match = useMatch(path.register)
   const isRegisterPage = Boolean(match)
 
@@ -78,6 +80,7 @@ export default function ConfirmToken({ email, setIsConfirmSuccess }: Props) {
       verifyCodeWhenForgotPasswordMutation.mutate(payload, {
         onSuccess: () => {
           setIsConfirmSuccess(true)
+          setToken && setToken(values.token)
         }
       })
     }

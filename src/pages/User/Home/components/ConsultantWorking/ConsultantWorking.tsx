@@ -3,7 +3,7 @@ import { AppContext } from '@/contexts/app.context'
 import { useContext } from 'react'
 
 export default function ConsultantWorking() {
-  const { user, onlineUsers } = useContext(AppContext)
+  const { onlineUsers } = useContext(AppContext)
 
   return (
     <div className='rounded-md bg-background'>
@@ -15,7 +15,7 @@ export default function ConsultantWorking() {
               key={index}
               className='flex items-center px-2 py-2 hover:bg-secondary hover:transition-all cursor-pointer rounded-md'
             >
-              <AvatarCustom url={user?.avatarUrl} isWorking={true} />
+              <AvatarCustom url={onlineUser.avatarUrl} isWorking={true} />
               <p className='font-semibold ml-2'>{onlineUser.fullName}</p>
             </li>
           ))

@@ -136,10 +136,18 @@ export const approvalAnswer = (questionId: number, content: string, file?: File)
     }
   )
 
-export const updateAdminCommonQuestion = (commonQuestionId: number, data: CommonQuesionFormData, file: File) =>
-  http.put<SuccessResponse<string>>(
+export const updateAdminCommonQuestion = (
+  commonQuestionId: number,
+  data: CommonQuesionFormData,
+  file: File,
+  fileAnswer: File
+) =>
+  http.patch<SuccessResponse<string>>(
     'advisor-admin/common-question/update',
-    { file },
+    {
+      file,
+      fileAnswer
+    },
     {
       params: {
         commonQuestionId,
@@ -150,6 +158,26 @@ export const updateAdminCommonQuestion = (commonQuestionId: number, data: Common
       },
       headers: {
         'Content-Type': 'multipart/form-data'
+      }
+    }
+  )
+
+export const createAdminCommonQuestion = (data: CommonQuesionFormData, file: File, fileAnswer: File) =>
+  http.post<SuccessResponse<string>>(
+    'advisor-admin/common-question/create',
+    {
+      file,
+      fileAnswer
+    },
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      params: {
+        title: data.title,
+        content: data.content,
+        answerTitle: data.answerTitle,
+        answerContent: data.answerContent
       }
     }
   )
@@ -191,5 +219,33 @@ export const deleteForwardQuestion = (forwardQuestionId: number) =>
   http.delete<SuccessResponse<string>>('forward-question/delete', {
     params: {
       forwardQuestionId
+    }
+  })
+
+export const checkLike = (questionId: number) =>
+  http.post<SuccessResponse<string>>('like/question/check', null, {
+    params: {
+      questionId
+    }
+  })
+
+export const getLikeCount = (questionId: number) =>
+  http.get<SuccessResponse<number>>('like-count/question', {
+    params: {
+      questionId
+    }
+  })
+
+export const likeQuestion = (questionId: number) =>
+  http.post<SuccessResponse<string>>('like/question', null, {
+    params: {
+      questionId
+    }
+  })
+
+export const unlikeQuestion = (questionId: number) =>
+  http.delete<SuccessResponse<string>>('unlike/question', {
+    params: {
+      questionId
     }
   })
