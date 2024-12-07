@@ -17,8 +17,6 @@ import { AppContext } from '@/contexts/app.context'
 import { setUserToLocalStorage } from '@/utils/auth'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import LogoHCMUTE from '@/assets/images/logos/logo_hcmute_3.png'
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-import Autoplay from 'embla-carousel-autoplay'
 
 type FormData = yup.InferType<typeof LoginSchema>
 

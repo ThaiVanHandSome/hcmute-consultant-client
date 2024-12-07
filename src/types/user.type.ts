@@ -60,7 +60,7 @@ export interface UserOnline {
   avatarUrl: string
 }
 
-export type Role = 'TUVANVIEN' | 'TRUONGBANTUVAN' | 'ADMIN'
+// export type Role = 'TUVANVIEN' | 'TRUONGBANTUVAN' | 'ADMIN'
 
 export interface AdminUser {
   id: number

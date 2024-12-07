@@ -4,3 +4,5 @@ export const ROLE = {
   advisor: 'TRUONGBANTUVAN',
   admin: 'ADMIN'
 } as const
+
+export type Role = (typeof ROLE)[keyof typeof ROLE]

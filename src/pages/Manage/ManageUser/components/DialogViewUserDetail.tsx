@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input'
 import { toast } from '@/hooks/use-toast'
 import useUserQueryConfig from '@/hooks/useUserQueryConfig'
 import { FormControlItem } from '@/types/utils.type'
-import { isImageFile } from '@/utils/utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -73,7 +72,7 @@ export default function DialogViewUserDetail({ id, children }: Props) {
     return file ? URL.createObjectURL(file) : (user?.data.data.avatarUrl ?? '')
   }, [file, user])
 
-  const inputFileRef = useRef<HTMLInputElement>()
+  const inputFileRef = useRef<HTMLInputElement | null>(null)
   const queryClient = useQueryClient()
   const userQueryConfig = useUserQueryConfig()
 
@@ -94,14 +93,14 @@ export default function DialogViewUserDetail({ id, children }: Props) {
     }
   }, [user, form])
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'answer' | 'ask') => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileFromLocal = event.target.files?.[0]
     setFile(fileFromLocal)
   }
 
   const handleChooseImage = () => {
     if (!inputFileRef) return
-    inputFileRef.current?.click()
+    inputFileRef?.current?.click()
   }
 
   const updateAdminUserMutation = useMutation({
@@ -149,7 +148,7 @@ export default function DialogViewUserDetail({ id, children }: Props) {
                 id='file'
                 type='file'
                 className='hidden'
-                onChange={(e) => handleFileChange(e, 'answer')}
+                onChange={(e) => handleFileChange(e)}
               />
               {previewAvatarUrl && (
                 <div aria-hidden='true' onClick={handleChooseImage}>
@@ -176,7 +175,13 @@ export default function DialogViewUserDetail({ id, children }: Props) {
               <InputCustom disabled control={form.control} name='provinceFullName' label='Tỉnh' />
               <InputCustom disabled control={form.control} name='districtFullName' label='Huyện' />
               <InputCustom disabled control={form.control} name='wardFullName' label='Xã' />
-              <Button disabled={updateAdminUserMutation.isPending} isLoading={updateAdminUserMutation.isPending} className='px-6 py-2 bg-primary text-primary-foreground'>Cập nhật</Button>
+              <Button
+                disabled={updateAdminUserMutation.isPending}
+                isLoading={updateAdminUserMutation.isPending}
+                className='px-6 py-2 bg-primary text-primary-foreground'
+              >
+                Cập nhật
+              </Button>
             </form>
           </Form>
         </div>

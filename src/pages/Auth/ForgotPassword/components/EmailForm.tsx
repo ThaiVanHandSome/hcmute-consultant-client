@@ -13,7 +13,6 @@ import path from '@/constants/path'
 import { ErrorResponse } from '@/types/utils.type'
 import { PasswordRecoverySchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
-import { useState } from 'react'
 
 type SendEmailFormData = Pick<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>
 const SendEmailSchema = PasswordRecoverySchema.pick(['emailRequest'])

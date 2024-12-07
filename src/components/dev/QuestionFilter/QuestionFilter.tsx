@@ -4,13 +4,11 @@ import DatePicker from '@/components/dev/DatePicker'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
-import { Form, FormLabel } from '@/components/ui/form'
-import { Label } from '@/components/ui/label'
-import { ROLE } from '@/constants/role'
+import { Form } from '@/components/ui/form'
+import { ROLE, Role } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { QuestionStatus } from '@/types/question.type'
-import { Role } from '@/types/user.type'
 import { FormControlItem } from '@/types/utils.type'
 import { generateSelectionData, parseDate } from '@/utils/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -110,15 +108,15 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
       <form onSubmit={onSubmit}>
         <div
           className={clsx('grid gap-2 mb-4', {
-            'grid-cols-4': role === ROLE.user,
-            'grid-cols-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+            'grid-cols-4': role === ROLE.user as Role,
+            'grid-cols-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
           })}
         >
-          {role === ROLE.user && (
+          {role === ROLE.user as Role && (
             <div
               className={clsx('lg:col-span-1', {
-                'col-span-4': role === ROLE.user,
-                'col-span-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+                'col-span-4': role === ROLE.user as Role,
+                'col-span-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
               })}
             >
               <SelectionCustom
@@ -133,8 +131,8 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
           )}
           <div
             className={clsx('lg:col-span-1', {
-              'col-span-4': role === ROLE.user,
-              'col-span-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+              'col-span-4': role === ROLE.user as Role,
+              'col-span-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
             })}
           >
             <SelectionCustom
@@ -148,16 +146,16 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
           </div>
           <div
             className={clsx('lg:col-span-1', {
-              'col-span-4': role === ROLE.user,
-              'col-span-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+              'col-span-4': role === ROLE.user as Role,
+              'col-span-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
             })}
           >
             <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
           </div>
           <div
             className={clsx('lg:col-span-1', {
-              'col-span-4': role === ROLE.user,
-              'col-span-3': [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role)
+              'col-span-4': role === ROLE.user as Role,
+              'col-span-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
             })}
           >
             <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />

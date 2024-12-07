@@ -15,11 +15,11 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import useQueryParams from '@/hooks/useQueryParams'
 
-type ChangePasswordFormData = Omit<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest'>
-const ChangePasswordSchema = PasswordRecoverySchema.omit(['emailRequest'])
+type ChangePasswordFormData = Omit<yup.InferType<typeof PasswordRecoverySchema>, 'emailRequest' | 'password'>
+const ChangePasswordSchema = PasswordRecoverySchema.omit(['emailRequest', 'password'])
 
 export default function ChangePasswordWhenForgot() {
-  const { email, token } = useQueryParams() as unknown as { email: string, token: string }
+  const { email, token } = useQueryParams() as unknown as { email: string; token: string }
   const changePasswordForm = useForm<ChangePasswordFormData>({
     defaultValues: {
       newPassword: '',
@@ -31,7 +31,8 @@ export default function ChangePasswordWhenForgot() {
   const navigate = useNavigate()
 
   const changePasswordMutation = useMutation({
-    mutationFn: (body: { email: string; newPassword: string; repeatPassword: string; token: string }) => resetPassword(body)
+    mutationFn: (body: { email: string; newPassword: string; repeatPassword: string; token: string }) =>
+      resetPassword(body)
   })
 
   // handle change password process

@@ -10,7 +10,7 @@ import { AppContext } from '@/contexts/app.context'
 import { Comment } from '@/types/comment.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { CheckCircle2Icon, EllipsisIcon, SendIcon, ThumbsUpIcon } from 'lucide-react'
+import { CheckCircle2Icon, EllipsisIcon, SendIcon } from 'lucide-react'
 import { useContext, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 

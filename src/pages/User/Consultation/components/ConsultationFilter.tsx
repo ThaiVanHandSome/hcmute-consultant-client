@@ -1,5 +1,4 @@
 import DatePicker from '@/components/dev/DatePicker'
-import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { ConsultationQueryConfig } from '@/hooks/useConsultationQueryConfig'
 import { parseDate } from '@/utils/utils'

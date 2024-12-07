@@ -2,10 +2,9 @@ import AvatarCustom from '@/components/dev/AvatarCustom'
 import Header from '@/components/dev/Header'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
-import { ROLE } from '@/constants/role'
+import { ROLE, Role } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import { QuestionCircle } from '@/icons'
-import { Role } from '@/types/user.type'
 import clsx from 'clsx'
 import {
   CalendarDaysIcon,
@@ -33,7 +32,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin].includes(role as Role)
+      enabled: [ROLE.admin as Role].includes(role as Role)
     },
     {
       title: 'Câu hỏi',
@@ -42,28 +41,28 @@ export default function ManageLayout() {
           path: path.manageQuestion,
           icon: <QuestionCircle className='size-5' />,
           label: 'Câu hỏi',
-          enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+          enabled: [ROLE.admin as Role, ROLE.consultant as Role, ROLE.advisor as Role].includes(role as Role)
         },
         {
           path: path.manageApprovalAnswer,
           icon: <QuestionCircle className='size-5' />,
           label: 'Phê duyệt',
-          enabled: [ROLE.admin, ROLE.advisor].includes(role as Role)
+          enabled: [ROLE.admin as Role, ROLE.advisor as Role].includes(role as Role)
         },
         {
           path: path.manageForwardQuestion,
           icon: <QuestionCircle className='size-5' />,
           label: 'Câu hỏi chuyển tiếp',
-          enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+          enabled: [ROLE.admin as Role, ROLE.consultant as Role, ROLE.advisor as Role].includes(role as Role)
         },
         {
           path: path.manageCommonQuestion,
           icon: <CreativeCommonsIcon className='size-5' />,
           label: 'Câu hỏi chung',
-          enabled: [ROLE.admin, ROLE.advisor].includes(role as Role)
+          enabled: [ROLE.admin as Role, ROLE.advisor as Role].includes(role as Role)
         }
       ],
-      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+      enabled: [ROLE.admin as Role, ROLE.consultant as Role, ROLE.advisor as Role].includes(role as Role)
     },
     {
       title: 'Tư vấn',
@@ -75,7 +74,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin, ROLE.consultant, ROLE.advisor].includes(role as Role)
+      enabled: [ROLE.admin as Role, ROLE.consultant as Role, ROLE.advisor as Role].includes(role as Role)
     },
     {
       title: 'Bài đăng',
@@ -87,7 +86,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin, ROLE.advisor].includes(role as Role)
+      enabled: [ROLE.admin as Role, ROLE.advisor as Role].includes(role as Role)
     },
     {
       title: 'Quyền',
@@ -111,7 +110,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin].includes(role as Role)
+      enabled: [ROLE.admin as Role].includes(role as Role)
     },
     {
       title: 'Địa chỉ',
@@ -135,7 +134,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin].includes(role as Role)
+      enabled: [ROLE.admin as Role].includes(role as Role)
     },
     {
       title: 'Khác',
@@ -153,7 +152,7 @@ export default function ManageLayout() {
           enabled: true
         }
       ],
-      enabled: [ROLE.admin].includes(role as Role)
+      enabled: [ROLE.admin as Role].includes(role as Role)
     }
   ]
   return (
@@ -170,7 +169,13 @@ export default function ManageLayout() {
               <p>
                 {user?.lastName} {user?.firstName}
               </p>
-              <p>{role === ROLE.consultant ? 'Tư vấn viên' : role === ROLE.advisor ? 'Trưởng ban' : 'Admin'}</p>
+              <p>
+                {role === (ROLE.consultant as Role)
+                  ? 'Tư vấn viên'
+                  : role === (ROLE.advisor as Role)
+                    ? 'Trưởng ban'
+                    : 'Admin'}
+              </p>
             </div>
           </div>
           <Separator className='my-2' />

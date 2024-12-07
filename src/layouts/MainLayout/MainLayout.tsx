@@ -1,6 +1,4 @@
 import Header from '@/components/dev/Header'
-import HeaderMessage from '@/components/dev/Header/components/HeaderMessage'
-import HeaderNotification from '@/components/dev/Header/components/HeaderNotification'
 
 export default function MainLayout({ children }: { readonly children: React.ReactNode }) {
   return (

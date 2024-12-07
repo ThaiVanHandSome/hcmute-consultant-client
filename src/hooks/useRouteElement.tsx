@@ -35,8 +35,7 @@ import PostDetail from '@/pages/Manage/PostDetail'
 import ConsultantDashboard from '@/pages/Manage/ConsultantDashboard'
 import Post from '@/pages/User/Post'
 import ManageCommonQuestion from '@/pages/Manage/ManageCommonQuestion'
-import { ROLE } from '@/constants/role'
-import { Role } from '@/types/user.type'
+import { ROLE, Role } from '@/constants/role'
 import ManageDistrict from '@/pages/Manage/ManageDistrict'
 import ManageWard from '@/pages/Manage/ManageWard'
 import ManageProvince from '@/pages/Manage/ManageProvince'
@@ -61,7 +60,11 @@ function ProtectedRoute() {
 
 function ProtectedManageRoute() {
   const { role } = useContext(AppContext)
-  return [ROLE.admin, ROLE.advisor, ROLE.consultant].includes(role as Role) ? <Outlet /> : <Navigate to={path.home} />
+  return [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role) ? (
+    <Outlet />
+  ) : (
+    <Navigate to={path.home} />
+  )
 }
 
 function RejectedRoute() {

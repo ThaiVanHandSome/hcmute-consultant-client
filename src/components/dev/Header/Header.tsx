@@ -10,9 +10,8 @@ import registerStatus from '@/constants/registerStatus'
 import { AppContext } from '@/contexts/app.context'
 import HeaderMessage from '@/components/dev/Header/components/HeaderMessage'
 import ConsultantPopover from '@/components/dev/Header/components/ConsultantPopover'
-import { ROLE } from '@/constants/role'
+import { ROLE, Role } from '@/constants/role'
 import { Button } from '@/components/ui/button'
-import { Role } from '@/types/user.type'
 import LogoHCMUTE from '@/assets/images/logos/logo_hcmute_3.png'
 import ModeToggle from '@/components/dev/ModeToggle'
 import { AlignJustifyIcon, ChartNoAxesGantt } from 'lucide-react'
@@ -237,7 +236,9 @@ export default function Header() {
             <HeaderMessage />
             <ModeToggle />
             {role === ROLE.user && <UserPopover />}
-            {[ROLE.consultant, ROLE.admin, ROLE.advisor].includes(role as Role) && <ConsultantPopover />}
+            {[ROLE.consultant as Role, ROLE.admin as Role, ROLE.advisor as Role].includes(role as Role) && (
+              <ConsultantPopover />
+            )}
           </div>
         )}
       </div>

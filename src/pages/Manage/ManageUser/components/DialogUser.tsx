@@ -79,7 +79,7 @@ export default function DialogUser({ user, children }: Props) {
 
   const roleId = form.watch('roleId')
   const isRoleConsultant = useMemo(() => {
-    return roles?.data.data.content.find((item) => item.id === parseInt(roleId))?.name === 'ROLE_TUVANVIEN'
+    return roles?.data.data.content.find((item) => item.id === parseInt(String(roleId)))?.name === 'ROLE_TUVANVIEN'
   }, [roleId])
 
   const updateAdminAccountMutation = useMutation({
@@ -87,7 +87,7 @@ export default function DialogUser({ user, children }: Props) {
   })
 
   const onSubmit = form.handleSubmit((values) => {
-    const body: AccountRequest = { ...values }
+    const body: AccountRequest = { ...values } as unknown as AccountRequest
     updateAdminAccountMutation.mutate(
       {
         id: user.id,

@@ -2,7 +2,6 @@ import { Badge } from '@/components/ui/badge'
 import { Question } from '@/types/question.type'
 import { formatDate } from '@/utils/utils'
 import { GlobeIcon } from '@radix-ui/react-icons'
-import { EllipsisIcon } from 'lucide-react'
 
 interface Props {
   readonly question: Question

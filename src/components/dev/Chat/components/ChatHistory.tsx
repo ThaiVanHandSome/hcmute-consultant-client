@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef } from 'react'
 import ChatMessage from './ChatMessage'
 import { Chat } from '@/types/chat.type'
 import { Conversation, MemberConversation } from '@/types/conversation.type'
-import AvatarCustom from '@/components/dev/AvatarCustom'
 
 interface Props {
   readonly conversation?: Conversation
@@ -21,7 +20,7 @@ interface Props {
   >
 }
 
-export default function GroupedChatMessages({ conversation, chatData, sender, receivers, setMessageEdit }: Props) {
+export default function GroupedChatMessages({ conversation, chatData, sender, setMessageEdit }: Props) {
   const groupedMessages = useMemo(() => {
     if (!chatData || chatData.length === 0) return []
 

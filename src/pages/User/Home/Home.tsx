@@ -11,8 +11,6 @@ import { Link } from 'react-router-dom'
 import LogoTabline from '@/assets/images/logos/Logo_Tabline.png'
 import ListPost from '@/pages/User/Home/components/ListPost'
 import ListConsultActivity from '@/pages/User/Home/components/ListConsultActivity'
-import HeaderNotification from '@/components/dev/Header/components/HeaderNotification'
-import HeaderMessage from '@/components/dev/Header/components/HeaderMessage'
 
 export default function Home() {
   const { role } = useContext(AppContext)
