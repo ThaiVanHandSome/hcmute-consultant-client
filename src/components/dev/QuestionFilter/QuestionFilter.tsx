@@ -108,15 +108,15 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
       <form onSubmit={onSubmit}>
         <div
           className={clsx('grid gap-2 mb-4', {
-            'grid-cols-4': role === ROLE.user as Role,
-            'grid-cols-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
+            'grid-cols-3': [ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role),
+            'grid-cols-4': [ROLE.user as Role, ROLE.admin as Role].includes(role as Role)
           })}
         >
-          {role === ROLE.user as Role && (
+          {[ROLE.user as Role, ROLE.admin as Role].includes(role as Role) && (
             <div
               className={clsx('lg:col-span-1', {
-                'col-span-4': role === ROLE.user as Role,
-                'col-span-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
+                'col-span-3': [ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role),
+                'col-span-4': [ROLE.user as Role, ROLE.admin as Role].includes(role as Role)
               })}
             >
               <SelectionCustom
@@ -131,8 +131,8 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
           )}
           <div
             className={clsx('lg:col-span-1', {
-              'col-span-4': role === ROLE.user as Role,
-              'col-span-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
+              'col-span-3': [ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role),
+              'col-span-4': [ROLE.user as Role, ROLE.admin as Role].includes(role as Role)
             })}
           >
             <SelectionCustom
@@ -146,23 +146,23 @@ export default function QuestionFilter({ queryConfig, path }: Props) {
           </div>
           <div
             className={clsx('lg:col-span-1', {
-              'col-span-4': role === ROLE.user as Role,
-              'col-span-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
+              'col-span-3': [ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role),
+              'col-span-4': [ROLE.user as Role, ROLE.admin as Role].includes(role as Role)
             })}
           >
             <DatePicker label='Ngày bắt đầu' date={startDate} setDate={setStartDate} placeholder='Chọn ngày bắt đầu' />
           </div>
           <div
             className={clsx('lg:col-span-1', {
-              'col-span-4': role === ROLE.user as Role,
-              'col-span-3': [ROLE.admin as Role, ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role)
+              'col-span-3': [ROLE.advisor as Role, ROLE.consultant as Role].includes(role as Role),
+              'col-span-4': [ROLE.user as Role, ROLE.admin as Role].includes(role as Role)
             })}
           >
             <DatePicker label='Ngày kết thúc' date={endDate} setDate={setEndDate} placeholder='Chọn ngày kết thúc' />
           </div>
         </div>
         <div className='grid grid-cols-5 gap-4'>
-          <div className='col-span-3 lg:col-span-4'>
+          <div className='col-span-3 lg:col-span-3'>
             <InputCustom className='mb-0' control={form.control} name='title' placeholder='Nhập tiêu đề để tìm kiếm' />
           </div>
           <div className='col-span-2 lg:col-span-1 flex items-center'>

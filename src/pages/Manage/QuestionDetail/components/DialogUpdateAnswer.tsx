@@ -1,4 +1,5 @@
 import { updateAnswer } from '@/apis/question.api'
+import FileShow from '@/components/dev/FileShow'
 import Editor from '@/components/dev/Form/Editor'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -73,12 +74,10 @@ export default function DialogUpdateAnswer({ question, children, refetch }: Prop
               <div>
                 <Editor control={form.control} name='content' />
               </div>
-              <div className='grid w-full max-w-sm items-center gap-1.5'>
+              <div className='grid w-full max-w-sm itemPs-center gap-1.5'>
                 <Label htmlFor='file'>Tệp đính kèm</Label>
                 <Input id='file' type='file' onChange={handleFileChange} />
-                {(previewImage || file) && (
-                  <img src={previewImage} alt='fileUploadImage' className='object-cover h-64' />
-                )}
+                {previewImage && <FileShow url={previewImage} />}
               </div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center space-x-2'>
