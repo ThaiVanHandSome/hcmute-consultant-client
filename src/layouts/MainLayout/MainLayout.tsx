@@ -12,7 +12,7 @@ export default function MainLayout({ children }: { readonly children: React.Reac
           <HeaderMessage />
         </div>
       </div> */}
-      <div className='bg-background mt-[var(--header-height)] min-h-remain-screen'>{children}</div>
+      <div className='bg-primary-bg mt-[var(--header-height)] min-h-remain-screen'>{children}</div>
     </div>
   )
 }

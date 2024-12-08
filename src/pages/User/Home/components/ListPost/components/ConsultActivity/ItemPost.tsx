@@ -1,4 +1,3 @@
-import { getComments } from '@/apis/comment.api'
 import { countLikeOfPost } from '@/apis/like.api'
 import { Post } from '@/types/post.type'
 import { isImageFile } from '@/utils/utils'
@@ -11,11 +10,6 @@ interface Props {
 
 export default function ItemPost({ post }: Props) {
   const id = post.id
-  const { data: comments } = useQuery({
-    queryKey: ['comments', id],
-    queryFn: () => getComments(id),
-    enabled: !!id
-  })
 
   const { data: countLikes } = useQuery({
     queryKey: ['count-like-of-posts', id],
@@ -37,7 +31,7 @@ export default function ItemPost({ post }: Props) {
             {post.name} - {post.createdAt}
           </p>
           <p className='text-xs font-semibold text-muted-foreground'>
-            {countLikes?.data.data} thích - {comments?.data.data.length} bình luận
+            {countLikes?.data.data} thích - {post.totalComments} bình luận
           </p>
         </div>
       </div>

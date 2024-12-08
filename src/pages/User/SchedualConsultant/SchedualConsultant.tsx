@@ -86,7 +86,7 @@ export default function SchedualConsultant() {
     })
   })
   return (
-    <div className='bg-primary-bg min-h-[100vh] grid-background'>
+    <div className='bg-primary-bg min-h-[100vh]'>
       <div className='container'>
         <div className='grid grid-cols-12 gap-4'>
           <div className='bg-background text-foreground px-6 py-2 col-span-12 lg:col-span-9 rounded-lg shadow-xl border mt-6'>

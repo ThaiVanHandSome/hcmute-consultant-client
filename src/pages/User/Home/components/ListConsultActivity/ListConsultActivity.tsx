@@ -25,7 +25,7 @@ export default function ListConsultActivity() {
   }, [isShowAll, scheduleActivities])
 
   return (
-    <div className='py-2 w-full rounded-md shadow-md bg-primary-bg mb-4'>
+    <div className='py-2 w-full rounded-md shadow-md bg-background mb-4'>
       <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các hoạt động tư vấn</div>
       {!!scheduleActivitiesData && scheduleActivitiesData.length > 0 ? (
         <>

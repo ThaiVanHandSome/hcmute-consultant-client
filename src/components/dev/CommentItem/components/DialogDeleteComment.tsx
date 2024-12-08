@@ -33,7 +33,7 @@ export default function DialogDeleteComment({ comment }: Props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className='w-full text-left'>
         <div className='px-2 py-1 hover:bg-secondary hover:text-secondary-foreground cursor-pointer w-full text-sm'>
-          Delete
+          Xóa
         </div>
       </DialogTrigger>
       <DialogContent>
@@ -46,7 +46,14 @@ export default function DialogDeleteComment({ comment }: Props) {
             <Button variant='outline' onClick={() => setOpen(false)}>
               Hủy
             </Button>
-            <Button onClick={handleDelete}>Xóa</Button>
+            <Button
+              variant='destructive'
+              disabled={deleteCommentMutation.isPending}
+              isLoading={deleteCommentMutation.isPending}
+              onClick={handleDelete}
+            >
+              Xóa
+            </Button>
           </div>
         </div>
       </DialogContent>

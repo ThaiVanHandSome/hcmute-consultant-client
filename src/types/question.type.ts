@@ -41,6 +41,7 @@ export interface Question {
   questionFilterStatus: string
   filterStatus: string[]
   forwardQuestionDTO: ForwardQuestion
+  askerId: number
 }
 
 export interface CommonQuestion {

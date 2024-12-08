@@ -36,41 +36,41 @@ export const getUserConsultantScheduleStatistics = (year: number) =>
 export const getConsultantStatistics = () => http.get<SuccessResponse<ConsultantStatistic>>('statistics')
 
 export const getConsultantStatisticDeletedQuestions = (year: number) =>
-  http.get<SuccessResponse<ChartStatistics>[]>('statistics/deleted-questions', {
+  http.get<SuccessResponse<ChartStatistics>[]>('statistics/questions-deleted/yearly', {
     params: {
       year
     }
   })
 
 export const getConsultantStatisticConversations = (year: number) =>
-  http.get<SuccessResponse<ChartStatistics>[]>('statistics/conversations', {
+  http.get<SuccessResponse<ChartStatistics>[]>('statistics/conversations/yearly', {
     params: {
       year
     }
   })
 
 export const getConsultantStatisticSchedules = (year: number) =>
-  http.get<SuccessResponse<ChartStatistics>[]>('statistics/consultation-schedules', {
+  http.get<SuccessResponse<ChartStatistics>[]>('statistics/consultation-schedules/yearly', {
     params: {
       year
     }
   })
 
 export const getConsultantStatisticPosts = (year: number) =>
-  http.get<SuccessResponse<ChartStatistics>[]>('statistics/approved-posts', {
+  http.get<SuccessResponse<ChartStatistics>[]>('statistics/posts/yearly', {
     params: {
       year
     }
   })
 
 export const getConsultantStatisticAnswersGiven = (year: number) =>
-  http.get<SuccessResponse<ChartStatistics>[]>('statistics/answers-given', {
+  http.get<SuccessResponse<ChartStatistics>[]>('statistics/answers-given/yearly', {
     params: {
       year
     }
   })
 export const getConsultantStatisticAnswerApprovals = (year: number) =>
-  http.get<SuccessResponse<ChartStatistics>[]>('statistics/answer-approvals', {
+  http.get<SuccessResponse<ChartStatistics>[]>('statistics/questions-forwarded/yearly', {
     params: {
       year
     }

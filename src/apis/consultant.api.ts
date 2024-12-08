@@ -1,6 +1,7 @@
 import { ConsultantQueryConfig } from '@/hooks/useConsultantQueryConfig'
 import { RatingQueryConfig } from '@/hooks/useRatingQueryConfig'
 import { CreateScheduleFormData } from '@/pages/Manage/ManageSchedual/components/DialogCreateSchedule'
+import { MemberJoin } from '@/pages/Manage/SchedualDetail/components/DialogListMemberJoin'
 import { RatingFormData } from '@/pages/User/ConsultantEvaluation/ConsultantEvaluation'
 import { Consultant, SchedualConfirm, SchedualConsultant } from '@/types/consultant.type'
 import { Rating } from '@/types/rating.type'
@@ -90,5 +91,19 @@ export const cancelConsultation = (scheduleId: number) =>
   http.post<SuccessResponse<string>>('user/consultation-schedule/cancel', null, {
     params: {
       scheduleId
+    }
+  })
+
+export const deleteSchedual = (scheduleId: number) =>
+  http.delete<SuccessResponse<string>>('consultation-schedule/delete', {
+    params: {
+      scheduleId
+    }
+  })
+
+export const listMemberJoin = (consultationScheduleId: number) =>
+  http.get<SuccessResponse<PaginationResponse<MemberJoin[]>>>('advisor-admin/consultation-schedule/list-member-join', {
+    params: {
+      consultationScheduleId
     }
   })

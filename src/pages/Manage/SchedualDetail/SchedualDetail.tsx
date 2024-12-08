@@ -11,14 +11,17 @@ import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
 import { toast } from '@/hooks/use-toast'
+import DialogDeleteSchedual from '@/pages/Manage/SchedualDetail/components/DialogDeleteSchedual'
+import DialogListMemberJoin from '@/pages/Manage/SchedualDetail/components/DialogListMemberJoin'
 import { SchedualConfirm } from '@/types/consultant.type'
 import { FormControlItem } from '@/types/utils.type'
 import { SchedualConfirmSchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { TrashIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { omitBy } from 'lodash'
-import { EllipsisVertical, ReplyIcon } from 'lucide-react'
+import { UserIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -141,17 +144,16 @@ export default function SchedualDetail() {
   })
 
   useEffect(() => {
-    if (schedule?.statusConfirmed) {
-      form.reset({
-        content: schedule.content,
-        link: schedule.link,
-        location: schedule.location,
-        mode: getTextOfBoolean(schedule.mode),
-        statusConfirmed: getTextOfBoolean(schedule.statusConfirmed),
-        statusPublic: getTextOfBoolean(schedule.statusPublic),
-        title: schedule.title
-      })
-    }
+    if (!schedule) return
+    form.reset({
+      content: schedule.content,
+      link: schedule.link,
+      location: schedule.location,
+      mode: getTextOfBoolean(schedule.mode),
+      statusConfirmed: getTextOfBoolean(schedule.statusConfirmed),
+      statusPublic: getTextOfBoolean(schedule.statusPublic),
+      title: schedule.title
+    })
     formReset.current = true
   }, [schedule])
 
@@ -172,15 +174,19 @@ export default function SchedualDetail() {
               <Badge variant='destructive'>{schedule?.statusConfirmed ? 'Đã xác nhận' : 'Chưa xác nhận'}</Badge>
             </div>
             <div className='flex items-center space-x-2'>
-              <div
-                aria-hidden='true'
-                className='size-9 flex items-center justify-center rounded-full hover:bg-secondary cursor-pointer'
-              >
-                <ReplyIcon className='size-4 text-secondary-foreground' />
-              </div>
-              <div className='size-9 flex items-center justify-center rounded-full hover:bg-secondary cursor-pointer'>
-                <EllipsisVertical className='size-4 text-secondary-foreground' />
-              </div>
+              <DialogListMemberJoin schedule={schedule}>
+                <div
+                  aria-hidden='true'
+                  className='size-9 flex items-center justify-center rounded-full hover:bg-secondary cursor-pointer'
+                >
+                  <UserIcon className='size-4 text-secondary-foreground' />
+                </div>
+              </DialogListMemberJoin>
+              <DialogDeleteSchedual schedual={schedule}>
+                <div className='size-9 flex items-center justify-center rounded-full bg-destructive text-destructive-foreground'>
+                  <TrashIcon className='size-4' />
+                </div>
+              </DialogDeleteSchedual>
             </div>
           </div>
           <div className='bg-background px-6 rounded-lg shadow-xl flex items-center justify-center py-2'>

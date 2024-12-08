@@ -164,7 +164,7 @@ export default function CommentItem({ comment }: Props) {
                   onClick={handleEditText}
                   className='px-2 py-1 hover:bg-secondary hover:text-secondary-foreground cursor-pointer w-full text-sm'
                 >
-                  Edit
+                  Chỉnh sửa
                 </div>
                 <DialogDeleteComment comment={comment} />
               </DropdownMenuContent>
@@ -176,11 +176,11 @@ export default function CommentItem({ comment }: Props) {
           <div
             aria-hidden='true'
             className={clsx('text-xs font-bold cursor-pointer hover:underline', {
-              'text-primary': isLikedComment
+              'text-blue-600': isLikedComment
             })}
             onClick={handleToggleLike}
           >
-            Like
+            Thích
           </div>
           {!isEdit && (
             <div

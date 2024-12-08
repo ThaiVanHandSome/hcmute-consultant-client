@@ -1,5 +1,6 @@
 import { getAllDepartments, getFields, getRolesAsk } from '@/apis/department.api'
 import { createNewQuestion, updateQuestion } from '@/apis/question.api'
+import FileShow from '@/components/dev/FileShow'
 import CheckboxCustom from '@/components/dev/Form/CheckboxCustom'
 import Editor from '@/components/dev/Form/Editor'
 import InputCustom from '@/components/dev/Form/InputCustom'
@@ -14,7 +15,7 @@ import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestion
 import { CreateQuestionRequest, Question } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
 import { CreateQuestionSchema } from '@/utils/rules'
-import { generateSelectionData, isImageFile } from '@/utils/utils'
+import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { omit } from 'lodash'
@@ -37,7 +38,7 @@ export default function QuestionForm({ question }: Props) {
   const queryConfig: QuestionQueryConfig = useQuestionQueryConfig()
   const [file, setFile] = useState<File>()
   const previewImage = useMemo(() => {
-    if (isImageFile((file?.name as string) ?? '')) return file ? URL.createObjectURL(file) : (question?.fileName ?? '')
+    return file ? URL.createObjectURL(file) : (question?.fileName ?? '')
   }, [file])
 
   const navigate = useNavigate()
@@ -270,7 +271,7 @@ export default function QuestionForm({ question }: Props) {
               <div className='grid w-full max-w-sm items-center gap-1.5'>
                 <Label htmlFor='file'>Tệp đính kèm</Label>
                 <Input id='file' type='file' onChange={handleFileChange} />
-                {previewImage && <img src={previewImage} alt='fileUploadImage' className='object-cover h-64' />}
+                {previewImage && <FileShow url={previewImage} />}
               </div>
             </div>
             <CheckboxCustom control={form.control} name='statusPublic' label='Chế độ công khai' />

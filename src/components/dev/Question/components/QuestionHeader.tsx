@@ -10,7 +10,7 @@ interface Props {
 export default function QuestionHeader({ question }: Props) {
   return (
     <div className='relative'>
-      <div className='flex items-center space-x-2 mb-2'>
+      <div className='flex flex-col lg:flex-row items-start justify-center lg:items-center lg:justify-start space-y-2 lg:space-x-2 lg:space-y-0 mb-2'>
         <Badge>{question.department.name}</Badge>
         <Badge>{question.field.name}</Badge>
       </div>

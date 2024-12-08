@@ -27,7 +27,7 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
 
   return (
     <div>
-      {avatarCanShow && (
+      {avatarCanShow && chat.message && (
         <div
           className={clsx('flex items-center mb-2', {
             'justify-end': isSender,
@@ -69,13 +69,15 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
                         </div>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <div
-                          aria-hidden='true'
-                          className='w-full px-2 py-1 text-sm cursor-pointer'
-                          onClick={chooseMessageEdit}
-                        >
-                          Chỉnh sửa
-                        </div>
+                        {!chat.imageUrl && (
+                          <div
+                            aria-hidden='true'
+                            className='w-full px-2 py-1 text-sm cursor-pointer'
+                            onClick={chooseMessageEdit}
+                          >
+                            Chỉnh sửa
+                          </div>
+                        )}
                         <DialogUnsend messageId={chat.id} />
                       </DropdownMenuContent>
                     </DropdownMenu>

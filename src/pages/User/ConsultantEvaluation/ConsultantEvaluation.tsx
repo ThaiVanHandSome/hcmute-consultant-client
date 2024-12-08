@@ -58,7 +58,7 @@ export default function ConsultantEvaluation() {
     enabled: !!id
   })
 
-  const isViewed = !!userRating || !!pastRating
+  const isViewed = (!!userRating && !!userRating.data.data) || (!!pastRating && !!pastRating.data.data)
   const isDisabledSelection = !!userRating
   const isFormReset = useRef<boolean>(!isViewed)
 
@@ -77,6 +77,8 @@ export default function ConsultantEvaluation() {
 
   useEffect(() => {
     if (!userRating && !pastRating) return
+    if (userRating && !userRating.data.data) return
+    if (pastRating && !pastRating.data.data) return
     const data = userRating ? userRating.data.data : pastRating?.data.data
     form.reset({
       consultantId: String(data?.consultant.id),
@@ -92,7 +94,6 @@ export default function ConsultantEvaluation() {
       understanding: String(data?.understanding),
       understandingComment: data?.understandingComment
     })
-
     isFormReset.current = true
   }, [userRating, pastRating])
 
@@ -117,7 +118,7 @@ export default function ConsultantEvaluation() {
   return (
     <div>
       {isFormReset && (
-        <div className='bg-primary-bg  grid-background'>
+        <div className='bg-primary-bg'>
           <div className='container'>
             <div className='flex justify-center'>
               <div className='lg:w-3/4 w-full bg-background text-foreground px-6 py-2 rounded-lg shadow-xl border mt-6'>

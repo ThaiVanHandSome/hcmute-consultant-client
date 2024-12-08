@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { questionStatus } from '@/constants/questionStatus'
 import { Question as QuestionType } from '@/types/question.type'
 import { formatDate } from '@/utils/utils'
-import QuestionActionDropdown from '@/components/dev/QuestionStatisticView/components/QuestionActionDropdown'
+import QuestionAction from '@/components/dev/QuestionStatisticView/components/QuestionAction'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   readonly question: QuestionType
@@ -37,11 +37,11 @@ export default function QuestionStatisticView({ question, openDialog, setQuestio
         <div className='flex items-center'>
           {question.questionFilterStatus === questionStatus.deleted && <Badge variant='destructive'>Đã xóa</Badge>}
           <div className='ml-3'>
-            <QuestionActionDropdown openDialog={handleOpenDialog} />
+            <QuestionAction openDialog={handleOpenDialog} />
           </div>
         </div>
       </div>
-      <div className='px-2'>
+      <div className='px-2 break-words'>
         <div className='text-blue-600 font-semibold text-sm'>#{question.department.name}</div>
         <div className='mb-3 text-blue-600 font-semibold text-sm'>#{question.field.name}</div>
         <div className='font-semibold text-md italic mb-2'>🎯 {question.title}</div>

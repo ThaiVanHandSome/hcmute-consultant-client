@@ -22,7 +22,7 @@ export default function ListPost() {
     return posts?.data.data.content
   }, [isShowAll, posts])
   return (
-    <div className='py-2 w-full rounded-md shadow-md bg-primary-bg mb-4'>
+    <div className='py-2 w-full rounded-md shadow-md bg-background mb-4'>
       <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Bài đăng</div>
       {!!postsData && postsData.length > 0 ? (
         <>

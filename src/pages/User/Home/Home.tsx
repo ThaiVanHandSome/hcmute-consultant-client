@@ -15,7 +15,7 @@ import ListConsultActivity from '@/pages/User/Home/components/ListConsultActivit
 export default function Home() {
   const { role } = useContext(AppContext)
   return (
-    <div>
+    <div className='bg-background'>
       <div className='flex relative'>
         <div className='hidden lg:block w-[320px] fixed top-[var(--header-height)] pt-4 border-r'>
           <AsideNav />

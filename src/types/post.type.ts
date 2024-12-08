@@ -17,4 +17,5 @@ export interface Post {
   views: number
   name: string
   avatarUrl: string
+  totalComments: number
 }

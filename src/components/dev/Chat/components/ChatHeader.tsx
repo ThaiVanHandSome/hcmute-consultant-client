@@ -14,6 +14,7 @@ export default function ChatHeader({ conversation, sender, receivers }: Props) {
         <AvatarCustom url={conversation?.isGroup ? sender?.avatarUrl : receivers?.[0]?.avatarUrl} className='size-10' />
         <div className='ml-2'>
           <p className='font-bold text-lg'>{conversation?.isGroup ? conversation?.name : receivers?.[0]?.name}</p>
+          {conversation?.isGroup && <p className='text-xs font-semibold'>{conversation.members.length} thành viên</p>}
         </div>
       </div>
     </div>

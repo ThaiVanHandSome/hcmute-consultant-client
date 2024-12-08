@@ -159,7 +159,7 @@ export default function ManageLayout() {
     <div>
       <Header />
       <div className='gap-2 bg-background mt-[var(--header-height)] min-h-remain-screen relative'>
-        <div className='w-[250px] fixed top-[var(--header-height)] left-0 bottom-0 bg-primary text-primary-foreground py-4 px-4 space-y-4 border-r overflow-y-auto'>
+        <div className='w-[250px] fixed top-[var(--header-height)] left-0 bottom-0 bg-[#00558d] text-[#f5faff] py-4 px-4 space-y-4 border-r overflow-y-auto'>
           <div className='flex items-center justify-center'>
             <img src='https://tracuuxettuyen.hcmute.edu.vn/assets/img/logo/ute_logo.png' alt='logo' className='w-24' />
           </div>
@@ -191,8 +191,8 @@ export default function ManageLayout() {
                       to={child.path}
                       className={({ isActive }) =>
                         clsx('px-3 py-2 rounded-md text-sm flex items-center justify-start gap-2 w-full', {
-                          'bg-secondary text-secondary-foreground  font-semibold': isActive,
-                          'hover:bg-secondary hover:text-secondary-foreground transition-all': !isActive
+                          'bg-[#f1f5f9] text-[#0f172a]  font-semibold': isActive,
+                          'hover:bg-[#f1f5f9] hover:text-[#0f172a] transition-all': !isActive
                         })
                       }
                     >

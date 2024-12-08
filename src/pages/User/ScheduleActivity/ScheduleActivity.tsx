@@ -86,7 +86,7 @@ export default function ScheduleActivity() {
           >
             <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{scheduleActivity.title}</p>
             <p className='text-xs font-semibold text-muted-foreground'>
-              {scheduleActivity.department.name} - {scheduleActivity.consultationDate}
+              {scheduleActivity?.department?.name ?? 'Tất cả phòng ban'} - {scheduleActivity.consultationDate}
             </p>
           </Link>
         ))}
@@ -105,7 +105,7 @@ export default function ScheduleActivity() {
         <div className='px-2 py-3 flex items-center justify-between shadow-md'>
           <div className='flex items-center space-x-2'>
             <div className='flex items-center space-x-1'>
-              <p className='text-sm font-semibold'>{scheduleActivity?.department.name}</p>
+              <p className='text-sm font-semibold'>{scheduleActivity?.department?.name ?? 'Tất cả phòng ban'}</p>
             </div>
           </div>
         </div>

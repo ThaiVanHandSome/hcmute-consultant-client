@@ -51,7 +51,7 @@ export const getConsultationJoin = (params: ConsultationQueryConfig) =>
   })
 
 export const updateAdminUser = (params: AdminUserData, avatarUrl: File) =>
-http.put<SuccessResponse<string>>(
+  http.put<SuccessResponse<string>>(
     'admin/user-information/update',
     {
       avatarUrl
@@ -70,3 +70,16 @@ export const updateAdminAccount = (id: number, body: AccountRequest) =>
       id
     }
   })
+
+export const banUser = (id: number) =>
+  http.put<SuccessResponse<string>>(
+    'activity/update',
+    {
+      activity: false
+    },
+    {
+      params: {
+        id
+      }
+    }
+  )

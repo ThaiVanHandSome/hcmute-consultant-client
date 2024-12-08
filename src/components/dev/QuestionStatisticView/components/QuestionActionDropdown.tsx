@@ -6,6 +6,7 @@ import { PencilSquare } from '@/icons'
 
 interface Props {
   readonly openDialog: (s: string) => void
+  readonly isOpenDialog: boolean
 }
 
 export default function QuestionActionDropdown({ openDialog }: Props) {

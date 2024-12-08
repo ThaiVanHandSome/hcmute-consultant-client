@@ -139,7 +139,15 @@ export default function Post() {
                 <img src={post.fileName} alt='consult' className='object-fill w-full h-full block rounded-md' />
               </div>
             )}
-            <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{post.title}</p>
+            <div>
+              <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{post.title}</p>
+              <p className='text-xs font-semibold text-muted-foreground'>
+                {post.name} - {post.createdAt}
+              </p>
+              <p className='text-xs font-semibold text-muted-foreground'>
+                {countLikes?.data.data} thích - {post.totalComments} bình luận
+              </p>
+            </div>
           </Link>
         ))}
         <Separator className='my-2' />
@@ -164,7 +172,7 @@ export default function Post() {
               <p className='text-xs italic'>{post?.createdAt}</p>
             </div>
           </div>
-          <div className='flex items-center space-x-1'>
+          <div className='flex items-center space-x-1 cursor-pointer'>
             <ThumbsUp
               className={clsx('size-5', {
                 'fill-primary text-background': isLikedPost,

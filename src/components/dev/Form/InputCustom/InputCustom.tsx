@@ -55,7 +55,7 @@ export default function InputCustom<TFieldValues extends FieldValues>({
                 {infoText && (
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger>
+                      <TooltipTrigger type='button'>
                         <InfoIcon className='size-3 text-primary' strokeWidth={1.25} />
                       </TooltipTrigger>
                       <TooltipContent className='bg-primary text-primary-foreground'>{infoText}</TooltipContent>

@@ -10,7 +10,7 @@ export default function QuestionLibrary() {
   })
 
   return (
-    <div className='min-h-screen py-6 grid-background'>
+    <div className='min-h-screen py-6'>
       <div className='container mx-auto px-4'>
         <div className='flex justify-center'>
           <div className='w-full md:w-3/4 lg:w-2/3 bg-background mt-4 px-8 py-6 rounded-lg shadow-xl border'>

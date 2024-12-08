@@ -3,7 +3,7 @@ import { MailWarningIcon } from 'lucide-react'
 
 export default function CreateQuestion() {
   return (
-    <div className='py-6 grid-background'>
+    <div className='py-6'>
       <div className='container'>
         <div className='grid grid-cols-12 gap-4'>
           <div className='col-span-12 lg:col-span-9 bg-background text-foreground px-6 py-3 shadow-xl border rounded-lg'>

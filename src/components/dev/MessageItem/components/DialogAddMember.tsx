@@ -82,7 +82,7 @@ export default function DialogAddMember({ conversation }: Props) {
           <PlusIcon className='size-4 text-secondary-foreground' />
         </div>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='max-h-[90vh] overflow-y-auto'>
         <DialogHeader>
           <DialogTitle>Thêm thành viên</DialogTitle>
         </DialogHeader>

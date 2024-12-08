@@ -75,7 +75,13 @@ export default function ChatInput({ sendMessage, messageEdit, handleCloseUpdateM
       <form onSubmit={onSubmit}>
         {!messageEdit && (
           <div className='shadow-lg px-3 py-2 flex items-center w-full'>
-            <Input ref={inputFileRef} type='file' className='hidden' onChange={handleUploadFile} />
+            <Input
+              ref={inputFileRef}
+              type='file'
+              className='hidden'
+              onChange={handleUploadFile}
+              accept='.jpg,.jpeg,.png,.gif'
+            />
             <div>
               <ImageIcon
                 className='size-7 mr-2 text-primary cursor-pointer'
@@ -107,7 +113,7 @@ export default function ChatInput({ sendMessage, messageEdit, handleCloseUpdateM
             <div className='flex px-2'>
               <div className='flex-1'>
                 <InputCustom
-                  control={form.control}  
+                  control={form.control}
                   name='message'
                   className='mb-0'
                   classNameInput='rounded-lg bg-secondary text-secondary-foreground'

@@ -137,7 +137,9 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
             <EllipsisIcon className='size-5' />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {role === ROLE.consultant && <DialogConversationDetail conversation={conversation} />}
+            {role === ROLE.consultant && !conversation.isGroup && (
+              <DialogConversationDetail conversation={conversation} />
+            )}
             <div
               aria-hidden='true'
               className='text-sm text-destructive font-semibold cursor-pointer flex items-center px-2 py-1 hover:bg-secondary rounded transition-all'

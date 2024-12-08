@@ -1,17 +1,25 @@
 import { getNotifications } from '@/apis/notification.api'
 import Popover from '@/components/dev/Popover'
+import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { formatDate } from '@/utils/utils'
 import { BellIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
+import { useMemo, useState } from 'react'
 
 export default function HeaderNotification() {
+  const [isViewMore, setIsViewMore] = useState<boolean>(false)
   const { data: notifications } = useQuery({
     queryKey: ['notifications'],
     queryFn: getNotifications
   })
 
-  const numberOfNotification = notifications?.data.data?.length ?? 0
+  const notificationsData = useMemo(() => {
+    if (!notifications) return []
+    const notices = notifications?.data.data
+    return isViewMore ? notices : notices.slice(0, 5)
+  }, [isViewMore])
+  const numberOfNotification = notificationsData.length ?? 0
 
   return (
     <Popover
@@ -25,7 +33,7 @@ export default function HeaderNotification() {
           <Separator />
           <ul className='px-6 py-3'>
             {!notifications && <p className='text-sm text-foreground'>Hiện chưa có thông báo nào!</p>}
-            {notifications?.data.data.slice(0, 5).map((notification) => (
+            {notificationsData.map((notification) => (
               <li key={notification.time} className='py-2 border-b border-border group'>
                 <p className='group-hover:text-primary font-semibold mb-1 cursor-default text-foreground'>
                   {notification.content}
@@ -34,6 +42,39 @@ export default function HeaderNotification() {
               </li>
             ))}
           </ul>
+          <div className='px-6 py-2'>
+            <Button className='px-2 h-8 text-xs flex items-center gap-1' onClick={() => setIsViewMore((prev) => !prev)}>
+              {isViewMore ? (
+                <>
+                  <svg
+                    className='h-4 w-4'
+                    fill='none'
+                    stroke='currentColor'
+                    strokeWidth={2}
+                    viewBox='0 0 24 24'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M5 15l7-7 7 7'></path>
+                  </svg>
+                  Thu gọn
+                </>
+              ) : (
+                <>
+                  <svg
+                    className='h-4 w-4'
+                    fill='none'
+                    stroke='currentColor'
+                    strokeWidth={2}
+                    viewBox='0 0 24 24'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7'></path>
+                  </svg>
+                  Xem thêm
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       }
     >

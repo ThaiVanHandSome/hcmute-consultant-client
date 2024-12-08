@@ -12,6 +12,7 @@ import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import useQueryParams from '@/hooks/useQueryParams'
+import DialogBanUser from '@/pages/Manage/QuestionDetail/components/DialogBanUser'
 import DialogDeleteAnswer from '@/pages/Manage/QuestionDetail/components/DialogDeleteAnswer'
 import DialogDeleteQuestion from '@/pages/Manage/QuestionDetail/components/DialogDeleteQuestion'
 import DialogForwardQuestion from '@/pages/Manage/QuestionDetail/components/DialogForwardQuestion'
@@ -21,7 +22,7 @@ import { formatDate, isImageFile } from '@/utils/utils'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { AlertTriangleIcon, EllipsisIcon, EllipsisVertical, ReplyIcon } from 'lucide-react'
+import { AlertTriangleIcon, BanIcon, EllipsisIcon, ReplyIcon } from 'lucide-react'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -159,7 +160,7 @@ export default function QuestionDetail() {
 
   return (
     <div>
-      <div className='font-semibold mb-3 text-2xl'>{question?.title}</div>
+      <div className='font-semibold mb-3 text-2xl break-words'>{question?.title}</div>
       <div className='flex items-center justify-between mb-4'>
         <div className='flex items-center space-x-2'>
           <AvatarCustom url={question?.askerAvatarUrl} className='size-7' />
@@ -176,9 +177,11 @@ export default function QuestionDetail() {
           >
             <ReplyIcon className='size-4 text-secondary-foreground' />
           </div>
-          <div className='size-9 flex items-center justify-center rounded-full hover:bg-secondary cursor-pointer'>
-            <EllipsisVertical className='size-4 text-secondary-foreground' />
-          </div>
+          <DialogBanUser question={question}>
+            <div className='size-9 flex items-center justify-center rounded-full bg-destructive text-destructive-foreground'>
+              <BanIcon className='size-4' />
+            </div>
+          </DialogBanUser>
         </div>
       </div>
       {deleteLog?.data?.data?.reason != null ? (

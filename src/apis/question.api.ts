@@ -68,8 +68,15 @@ export const updateQuestion = (questionId: number, params: CreateQuestionRequest
 
 export const getAllQuestionStatus = () => http.get<SuccessResponse<QuestionStatus[]>>('list-filter-status-options')
 
-export const deleteQuestion = (id: number) =>
+export const deleteQuestion = (questionId: number) =>
   http.delete<SuccessResponse<string>>('question/delete', {
+    params: {
+      questionId
+    }
+  })
+
+export const deleteUserQuestion = (id: number) =>
+  http.delete<SuccessResponse<string>>('user/question/delete', {
     params: {
       id
     }

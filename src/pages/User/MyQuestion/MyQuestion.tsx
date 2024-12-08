@@ -1,4 +1,4 @@
-import { deleteQuestion, getQuestions } from '@/apis/question.api'
+import { deleteUserQuestion, getQuestions } from '@/apis/question.api'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -40,7 +40,7 @@ export default function MyQuestion() {
   })
 
   const deleteQuestionMutation = useMutation({
-    mutationFn: (id: number) => deleteQuestion(id)
+    mutationFn: (id: number) => deleteUserQuestion(id)
   })
 
   const handleDeleteQuestion = () => {
@@ -58,13 +58,13 @@ export default function MyQuestion() {
   }
 
   const renderConfirmDeleteQuestion = () => (
-    <div>
+    <div className='overflow-x-hidden'>
       <p>Bạn chắc chắn muốn xóa câu hỏi này chứ?</p>
       <Separator className='my-2' />
-      <div className='px-2'>
+      <div className='px-2 overflow-x-hidden'>
         <div className='text-blue-600 font-semibold text-sm'>#{questionActive?.department.name}</div>
         <div className='mb-3 text-blue-600 font-semibold text-sm'>#{questionActive?.field.name}</div>
-        <div className='font-semibold text-md italic mb-2'>🎯 {questionActive?.title}</div>
+        <div className='font-semibold text-md italic mb-2 break-words'>🎯 {questionActive?.title}</div>
       </div>
       <div className='flex justify-end'>
         <Button onClick={() => setIsOpen(false)}>Hủy</Button>
@@ -113,7 +113,7 @@ export default function MyQuestion() {
       </div>
       {/* show detail question */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className='w-full lg:w-[800px] max-w-full max-h-[80vh] overflow-y-auto mt-8'>
+        <DialogContent className='w-full lg:w-[800px] max-w-full max-h-[80vh] overflow-y-auto mt-8 overflow-x-hidden'>
           {dialogView === dialogViewType.detail && <Question question={questionActive as QuestionType} />}
           {dialogView === dialogViewType.updateQuestion && <QuestionForm question={questionActive} />}
           {dialogView === dialogViewType.deleteConfirm && renderConfirmDeleteQuestion()}
