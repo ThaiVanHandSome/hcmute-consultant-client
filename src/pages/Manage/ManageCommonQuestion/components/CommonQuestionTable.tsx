@@ -27,7 +27,7 @@ export default function CommonQuestionTable({ commonQuestions }: Props) {
           {commonQuestions?.map((question) => (
             <TableRow key={question.commonQuestionId}>
               <TableCell>{question.commonQuestionId}</TableCell>
-              <TableCell>{question.department.name}</TableCell>
+              <TableCell>{question.department?.name || 'Trống'}</TableCell>
               <TableCell>{question.title}</TableCell>
               <TableCell>{question.createdAt}</TableCell>
               <TableCell>

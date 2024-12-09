@@ -19,7 +19,7 @@ export default function ForwardQuestionTable({ forwardQuestions }: Props) {
           <TableHead className='!text-primary-foreground'>Tiêu đề</TableHead>
           <TableHead className='!text-primary-foreground'>Tư vấn viên</TableHead>
           <TableHead className='!text-primary-foreground'>Thời gian</TableHead>
-          <TableHead className='!text-primary-foreground'>Câu hỏi</TableHead>
+          {/* <TableHead className='!text-primary-foreground'>Câu hỏi</TableHead> */}
           <TableHead className='!text-primary-foreground'></TableHead>
         </TableRow>
       </TableHeader>
@@ -31,7 +31,7 @@ export default function ForwardQuestionTable({ forwardQuestions }: Props) {
             <TableCell>{question.title}</TableCell>
             <TableCell>{question.consultant.name}</TableCell>
             <TableCell>{question.createdAt}</TableCell>
-            <TableCell>
+            {/* <TableCell>
               <a
                 className='underline italic text-primary'
                 href={`/manage/questions/detail/${question.questionId}`}
@@ -39,7 +39,7 @@ export default function ForwardQuestionTable({ forwardQuestions }: Props) {
               >
                 {question.questionId}
               </a>
-            </TableCell>
+            </TableCell> */}
             <TableCell>
               <div className='flex items-center space-x-2'>
                 <DialogForwardQuestion forwardQuestion={question}>

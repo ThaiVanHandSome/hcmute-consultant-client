@@ -105,6 +105,7 @@ export default function DialogForwardQuestion({ children, forwardQuestion }: Pro
             <form onSubmit={onSubmit}>
               <InputCustom control={form.control} name='title' label='Tiêu đề' />
               <SelectionCustom
+                classNameSelection='max-h-[30vh]'
                 control={form.control}
                 name='toDepartmentId'
                 label='Phòng ban'

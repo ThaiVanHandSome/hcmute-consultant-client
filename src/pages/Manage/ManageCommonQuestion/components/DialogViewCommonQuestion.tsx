@@ -12,7 +12,7 @@ export default function DialogViewCommonQuestion({ children, question }: Props) 
   return (
     <Dialog>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className='p-6'>
+      <DialogContent className='p-6 max-h-[90vh] overflow-y-auto'>
         <DialogHeader>
           <DialogTitle>Chi tiết</DialogTitle>
         </DialogHeader>

@@ -11,6 +11,7 @@ interface SelectionCustomProps<TFieldValues extends FieldValues = FieldValues> {
   readonly control: Control<TFieldValues>
   readonly name: FieldPath<TFieldValues>
   readonly className?: string
+  readonly classNameSelection?: string
   readonly data?: FormControlItem[]
   readonly defaultValue?: PathValue<TFieldValues, Path<TFieldValues>>
   readonly disabled?: boolean
@@ -24,6 +25,7 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
   name,
   control,
   className,
+  classNameSelection,
   placeholder,
   label,
   data,
@@ -82,7 +84,7 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent className={classNameSelection}>
                 {data?.map((item) => (
                   <SelectItem key={item.value} value={String(item.value)}>
                     {item.label}

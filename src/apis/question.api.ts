@@ -256,3 +256,10 @@ export const unlikeQuestion = (questionId: number) =>
       questionId
     }
   })
+
+export const convertToCommonQuestion = (questionId: number) =>
+  http.post<SuccessResponse<string>>('advisor-admin/common-question/convert-to-common', null, {
+    params: {
+      questionId
+    }
+  })

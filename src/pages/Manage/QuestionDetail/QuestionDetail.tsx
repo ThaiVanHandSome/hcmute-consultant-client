@@ -13,6 +13,7 @@ import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import useQueryParams from '@/hooks/useQueryParams'
 import DialogBanUser from '@/pages/Manage/QuestionDetail/components/DialogBanUser'
+import DialogConvertToCommonQuestion from '@/pages/Manage/QuestionDetail/components/DialogConvertToCommonQuestion'
 import DialogDeleteAnswer from '@/pages/Manage/QuestionDetail/components/DialogDeleteAnswer'
 import DialogDeleteQuestion from '@/pages/Manage/QuestionDetail/components/DialogDeleteQuestion'
 import DialogForwardQuestion from '@/pages/Manage/QuestionDetail/components/DialogForwardQuestion'
@@ -290,6 +291,11 @@ export default function QuestionDetail() {
         <div className='space-x-2'>
           <Button onClick={handleOpenToAnswer}>{isApproval ? 'Đánh giá' : 'Phản hồi'}</Button>
           {!isApproval && <DialogForwardQuestion questionId={question?.id as number} />}
+          <DialogConvertToCommonQuestion question={question}>
+            <Button type='button' variant='secondary'>
+              Chuyển thành câu hỏi chung
+            </Button>
+          </DialogConvertToCommonQuestion>
         </div>
         <DialogDeleteQuestion questionId={parseInt(id as string)} />
       </div>
