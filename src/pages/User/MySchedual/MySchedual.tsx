@@ -13,7 +13,7 @@ export default function MySchedual() {
   let schedualQueryConfig = useSchedualQueryConfig()
   schedualQueryConfig = {
     ...schedualQueryConfig,
-    type: true
+    type: 'true'
   }
 
   const { data: schedualConsultants } = useQuery({
