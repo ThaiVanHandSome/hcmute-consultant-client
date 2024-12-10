@@ -120,7 +120,7 @@ export default function QuestionDetail() {
 
   const onSubmitWithStatus = () => {
     form.handleSubmit((values) => {
-      if (!question || !values.content || !file) return
+      if (!question || !values.content) return
       values.content = `<div class="editor">${values.content}</div>`
       const params: Answer = {
         questionId: question?.id,
@@ -129,7 +129,7 @@ export default function QuestionDetail() {
         statusApproval: true
       }
       answerMutation.mutate(
-        { params, file },
+        { params, file: file as File },
         {
           onSuccess: (res) => {
             toast({

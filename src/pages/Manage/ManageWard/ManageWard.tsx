@@ -102,8 +102,8 @@ export default function ManageWard() {
                   control={form.control}
                   name='districtCode'
                   data={districtsSelectionData}
-                  placeholder='Phường/Xã'
-                  label='Phường/Xã'
+                  placeholder='Quận/Huyện'
+                  label='Quận/Huyện'
                 />
               </div>
             </div>

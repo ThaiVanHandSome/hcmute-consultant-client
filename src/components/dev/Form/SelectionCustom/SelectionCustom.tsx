@@ -25,7 +25,7 @@ export default function SelectionCustom<TFieldValues extends FieldValues>({
   name,
   control,
   className,
-  classNameSelection,
+  classNameSelection = 'max-h-[30vh]',
   placeholder,
   label,
   data,
