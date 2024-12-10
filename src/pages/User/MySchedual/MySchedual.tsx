@@ -10,7 +10,11 @@ import path from '@/constants/path'
 import { getScheduals } from '@/apis/user.api'
 
 export default function MySchedual() {
-  const schedualQueryConfig = useSchedualQueryConfig()
+  let schedualQueryConfig = useSchedualQueryConfig()
+  schedualQueryConfig = {
+    ...schedualQueryConfig,
+    type: true
+  }
 
   const { data: schedualConsultants } = useQuery({
     queryKey: ['schedual-consultants', schedualQueryConfig],
