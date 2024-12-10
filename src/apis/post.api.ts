@@ -21,3 +21,10 @@ export const getPostDetail = (id: number) =>
       id
     }
   })
+
+export const approvePost = (id: number) =>
+  http.post<SuccessResponse<string>>('admin/post/approve', null, {
+    params: {
+      id
+    }
+  })

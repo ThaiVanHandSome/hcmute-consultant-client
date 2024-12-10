@@ -22,7 +22,7 @@ export default function ManagePost() {
 
   const form = useForm({
     defaultValues: {
-      isApproval: 'true'
+      isApproved: 'true'
     }
   })
 
@@ -38,16 +38,16 @@ export default function ManagePost() {
   ]
 
   const navigate = useNavigate()
-  const isApproval = form.watch('isApproval')
+  const isApproved = form.watch('isApproved')
   useEffect(() => {
     navigate({
       pathname: path.managePost,
       search: createSearchParams({
         ...postQueryConfig,
-        isApproval
+        isApproved
       }).toString()
     })
-  })
+  }, [isApproved])
 
   return (
     <div className='space-y-6'>
@@ -65,7 +65,7 @@ export default function ManagePost() {
           <form>
             <SelectionCustom
               control={form.control}
-              name='isApproval'
+              name='isApproved'
               label='Trạng thái'
               placeholder='Trạng thái'
               data={isApprovalSelectionData}

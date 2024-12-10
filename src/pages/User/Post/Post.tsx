@@ -1,15 +1,18 @@
 import { createComment, getComments } from '@/apis/comment.api'
 import { countLikeOfPost, getPostRecord, likePost, unLikePost } from '@/apis/like.api'
-import { getPostDetail, getPosts } from '@/apis/post.api'
+import { approvePost, getPostDetail, getPosts } from '@/apis/post.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import CommentItem from '@/components/dev/CommentItem'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import Paginate from '@/components/dev/PaginationCustom/PaginationCustom'
 import QuestionImage from '@/components/dev/QuestionImage'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
+import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
+import { toast } from '@/hooks/use-toast'
 import usePostQueryConfig from '@/hooks/usePostQueryConfig'
 import { isImageFile } from '@/utils/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -25,7 +28,7 @@ export default function Post() {
       comment: ''
     }
   })
-  const { user } = useContext(AppContext)
+  const { user, role } = useContext(AppContext)
   let postQueryConfig = usePostQueryConfig()
   postQueryConfig = {
     ...postQueryConfig,
@@ -118,6 +121,22 @@ export default function Post() {
     )
   })
 
+  const approvePostMutation = useMutation({
+    mutationFn: (id: number) => approvePost(id)
+  })
+
+  const handleApprove = () => {
+    const id = post?.id
+    if (!id) return
+    approvePostMutation.mutate(id, {
+      onSuccess: (res) => {
+        toast({
+          description: res.data.message
+        })
+      }
+    })
+  }
+
   return (
     <div className='h-remain-screen grid grid-cols-12'>
       <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-background'>
@@ -171,17 +190,22 @@ export default function Post() {
             <div>
               <p className='text-xs italic'>{post?.createdAt}</p>
             </div>
+            {role === ROLE.admin && post?.approved && <Badge>Đã phê duyệt</Badge>}
+            {role === ROLE.admin && !post?.approved && <Badge variant='destructive'>Chưa phê duyệt</Badge>}
           </div>
-          <div className='flex items-center space-x-1 cursor-pointer'>
-            <ThumbsUp
-              className={clsx('size-5', {
-                'fill-primary text-background': isLikedPost,
-                'fill-none text-primary': !isLikedPost
-              })}
-              strokeWidth='0.4'
-              onClick={handleTogglePost}
-            />
-            <span className='font-semibold text-sm'>{countLikes?.data?.data ?? '0'}</span>
+          <div className='flex items-center space-x-3'>
+            {role === ROLE.admin && !post?.approved && <Button disabled={approvePostMutation.isPending}  isLoading={approvePostMutation.isPending} onClick={handleApprove}>Phê duyệt</Button>}
+            <div className='flex items-center space-x-1 cursor-pointer'>
+              <ThumbsUp
+                className={clsx('size-5', {
+                  'fill-primary text-background': isLikedPost,
+                  'fill-none text-primary': !isLikedPost
+                })}
+                strokeWidth='0.4'
+                onClick={handleTogglePost}
+              />
+              <span className='font-semibold text-sm'>{countLikes?.data?.data ?? '0'}</span>
+            </div>
           </div>
         </div>
         <div className='bg-background'>
