@@ -174,14 +174,16 @@ export default function SchedualDetail() {
               <Badge variant='destructive'>{schedule?.statusConfirmed ? 'Đã xác nhận' : 'Chưa xác nhận'}</Badge>
             </div>
             <div className='flex items-center space-x-2'>
-              <DialogListMemberJoin schedule={schedule}>
-                <div
-                  aria-hidden='true'
-                  className='size-9 flex items-center justify-center rounded-full hover:bg-secondary cursor-pointer'
-                >
-                  <UserIcon className='size-4 text-secondary-foreground' />
-                </div>
-              </DialogListMemberJoin>
+              {!schedule?.type && (
+                <DialogListMemberJoin schedule={schedule}>
+                  <div
+                    aria-hidden='true'
+                    className='size-9 flex items-center justify-center rounded-full hover:bg-secondary cursor-pointer'
+                  >
+                    <UserIcon className='size-4 text-secondary-foreground' />
+                  </div>
+                </DialogListMemberJoin>
+              )}
               <DialogDeleteSchedual schedual={schedule}>
                 <div className='size-9 flex items-center justify-center rounded-full bg-destructive text-destructive-foreground'>
                   <TrashIcon className='size-4' />

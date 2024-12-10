@@ -27,6 +27,7 @@ export interface SchedualConsultant {
   consultationTime: string
   location: string
   link: string
+  type: boolean
 }
 
 export interface SchedualConfirm {
