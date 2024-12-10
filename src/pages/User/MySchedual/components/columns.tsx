@@ -8,7 +8,7 @@ export const columns: ColumnDef<SchedualConsultant>[] = [
     header: 'Khoa',
     cell: ({ row }) => (
       <div className='capitalize font-semibold'>
-        {(row.getValue('department') as { id: number; name: string })?.name}
+        {(row.getValue('department') as { id: number; name: string })?.name ?? "Tất cả phòng ban"}
       </div>
     )
   },

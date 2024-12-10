@@ -128,6 +128,12 @@ export default function SchedualDetail() {
       },
       (value) => value === ''
     ) as unknown as SchedualConfirm
+    const isOnline = getBoolean(values.mode)
+    if (isOnline) {
+      delete body.location
+    } else {
+      delete body.link
+    }
     const scheduleId = schedule?.id as number
     confirmSchedualMutation.mutate(
       { body, scheduleId },
@@ -147,8 +153,8 @@ export default function SchedualDetail() {
     if (!schedule) return
     form.reset({
       content: schedule.content,
-      link: schedule.link,
-      location: schedule.location,
+      link: schedule.link ?? '',
+      location: schedule.location ?? '',
       mode: getTextOfBoolean(schedule.mode),
       statusConfirmed: getTextOfBoolean(schedule.statusConfirmed),
       statusPublic: getTextOfBoolean(schedule.statusPublic),
@@ -158,6 +164,8 @@ export default function SchedualDetail() {
   }, [schedule])
 
   const isReadOnly = schedule?.statusConfirmed
+
+  console.log(form.watch())
 
   return (
     <div>
