@@ -14,7 +14,6 @@ import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import usePostQueryConfig from '@/hooks/usePostQueryConfig'
-import { isImageFile } from '@/utils/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { MessageCircleIcon, SendIcon, ThumbsUp } from 'lucide-react'
@@ -169,11 +168,6 @@ export default function Post() {
               'bg-secondary text-secondary-foreground': id === post.id
             })}
           >
-            {post?.fileName && isImageFile(post.fileName) && (
-              <div className='w-16 h-16 mr-2'>
-                <img src={post.fileName} alt='consult' className='object-fill w-full h-full block rounded-md' />
-              </div>
-            )}
             <div>
               <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{post.title}</p>
               <p className='text-xs font-semibold text-muted-foreground'>
