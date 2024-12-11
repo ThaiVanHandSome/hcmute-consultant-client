@@ -3,6 +3,7 @@ import { countLikeOfPost, getPostRecord, likePost, unLikePost } from '@/apis/lik
 import { approvePost, deletePost, getPostDetail, getPosts } from '@/apis/post.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import CommentItem from '@/components/dev/CommentItem'
+import FileShow from '@/components/dev/FileShow'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import Paginate from '@/components/dev/PaginationCustom/PaginationCustom'
 import { Badge } from '@/components/ui/badge'
@@ -245,11 +246,7 @@ export default function Post() {
           <div className='px-4 py-2 min-h-2'>
             <p>{post?.title}</p>
             <div dangerouslySetInnerHTML={{ __html: post?.content as string }} className='mb-2'></div>
-            {post?.fileName && isImageFile(post.fileName) && (
-              <div className='w-16 h-16 mr-2'>
-                <img src={post.fileName} alt='consult' className='object-fill w-full h-full block rounded-md' />
-              </div>
-            )}
+            {post?.fileName && <FileShow url={post.fileName} />}
           </div>
           <div className='px-3 py-1 space-y-2'>
             <div className='flex items-center space-x-1'>
