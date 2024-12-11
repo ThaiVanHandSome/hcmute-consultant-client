@@ -1,4 +1,5 @@
 import { createPost } from '@/apis/post.api'
+import FileShow from '@/components/dev/FileShow'
 import Editor from '@/components/dev/Form/Editor'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
@@ -9,7 +10,6 @@ import { Label } from '@/components/ui/label'
 import { toast } from '@/hooks/use-toast'
 import { PostRequest } from '@/types/post.type'
 import { AddPostSchema } from '@/utils/rules'
-import { isImageFile } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { useMutation } from '@tanstack/react-query'
@@ -23,7 +23,7 @@ export default function DialogAddPost() {
   const [open, setOpen] = useState<boolean>(false)
   const [file, setFile] = useState<File>()
   const previewImage = useMemo(() => {
-    if (isImageFile((file?.name as string) ?? '')) return file ? URL.createObjectURL(file) : ''
+    return file ? URL.createObjectURL(file) : ''
   }, [file])
 
   const form = useForm<FormData>({
@@ -80,7 +80,7 @@ export default function DialogAddPost() {
               <div className='grid w-full max-w-sm items-center gap-1.5'>
                 <Label htmlFor='file'>Tệp đính kèm</Label>
                 <Input id='file' type='file' onChange={handleFileChange} />
-                {previewImage && <img src={previewImage} alt='fileUploadImage' className='object-cover h-64' />}
+                {previewImage && <FileShow url={previewImage} />}
               </div>
             </div>
             <Button>Thêm</Button>

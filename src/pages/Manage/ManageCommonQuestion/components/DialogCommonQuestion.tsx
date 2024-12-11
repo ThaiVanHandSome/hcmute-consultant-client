@@ -138,7 +138,12 @@ export default function DialogCommonQuestion({ question, children }: Props) {
               <div className='mb-4'>
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
                   <Label htmlFor='file'>Tệp đính kèm câu hỏi</Label>
-                  <Input id='file' type='file' onChange={(e) => handleFileChange(e, 'ask')} />
+                  <Input
+                    id='file'
+                    type='file'
+                    onChange={(e) => handleFileChange(e, 'ask')}
+                    accept='.jpg,.jpeg,.png,.gif'
+                  />
                   {previewImageAsk && <img src={previewImageAsk} alt='fileUploadImage' className='object-cover h-64' />}
                   {!previewImageAsk && <FileShow url={question?.file} />}
                 </div>
@@ -153,7 +158,12 @@ export default function DialogCommonQuestion({ question, children }: Props) {
               <div className='mb-4'>
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
                   <Label htmlFor='file'>Tệp đính kèm câu trả lời</Label>
-                  <Input id='file' type='file' onChange={(e) => handleFileChange(e, 'answer')} />
+                  <Input
+                    id='file'
+                    type='file'
+                    onChange={(e) => handleFileChange(e, 'answer')}
+                    accept='.jpg,.jpeg,.png,.gif'
+                  />
                   {previewImageAnswer && (
                     <img src={previewImageAnswer} alt='fileUploadImage' className='object-cover h-64' />
                   )}

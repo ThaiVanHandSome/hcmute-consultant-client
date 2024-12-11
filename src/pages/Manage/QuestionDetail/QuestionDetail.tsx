@@ -1,8 +1,7 @@
 import { answerTheQuestion, approvalAnswer, getDeleteLog, getQuestionById } from '@/apis/question.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
-import FileItem from '@/components/dev/FileItem'
+import FileShow from '@/components/dev/FileShow'
 import Editor from '@/components/dev/Form/Editor'
-import QuestionImage from '@/components/dev/QuestionImage'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Form } from '@/components/ui/form'
@@ -20,7 +19,7 @@ import DialogDeleteQuestion from '@/pages/Manage/QuestionDetail/components/Dialo
 import DialogForwardQuestion from '@/pages/Manage/QuestionDetail/components/DialogForwardQuestion'
 import DialogUpdateAnswer from '@/pages/Manage/QuestionDetail/components/DialogUpdateAnswer'
 import { Answer } from '@/types/question.type'
-import { formatDate, isImageFile } from '@/utils/utils'
+import { formatDate } from '@/utils/utils'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
@@ -240,16 +239,7 @@ export default function QuestionDetail() {
       <div className='bg-background px-6 rounded-lg shadow-xl flex items-center justify-center py-2'>
         <div className='w-2/3 bg-primary-bg px-4 py-2 rounded-xl'>
           <div dangerouslySetInnerHTML={{ __html: question?.content as string }}></div>
-          {question?.fileName && (
-            <>
-              {isImageFile(question?.fileName ?? '') && (
-                <div className='-mx-4'>
-                  <QuestionImage url={question.fileName} />
-                </div>
-              )}
-              {!isImageFile(question?.fileName ?? '') && <FileItem url={question?.fileName} />}
-            </>
-          )}
+          {question?.fileName && <FileShow url={question?.fileName} />}
         </div>
       </div>
       {question && !!question.answerContent && (
