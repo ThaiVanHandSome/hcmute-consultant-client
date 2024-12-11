@@ -1,6 +1,5 @@
 import { createSchedule } from '@/apis/consultant.api'
 import DatePicker from '@/components/dev/DatePicker'
-import CheckboxCustom from '@/components/dev/Form/CheckboxCustom'
 import Editor from '@/components/dev/Form/Editor'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import TimePickerCustom from '@/components/dev/TimePickerCustom'
@@ -107,7 +106,6 @@ export default function DialogCreateSchedule({ children }: Props) {
               {!isOnline && (
                 <InputCustom control={form.control} name='location' placeholder='Nhập địa chỉ' label='Địa chỉ' />
               )}
-              <CheckboxCustom control={form.control} name='statusPublic' label='Công khai' />
               <Button disabled={createScheduleMutation.isPending} isLoading={createScheduleMutation.isPending}>
                 Tạo
               </Button>

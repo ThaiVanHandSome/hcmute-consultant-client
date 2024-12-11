@@ -233,7 +233,9 @@ export default function Header() {
         {isAuthenticated && (
           <div className='hidden lg:flex items-center'>
             <HeaderNotification />
-            <HeaderMessage />
+            {[ROLE.consultant as Role, ROLE.user as Role].includes(role as Role) && (
+              <HeaderMessage />
+            )}
             <ModeToggle />
             {role === ROLE.user && <UserPopover />}
             {[ROLE.consultant as Role, ROLE.admin as Role, ROLE.advisor as Role].includes(role as Role) && (

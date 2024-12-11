@@ -139,7 +139,6 @@ export default function SchedualConsultant() {
                   isRequired
                   infoText='Nêu rõ vấn đề mà bạn cần được tư vấn. Cần nêu chi tiết để tư vấn viên có thể hỗ trợ bạn tốt hơn.'
                 />
-                <CheckboxCustom control={form.control} name='statusPublic' label='Chế độ công khai' />
                 <CheckboxCustom control={form.control} name='mode' label='Online' />
                 <div className='flex items-center justify-end'>
                   <Button type='submit'>Đặt lịch</Button>

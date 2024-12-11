@@ -1,6 +1,6 @@
 import { createComment, getComments } from '@/apis/comment.api'
 import { countLikeOfPost, getPostRecord, likePost, unLikePost } from '@/apis/like.api'
-import { approvePost, getPostDetail, getPosts } from '@/apis/post.api'
+import { approvePost, deletePost, getPostDetail, getPosts } from '@/apis/post.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import CommentItem from '@/components/dev/CommentItem'
 import InputCustom from '@/components/dev/Form/InputCustom'
@@ -137,6 +137,22 @@ export default function Post() {
     })
   }
 
+  const deletePostMutation = useMutation({
+    mutationFn: (id: number) => deletePost(id)
+  })
+
+  const handleDelete = () => {
+    const id = post?.id
+    if (!id) return
+    deletePostMutation.mutate(id, {
+      onSuccess: (res) => {
+        toast({
+          description: res.data.message
+        })
+      }
+    })
+  }
+
   return (
     <div className='h-remain-screen grid grid-cols-12'>
       <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-background'>
@@ -153,7 +169,7 @@ export default function Post() {
               'bg-secondary text-secondary-foreground': id === post.id
             })}
           >
-            {isImageFile(post.fileName) && (
+            {post?.fileName && isImageFile(post.fileName) && (
               <div className='w-16 h-16 mr-2'>
                 <img src={post.fileName} alt='consult' className='object-fill w-full h-full block rounded-md' />
               </div>
@@ -194,7 +210,25 @@ export default function Post() {
             {role === ROLE.admin && !post?.approved && <Badge variant='destructive'>Chưa phê duyệt</Badge>}
           </div>
           <div className='flex items-center space-x-3'>
-            {role === ROLE.admin && !post?.approved && <Button disabled={approvePostMutation.isPending}  isLoading={approvePostMutation.isPending} onClick={handleApprove}>Phê duyệt</Button>}
+            {role === ROLE.admin && !post?.approved && (
+              <Button
+                disabled={approvePostMutation.isPending}
+                isLoading={approvePostMutation.isPending}
+                onClick={handleApprove}
+              >
+                Phê duyệt
+              </Button>
+            )}
+            {role === ROLE.admin && (
+              <Button
+                variant='destructive'
+                disabled={deletePostMutation.isPending}
+                isLoading={deletePostMutation.isPending}
+                onClick={handleDelete}
+              >
+                Xóa
+              </Button>
+            )}
             <div className='flex items-center space-x-1 cursor-pointer'>
               <ThumbsUp
                 className={clsx('size-5', {

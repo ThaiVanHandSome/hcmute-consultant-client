@@ -28,3 +28,10 @@ export const approvePost = (id: number) =>
       id
     }
   })
+
+export const deletePost = (id: number) =>
+  http.delete<SuccessResponse<string>>('post/delete', {
+    params: {
+      id
+    }
+  })

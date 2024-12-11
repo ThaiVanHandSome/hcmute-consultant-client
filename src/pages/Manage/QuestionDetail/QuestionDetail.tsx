@@ -9,6 +9,7 @@ import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
+import { ROLE, Role } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import useQueryParams from '@/hooks/useQueryParams'
@@ -29,7 +30,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 
 export default function QuestionDetail() {
-  const { user } = useContext(AppContext)
+  const { user, role } = useContext(AppContext)
   const { id } = useParams()
   const { status } = useQueryParams()
   const isApproval = status === 'APPROVAL'
@@ -291,11 +292,13 @@ export default function QuestionDetail() {
         <div className='space-x-2'>
           <Button onClick={handleOpenToAnswer}>{isApproval ? 'Đánh giá' : 'Phản hồi'}</Button>
           {!isApproval && <DialogForwardQuestion questionId={question?.id as number} />}
-          <DialogConvertToCommonQuestion question={question}>
-            <Button type='button' variant='secondary'>
-              Chuyển thành câu hỏi chung
-            </Button>
-          </DialogConvertToCommonQuestion>
+          {[ROLE.admin as Role, ROLE.advisor as Role].includes(role as Role) && (
+            <DialogConvertToCommonQuestion question={question}>
+              <Button type='button' variant='secondary'>
+                Chuyển thành câu hỏi chung
+              </Button>
+            </DialogConvertToCommonQuestion>
+          )}
         </div>
         <DialogDeleteQuestion questionId={parseInt(id as string)} />
       </div>
