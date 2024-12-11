@@ -246,7 +246,11 @@ export default function Post() {
           <div className='px-4 py-2 min-h-2'>
             <p>{post?.title}</p>
             <div dangerouslySetInnerHTML={{ __html: post?.content as string }} className='mb-2'></div>
-            <QuestionImage url={post?.fileName as string} />
+            {post?.fileName && isImageFile(post.fileName) && (
+              <div className='w-16 h-16 mr-2'>
+                <img src={post.fileName} alt='consult' className='object-fill w-full h-full block rounded-md' />
+              </div>
+            )}
           </div>
           <div className='px-3 py-1 space-y-2'>
             <div className='flex items-center space-x-1'>

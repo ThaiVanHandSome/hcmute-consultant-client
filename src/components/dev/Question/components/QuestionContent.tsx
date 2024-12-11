@@ -1,7 +1,5 @@
 import { Question } from '@/types/question.type'
-import { isImageFile } from '@/utils/utils'
-import FileItem from '@/components/dev/FileItem'
-import QuestionImage from '@/components/dev/QuestionImage'
+import FileShow from '@/components/dev/FileShow'
 
 interface Props {
   readonly question: Question
@@ -17,16 +15,7 @@ export default function QuestionContent({ question }: Props) {
           className='mb-4 w-full max-w-full break-words'
         ></div>
       </div>
-      {question?.fileName && (
-        <>
-          {isImageFile(question?.fileName ?? '') && (
-            <div className='-mx-4'>
-              <QuestionImage url={question.fileName} />
-            </div>
-          )}
-          {!isImageFile(question?.fileName ?? '') && <FileItem url={question?.fileName} />}
-        </>
-      )}
+      {question?.fileName && <FileShow url={question.fileName} />}
     </div>
   )
 }
