@@ -22,7 +22,7 @@ export default function ManagePost() {
 
   const form = useForm({
     defaultValues: {
-      isApproved: 'true'
+      isApproved: 'false'
     }
   })
 
