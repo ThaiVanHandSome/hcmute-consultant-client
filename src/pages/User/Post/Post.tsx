@@ -14,12 +14,13 @@ import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import { toast } from '@/hooks/use-toast'
 import usePostQueryConfig from '@/hooks/usePostQueryConfig'
+import PostItem from '@/pages/User/Post/components/PostItem'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { MessageCircleIcon, SendIcon, ThumbsUp } from 'lucide-react'
 import { useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, createSearchParams, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 export default function Post() {
   const form = useForm({
@@ -156,29 +157,7 @@ export default function Post() {
     <div className='h-remain-screen grid grid-cols-12'>
       <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-background'>
         <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các hoạt động tự vấn</div>
-        {posts?.data.data.content.map((post) => (
-          <Link
-            key={post.id}
-            to={{
-              pathname: `/posts/${post.id}`,
-              search: createSearchParams(postQueryConfig).toString()
-            }}
-            className={clsx('flex mb-3 px-2 py-1 hover:transition-all cursor-pointer rounded-md w-full', {
-              'hover:bg-secondary hover:text-secondary-foreground': id !== post.id,
-              'bg-secondary text-secondary-foreground': id === post.id
-            })}
-          >
-            <div>
-              <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{post.title}</p>
-              <p className='text-xs font-semibold text-muted-foreground'>
-                {post.name} - {post.createdAt}
-              </p>
-              <p className='text-xs font-semibold text-muted-foreground'>
-                {countLikes?.data.data} thích - {post.totalComments} bình luận
-              </p>
-            </div>
-          </Link>
-        ))}
+        {posts?.data.data.content.map((post) => <PostItem post={post} postQueryConfig={postQueryConfig} />)}
         <Separator className='my-2' />
         <div>
           <Paginate
