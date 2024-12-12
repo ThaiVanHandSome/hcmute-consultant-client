@@ -165,6 +165,8 @@ export default function QuestionForm({ question }: Props) {
     setFile(fileFromLocal)
   }
 
+  console.log(previewImage)
+
   return (
     <div className='overflow-hidden'>
       {isFormReset.current && (
