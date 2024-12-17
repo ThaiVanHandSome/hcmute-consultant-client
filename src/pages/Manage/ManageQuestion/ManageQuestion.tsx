@@ -10,6 +10,9 @@ import { useQuery } from '@tanstack/react-query'
 
 export default function ManageQuestion() {
   const questionQueryConfig = useQuestionQueryConfig()
+  if (questionQueryConfig.status === 'APPROVED') {
+    questionQueryConfig.statusApproval = 'true'
+  }
 
   const { data: questions } = useQuery({
     queryKey: ['questions', questionQueryConfig],

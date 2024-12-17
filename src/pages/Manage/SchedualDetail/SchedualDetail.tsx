@@ -160,6 +160,8 @@ export default function SchedualDetail() {
       statusPublic: getTextOfBoolean(schedule.statusPublic),
       title: schedule.title
     })
+    setDate(schedule.consultationDate as unknown as Date)
+    setTime(schedule.consultationTime)
     formReset.current = true
   }, [schedule])
 

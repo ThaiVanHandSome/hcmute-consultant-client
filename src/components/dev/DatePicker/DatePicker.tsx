@@ -34,7 +34,7 @@ export default function DatePicker({ date, setDate, placeholder, label, disabled
             {date ? format(date, 'yyyy-MM-dd') : <span>{placeholder}</span>}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto p-0'>
+        <PopoverContent className='w-auto p-0 z-[9999]' sideOffset={10}>
           <Calendar mode='single' selected={date} onSelect={setDate} initialFocus disabled={disabled} />
         </PopoverContent>
       </Popover>
