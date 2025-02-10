@@ -12,7 +12,15 @@ export default function MainLayout({ children }: { readonly children: React.Reac
           <HeaderMessage />
         </div>
       </div> */}
-      <div className='bg-primary-bg mt-[var(--header-height)] min-h-remain-screen'>{children}</div>
+      <div className='bg-primary-bg mt-[var(--header-height)] min-h-remain-screen'>
+        {/* <div
+          style={{
+            clipPath: 'polygon(0 34%, 37% 0, 100% 62%, 63% 100%)'
+          }}
+          className='bg-primary w-full h-full z-50'
+        ></div> */}
+        {children}
+      </div>
     </div>
   )
 }

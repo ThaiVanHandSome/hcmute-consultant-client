@@ -23,7 +23,7 @@ export default function ListPost() {
   }, [isShowAll, posts])
   return (
     <div className='py-2 w-full rounded-md shadow-md bg-background mb-4'>
-      <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Bài đăng</div>
+      <div className='mb-1 py-1 rounded-md font-bold text-lg px-2 text-gray-500'>Bài đăng</div>
       {!!postsData && postsData.length > 0 ? (
         <>
           <ul className='max-w-full w-full'>
@@ -32,7 +32,11 @@ export default function ListPost() {
             ))}
           </ul>
           <div className='flex items-center justify-center'>
-            <Button className='px-2 h-8 text-xs flex items-center gap-1' onClick={() => setIsShowAll((prev) => !prev)}>
+            <Button
+              variant='outline'
+              className='bg-secondary text-secondary-foreground px-2 h-8 text-xs flex items-center gap-1'
+              onClick={() => setIsShowAll((prev) => !prev)}
+            >
               {isShowAll ? (
                 <>
                   <svg

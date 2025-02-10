@@ -24,7 +24,7 @@ export default function AsideNav() {
             <ul>
               <li
                 className={clsx('text-left hover:font-semibold transition-all text-sm hover:rounded-md', {
-                  'bg-primary text-primary-foreground font-semibold rounded-md': !queryConfig.departmentId,
+                  'bg-primary text-primary-foreground rounded-md': !queryConfig.departmentId,
                   'hover:bg-card hover:text-card-foreground': queryConfig.departmentId
                 })}
               >

@@ -26,7 +26,7 @@ export default function ListConsultActivity() {
 
   return (
     <div className='py-2 w-full rounded-md shadow-md bg-background mb-4'>
-      <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các hoạt động tư vấn</div>
+      <div className='mb-1 py-1 rounded-md font-bold text-lg px-2 text-gray-500'>Các hoạt động tư vấn</div>
       {!!scheduleActivitiesData && scheduleActivitiesData.length > 0 ? (
         <>
           <ul className='max-w-full w-full'>
@@ -35,7 +35,11 @@ export default function ListConsultActivity() {
             ))}
           </ul>
           <div className='flex items-center justify-center'>
-            <Button className='px-2 h-8 text-xs flex items-center gap-1' onClick={() => setIsShowAll((prev) => !prev)}>
+            <Button
+              variant='outline'
+              className='bg-secondary text-secondary-foreground px-2 h-8 text-xs flex items-center gap-1'
+              onClick={() => setIsShowAll((prev) => !prev)}
+            >
               {isShowAll ? (
                 <>
                   <svg

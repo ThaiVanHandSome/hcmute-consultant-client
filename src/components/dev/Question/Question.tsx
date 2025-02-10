@@ -17,13 +17,15 @@ export default function Question({ question, className }: Props) {
     <div
       className={clsx(
         className,
-        'bg-primary-bg text-foreground rounded-md shadow-sm w-full max-w-full overflow-hidden border'
+        'bg-primary-bg text-foreground rounded-md shadow-sm w-full max-w-full overflow-hidden border relative'
       )}
     >
       <div className='px-4 py-3 mb-6'>
+        <div className='absolute top-4 right-2'>
+          <QuestionAction question={question} />
+        </div>
         <QuestionHeader question={question} />
         <QuestionContent question={question} />
-        <QuestionAction question={question}/>
         {question.answerContent && (
           <>
             <Separator className='my-4' />

@@ -34,7 +34,7 @@ export default function NavHeader() {
       {role === ROLE.user && (
         <>
           <NavLinkItem to={path.home} label='Trang chủ' />
-          <NavLinkItem isEmphasize to={path.createQuestion} label='Đặt câu hỏi' />
+          <NavLinkItem to={path.createQuestion} label='Đặt câu hỏi' />
           <NavLinkItem to={path.questionLibrary} label='Thư viện câu hỏi' />
           <div className='block lg:hidden'>
             <NavLinkItem to={path.posts} label='Bài đăng' />
@@ -67,7 +67,7 @@ export default function NavHeader() {
               </ul>
             }
           >
-            <div className='text-sm mx-2 cursor-pointer text-foreground hover:text-primary transition-all flex items-center'>
+            <div className='text-sm mx-2 cursor-pointer text-muted-foreground hover:text-primary transition-all flex items-center'>
               Tư vấn
               <ChevronDownIcon className='ml-1' />
             </div>
