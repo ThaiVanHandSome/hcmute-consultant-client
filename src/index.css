@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 203.83 100% 27.65%;
+    --primary: 204 88% 40%;
     --primary-foreground: 210 100% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -39,7 +39,7 @@
   }
 
   .dark {
-    --primary-bg: 214.29 13.73% 10%;
+    --primary-bg: 214.29 13.73% 10%; 
     --background: 213.33 11.69% 15.1%;
     --foreground: 222.86 10.14% 86.47%;
 
@@ -83,7 +83,7 @@
   }
 
   .editor p {
-    @apply w-full max-w-full break-words;
+    @apply w-full max-w-full break-words text-sm;
   }
 
   .editor h1 {

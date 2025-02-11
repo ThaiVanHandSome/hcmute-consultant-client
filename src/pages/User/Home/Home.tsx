@@ -17,10 +17,10 @@ export default function Home() {
   return (
     <div className='bg-background'>
       <div className='flex relative'>
-        <div className='hidden lg:block w-[320px] fixed top-[var(--header-height)] pt-4 border-r'>
+        <div className='hidden lg:block w-[360px] fixed top-[var(--header-height)] pt-4 border-r'>
           <AsideNav />
         </div>
-        <div className='ml-0 lg:ml-[320px] mr-0 lg:mr-[360px] flex-1'>
+        <div className='ml-0 lg:ml-[360px] mr-0 lg:mr-[360px] flex-1'>
           {role === ROLE.user && (
             <div className='flex items-center justify-center mt-4'>
               <div className='lg:w-[90%] w-[95%] px-6 py-6 bg-gradient-to-r from-blue-400 to-purple-500 text-white  flex flex-col lg:flex-row space-y-2 lg:space-y-0 justify-between items-center z-10 bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl shadow-xl'>

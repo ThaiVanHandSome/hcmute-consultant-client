@@ -5,15 +5,10 @@ export default function CreateQuestion() {
   return (
     <div className='py-6'>
       <div className='container'>
+        <h1 className='font-extrabold text-2xl text-left uppercase mb-6 text-primary tracking-wide'>
+          Đặt câu hỏi cho ban tư vấn
+        </h1>
         <div className='grid grid-cols-12 gap-4'>
-          <div className='col-span-12 lg:col-span-9 bg-background text-foreground px-6 py-3 shadow-xl border rounded-lg'>
-            <h1 className='font-extrabold text-2xl text-left uppercase mb-6 text-primary tracking-wide'>
-              Đặt câu hỏi cho ban tư vấn
-            </h1>
-            <div>
-              <QuestionForm />
-            </div>
-          </div>
           <div className='hidden lg:block col-span-3 text-sm'>
             <div className='px-4 py-4 bg-background text-foreground rounded-lg shadow-xl border mb-6'>
               <p className='text-xl font-semibold text-blue-600 mb-2 uppercase'>Tiêu chí</p>
@@ -35,6 +30,11 @@ export default function CreateQuestion() {
                   phát hiện sai phạm, tài khoản sẽ bị cấm <strong>vĩnh viễn</strong>.
                 </p>
               </div>
+            </div>
+          </div>
+          <div className='col-span-12 lg:col-span-9 bg-background text-foreground px-6 py-3 shadow-xl border rounded-lg'>
+            <div>
+              <QuestionForm />
             </div>
           </div>
         </div>

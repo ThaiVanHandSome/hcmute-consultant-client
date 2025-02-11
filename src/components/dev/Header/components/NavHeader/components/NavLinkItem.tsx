@@ -14,7 +14,7 @@ export default function NavLinkItem({ to, label, icon, isEmphasize }: Props) {
       to={to}
       className={({ isActive }) =>
         clsx(
-          'flex text-sm items-center text-secondary-foreground hover:text-primary hover:transition-all mx-0 lg:mx-2 my-2 lg:my-0',
+          'flex text-sm items-center text-muted-foreground hover:text-primary hover:transition-all mx-0 lg:mx-2 my-2 lg:my-0',
           {
             '!text-primary font-bold': isActive,
             'flaming-text': isEmphasize

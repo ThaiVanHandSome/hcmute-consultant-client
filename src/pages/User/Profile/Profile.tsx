@@ -154,7 +154,23 @@ export default function Profile() {
   return (
     <div>
       <div className='grid grid-cols-5'>
-        <div className='order-2 lg:order-1 col-span-5 lg:col-span-3'>
+        <div className='order-1 lg:order-1 col-span-5 lg:col-span-2'>
+          <div className='flex flex-col items-center'>
+            <img src={previewImage || profile?.data.data.avatarUrl} alt='avatar' className='size-56 rounded-full' />
+            <Button variant='secondary' className='mt-4' onClick={() => btnChooseImageRef.current?.click()}>
+              Chọn ảnh
+            </Button>
+            <Input
+              accept='.jpg,.jpeg,.png'
+              ref={btnChooseImageRef}
+              id='file'
+              type='file'
+              onChange={handleFileChange}
+              className='hidden'
+            />
+          </div>
+        </div>
+        <div className='order-2 lg:order-2 col-span-5 lg:col-span-3'>
           <Form {...form}>
             <form onSubmit={onSubmit}>
               <InputCustom disabled control={form.control} name='username' label='Username' />
@@ -210,31 +226,17 @@ export default function Profile() {
                   </div>
                 </div>
               )}
-              <Button
-                isLoading={updateProfileMutation.isPending}
-                disabled={updateProfileMutation.isPending}
-                className='px-6 py-2 bg-primary text-primary-foreground'
-              >
-                Cập nhật
-              </Button>
+              <div className='flex justify-end'>
+                <Button
+                  isLoading={updateProfileMutation.isPending}
+                  disabled={updateProfileMutation.isPending}
+                  className='px-6 py-2 bg-primary text-primary-foreground'
+                >
+                  Cập nhật
+                </Button>
+              </div>
             </form>
           </Form>
-        </div>
-        <div className='order-1 lg:order-2 col-span-5 lg:col-span-2'>
-          <div className='flex flex-col items-center'>
-            <img src={previewImage || profile?.data.data.avatarUrl} alt='avatar' className='size-56 rounded-full' />
-            <Button variant='secondary' className='mt-4' onClick={() => btnChooseImageRef.current?.click()}>
-              Chọn ảnh
-            </Button>
-            <Input
-              accept='.jpg,.jpeg,.png'
-              ref={btnChooseImageRef}
-              id='file'
-              type='file'
-              onChange={handleFileChange}
-              className='hidden'
-            />
-          </div>
         </div>
       </div>
     </div>

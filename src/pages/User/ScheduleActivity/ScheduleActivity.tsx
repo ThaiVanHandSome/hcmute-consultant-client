@@ -1,6 +1,7 @@
 import { cancelConsultation, checkJoinConsultation, getScheduleDetail, joinSchedule } from '@/apis/consultant.api'
 import { getScheduals } from '@/apis/user.api'
 import Paginate from '@/components/dev/PaginationCustom/PaginationCustom'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { toast } from '@/hooks/use-toast'
@@ -84,16 +85,24 @@ export default function ScheduleActivity() {
               'bg-secondary text-secondary-foreground': id === scheduleActivity.id
             })}
           >
-            <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{scheduleActivity.title}</p>
-            <p className='text-xs font-semibold text-muted-foreground'>
-              {scheduleActivity?.department?.name ?? 'Tất cả phòng ban'} - {scheduleActivity.consultationDate}
-            </p>
+            <div className='px-2 py-1'>
+              <div className='flex items-center justify-between'>
+                <Badge variant='destructive'>
+                  {scheduleActivity.consultationDate} {scheduleActivity.consultationTime}AM
+                </Badge>{' '}
+              </div>
+              {/* <Separator className='mt-2 mb-1' /> */}
+              <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{scheduleActivity.title}</p>
+              <p className='text-xs font-semibold text-muted-foreground'>
+                {scheduleActivity?.department ? scheduleActivity?.department.name : 'Tất cả phòng ban'}
+              </p>
+            </div>
           </Link>
         ))}
         <Separator className='my-2' />
         <div>
           <Paginate
-            path={`/schedules-activities/${id}`}
+            path={`/schedule-activities/${id}`}
             queryConfig={scheduleQueryConfig}
             pageSize={scheduleActivities?.data.data.totalPages as number}
             RANGE={1}
