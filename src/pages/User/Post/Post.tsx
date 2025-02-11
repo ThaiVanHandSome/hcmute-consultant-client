@@ -156,7 +156,7 @@ export default function Post() {
   return (
     <div className='h-remain-screen grid grid-cols-12'>
       <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-background'>
-        <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các hoạt động tự vấn</div>
+        <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các bài đăng</div>
         {posts?.data.data.content.map((post) => <PostItem post={post} postQueryConfig={postQueryConfig} />)}
         <Separator className='my-2' />
         <div>
@@ -205,10 +205,10 @@ export default function Post() {
             <div className='flex items-center space-x-1 cursor-pointer'>
               <ThumbsUp
                 className={clsx('size-5', {
-                  'fill-primary text-background': isLikedPost,
-                  'fill-none text-primary': !isLikedPost
+                  'text-primary': isLikedPost,
+                  'text-black': !isLikedPost
                 })}
-                strokeWidth='0.4'
+                strokeWidth='1.25'
                 onClick={handleTogglePost}
               />
               <span className='font-semibold text-sm'>{countLikes?.data?.data ?? '0'}</span>
