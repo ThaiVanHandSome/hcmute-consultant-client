@@ -52,7 +52,7 @@ import Consultation from '@/pages/User/Consultation'
 import PostMobile from '@/pages/User/PostMobile'
 import ConsultActivityMobile from '@/pages/User/ConsultActivityMobile'
 import Chats from '@/pages/User/Chats'
-
+import OAuth2RedirectHandler from '@/pages/Auth/OAuth2RedirectHandler'
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
   return isAuthenticated ? <Outlet /> : <Navigate to={path.login} />
@@ -74,6 +74,10 @@ function RejectedRoute() {
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
+    {
+      path: path.oauth2Redirect,
+      element: <OAuth2RedirectHandler />
+    },    
     {
       path: path.home,
       index: true,
