@@ -4,6 +4,8 @@ import { Control, FieldPath, FieldValues, useController } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { InfoIcon } from 'lucide-react'
+import 'react-quill/dist/quill.snow.css'
+import { Quill } from 'react-quill'
 
 interface EditorProps<TFieldValues extends FieldValues = FieldValues> {
   readonly label?: string
@@ -14,6 +16,21 @@ interface EditorProps<TFieldValues extends FieldValues = FieldValues> {
   readonly helperText?: string
   readonly isRequired?: boolean
   readonly infoText?: string
+}
+
+const modules = {
+  toolbar: [
+    [{ font: [] }, { size: [] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ color: [] }, { background: [] }],
+    [{ script: 'sub' }, { script: 'super' }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ align: [] }],
+    ['link', 'image', 'video'],
+    ['code-block'],
+    ['clean']
+  ]
 }
 
 export default function Editor<TFieldValues extends FieldValues>({
@@ -67,6 +84,7 @@ export default function Editor<TFieldValues extends FieldValues>({
                 onChange={field.onChange}
                 className='bg-background text-foreground'
                 readOnly={disabled}
+                modules={modules}
               />
             </FormControl>
             {helperText && <FormDescription className='text-xs'>{helperText}</FormDescription>}

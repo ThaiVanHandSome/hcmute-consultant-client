@@ -157,7 +157,7 @@ export default function Post() {
     <div className='h-remain-screen grid grid-cols-12'>
       <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-background'>
         <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các bài đăng</div>
-        {posts?.data.data.content.map((post) => <PostItem post={post} postQueryConfig={postQueryConfig} />)}
+        {posts?.data.data.content.map((post) => <PostItem activeId={id} post={post} postQueryConfig={postQueryConfig} />)}
         <Separator className='my-2' />
         <div>
           <Paginate
@@ -217,7 +217,7 @@ export default function Post() {
         </div>
         <div className='bg-background'>
           <div className='px-4 py-2 min-h-2'>
-            <p>{post?.title}</p>
+            <p className='font-semibold text-2xl mb-2'>{post?.title}</p>
             <div dangerouslySetInnerHTML={{ __html: post?.content as string }} className='mb-2'></div>
             {post?.fileName && <FileShow url={post.fileName} />}
           </div>

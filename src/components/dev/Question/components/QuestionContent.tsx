@@ -7,7 +7,7 @@ interface Props {
 
 export default function QuestionContent({ question }: Props) {
   return (
-    <div className='w-full max-w-full'>
+    <div className='w-full max-w-full px-4 py-3'>
       <div>
         <div className='font-semibold text-md italic mb-1 break-words'>{question.title}</div>
         <div

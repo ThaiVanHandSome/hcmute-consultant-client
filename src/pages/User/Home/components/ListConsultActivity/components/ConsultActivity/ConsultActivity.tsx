@@ -23,7 +23,11 @@ export default function ConsultActivity({ scheduleActivity }: Props) {
             <Badge variant='destructive'>
               {scheduleActivity.consultationDate} {scheduleActivity.consultationTime}AM
             </Badge>{' '}
-            {isJoin ? <Badge variant='default'>Đã tham gia</Badge> : <Badge variant='secondary'>Chưa tham gia</Badge>}
+            {isJoin ? (
+              <span className='font-semibold text-primary text-xs'>Đã tham gia</span>
+            ) : (
+              <span className='font-semibold text-muted-foreground text-xs'>Chưa tham gia</span>
+            )}
           </div>
           {/* <Separator className='mt-2 mb-1' /> */}
           <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{scheduleActivity.title}</p>
