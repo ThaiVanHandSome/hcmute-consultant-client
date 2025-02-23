@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import { formatDate } from '@/utils/utils'
 import { BellIcon, CheckCircledIcon, CrossCircledIcon, InfoCircledIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
 // Thêm helper function để lấy icon theo type

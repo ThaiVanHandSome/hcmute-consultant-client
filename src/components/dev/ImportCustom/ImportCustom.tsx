@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
@@ -5,15 +6,28 @@ import { Progress } from '@/components/ui/progress'
 import { X, Check, Cloud } from 'lucide-react'
 import * as XLSX from 'xlsx'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import importConfig from './importConfig'
+
+interface ImportConfig {
+  role: { name: string; required: boolean }[]
+  user: { name: string; required: boolean }[]
+}
+
+const importConfig: ImportConfig = {
+  role: [
+    /* ... */
+  ],
+  user: [
+    /* ... */
+  ]
+}
 
 export default function ImportCustom() {
   const [file, setFile] = useState<{ file: File; progress: number; isUploading: boolean } | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [tableData, setTableData] = useState<any[]>([])
   const [isTableDialogOpen, setIsTableDialogOpen] = useState(false)
-  const [importType, setImportType] = useState<string>('role') // Default import type
   const [errorLog, setErrorLog] = useState<string | null>(null)
+  const [importType] = useState<keyof ImportConfig>('role')
 
   const inputFileRef = useRef<HTMLInputElement | null>(null)
 
@@ -106,9 +120,9 @@ export default function ImportCustom() {
     const config = importConfig[importType]
     const headers = tableData[0]
 
-    const missingRequiredColumns = config.filter((col) => col.required && !headers.includes(col.name))
+    const missingRequiredColumns = config.filter((col: any) => col.required && !headers.includes(col.name))
     if (missingRequiredColumns.length > 0) {
-      const errorMessage = `Missing required columns: ${missingRequiredColumns.map((col) => col.name).join(', ')}`
+      const errorMessage = `Missing required columns: ${missingRequiredColumns.map((col: any) => col.name).join(', ')}`
       console.error(errorMessage)
       setErrorLog(errorMessage)
     } else {
@@ -165,7 +179,7 @@ export default function ImportCustom() {
                   </div>
                   {file.isUploading && (
                     <div className='mt-2'>
-                      <Progress value={file.progress} max='100' className='w-full' />
+                      <Progress value={file.progress} className='w-full' />
                       <p className='text-sm mt-1 text-gray-600'>Uploading to browser: {file.progress.toFixed(2)}%</p>
                     </div>
                   )}

@@ -7,20 +7,9 @@ import AsideNav from '@/pages/User/Home/components/AsideNav'
 import ListQuestion from '@/pages/User/Home/components/ListQuestion'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import LogoTabline from '@/assets/images/logos/Logo_Tabline.png'
 import ListPost from '@/pages/User/Home/components/ListPost'
 import ListConsultActivity from '@/pages/User/Home/components/ListConsultActivity'
-import {
-  TrendingUp,
-  Search,
-  User,
-  ArrowUp,
-  MessageCircle,
-  HelpCircle,
-  BookOpen,
-  Activity,
-  ChevronRight
-} from 'lucide-react'
+import { TrendingUp, Search, HelpCircle, BookOpen, Activity, ChevronRight } from 'lucide-react'
 
 export default function Home() {
   const { role } = useContext(AppContext)

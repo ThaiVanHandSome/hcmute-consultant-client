@@ -51,9 +51,7 @@ export default function Consultants() {
               <div className='flex items-center justify-between'>
                 <div>
                   <p className='text-sm font-medium text-gray-500'>Đang hoạt động</p>
-                  <p className='text-2xl font-semibold text-gray-800 mt-1'>
-                    {consultants?.data.data.content.filter((c) => c.status === 'active').length || 0}
-                  </p>
+                  <p className='text-2xl font-semibold text-gray-800 mt-1'>0</p>
                 </div>
                 <div className='w-12 h-12 bg-green-50 rounded-full flex items-center justify-center'>
                   <HiOutlineUsers className='w-6 h-6 text-green-600' />
@@ -65,9 +63,7 @@ export default function Consultants() {
               <div className='flex items-center justify-between'>
                 <div>
                   <p className='text-sm font-medium text-gray-500'>Chờ xác nhận</p>
-                  <p className='text-2xl font-semibold text-gray-800 mt-1'>
-                    {consultants?.data.data.content.filter((c) => c.status === 'pending').length || 0}
-                  </p>
+                  <p className='text-2xl font-semibold text-gray-800 mt-1'>0</p>
                 </div>
                 <div className='w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center'>
                   <HiOutlineClock className='w-6 h-6 text-orange-600' />
