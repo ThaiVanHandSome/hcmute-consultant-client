@@ -77,7 +77,12 @@ export default function useRouteElement() {
   const routeElement = useRoutes([
     {
       path: path.oauth2Redirect,
-      element: <OAuth2RedirectHandler />
+      index: true,
+      element: (
+        <MainLayout>
+           <OAuth2RedirectHandler />
+        </MainLayout>
+      )
     },    
     {
       path: path.home,
