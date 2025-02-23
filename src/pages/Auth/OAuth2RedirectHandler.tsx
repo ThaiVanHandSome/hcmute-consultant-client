@@ -1,30 +1,59 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { parseJWT } from '@/utils/utils';
+import path from '@/constants/path';
+import { useContext } from 'react';
+import { AppContext } from '@/contexts/app.context';
+import { setAccessTokenToLocalStorage, setRoleToLocalStorage } from '@/utils/auth';
 
 const OAuth2RedirectHandler = () => {
   const navigate = useNavigate();
+  const { setIsAuthenticated, setRole } = useContext(AppContext);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-    const error = params.get('error');
-    const userInfo = params.get('user');
+    // Lấy token từ URL params
+    const currentUrl = window.location.href;
+    const tokenIndex = currentUrl.indexOf('token=');
+    let token = '';
+    
+    if (tokenIndex !== -1) {
+      token = currentUrl.slice(tokenIndex + 6); // 6 là độ dài của 'token='
+    }
 
     if (token) {
-      localStorage.setItem('accessToken', token);
-      console.log('Stored Token:', localStorage.getItem('accessToken'));
+      console.log('Token from URL:', token);
+      
+      try {
+        // Giải mã JWT
+        const payload = parseJWT(token);
+        console.log('Decoded JWT:', payload);
 
-      if (userInfo) {
-        localStorage.setItem('user', decodeURIComponent(userInfo));
+        // Lưu token và role vào localStorage
+        setAccessTokenToLocalStorage(token);
+        setRoleToLocalStorage(payload.authorities);
+        
+        // Cập nhật state trong context
+        setIsAuthenticated(true);
+        setRole(payload.authorities);
+
+        console.log('LocalStorage after setting:', {
+          accessToken: localStorage.getItem('accessToken'),
+          role: localStorage.getItem('ROLE')
+        });
+
+        // Chuyển hướng về trang chính
+        navigate(path.home);
+      } catch (error) {
+        console.error('Error processing token:', error);
+        navigate('/login');
       }
-
-      navigate('/home'); // Điều hướng đến trang chính
     } else {
-      navigate('/login', { state: { error } });
+      console.log('No token found, redirecting to login...');
+      navigate('/login');
     }
-  }, [navigate]);
+  }, [navigate, setIsAuthenticated, setRole]);
 
-  return <div>Redirecting...</div>;
+  return <div>Đang chuyển hướng...</div>;
 };
 
 export default OAuth2RedirectHandler;
