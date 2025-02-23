@@ -78,11 +78,7 @@ export default function useRouteElement() {
     {
       path: path.oauth2Redirect,
       index: true,
-      element: (
-        <MainLayout>
-           <OAuth2RedirectHandler />
-        </MainLayout>
-      )
+      element: <OAuth2RedirectHandler />
     },    
     {
       path: path.home,

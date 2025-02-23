@@ -8,68 +8,71 @@ import { setAccessTokenToLocalStorage, setRoleToLocalStorage, setUserToLocalStor
 import http from '@/utils/http';
 
 const OAuth2RedirectHandler = () => {
-  // const navigate = useNavigate();
-  // const { setIsAuthenticated, setUser, setRole } = useContext(AppContext);
+  const navigate = useNavigate();
+  const { setIsAuthenticated, setUser, setRole } = useContext(AppContext);
 
-  // // Hàm lấy tham số từ URL bằng RegExp
-  // const getUrlParameter = (name: string) => {
-  //   name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-  //   const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-  //   const results = regex.exec(window.location.search);
-  //   return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  // };
+  // ✅ Hàm lấy tham số từ URL bằng RegExp (Cải tiến)
+  const getUrlParameter = (name: string) => {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    const results = regex.exec(window.location.search);
+    return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : '';
+  };
 
-  // useEffect(() => {
-  //   console.log('OAuth2RedirectHandler mounted');
+  useEffect(() => {
+    console.log('OAuth2RedirectHandler mounted');
 
-  //   // Lấy token từ URL
-  //   const token = getUrlParameter('token');
-  //   console.log('Extracted token:', token);
+    // ✅ Lấy token từ URL
+    const token = getUrlParameter('token');
+    console.log('Extracted token:', token);
 
-  //   if (!token) {
-  //     console.log('No token found in URL');
-  //     navigate('/register', { replace: true });
-  //     return;
-  //   }
+    if (!token) {
+      console.warn('No token found in URL, redirecting to register...');
+      navigate(path.register, { replace: true });
+      return;
+    }
 
-  //   try {
-  //     // Giải mã JWT
-  //     const payload = parseJWT(token);
-  //     console.log('JWT Payload:', payload);
+    try {
+      // ✅ Giải mã JWT
+      const payload = parseJWT(token);
+      console.log('Decoded JWT Payload:', payload);
 
-  //     // Lưu token & role vào localStorage
-  //     setAccessTokenToLocalStorage(token);
-  //     setRoleToLocalStorage(payload.authorities);
+      // ✅ Lưu token & role vào localStorage
+      setAccessTokenToLocalStorage(token);
+      setRoleToLocalStorage(payload.authorities);
 
-  //     // Cập nhật trạng thái xác thực
-  //     setIsAuthenticated(true);
-  //     setRole(payload.authorities);
+      // ✅ Cập nhật trạng thái xác thực trong Context
+      setIsAuthenticated(true);
+      setRole(payload.authorities);
 
-  //     // Gọi API lấy thông tin user
-  //     http.get('/api/v1/profile')
-  //       .then(response => {
-  //         const userData = response.data.data;
-  //         console.log('User Data:', userData);
+      // ✅ Xóa token khỏi URL để tránh lộ thông tin
+      window.history.replaceState({}, document.title, window.location.pathname);
 
-  //         // Lưu thông tin user
-  //         setUserToLocalStorage(userData);
-  //         setUser(userData);
+      // ✅ Gọi API để lấy thông tin user
+      http.get('/api/v1/profile')
+        .then(response => {
+          const userData = response.data.data;
+          console.log('User Data:', userData);
 
-  //         // Điều hướng về trang chính sau khi có thông tin user
-  //         navigate(path.home, { replace: true });
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching user data:', error);
-  //         navigate('/register', { replace: true });
-  //       });
+          // ✅ Lưu thông tin user vào localStorage & Context
+          setUserToLocalStorage(userData);
+          setUser(userData);
 
-  //   } catch (error) {
-  //     console.error('Error processing OAuth token:', error);
-  //     navigate('/register', { replace: true });
-  //   }
-  // }, [navigate, setIsAuthenticated, setRole, setUser]);
+          // ✅ Điều hướng về trang chính sau khi lấy xong thông tin user
+          navigate(path.home, { replace: true });
+        })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+          navigate(path.register, { replace: true });
+        });
 
-  // return <div className="text-center py-8">Đang xử lý đăng nhập...</div>;
+    } catch (error) {
+      console.error('Error processing OAuth token:', error);
+      navigate(path.register, { replace: true });
+    }
+  }, [navigate, setIsAuthenticated, setRole, setUser]);
+
+  return <div className="text-center py-8">Đang xử lý đăng nhập...</div>;
 };
 
 export default OAuth2RedirectHandler;
