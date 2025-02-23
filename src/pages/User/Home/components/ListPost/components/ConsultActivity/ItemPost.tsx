@@ -2,8 +2,10 @@ import { countLikeOfPost } from '@/apis/like.api'
 import { Post } from '@/types/post.type'
 import { isImageFile } from '@/utils/utils'
 import { useQuery } from '@tanstack/react-query'
-import { MessageCircleIcon, ThumbsUpIcon } from 'lucide-react'
+import { MessageCircleIcon, ThumbsUpIcon, ClockIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { formatDistanceToNow } from 'date-fns'
+import { vi } from 'date-fns/locale'
 
 interface Props {
   readonly post: Post
@@ -19,34 +21,46 @@ export default function ItemPost({ post }: Props) {
   })
 
   return (
-    <Link to={`/posts/${post.id}`} className='block'>
-      <div className='border mb-3 hover:bg-secondary hover:text-secondary-foreground px-3 py-2 hover:transition-all cursor-pointer rounded-md overflow-hidden space-y-2'>
-        <div>
+    <Link to={`/posts/${post.id}`} className='group block'>
+      <article className='bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden'>
+        <div className='aspect-[16/9] overflow-hidden'>
           <img
             src={
               isImageFile(post.fileName)
                 ? post.fileName
                 : 'https://hcmute.edu.vn/Services/GetArticleImage.ashx?option=0&Id=134d1231-6bee-4036-bf0f-1d33e33a0ad4'
             }
-            alt='post-image'
-            className='rounded-md'
+            alt={post.title}
+            className='w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300'
           />
         </div>
-        <div>
-          <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{post.title}</p>
-          <p className='text-xs font-semibold text-muted-foreground'>
-            {post.name} - {post.createdAt}
-          </p>
-        </div>
-        <p className='text-xs font-semibold text-muted-foreground flex items-center space-x-2'>
-          <div className='flex items-center space-x-1'>
-            <span>{countLikes?.data.data}</span> <ThumbsUpIcon className='size-4' />
-          </div>{' '}
-          <div className='flex items-center space-x-1'>
-            <span>{post.totalComments}</span> <MessageCircleIcon className='size-4' />
+
+        <div className='p-4 space-y-3'>
+          <h3 className='font-semibold text-md leading-tight line-clamp-2 group-hover:text-primary transition-colors'>
+            {post.title}
+          </h3>
+
+          <div className='flex items-center space-x-2 text-sm text-gray-600'>
+            <span className='font-medium'>{post.name}</span>
+            <span>•</span>
+            <div className='flex items-center text-gray-500'>
+              <ClockIcon className='size-4 mr-1' />
+              <time>{formatDistanceToNow(new Date(post.createdAt), { locale: vi, addSuffix: true })}</time>
+            </div>
           </div>
-        </p>
-      </div>
+
+          <div className='flex items-center space-x-4 text-sm text-gray-600'>
+            <div className='flex items-center space-x-1.5'>
+              <ThumbsUpIcon className='size-4' />
+              <span>{countLikes?.data.data ?? 0}</span>
+            </div>
+            <div className='flex items-center space-x-1.5'>
+              <MessageCircleIcon className='size-4' />
+              <span>{post.totalComments}</span>
+            </div>
+          </div>
+        </div>
+      </article>
     </Link>
   )
 }

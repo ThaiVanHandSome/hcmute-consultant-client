@@ -5,7 +5,6 @@ import ReactQuill from 'react-quill'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { InfoIcon } from 'lucide-react'
 import 'react-quill/dist/quill.snow.css'
-import { Quill } from 'react-quill'
 
 interface EditorProps<TFieldValues extends FieldValues = FieldValues> {
   readonly label?: string
