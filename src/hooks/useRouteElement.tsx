@@ -80,7 +80,7 @@ export default function useRouteElement() {
       path: path.oauth2Redirect,
       index: true,
       element: <OAuth2RedirectHandler />
-    },
+    },    
     {
       path: path.home,
       index: true,
@@ -352,6 +352,10 @@ export default function useRouteElement() {
         {
           path: path.forgotPassword,
           element: <ForgotPassword />
+        },
+        {
+          path: '/oauth2/redirect',
+          element: <OAuth2RedirectHandler />
         }
       ]
     }

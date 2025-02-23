@@ -35,3 +35,5 @@ export const refreshToken = (body: { refreshToken: string }) =>
 
 export const updatePassword = (body: { currentPassword: string; newPassword: string; confirmNewPassword: string }) =>
   http.put<SuccessResponse<string>>('profile/change-password', body)
+
+

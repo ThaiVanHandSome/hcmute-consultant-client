@@ -111,7 +111,7 @@ export default function Profile() {
         firstName: res.firstName,
         lastName: res.lastName,
         phone: res.phone,
-        gender: res.gender,
+        gender: res.gender || 'NAM',
         provinceCode: res.address?.provinceCode ?? '',
         districtCode: res.address?.districtCode ?? '',
         wardCode: res.address?.wardCode ?? ''
@@ -189,7 +189,6 @@ export default function Profile() {
                 control={form.control}
                 name='gender'
                 label='Giới tính'
-                defaultValue={form.watch('gender')}
                 data={radioGroupData}
               />
               {isFormReset.current && (
