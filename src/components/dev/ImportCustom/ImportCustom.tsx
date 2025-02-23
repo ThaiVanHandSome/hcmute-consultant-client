@@ -6,19 +6,11 @@ import { Progress } from '@/components/ui/progress'
 import { X, Check, Cloud } from 'lucide-react'
 import * as XLSX from 'xlsx'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import importConfig from '@/components/dev/ImportCustom/importConfig'
 
 interface ImportConfig {
   role: { name: string; required: boolean }[]
   user: { name: string; required: boolean }[]
-}
-
-const importConfig: ImportConfig = {
-  role: [
-    /* ... */
-  ],
-  user: [
-    /* ... */
-  ]
 }
 
 export default function ImportCustom() {
