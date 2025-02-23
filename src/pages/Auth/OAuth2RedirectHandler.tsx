@@ -47,16 +47,16 @@ const OAuth2RedirectHandler = () => {
           })
           .catch(error => {
             console.error('Error fetching user data:', error);
-            navigate('/login', { replace: true });
+            navigate('/register', { replace: true });
           });
 
       } catch (error) {
         console.error('Error in OAuth handler:', error);
-        navigate('/login', { replace: true });
+        navigate('/register', { replace: true });
       }
     } else {
       console.log('No token found in URL');
-      navigate('/login', { replace: true });
+      navigate('/register', { replace: true });
     }
   }, []); // Chỉ chạy một lần khi mount
 
