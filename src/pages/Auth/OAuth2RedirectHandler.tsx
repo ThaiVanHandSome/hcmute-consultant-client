@@ -11,49 +11,67 @@ const OAuth2RedirectHandler = () => {
   const { setIsAuthenticated, setRole } = useContext(AppContext);
 
   useEffect(() => {
-    // Lấy token từ URL params
-    const currentUrl = window.location.href;
-    const tokenIndex = currentUrl.indexOf('token=');
-    let token = '';
+    console.log('OAuth2RedirectHandler mounted');
+    console.log('Full URL:', window.location.href);
     
-    if (tokenIndex !== -1) {
-      token = currentUrl.slice(tokenIndex + 6); // 6 là độ dài của 'token='
-    }
+    const searchParams = new URLSearchParams(window.location.search);
+    const token = searchParams.get('token');
+    
+    console.log('Search params:', Object.fromEntries(searchParams.entries()));
+    console.log('Extracted token:', token);
 
     if (token) {
-      console.log('Token from URL:', token);
+      console.log('Processing token...');
       
       try {
-        // Giải mã JWT
         const payload = parseJWT(token);
-        console.log('Decoded JWT:', payload);
+        console.log('JWT Payload:', payload);
 
-        // Lưu token và role vào localStorage
-        setAccessTokenToLocalStorage(token);
-        setRoleToLocalStorage(payload.authorities);
+        // Lưu vào localStorage trực tiếp trước
+        localStorage.setItem('accessToken', token);
+        localStorage.setItem('ROLE', payload.authorities);
         
-        // Cập nhật state trong context
-        setIsAuthenticated(true);
-        setRole(payload.authorities);
-
-        console.log('LocalStorage after setting:', {
+        console.log('Direct localStorage check:', {
           accessToken: localStorage.getItem('accessToken'),
           role: localStorage.getItem('ROLE')
         });
 
-        // Chuyển hướng về trang chính
-        navigate(path.home);
+        // Sau đó mới dùng các hàm helper
+        setAccessTokenToLocalStorage(token);
+        setRoleToLocalStorage(payload.authorities);
+        
+        // Set context state
+        setIsAuthenticated(true);
+        setRole(payload.authorities);
+
+        console.log('Final localStorage check:', {
+          accessToken: localStorage.getItem('accessToken'),
+          role: localStorage.getItem('ROLE')
+        });
+
+        // Delay navigation một chút để đảm bảo state đã được cập nhật
+        setTimeout(() => {
+          console.log('Navigating to home...');
+          navigate(path.home, { replace: true });
+        }, 100);
+
       } catch (error) {
-        console.error('Error processing token:', error);
-        navigate('/login');
+        console.error('Error in OAuth handler:', error);
+        navigate('/login', { replace: true });
       }
     } else {
-      console.log('No token found, redirecting to login...');
-      navigate('/login');
+      console.log('No token found in URL');
+      navigate('/login', { replace: true });
     }
-  }, [navigate, setIsAuthenticated, setRole]);
 
-  return <div>Đang chuyển hướng...</div>;
+    // Cleanup function
+    return () => {
+      console.log('OAuth2RedirectHandler unmounting');
+    };
+  }, []); // Chỉ chạy một lần khi mount
+
+  console.log('Rendering OAuth2RedirectHandler');
+  return <div className="text-center py-8">Đang xử lý đăng nhập...</div>;
 };
 
 export default OAuth2RedirectHandler;

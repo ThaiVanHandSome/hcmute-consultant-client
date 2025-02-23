@@ -53,6 +53,7 @@ import PostMobile from '@/pages/User/PostMobile'
 import ConsultActivityMobile from '@/pages/User/ConsultActivityMobile'
 import Chats from '@/pages/User/Chats'
 import OAuth2RedirectHandler from '@/pages/Auth/OAuth2RedirectHandler'
+
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
   return isAuthenticated ? <Outlet /> : <Navigate to={path.login} />
@@ -340,6 +341,10 @@ export default function useRouteElement() {
         {
           path: path.forgotPassword,
           element: <ForgotPassword />
+        },
+        {
+          path: '/oauth2/redirect',
+          element: <OAuth2RedirectHandler />
         }
       ]
     }
