@@ -4,12 +4,10 @@ import path from '@/constants/path';
 
 const OAuth2RedirectHandler = () => {
 
-  const getUrlParameter = (name: String) => {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    const results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  };
+  const getUrlParameter = (name: string) => {
+    const urlParams = new URLSearchParams(location.search)
+    return urlParams.get(name) ?? ''
+  }
 
   const token = getUrlParameter('token');
   const error = getUrlParameter('error');
