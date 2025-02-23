@@ -12,7 +12,7 @@ export default function AvatarCustom({ url, fallback = 'USER', isWorking = false
     <div className='rounded-full relative'>
       <Avatar className={className}>
         <AvatarImage src={url} alt='avatar' />
-        <AvatarFallback>{fallback}</AvatarFallback>
+        <AvatarFallback className='text-xs'>{fallback}</AvatarFallback>
       </Avatar>
       {isWorking && <div className='size-2 rounded-full bg-green-600 absolute bottom-0 right-0' />}
     </div>

@@ -68,7 +68,7 @@ export default function DialogAddPost() {
           <span>Thêm bài đăng</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className='min-w-[800px]'>
+      <DialogContent className='min-w-[800px] max-h-[90vh] overflow-y-auto'>
         <DialogHeader>
           <DialogTitle>Thêm bài đăng</DialogTitle>
         </DialogHeader>

@@ -52,6 +52,8 @@ import Consultation from '@/pages/User/Consultation'
 import PostMobile from '@/pages/User/PostMobile'
 import ConsultActivityMobile from '@/pages/User/ConsultActivityMobile'
 import Chats from '@/pages/User/Chats'
+import NotificationsPage from '@/components/dev/NotificationPage'
+import OAuth2RedirectHandler from '@/pages/Auth/OAuth2RedirectHandler'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -74,6 +76,11 @@ function RejectedRoute() {
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
+    {
+      path: path.oauth2Redirect,
+      index: true,
+      element: <OAuth2RedirectHandler />
+    },
     {
       path: path.home,
       index: true,
@@ -105,6 +112,15 @@ export default function useRouteElement() {
       path: '',
       element: <ProtectedRoute />,
       children: [
+        {
+          path: path.notifications,
+          index: true,
+          element: (
+            <MainLayout>
+              <NotificationsPage />
+            </MainLayout>
+          )
+        },
         {
           path: path.consultantEvaluation,
           index: true,

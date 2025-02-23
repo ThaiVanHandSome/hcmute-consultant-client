@@ -22,16 +22,15 @@ export default function ListPost() {
     return posts?.data.data.content
   }, [isShowAll, posts])
   return (
-    <div className='py-2 w-full rounded-md shadow-md bg-background mb-4'>
-      <div className='mb-1 py-1 rounded-md font-bold text-lg px-2 text-gray-500'>Bài đăng</div>
+    <div className='py-2 w-full rounded-md shadow-md mb-4'>
       {!!postsData && postsData.length > 0 ? (
         <>
-          <ul className='max-w-full w-full'>
+          <ul className='max-w-full w-full space-y-2'>
             {postsData.map((post) => (
               <ItemPost key={post.id} post={post} />
             ))}
           </ul>
-          <div className='flex items-center justify-center'>
+          <div className='flex items-center justify-center mt-2'>
             <Button
               variant='outline'
               className='bg-secondary text-secondary-foreground px-2 h-8 text-xs flex items-center gap-1'

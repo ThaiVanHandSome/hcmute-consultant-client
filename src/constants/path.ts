@@ -43,7 +43,9 @@ const path = {
   scheduleActivity: '/schedule-activities/:id',
   scheduleActivities: '/schedule-activities',
   post: '/posts/:id',
-  posts: '/posts'
+  posts: '/posts',
+  notifications: '/notifications',
+  oauth2Redirect: '/oauth2/redirect'
 } as const
 
 export default path

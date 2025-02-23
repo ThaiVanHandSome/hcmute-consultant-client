@@ -24,6 +24,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
+import { Building2, UserCircle, HelpCircle, Paperclip, Info } from 'lucide-react'
 
 interface Props {
   readonly question?: Question
@@ -166,144 +167,195 @@ export default function QuestionForm({ question }: Props) {
     setFile(fileFromLocal)
   }
 
-  console.log(previewImage)
+  // Thêm hàm xử lý drag and drop
+  const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+
+  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const droppedFile = event.dataTransfer.files[0]
+    if (droppedFile) {
+      // Chỉ kiểm tra kích thước file (10MB = 10 * 1024 * 1024 bytes)
+      if (droppedFile.size > 10 * 1024 * 1024) {
+        toast({
+          variant: 'destructive',
+          description: 'File không được vượt quá 10MB'
+        })
+        return
+      }
+
+      setFile(droppedFile)
+    }
+  }
 
   return (
-    <div className='overflow-hidden'>
+    <div>
       {isFormReset.current && (
         <Form {...form}>
-          <form onSubmit={onSubmit}>
-            <FormPartContainer
-              Label={<QuestionLabel title='Nơi tiếp nhận' subtitle='Khoa bạn muốn gửi câu hỏi đến' />}
-              Items={
-                <div className='space-y-4'>
-                  <div>
-                    <SelectionCustom
-                      control={form.control}
-                      name='departmentId'
-                      placeholder='Đơn vị'
-                      label='Đơn vị'
-                      data={departmentsSelectionData}
-                      defaultValue={String(question?.department.id)}
-                      isRequired
-                      infoText='Chọn đơn vị mà bạn muốn đặt câu hỏi. Tuy nhiên, nếu bạn chưa biết nên hỏi đơn vị nào, bạn cứ chọn 1 đơn vị, trưởng ban của đơn vị sẽ chuyển tiếp câu hỏi của bạn đến một đơn vị thích hợp.'
+          <form onSubmit={onSubmit} className='space-y-6'>
+            {/* Main Form Container */}
+            <div className='bg-white rounded-lg divide-y divide-gray-100'>
+              {/* Department Selection Section */}
+              <div className='p-4'>
+                <FormPartContainer
+                  Label={
+                    <QuestionLabel
+                      title='Chọn đơn vị tiếp nhận'
+                      subtitle='Vui lòng chọn đúng đơn vị để được hỗ trợ nhanh nhất'
+                      icon={<Building2 className='w-5 h-5 text-primary' />}
                     />
-                  </div>
-                  <div>
-                    <SelectionCustom
-                      control={form.control}
-                      name='fieldId'
-                      placeholder='Lĩnh vực'
-                      label='Lĩnh vực'
-                      data={fieldsSelectionData}
-                      defaultValue={String(question?.field.id)}
-                      isRequired
-                      infoText='Chọn lĩnh vực mà bạn muốn hỏi. Chẳng hạn nếu bạn muốn hỏi về học bổng bạn có thể chọn Điểm rèn luyện - Học bổng'
-                    />
-                  </div>
-                </div>
-              }
-            />
-            <FormPartContainer
-              Label={
-                <QuestionLabel
-                  title='Thông tin cá nhân'
-                  subtitle='Cung cấp thông tin để chúng tôi hỗ trợ bạn tốt hơn'
+                  }
+                  Items={
+                    <div className='grid gap-4 md:grid-cols-2'>
+                      <SelectionCustom
+                        control={form.control}
+                        name='departmentId'
+                        placeholder='Chọn phòng/khoa...'
+                        label='Đơn vị tiếp nhận'
+                        data={departmentsSelectionData}
+                        defaultValue={String(question?.department.id)}
+                        isRequired
+                        className='w-full'
+                      />
+                      <SelectionCustom
+                        control={form.control}
+                        name='fieldId'
+                        placeholder='Chọn lĩnh vực cụ thể...'
+                        label='Lĩnh vực'
+                        data={fieldsSelectionData}
+                        defaultValue={String(question?.field.id)}
+                        isRequired
+                        className='w-full'
+                      />
+                    </div>
+                  }
                 />
-              }
-              Items={
-                <div className='space-y-4'>
-                  <div>
-                    <InputCustom
-                      control={form.control}
-                      name='firstName'
-                      placeholder='Họ'
-                      label='Họ'
-                      isRequired
-                      infoText='Nhập họ của bạn. Vui lòng nhập họ có nghĩa, không dùng các biệt danh GenZ'
-                    />
-                  </div>
-                  <div>
-                    <InputCustom
-                      control={form.control}
-                      name='lastName'
-                      placeholder='Tên'
-                      label='Tên'
-                      isRequired
-                      infoText='Nhập tên của bạn. Vui lòng nhập tên có nghĩa, không dùng các biệt danh GenZ'
-                    />
-                  </div>
-                  <div>
-                    <SelectionCustom
-                      control={form.control}
-                      name='roleAskId'
-                      placeholder='Vai trò'
-                      data={roleAskSelectionData}
-                      defaultValue={String(question?.roleAsk.id)}
-                      label='Vai trò'
-                      isRequired
-                      infoText='Bạn là ai? Học sinh, Sinh viên hay Phụ huynh,...'
-                    />
-                  </div>
-                  <div>
-                    <InputCustom
-                      control={form.control}
-                      name='studentCode'
-                      placeholder='Mã số sinh viên'
-                      label='Mã số sinh viên'
-                      helperText='Nhập mã số sinh viên của bạn nếu bạn cần hỗ trợ chi tiết hơn'
-                    />
-                  </div>
-                </div>
-              }
-            />
+              </div>
 
-            <FormPartContainer
-              Label={<QuestionLabel title='Nội dung câu hỏi' subtitle='Chi tiết vấn đề cần được giải đáp' />}
-              Items={
-                <div>
-                  <div className='w-full mt-1'>
-                    <InputCustom
-                      control={form.control}
-                      name='title'
-                      placeholder='Tiêu đề'
-                      label='Tiêu đề'
-                      isRequired
-                      infoText='Tóm tắt vấn đề mà bạn cần hỏi là gì'
+              {/* Personal Info Section */}
+              <div className='p-4'>
+                <FormPartContainer
+                  Label={
+                    <QuestionLabel
+                      title='Thông tin cá nhân'
+                      subtitle='Thông tin của bạn sẽ được bảo mật'
+                      icon={<UserCircle className='w-5 h-5 text-primary' />}
                     />
-                  </div>
-                  <Editor
-                    control={form.control}
-                    name='content'
-                    label='Nội dung'
-                    isRequired
-                    infoText='Nêu rõ vấn đề mà bạn cần hỏi. Cần nêu chi tiết để tư vấn viên có thể hỗ trợ bạn tốt hơn.'
-                  />
-                </div>
-              }
-            />
+                  }
+                  Items={
+                    <div className='grid gap-4 md:grid-cols-2'>
+                      <InputCustom
+                        control={form.control}
+                        name='firstName'
+                        placeholder='Ví dụ: Nguyễn'
+                        label='Họ và tên đệm'
+                        isRequired
+                      />
+                      <InputCustom
+                        control={form.control}
+                        name='lastName'
+                        placeholder='Ví dụ: An'
+                        label='Tên'
+                        isRequired
+                      />
+                      <SelectionCustom
+                        control={form.control}
+                        name='roleAskId'
+                        placeholder='Bạn đang là...'
+                        data={roleAskSelectionData}
+                        defaultValue={String(question?.roleAsk.id)}
+                        label='Vai trò của bạn'
+                        isRequired
+                        className='w-full'
+                      />
+                      <InputCustom
+                        control={form.control}
+                        name='studentCode'
+                        placeholder='Ví dụ: 21520001'
+                        label='Mã số sinh viên (nếu có)'
+                      />
+                    </div>
+                  }
+                />
+              </div>
 
-            <FormPartContainer
-              Label={<QuestionLabel title='Tệp đính kèm' subtitle='Không bắt buộc. Hỗ trợ hình ảnh và tài liệu' />}
-              Items={
-                <div className='mb-4'>
-                  <div className='grid w-full max-w-sm items-center gap-1.5'>
-                    <Input id='file' type='file' onChange={handleFileChange} />
-                    {previewImage && <FileShow url={previewImage} />}
-                  </div>
-                </div>
-              }
-            />
+              {/* Question Content Section */}
+              <div className='p-4'>
+                <FormPartContainer
+                  Label={
+                    <QuestionLabel
+                      title='Nội dung câu hỏi'
+                      subtitle='Hãy mô tả chi tiết vấn đề của bạn'
+                      icon={<HelpCircle className='w-5 h-5 text-primary' />}
+                    />
+                  }
+                  Items={
+                    <div className='space-y-4'>
+                      <InputCustom
+                        control={form.control}
+                        name='title'
+                        placeholder='Tóm tắt ngắn gọn vấn đề của bạn'
+                        label='Tiêu đề câu hỏi'
+                        isRequired
+                      />
+                      <Editor control={form.control} name='content' label='Chi tiết câu hỏi' isRequired />
+                    </div>
+                  }
+                />
+              </div>
 
-            <div className='flex items-center justify-between w-full'>
-              <CheckboxCustom control={form.control} name='statusPublic' label='Chế độ công khai' />
+              {/* Attachment Section */}
+              <div className='p-4'>
+                <FormPartContainer
+                  Label={
+                    <QuestionLabel
+                      title='Tài liệu đính kèm'
+                      subtitle='Thêm hình ảnh hoặc tài liệu minh họa (nếu cần)'
+                      icon={<Paperclip className='w-5 h-5 text-primary' />}
+                    />
+                  }
+                  Items={
+                    <div className='space-y-4'>
+                      <div className='flex items-center justify-center w-full'>
+                        <label
+                          className='flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100'
+                          onDragOver={handleDragOver}
+                          onDrop={handleDrop}
+                        >
+                          <div className='flex flex-col items-center justify-center pt-5 pb-6'>
+                            <Paperclip className='w-8 h-8 mb-3 text-gray-400' />
+                            <p className='text-sm text-gray-500'>
+                              <span className='font-medium'>Click để tải file</span> hoặc kéo thả
+                            </p>
+                            <p className='text-xs text-gray-500'>Tất cả các loại file (Max. 10MB)</p>
+                          </div>
+                          <Input id='file' type='file' className='hidden' onChange={handleFileChange} />
+                        </label>
+                      </div>
+                      {previewImage && <FileShow url={previewImage} />}
+                    </div>
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Form Footer */}
+            <div className='flex items-center justify-between bg-gray-50 p-4 rounded-lg'>
+              <div className='flex items-center space-x-2'>
+                <CheckboxCustom control={form.control} name='statusPublic' label='Cho phép hiển thị công khai' />
+                <Info className='w-4 h-4 text-gray-400 cursor-help' />
+              </div>
               <Button
                 isLoading={createQuestionMutation.isPending || updateQuestionMutation.isPending}
                 disabled={createQuestionMutation.isPending || updateQuestionMutation.isPending}
                 type='submit'
-                className='text-center'
+                className='px-6'
               >
-                {isUpdate ? 'Chỉnh sửa câu hỏi' : 'Gửi câu hỏi'}
+                {isUpdate ? 'Cập nhật' : 'Gửi câu hỏi'}
               </Button>
             </div>
           </form>

@@ -159,6 +159,16 @@ export default function Login() {
                 </div>
               </form>
             </Form>
+            <div className='mt-4'>
+              <a
+                href='https://hcmute-consultant-server-production.up.railway.app/oauth2/authorize/google?redirect_uri=https://hcmute-consultant.vercel.app/oauth2/redirect'
+                className='btn btn-block social-btn google flex items-center justify-center space-x-2 border py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition-all'
+                target='_self'
+                rel='noopener noreferrer'
+              >
+                <span className='font-semibold'>Log in with Google</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
