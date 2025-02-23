@@ -1,54 +1,30 @@
-import { Navigate } from 'react-router-dom';
-import { parseJWT } from '@/utils/utils';
-import path from '@/constants/path';
-import { useContext } from 'react';
-import { AppContext } from '@/contexts/app.context';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OAuth2RedirectHandler = () => {
-  const { setIsAuthenticated, setUser, setRole } = useContext(AppContext);
+  const navigate = useNavigate();
 
-  const getUrlParameter = (name: string) => {
-    const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    const results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  };
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const error = params.get('error');
+    const userInfo = params.get('user');
 
-  const token = getUrlParameter('token');
-  const error = getUrlParameter('error');
-  const userInfo = getUrlParameter('user');
+    if (token) {
+      localStorage.setItem('accessToken', token);
+      console.log('Stored Token:', localStorage.getItem('accessToken'));
 
-  console.log('Token:', token);
-  console.log('Error:', error);
-  console.log('User Info:', userInfo);
-  console.log('Current URL:', window.location.href);
+      if (userInfo) {
+        localStorage.setItem('user', decodeURIComponent(userInfo));
+      }
 
-  if (token) {
-    const payload = parseJWT(token);
-    console.log('JWT Payload:', payload);
-    
-    localStorage.setItem('accessToken', token);
-    localStorage.setItem('ROLE', payload.authorities);
-    
-    if (userInfo) {
-      const user = JSON.parse(decodeURIComponent(userInfo));
-      console.log('Parsed User:', user);
-      localStorage.setItem('user', JSON.stringify(user));
-      setUser(user);
+      navigate('/home'); // Điều hướng đến trang chính
+    } else {
+      navigate('/login', { state: { error } });
     }
+  }, [navigate]);
 
-    setIsAuthenticated(true);
-    setRole(payload.authorities);
-    console.log('LocalStorage after setting:', {
-      accessToken: localStorage.getItem('accessToken'),
-      role: localStorage.getItem('ROLE'),
-      user: localStorage.getItem('user')
-    });
-
-    return <Navigate to={path.home} />;
-  } else {
-    console.log('No token found, redirecting to login');
-    return <Navigate to="/login" state={{ error }} />;
-  }
+  return <div>Redirecting...</div>;
 };
 
 export default OAuth2RedirectHandler;
