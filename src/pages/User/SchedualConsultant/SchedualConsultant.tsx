@@ -17,7 +17,7 @@ import { SchedualConsultantSchema } from '@/utils/rules'
 import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { MailWarningIcon } from 'lucide-react'
+import { AlertCircle, Building2, Calendar, Clock3, MessageSquare, Users2 } from 'lucide-react'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -28,7 +28,7 @@ export type ConsultantSchedualFormData = yup.InferType<typeof SchedualConsultant
 export default function SchedualConsultant() {
   const form = useForm<ConsultantSchedualFormData>({
     defaultValues: {
-      consultantId: 'qw',
+      consultantId: '',
       departmentId: '',
       title: '',
       content: '',
@@ -87,94 +87,148 @@ export default function SchedualConsultant() {
     })
   })
   return (
-    <div className='bg-primary-bg min-h-[100vh] py-6'>
-      <div className='container'>
-        <h1 className='font-extrabold text-2xl text-left uppercase mb-6 text-primary tracking-wide'>Đặt lịch tư vấn</h1>
-        <div className='grid grid-cols-12 gap-4'>
-          <div className='hidden lg:block col-span-3 text-sm'>
-            <div className='px-4 py-4 bg-background text-foreground rounded-lg shadow-md mb-6'>
-              <p className='text-xl font-semibold text-blue-600 mb-2 uppercase'>Tiêu chí</p>
-              <p className='text-md mb-3'>
-                Nếu bạn muốn gặp mặt trực tiếp hoặc online tư vấn viên, hãy đặt lịch tư vấn tại đây
-              </p>
-              <p className='text-md mb-3'>
-                Sau khi đặt lịch, sẽ mất khoảng <strong>3 ngày</strong> để yêu cầu của bạn được xem xét và được duyệt.
-                Hãy chú ý thông báo nhé!
-              </p>
-              <div className='px-4 py-3 bg-red-100 border-l-4 border-red-600 text-red-700 mb-3 rounded'>
-                <p className='text-md font-bold mb-1 flex items-center'>
-                  <MailWarningIcon className='mr-1' />
-                  Cảnh báo:
-                </p>
-                <p className='text-md'>
-                  Vui lòng không đặt lịch tư vấn nếu không có nhu cầu. Nếu như bạn hủy lịch tư vấn với một lý do{' '}
-                  <strong>không chính đáng</strong>, bạn sẽ bị <strong>khóa tài khoản</strong>. Nếu bạn muốn mở lại tài
-                  khoản, vui lòng liên hệ quản trị viên.
+    <div className='min-h-screen bg-gradient-to-b from-gray-50 to-white'>
+      <div className='max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10'>
+        {/* Header Section */}
+        <div className='max-w-2xl mx-auto text-center mb-10'>
+          <div className='flex justify-center mb-4'>
+            <div className='bg-primary/10 p-3 rounded-full'>
+              <Calendar className='w-6 h-6 text-primary' />
+            </div>
+          </div>
+          <h1 className='text-2xl font-semibold text-gray-900 mb-2'>Đặt lịch tư vấn</h1>
+          <p className='text-sm text-gray-600'>Đặt lịch hẹn với tư vấn viên để được hỗ trợ trực tiếp</p>
+        </div>
+
+        <div className='grid lg:grid-cols-12 gap-6'>
+          {/* Sidebar Information */}
+          <div className='lg:col-span-4 space-y-4'>
+            {/* Guidelines Card */}
+            <div className='bg-white rounded-lg shadow-sm border border-gray-100 p-5'>
+              <div className='space-y-4'>
+                <div className='flex gap-3'>
+                  <Users2 className='w-5 h-5 text-primary shrink-0 mt-0.5' />
+                  <div>
+                    <p className='text-sm text-gray-600'>Tư vấn trực tiếp với giảng viên, chuyên viên các phòng ban</p>
+                  </div>
+                </div>
+                <div className='flex gap-3'>
+                  <Clock3 className='w-5 h-5 text-primary shrink-0 mt-0.5' />
+                  <div>
+                    <p className='text-sm text-gray-600'>
+                      Thời gian phản hồi: <span className='font-medium'>1-2 ngày làm việc</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Warning Card */}
+            <div className='bg-red-50 rounded-lg border border-red-100 p-5'>
+              <div className='flex gap-3'>
+                <AlertCircle className='w-5 h-5 text-red-500 shrink-0 mt-0.5' />
+                <p className='text-sm text-red-600'>
+                  Vui lòng cung cấp thông tin chính xác để buổi tư vấn diễn ra thuận lợi
                 </p>
               </div>
             </div>
           </div>
-          <div className='bg-background text-foreground px-6 py-2 col-span-12 lg:col-span-9 rounded-lg shadow-xl border'>
-            <Form {...form}>
-              <form onSubmit={onSubmit}>
-                <FormPartContainer
-                  Label={<QuestionLabel title='Tư vấn viên' subtitle='Tư vấn viên bạn muốn đặt lịch tư vấn' />}
-                  Items={
-                    <div className='space-y-4'>
-                      <div>
-                        <SelectionCustom
-                          control={form.control}
-                          name='departmentId'
-                          placeholder='Đơn vị'
-                          label='Đơn vị'
-                          data={departmentsSelectionData}
-                          isRequired
-                          infoText='Chọn đơn vị mà bạn muốn đặt lịch tư vấn'
-                        />
-                      </div>
-                      <div>
-                        <SelectionCustom
-                          control={form.control}
-                          name='consultantId'
-                          placeholder='Tư vấn viên'
-                          label='Tư vấn viên'
-                          data={consultantsSelectionData}
-                          isRequired
-                          infoText='Chọn tư vấn viên bạn muốn nhờ sự tư vấn'
-                        />
-                      </div>
-                    </div>
-                  }
-                />
-                <FormPartContainer
-                  Label={<QuestionLabel title='Nội dung cần tư vấn' subtitle='Chi tiết vấn đề cần được tư vấn' />}
-                  Items={
-                    <div>
-                      <InputCustom
-                        className='mt-1 mb-3'
-                        control={form.control}
-                        name='title'
-                        placeholder='Tiêu đề'
-                        label='Tiêu đề'
-                        isRequired
-                        infoText='Tóm tắt vấn đề mà bạn cần được tư vấn là gì?'
-                      />
-                      <Editor
-                        label='Nội dung'
-                        control={form.control}
-                        name='content'
-                        isRequired
-                        infoText='Nêu rõ vấn đề mà bạn cần được tư vấn. Cần nêu chi tiết để tư vấn viên có thể hỗ trợ bạn tốt hơn.'
+
+          {/* Main Form Section */}
+          <div className='lg:col-span-8'>
+            <div className='bg-white rounded-lg shadow-sm border border-gray-100 p-6'>
+              <Form {...form}>
+                <form onSubmit={onSubmit} className='space-y-6'>
+                  <div className='bg-white rounded-lg divide-y divide-gray-100'>
+                    {/* Department & Consultant Selection */}
+                    <div className='p-4'>
+                      <FormPartContainer
+                        Label={
+                          <QuestionLabel
+                            title='Chọn tư vấn viên'
+                            subtitle='Vui lòng chọn đơn vị và tư vấn viên phù hợp'
+                            icon={<Building2 className='w-5 h-5 text-primary' />}
+                          />
+                        }
+                        Items={
+                          <div className='grid gap-4 md:grid-cols-2'>
+                            <SelectionCustom
+                              control={form.control}
+                              name='departmentId'
+                              placeholder='Chọn đơn vị'
+                              label='Đơn vị'
+                              data={departmentsSelectionData}
+                              isRequired
+                              className='w-full'
+                            />
+                            <SelectionCustom
+                              control={form.control}
+                              name='consultantId'
+                              placeholder='Chọn tư vấn viên'
+                              label='Tư vấn viên'
+                              data={consultantsSelectionData}
+                              isRequired
+                              className='w-full'
+                            />
+                          </div>
+                        }
                       />
                     </div>
-                  }
-                />
-                <div className='flex items-center justify-between w-full'>
-                  <CheckboxCustom control={form.control} name='mode' label='Online' />
-                  <Button type='submit'>Đặt lịch</Button>
-                </div>
-              </form>
-            </Form>
+
+                    {/* Consultation Content */}
+                    <div className='p-4'>
+                      <FormPartContainer
+                        Label={
+                          <QuestionLabel
+                            title='Nội dung tư vấn'
+                            subtitle='Mô tả vấn đề bạn cần được tư vấn'
+                            icon={<MessageSquare className='w-5 h-5 text-primary' />}
+                          />
+                        }
+                        Items={
+                          <div className='space-y-4'>
+                            <InputCustom
+                              control={form.control}
+                              name='title'
+                              placeholder='Tóm tắt vấn đề cần tư vấn'
+                              label='Tiêu đề'
+                              isRequired
+                            />
+                            <Editor control={form.control} name='content' label='Chi tiết vấn đề' isRequired />
+                          </div>
+                        }
+                      />
+                    </div>
+
+                    {/* Consultation Mode */}
+                    <div className='p-4'>
+                      <FormPartContainer
+                        Label={
+                          <QuestionLabel
+                            title='Hình thức tư vấn'
+                            subtitle='Chọn hình thức tư vấn phù hợp với bạn'
+                            icon={<Users2 className='w-5 h-5 text-primary' />}
+                          />
+                        }
+                        Items={
+                          <div className='flex items-center space-x-2'>
+                            <CheckboxCustom control={form.control} name='mode' label='Tư vấn trực tuyến' />
+                          </div>
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  {/* Form Footer */}
+                  <div className='flex items-center justify-between bg-gray-50 p-4 rounded-lg'>
+                    <CheckboxCustom control={form.control} name='statusPublic' label='Cho phép hiển thị công khai' />
+                    <Button type='submit' className='px-6'>
+                      Đặt lịch
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </div>
           </div>
         </div>
       </div>

@@ -59,7 +59,7 @@ export default function ListQuestion() {
 
   return (
     <div>
-      <div className='space-y-6'>
+      <div className='space-y-8'>
         {listQuestion.map((question) => (
           <Question key={question.id} question={question} />
         ))}

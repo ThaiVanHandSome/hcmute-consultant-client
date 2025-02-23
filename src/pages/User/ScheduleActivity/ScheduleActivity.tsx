@@ -1,16 +1,20 @@
+import { useState } from 'react'
 import { cancelConsultation, checkJoinConsultation, getScheduleDetail, joinSchedule } from '@/apis/consultant.api'
 import { getScheduals } from '@/apis/user.api'
 import Paginate from '@/components/dev/PaginationCustom/PaginationCustom'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { toast } from '@/hooks/use-toast'
 import useSchedualQueryConfig from '@/hooks/useSchedualQueryConfig'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { Link, createSearchParams, useParams } from 'react-router-dom'
+import SuccessDialog from '@/pages/User/ScheduleActivity/components/SuccessDialog'
+import { CalendarClockIcon, ComponentIcon, LinkIcon, MapPinIcon } from 'lucide-react'
 
 export default function ScheduleActivity() {
+  const [showDialog, setShowDialog] = useState(false)
+  const [dialogMessage, setDialogMessage] = useState('')
   let scheduleQueryConfig = useSchedualQueryConfig()
   scheduleQueryConfig = {
     ...scheduleQueryConfig,
@@ -32,11 +36,21 @@ export default function ScheduleActivity() {
   const scheduleActivity = scheduleActivityRes?.data.data
 
   const joinScheduleMutation = useMutation({
-    mutationFn: (id: number) => joinSchedule(id)
+    mutationFn: (id: number) => joinSchedule(id),
+    onSuccess: (res) => {
+      setDialogMessage(res.data.message)
+      setShowDialog(true)
+      refetch()
+    }
   })
 
   const cancelScheduleMutation = useMutation({
-    mutationFn: (id: number) => cancelConsultation(id)
+    mutationFn: (id: number) => cancelConsultation(id),
+    onSuccess: (res) => {
+      setDialogMessage(res.data.message)
+      setShowDialog(true)
+      refetch()
+    }
   })
 
   const { data: isJoinRes, refetch } = useQuery({
@@ -47,31 +61,17 @@ export default function ScheduleActivity() {
 
   const handleJoinSchedule = () => {
     const id = scheduleActivity?.id
-    joinScheduleMutation.mutate(id as number, {
-      onSuccess: (res) => {
-        toast({
-          description: res.data.message
-        })
-        refetch()
-      }
-    })
+    joinScheduleMutation.mutate(id as number)
   }
 
   const handleCancelSchedule = () => {
     const id = scheduleActivity?.id
-    cancelScheduleMutation.mutate(id as number, {
-      onSuccess: (res) => {
-        toast({
-          description: res.data.message
-        })
-        refetch()
-      }
-    })
+    cancelScheduleMutation.mutate(id as number)
   }
 
   return (
     <div className='h-remain-screen grid grid-cols-12'>
-      <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-background'>
+      <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-primary-bg'>
         <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các hoạt động tự vấn</div>
         {scheduleActivities?.data.data.content.map((scheduleActivity) => (
           <Link
@@ -85,17 +85,28 @@ export default function ScheduleActivity() {
               'bg-secondary text-secondary-foreground': id === scheduleActivity.id
             })}
           >
-            <div className='px-2 py-1'>
+            <div className='px-1 py-1'>
               <div className='flex items-center justify-between'>
+                <p className='text-sm font-semibold'>
+                  {scheduleActivity?.department ? scheduleActivity?.department.name : 'Tất cả phòng ban'}
+                </p>
                 <Badge variant='destructive'>
                   {scheduleActivity.consultationDate} {scheduleActivity.consultationTime}AM
-                </Badge>{' '}
+                </Badge>
               </div>
-              {/* <Separator className='mt-2 mb-1' /> */}
-              <p className='flex-1 font-semibold text-md break-all line-clamp-2'>{scheduleActivity.title}</p>
-              <p className='text-xs font-semibold text-muted-foreground'>
-                {scheduleActivity?.department ? scheduleActivity?.department.name : 'Tất cả phòng ban'}
-              </p>
+              <p className='flex-1 text-md break-all line-clamp-2 mt-2'>{scheduleActivity.title}</p>
+              <div className='flex items-center space-x-1 mt-1'>
+                {scheduleActivity?.mode ? (
+                  <Badge className='bg-muted text-muted-foreground'>Online</Badge>
+                ) : (
+                  <Badge className='bg-muted text-muted-foreground'>Offline</Badge>
+                )}
+                {scheduleActivity?.statusPublic ? (
+                  <Badge className='bg-muted text-muted-foreground'>Công khai</Badge>
+                ) : (
+                  <Badge className='bg-muted text-muted-foreground'>Riêng tư</Badge>
+                )}
+              </div>
             </div>
           </Link>
         ))}
@@ -112,36 +123,11 @@ export default function ScheduleActivity() {
       </div>
       <div className='col-span-12 lg:col-span-8'>
         <div className='px-2 py-3 flex items-center justify-between shadow-md'>
-          <div className='flex items-center space-x-2'>
+          <div className='flex items-center justify-between w-full'>
             <div className='flex items-center space-x-1'>
               <p className='text-sm font-semibold'>{scheduleActivity?.department?.name ?? 'Tất cả phòng ban'}</p>
             </div>
-          </div>
-        </div>
-        <Separator />
-        <div className='bg-background'>
-          <div className='px-4 py-2 min-h-2'>
-            <p className='text-4xl font-semibold'>{scheduleActivity?.title}</p>
-            <div dangerouslySetInnerHTML={{ __html: scheduleActivity?.content as string }} className='mb-2'></div>
-            <div className='space-y-2 text-sm'>
-              <p>
-                Buổi tư vấn sẽ được diễn ra vào ngày <b>{scheduleActivity?.consultationDate}</b> vào lúc{' '}
-                <b>{scheduleActivity?.consultationTime}</b>
-              </p>
-              <p>
-                <b>Hình thức:</b> {scheduleActivity?.mode ? 'Online' : 'Offline'}
-              </p>
-              {scheduleActivity?.mode && (
-                <p>
-                  <b>Link Google Meet:</b> {scheduleActivity.link}
-                </p>
-              )}
-              {!scheduleActivity?.mode && (
-                <p>
-                  <b>Địa điểm:</b> {scheduleActivity?.location}
-                </p>
-              )}
-              <p>Vui lòng chọn tham gia nếu bạn muốn tham gia nhé!</p>
+            <div className='flex items-center justify-end'>
               {!isJoin && (
                 <Button
                   disabled={joinScheduleMutation.isPending}
@@ -158,13 +144,57 @@ export default function ScheduleActivity() {
                   isLoading={cancelScheduleMutation.isPending}
                   onClick={handleCancelSchedule}
                 >
-                  Hủy
+                  Hủy tham gia
                 </Button>
               )}
             </div>
           </div>
         </div>
+        <Separator />
+        <div className='bg-background'>
+          <div className='px-4 py-2 min-h-2'>
+            <div className='grid grid-cols-3 gap-4 mt-2 mb-4'>
+              <div className='flex flex-col items-center justify-center rounded-md p-2 border shadow-md bg-accent text-accent-foreground'>
+                <div>
+                  <ComponentIcon className='size-10 mb-3' strokeWidth={1.25} />
+                </div>
+                <p className='font-semibold text-md text-primary'>{scheduleActivity?.mode ? 'Online' : 'Offline'}</p>
+              </div>
+              <div className='flex flex-col items-center justify-center rounded-md p-2 border shadow-md bg-accent text-accent-foreground'>
+                {scheduleActivity?.location && (
+                  <>
+                    <div>
+                      <MapPinIcon className='size-10 mb-3' strokeWidth={1.25} />
+                    </div>
+                    <p className='font-semibold text-md text-primary'>{scheduleActivity?.location}</p>
+                  </>
+                )}
+                {scheduleActivity?.link && (
+                  <>
+                    <div>
+                      <LinkIcon className='size-10 mb-3' strokeWidth={1.25} />
+                    </div>
+                    <p className='font-semibold text-md text-primary'>{scheduleActivity?.link}</p>
+                  </>
+                )}
+              </div>
+              <div className='flex flex-col items-center justify-center rounded-md p-2 border shadow-md bg-accent text-accent-foreground'>
+                <div>
+                  <CalendarClockIcon className='size-10 mb-3' strokeWidth={1.25} />
+                </div>
+                <p className='font-semibold text-md text-primary'>
+                  {scheduleActivity?.consultationDate} {scheduleActivity?.consultationTime}AM
+                </p>
+              </div>
+            </div>
+            <p className='text-4xl font-semibold'>{scheduleActivity?.title}</p>
+            <div dangerouslySetInnerHTML={{ __html: scheduleActivity?.content as string }} className='mb-2'></div>
+          </div>
+        </div>
       </div>
+      {showDialog && (
+        <SuccessDialog message={dialogMessage} onClose={() => setShowDialog(false)} navigateTo='/some-page' />
+      )}
     </div>
   )
 }

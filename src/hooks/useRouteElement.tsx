@@ -52,6 +52,7 @@ import Consultation from '@/pages/User/Consultation'
 import PostMobile from '@/pages/User/PostMobile'
 import ConsultActivityMobile from '@/pages/User/ConsultActivityMobile'
 import Chats from '@/pages/User/Chats'
+import NotificationsPage from '@/components/dev/NotificationPage'
 import OAuth2RedirectHandler from '@/pages/Auth/OAuth2RedirectHandler'
 
 function ProtectedRoute() {
@@ -111,6 +112,15 @@ export default function useRouteElement() {
       path: '',
       element: <ProtectedRoute />,
       children: [
+        {
+          path: path.notifications,
+          index: true,
+          element: (
+            <MainLayout>
+              <NotificationsPage />
+            </MainLayout>
+          )
+        },
         {
           path: path.consultantEvaluation,
           index: true,

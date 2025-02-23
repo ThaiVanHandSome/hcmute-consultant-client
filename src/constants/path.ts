@@ -44,6 +44,7 @@ const path = {
   scheduleActivities: '/schedule-activities',
   post: '/posts/:id',
   posts: '/posts',
+  notifications: '/notifications',
   oauth2Redirect: '/oauth2/redirect'
 } as const
 

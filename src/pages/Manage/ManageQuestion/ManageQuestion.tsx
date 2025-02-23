@@ -1,5 +1,6 @@
 import { getQuestions } from '@/apis/question.api'
 import ExportCustom from '@/components/dev/ExportCustom'
+import ImportCustom from '@/components/dev/ImportCustom'
 import PaginationCustom from '@/components/dev/PaginationCustom'
 import QuestionFilter from '@/components/dev/QuestionFilter'
 import QuestionItem from '@/components/dev/QuestionItem'
@@ -25,7 +26,9 @@ export default function ManageQuestion() {
           <h1 className='font-semibold text-lg'>Câu hỏi</h1>
           <p className='text-sm italic'>Quản lý câu hỏi</p>
         </div>
-        <ExportCustom dataType='question' queryConfig={questionQueryConfig} />
+        <div>
+          <ExportCustom dataType='question' queryConfig={questionQueryConfig} /> <ImportCustom />
+        </div>
       </div>
       <div>
         <QuestionFilter queryConfig={questionQueryConfig} path={path.manageQuestion} />
