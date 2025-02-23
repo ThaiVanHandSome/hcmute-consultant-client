@@ -161,7 +161,7 @@ export default function Login() {
             </Form>
             <div className='mt-4'>
               <a
-                href='https://hcmute-consultant-server-production.up.railway.app/oauth2/authorize/google?redirect_uri=https://hcmute-consultant.vercel.app/oauth2/redirect'
+                href={`${import.meta.env.VITE_SERVER_URL}/oauth2/authorize/google?redirect_uri=${import.meta.env.VITE_CLIENT_URL}/oauth2/redirect`}
                 className='btn btn-block social-btn google flex items-center justify-center space-x-2 border py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition-all'
                 target='_self'
                 rel='noopener noreferrer'
