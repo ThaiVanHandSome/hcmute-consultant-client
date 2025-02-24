@@ -28,11 +28,12 @@ import { Building2, UserCircle, HelpCircle, Paperclip, Info } from 'lucide-react
 
 interface Props {
   readonly question?: Question
+  profileData?: any // Thêm type cụ thể cho profile data
 }
 
 type FormData = yup.InferType<typeof CreateQuestionSchema>
 
-export default function QuestionForm({ question }: Props) {
+export default function QuestionForm({ question, profileData }: Props) {
   const isUpdate = !!question
 
   const queryClient = useQueryClient()
@@ -52,10 +53,10 @@ export default function QuestionForm({ question }: Props) {
       roleAskId: '',
       title: '',
       content: '',
-      firstName: '',
-      lastName: '',
+      firstName: profileData?.firstName || '',
+      lastName: profileData?.lastName || '',
       statusPublic: true,
-      studentCode: ''
+      studentCode: profileData?.studentCode || ''
     },
     resolver: yupResolver(CreateQuestionSchema)
   })
@@ -68,13 +69,13 @@ export default function QuestionForm({ question }: Props) {
       roleAskId: String(question?.roleAsk.id),
       title: question?.title,
       content: question?.content,
-      firstName: question?.askerFirstname,
-      lastName: question?.askerLastname,
+      firstName: profileData?.firstName || question?.askerFirstname,
+      lastName: profileData?.lastName || question?.askerLastname,
       statusPublic: true,
-      studentCode: ''
+      studentCode: profileData?.studentCode || ''
     })
     isFormReset.current = true
-  }, [question])
+  }, [question, profileData])
 
   const { data: departments } = useQuery({
     queryKey: ['departments'],

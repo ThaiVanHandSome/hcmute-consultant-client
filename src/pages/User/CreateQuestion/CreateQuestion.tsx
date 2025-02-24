@@ -1,7 +1,14 @@
 import QuestionForm from '@/components/dev/QuestionForm'
 import { AlertCircle, BookOpen, Clock3, HelpCircle } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { getProfile } from '@/apis/user.api'
 
 export default function CreateQuestion() {
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile
+  })
+
   return (
     <div className='min-h-screen bg-gradient-to-b from-gray-50 to-white'>
       <div className='max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10'>
@@ -53,7 +60,7 @@ export default function CreateQuestion() {
           {/* Main Form Section */}
           <div className='lg:col-span-8'>
             <div className='bg-white rounded-lg shadow-sm border border-gray-100 p-6'>
-              <QuestionForm />
+              <QuestionForm question={undefined} profileData={profile?.data.data} />
             </div>
           </div>
         </div>

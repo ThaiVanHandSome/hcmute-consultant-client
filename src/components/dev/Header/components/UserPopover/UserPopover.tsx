@@ -1,5 +1,6 @@
 import { useContext } from 'react'
-
+import { useQuery } from '@tanstack/react-query'
+import { getProfile } from '@/apis/user.api'
 import { CalendarIcon, DashboardIcon } from '@radix-ui/react-icons'
 import { LogOutIcon } from 'lucide-react'
 
@@ -13,6 +14,10 @@ import PopoverItem from '@/components/dev/Header/components/PopoverItem'
 
 export default function UserPopover() {
   const { setIsAuthenticated, user, setUser, setRole } = useContext(AppContext)
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile
+  })
 
   const handleLogout = () => {
     clearLS()
@@ -94,7 +99,7 @@ export default function UserPopover() {
       }
     >
       <div className='flex items-center cursor-pointer'>
-        <AvatarCustom url={user?.avatarUrl} />
+        <AvatarCustom url={profile?.data.data.avatarUrl || user?.avatarUrl} />
       </div>
     </Popover>
   )
