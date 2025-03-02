@@ -124,7 +124,7 @@ export default function Question({ question, className }: Props) {
             </Avatar>
             <div>
               <h3 className='font-medium text-gray-900'>
-                {question.askerFirstname} {question.askerLastname}
+                {question.askerLastname} {question.askerFirstname}
               </h3>
               <time className='text-sm text-gray-500'>
                 {format(new Date(question.createdAt), 'dd MMM yyyy', { locale: vi })}
@@ -132,10 +132,6 @@ export default function Question({ question, className }: Props) {
             </div>
           </div>
           <div className='flex items-center gap-4 text-sm text-gray-500'>
-            {/* <div className='flex items-center gap-1.5'>
-              <Eye className='h-4 w-4' strokeWidth={1.5} />
-              <span>{question.views}</span>
-            </div> */}
             <div className='flex items-center gap-2'>
               <Button
                 variant='ghost'
@@ -186,7 +182,7 @@ export default function Question({ question, className }: Props) {
               <div className='flex-1 min-w-0'>
                 <div className='flex items-center gap-2'>
                   <span className='font-medium text-gray-900'>
-                    {question.answerUserFirstname} {question.answerUserLastname}
+                     {question.answerUserLastname} {question.answerUserFirstname}
                   </span>
                   <time className='text-sm text-gray-500'>
                     {format(new Date(question.answerCreatedAt), 'dd MMM yyyy', { locale: vi })}
@@ -200,7 +196,7 @@ export default function Question({ question, className }: Props) {
       </div>
 
       <Dialog open={showLikeUsers} onOpenChange={(open) => !open && setShowLikeUsers(false)}>
-        <DialogContent className="sm:max-w-md" onPointerDownOutside={(e) => e.preventDefault()}>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Người đã thích câu hỏi</DialogTitle>
           </DialogHeader>

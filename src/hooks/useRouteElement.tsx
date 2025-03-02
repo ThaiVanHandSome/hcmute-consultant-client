@@ -54,6 +54,7 @@ import ConsultActivityMobile from '@/pages/User/ConsultActivityMobile'
 import Chats from '@/pages/User/Chats'
 import NotificationsPage from '@/components/dev/NotificationPage'
 import OAuth2RedirectHandler from '@/pages/Auth/OAuth2RedirectHandler'
+import ManageRating from '@/pages/Manage/ManageRating'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -316,6 +317,10 @@ export default function useRouteElement() {
                 {
                   path: path.approvalQuestionDetail,
                   element: <QuestionDetail />
+                },
+                {
+                  path: path.manageRating,
+                  element: <ManageRating />
                 }
               ]
             },

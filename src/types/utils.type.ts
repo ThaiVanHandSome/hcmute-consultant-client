@@ -21,3 +21,9 @@ export interface FormControlItem {
   value: string
   label: string | React.ReactNode
 }
+
+export interface QueryConfig {
+  page?: string
+  limit?: string
+  [key: string]: string | undefined
+}

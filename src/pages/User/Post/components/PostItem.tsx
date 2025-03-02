@@ -1,7 +1,6 @@
 import { countLikeOfPost } from '@/apis/like.api'
 import usePostQueryConfig from '@/hooks/usePostQueryConfig'
 import { Post } from '@/types/post.type'
-import { isImageFile } from '@/utils/utils'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { MessageCircleIcon, ThumbsUpIcon } from 'lucide-react'
