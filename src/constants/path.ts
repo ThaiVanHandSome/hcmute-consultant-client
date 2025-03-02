@@ -25,6 +25,7 @@ const path = {
   manageForwardQuestion: '/manage/forward-questions',
   manageSchedule: '/manage/schedules',
   managePost: '/manage/posts',
+  manageRating: '/manage/rating',
   manageCommonQuestion: '/manage/common-questions',
   manageDistrict: '/manage/districts',
   manageWard: '/manage/wards',

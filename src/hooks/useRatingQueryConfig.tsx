@@ -1,25 +1,17 @@
-import useQueryParams from '@/hooks/useQueryParams'
-import { RatingListConfig } from '@/types/params.type'
+import useQueryParams from './useQueryParams'
+import { RatingQueryConfig } from '@/types/rating.type'
 import { isUndefined, omitBy } from 'lodash'
 
-export type RatingQueryConfig = {
-  [key in keyof RatingListConfig]: string
-}
 export default function useRatingQueryConfig() {
-  const queryParams = useQueryParams() as Partial<RatingQueryConfig>
-
+  const queryParams = useQueryParams()
   const queryConfig: RatingQueryConfig = omitBy(
     {
-      page: queryParams.page ?? '0',
-      size: queryParams.size ?? '5',
-      sortBy: queryParams.sortBy ?? 'submittedAt',
-      sortDir: queryParams.sortDir ?? 'desc',
-      consultantName: queryParams?.consultantName,
-      departmentId: queryParams?.departmentId,
-      startDate: queryParams?.startDate,
-      endDate: queryParams.endDate
+      page: queryParams.page || '1',
+      limit: queryParams.limit || '10',
+      fromDate: queryParams.fromDate,
+      toDate: queryParams.toDate
     },
     isUndefined
-  ) as RatingQueryConfig
+  )
   return queryConfig
-}
+} 

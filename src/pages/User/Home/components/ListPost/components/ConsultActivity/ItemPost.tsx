@@ -140,7 +140,7 @@ export default function ItemPost({ post }: Props) {
       </Link>
 
       <Dialog open={showLikeUsers} onOpenChange={handleDialogOpenChange}>
-        <DialogContent className="sm:max-w-md" onPointerDownOutside={(e) => e.preventDefault()}>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Người đã thích bài viết</DialogTitle>
           </DialogHeader>

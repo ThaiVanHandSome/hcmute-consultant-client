@@ -14,7 +14,8 @@ import {
   FingerprintIcon,
   MapPinIcon,
   SchoolIcon,
-  User2Icon
+  User2Icon,
+  Star
 } from 'lucide-react'
 import { useContext } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
@@ -87,6 +88,18 @@ export default function ManageLayout() {
         }
       ],
       enabled: [ROLE.admin as Role, ROLE.advisor as Role].includes(role as Role)
+    },
+    {
+      title: 'Đánh giá',
+      children: [
+        {
+          path: path.manageRating,
+          icon: <Star className='size-5' />,
+          label: 'Đánh giá',
+          enabled: true
+        }
+      ],
+      enabled: [ROLE.admin as Role].includes(role as Role)
     },
     {
       title: 'Quyền',

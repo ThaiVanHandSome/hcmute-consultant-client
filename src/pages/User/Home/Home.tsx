@@ -64,27 +64,27 @@ export default function Home() {
             )}
 
             {/* Recent Questions - Professional Academic Style */}
-            <div className='relative bg-gradient-to-b from-blue-50/30 via-blue-50/50 to-blue-50/30 -mx-8 px-8 py-12'>
+            <div className='relative bg-gradient-to-b from-blue-50/30 via-blue-50/50 to-blue-50/30 -mx-8 px-8 py-2'>
               <div className='relative max-w-4xl mx-auto'>
                 <div className='bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden'>
-                  <div className='p-6 border-b border-gray-100'>
+                  <div className='p-4 border-b border-gray-100'>
                     <div className='flex items-center justify-between'>
-                      <div className='flex items-center gap-3'>
-                        <div className='p-2 rounded-lg bg-blue-50'>
-                          <BookOpen className='w-5 h-5 text-blue-600' strokeWidth={1.5} />
+                      <div className='flex items-center gap-2'>
+                        <div className='p-1.5 rounded-lg bg-blue-50'>
+                          <BookOpen className='w-4 h-4 text-blue-600' strokeWidth={1.5} />
                         </div>
                         <div>
-                          <h2 className='text-lg font-semibold text-gray-900'>Câu hỏi gần đây</h2>
-                          <p className='text-sm text-gray-600 mt-0.5'>Các câu hỏi từ sinh viên và giảng viên</p>
+                          <h2 className='text-base font-semibold text-gray-900'>Câu hỏi gần đây</h2>
+                          <p className='text-xs text-gray-600 mt-0.5'>Các câu hỏi từ sinh viên và giảng viên</p>
                         </div>
                       </div>
                       <div className='flex items-center gap-2'>
-                        <Button variant='outline' size='sm' className='text-gray-700 border-gray-200'>
-                          <TrendingUp className='w-4 h-4 mr-1.5' strokeWidth={1.5} />
+                        <Button variant='outline' size='sm' className='text-gray-700 border-gray-200 text-xs py-1'>
+                          <TrendingUp className='w-3.5 h-3.5 mr-1' strokeWidth={1.5} />
                           Phổ biến
                         </Button>
-                        <Button variant='outline' size='sm' className='text-gray-700 border-gray-200'>
-                          <Activity className='w-4 h-4 mr-1.5' strokeWidth={1.5} />
+                        <Button variant='outline' size='sm' className='text-gray-700 border-gray-200 text-xs py-1'>
+                          <Activity className='w-3.5 h-3.5 mr-1' strokeWidth={1.5} />
                           Mới nhất
                         </Button>
                       </div>
@@ -92,7 +92,7 @@ export default function Home() {
                   </div>
 
                   <div className='bg-gray-50/50'>
-                    <div className='p-6 bg-white'>
+                    <div className='p-4 bg-white'>
                       <ListQuestion />
                     </div>
                   </div>
