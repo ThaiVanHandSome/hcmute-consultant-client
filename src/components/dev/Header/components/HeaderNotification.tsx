@@ -143,7 +143,6 @@ export default function HeaderNotification() {
                 )}
               </Button>
               
-              {/* Nút dự phòng để đảm bảo API được gọi */}
               <button 
                 type="button"
                 className="ml-2 p-1 bg-primary text-white text-[10px] rounded hidden"
