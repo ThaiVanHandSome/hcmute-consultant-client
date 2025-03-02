@@ -1,5 +1,5 @@
 import { replyComment, updateComment } from '@/apis/comment.api'
-import { countLikeOfComment, getCommentRecord, likeComment, unLikeComment } from '@/apis/like.api'
+import { countLikeOfComment, getCommentRecord, getLikeUsersOfComment, likeComment, unLikeComment } from '@/apis/like.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import DialogDeleteComment from '@/components/dev/CommentItem/components/DialogDeleteComment'
 import InputCustom from '@/components/dev/Form/InputCustom'
@@ -10,9 +10,18 @@ import { AppContext } from '@/contexts/app.context'
 import { Comment } from '@/types/comment.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { CheckCircle2Icon, EllipsisIcon, SendIcon } from 'lucide-react'
+import { CheckCircle2Icon, EllipsisIcon, SendIcon, UsersIcon, ThumbsUpIcon } from 'lucide-react'
 import { useContext, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { cn } from '@/lib/utils'
+import { UserInfo } from '@/types/like.type'
 
 interface Props {
   readonly comment: Comment
@@ -26,9 +35,11 @@ export default function CommentItem({ comment }: Props) {
       editText: ''
     }
   })
+
   const { user } = useContext(AppContext)
   const [showReply, setShowReply] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [showLikeUsers, setShowLikeUsers] = useState(false)
 
   const replyCommentMutation = useMutation({
     mutationFn: ({ commentFatherId, text }: { commentFatherId: number; text: string }) =>
@@ -126,6 +137,16 @@ export default function CommentItem({ comment }: Props) {
     )
   })
 
+  const Skeleton = ({ className }: { className?: string }) => (
+    <div className={cn("animate-pulse bg-gray-200 rounded", className)} />
+  )
+
+  const { data: likeUsersData, isLoading: isLoadingLikeUsers } = useQuery({
+    queryKey: ['like-users-comment', commentId],
+    queryFn: () => getLikeUsersOfComment(commentId),
+    enabled: !!commentId && showLikeUsers
+  })
+
   return (
     <div className='flex space-x-2 w-full mb-1'>
       <AvatarCustom url={comment.user.avatarUrl} className='size-8' />
@@ -173,32 +194,41 @@ export default function CommentItem({ comment }: Props) {
         </div>
         <div className='ml-4 mt-1 flex items-center space-x-2'>
           <p className='text-xs font-semibold'>{comment.create_date}</p>
-          <div
-            aria-hidden='true'
-            className={clsx('text-xs font-bold cursor-pointer hover:underline', {
-              'text-blue-600': isLikedComment
-            })}
-            onClick={handleToggleLike}
-          >
-            Thích
-          </div>
-          {!isEdit && (
+          <div className='flex items-center space-x-4'>
             <div
               aria-hidden='true'
-              className='text-xs font-bold cursor-pointer hover:underline'
-              onClick={() => setShowReply((prev) => !prev)}
+              className={clsx('text-xs font-bold cursor-pointer hover:underline', {
+                'text-blue-600': isLikedComment
+              })}
+              onClick={handleToggleLike}
             >
-              Phản hồi
+              Thích
             </div>
-          )}
-          <div className='flex items-center space-x-1'>
-            <img
-              height='18'
-              role='presentation'
-              src="data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint0_linear_15251_63610)'/%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint1_radial_15251_63610)'/%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint2_radial_15251_63610)' fill-opacity='.5'/%3E%3Cpath d='M7.3014 3.8662a.6974.6974 0 0 1 .6974-.6977c.6742 0 1.2207.5465 1.2207 1.2206v1.7464a.101.101 0 0 0 .101.101h1.7953c.992 0 1.7232.9273 1.4917 1.892l-.4572 1.9047a2.301 2.301 0 0 1-2.2374 1.764H6.9185a.5752.5752 0 0 1-.5752-.5752V7.7384c0-.4168.097-.8278.2834-1.2005l.2856-.5712a3.6878 3.6878 0 0 0 .3893-1.6509l-.0002-.4496ZM4.367 7a.767.767 0 0 0-.7669.767v3.2598a.767.767 0 0 0 .767.767h.767a.3835.3835 0 0 0 .3835-.3835V7.3835A.3835.3835 0 0 0 5.134 7h-.767Z' fill='%23fff'/%3E%3Cdefs%3E%3CradialGradient id='paint1_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(90 .0005 8) scale(7.99958)'%3E%3Cstop offset='.5618' stop-color='%230866FF' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%230866FF' stop-opacity='.1'/%3E%3C/radialGradient%3E%3CradialGradient id='paint2_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(45 -4.5257 10.9237) scale(10.1818)'%3E%3Cstop offset='.3143' stop-color='%2302ADFC'/%3E%3Cstop offset='1' stop-color='%2302ADFC' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='paint0_linear_15251_63610' x1='2.3989' y1='2.3999' x2='13.5983' y2='13.5993' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%2302ADFC'/%3E%3Cstop offset='.5' stop-color='%230866FF'/%3E%3Cstop offset='1' stop-color='%232B7EFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E"
-              width='18'
-            ></img>
-            <span className='font-semibold text-xs'>{countLikes?.data.data}</span>
+
+            {!isEdit && (
+              <div
+                aria-hidden='true'
+                className='text-xs font-bold cursor-pointer hover:underline'
+                onClick={() => setShowReply((prev) => !prev)}
+              >
+                Phản hồi
+              </div>
+            )}
+          </div>
+
+          <div className='flex items-center space-x-4 text-sm text-gray-600'>
+            <div className='flex items-center space-x-1.5'>
+              <ThumbsUpIcon className='size-4' />
+              <span>{countLikes?.data.data}</span>
+            </div>
+            
+            <div 
+              className='flex items-center space-x-1.5 cursor-pointer hover:text-blue-500 text-blue-400 border border-blue-200 px-2 py-1 rounded-md bg-blue-50'
+              onClick={() => setShowLikeUsers(true)}
+            >
+              <UsersIcon className='size-4' />
+              <span className="font-medium"></span>
+            </div>
           </div>
         </div>
 
@@ -224,6 +254,48 @@ export default function CommentItem({ comment }: Props) {
           ))}
         </div>
       </div>
+
+      <Dialog open={showLikeUsers} onOpenChange={(open) => !open && setShowLikeUsers(false)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Người đã thích bình luận</DialogTitle>
+          </DialogHeader>
+          
+          <div className="max-h-[300px] overflow-y-auto">
+            {isLoadingLikeUsers ? (
+              <div className="space-y-3 p-2">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <Skeleton className="h-10 w-10 rounded-full" />
+                    <div>
+                      <Skeleton className="h-4 w-32 mb-2" />
+                      <Skeleton className="h-3 w-20" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : likeUsersData?.data?.data && likeUsersData.data.data.length > 0 ? (
+              <div className="space-y-3 p-2">
+                {likeUsersData.data.data.map((user: UserInfo) => (
+                  <div key={user.id} className="flex items-center gap-3">
+                    <Avatar>
+                      <AvatarImage src={user.avatarUrl} />
+                      <AvatarFallback>{`${user.firstName?.charAt(0) || ''}${user.lastName?.charAt(0) || ''}`}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-medium">{`${user.lastName || ''} ${user.firstName || ''}`}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-8 text-center text-gray-500">
+                Không có thông tin người thích
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

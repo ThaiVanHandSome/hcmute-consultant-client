@@ -1,5 +1,6 @@
 import { SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
+import { UserInfo } from '@/types/like.type'
 
 export const likePost = (postId: number) =>
   http.post<SuccessResponse<string>>('like/post', null, {
@@ -13,6 +14,11 @@ export const likeComment = (commentId: number) =>
     params: {
       commentId
     }
+  })
+
+export const likeQuestion = (questionId: number) =>
+  http.post<SuccessResponse<string>>('like/question', null, {
+    params: { questionId }
   })
 
 export const countLikeOfPost = (postId: number) =>
@@ -29,6 +35,11 @@ export const countLikeOfComment = (commentId: number) =>
     }
   })
 
+export const countLikeOfQuestion = (questionId: number) =>
+  http.get<SuccessResponse<number>>('like-count/question', {
+    params: { questionId }
+  })
+
 export const getPostRecord = (postId: number) =>
   http.get<SuccessResponse<{ likeKey: { targetId: number; userId: number; type: string } }[]>>('like-records/post', {
     params: {
@@ -40,6 +51,13 @@ export const getCommentRecord = (commentId: number) =>
   http.get<SuccessResponse<{ likeKey: { targetId: number; userId: number; type: string } }[]>>('like-records/comment', {
     params: {
       commentId
+    }
+  })
+
+export const getQuestionRecord = (questionId: number) =>
+  http.get<SuccessResponse<{ likeKey: { targetId: number; userId: number; type: string } }[]>>('like-records/question', {
+    params: {
+      questionId
     }
   })
 
@@ -55,4 +73,28 @@ export const unLikeComment = (commentId: number) =>
     params: {
       commentId
     }
+  })
+
+export const unLikeQuestion = (questionId: number) =>
+  http.delete<SuccessResponse<string>>('unlike/question', {
+    params: { questionId }
+  })
+
+export const getLikeUsersOfPost = (postId: number) =>
+  http.get<SuccessResponse<UserInfo[]>>('like-users/post', {
+    params: {
+      postId
+    }
+  })
+
+export const getLikeUsersOfComment = (commentId: number) =>
+  http.get<SuccessResponse<UserInfo[]>>('like-users/comment', {
+    params: {
+      commentId
+    }
+  })
+
+export const getLikeUsersOfQuestion = (questionId: number) =>
+  http.get<SuccessResponse<UserInfo[]>>('like-users/question', {
+    params: { questionId }
   })
