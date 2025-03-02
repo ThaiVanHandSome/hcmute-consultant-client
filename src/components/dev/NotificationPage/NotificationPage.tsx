@@ -51,11 +51,10 @@ export default function NotificationsPage() {
   })
 
   useEffect(() => {
-    // Kiểm tra localStorage khi component mount
     const savedId = localStorage.getItem('selectedNotificationId')
     if (savedId) {
       setSelectedNotificationId(Number(savedId))
-      localStorage.removeItem('selectedNotificationId') // Xóa sau khi đã đọc
+      localStorage.removeItem('selectedNotificationId') 
     }
   }, [])
 
@@ -126,19 +125,16 @@ export default function NotificationsPage() {
 
   const handleDeleteAll = async () => {
     try {
-      // Thử gọi API xóa tất cả
       await deleteAllNotifications()
       queryClient.invalidateQueries({ queryKey: ['notifications'] })
       setSuccessMessage('Đã xóa tất cả thông báo thành công!')
       
-      // Tự động ẩn thông báo sau 5 giây
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
     } catch (error: any) {
       console.error('Lỗi khi xóa tất cả thông báo:', error)
       
-      // Hiển thị thông báo lỗi chi tiết
       if (error && typeof error === 'object' && error.response?.data?.message) {
         alert(`Lỗi: ${error.response.data.message}`);
       } else if (error && typeof error === 'object' && error.message && error.message.includes('transaction')) {
