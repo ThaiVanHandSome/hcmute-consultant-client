@@ -104,9 +104,15 @@ export const playNotificationSound = () => {
   }
 }
 
-export function isImageFile(fileName: string): boolean {
-  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'svg']
-  const fileExtension = fileName.split('.').pop()?.toLowerCase()
-  if (!fileExtension) return false
-  return imageExtensions.includes(fileExtension)
-}
+export const isImageFile = (fileName: string | null | undefined): boolean => {
+  if (!fileName) return false;
+  
+  try {
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
+    return imageExtensions.includes(extension || '');
+  } catch (error) {
+    console.error('Error checking if file is an image:', error);
+    return false;
+  }
+};

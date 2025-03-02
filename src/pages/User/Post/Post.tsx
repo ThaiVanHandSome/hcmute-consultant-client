@@ -1,5 +1,5 @@
 import { createComment, getComments } from '@/apis/comment.api'
-import { countLikeOfPost, getPostRecord, likePost, unLikePost } from '@/apis/like.api'
+import { countLikeOfPost, getLikeUsersOfPost, getPostRecord, likePost, unLikePost } from '@/apis/like.api'
 import { approvePost, deletePost, getPostDetail, getPosts } from '@/apis/post.api'
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import CommentItem from '@/components/dev/CommentItem'
@@ -17,10 +17,25 @@ import usePostQueryConfig from '@/hooks/usePostQueryConfig'
 import PostItem from '@/pages/User/Post/components/PostItem'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { MessageCircleIcon, SendIcon, ThumbsUp } from 'lucide-react'
-import { useContext, useMemo } from 'react'
+import { MessageCircleIcon, SendIcon, ThumbsUp, UsersIcon } from 'lucide-react'
+import { useContext, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { cn } from '@/lib/utils'
+import { UserInfo } from '@/types/like.type'
+
+// Simple Skeleton component
+const Skeleton = ({ className }: { className?: string }) => (
+  <div className={cn("animate-pulse bg-gray-200 rounded", className)} />
+)
 
 export default function Post() {
   const form = useForm({
@@ -36,6 +51,8 @@ export default function Post() {
   }
   const params = useParams()
   const id = parseInt(params.id as string)
+  const [showLikeUsers, setShowLikeUsers] = useState(false)
+  const [errorLoadingUsers, setErrorLoadingUsers] = useState(false)
 
   const { data: posts } = useQuery({
     queryKey: ['posts', postQueryConfig],
@@ -66,6 +83,17 @@ export default function Post() {
     queryFn: () => getPostRecord(id),
     enabled: !!id
   })
+
+  // Fetch và quản lý danh sách người thích
+  const { data: likeUsersData, isLoading: isLoadingLikeUsers } = useQuery({
+    queryKey: ['like-users-post', id],
+    queryFn: () => getLikeUsersOfPost(id),
+    enabled: !!id && showLikeUsers,
+    retry: 0
+  });
+  
+  // Lấy trực tiếp từ response của API đúng
+  const likeUsers = likeUsersData?.data?.data || [];
 
   const isLikedPost = useMemo(() => {
     const postRecord = postRecordRes?.data.data
@@ -153,11 +181,18 @@ export default function Post() {
     })
   }
 
+  // Xử lý đóng modal người thích
+  const handleDialogOpenChange = (open: boolean) => {
+    setShowLikeUsers(open);
+  }
+
   return (
     <div className='h-remain-screen grid grid-cols-12'>
       <div className='hidden lg:block col-span-4 px-3 py-1 border-r bg-background'>
         <div className='mb-2 py-2 rounded-md font-bold text-lg px-2 text-gray-500'>Các bài đăng</div>
-        {posts?.data.data.content.map((post) => <PostItem activeId={id} post={post} postQueryConfig={postQueryConfig} />)}
+        {posts?.data.data.content.map((post) => (
+          <PostItem key={post.id} activeId={id} post={post} postQueryConfig={postQueryConfig} />
+        ))}
         <Separator className='my-2' />
         <div>
           <Paginate
@@ -212,6 +247,19 @@ export default function Post() {
                 onClick={handleTogglePost}
               />
               <span className='font-semibold text-sm'>{countLikes?.data?.data ?? '0'}</span>
+              
+              {/* Thêm nút "" */}
+              {(countLikes?.data?.data ?? 0) > 0 && (
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="flex items-center gap-1 ml-2 text-blue-500 hover:bg-blue-50"
+                  onClick={() => setShowLikeUsers(true)}
+                >
+                  <UsersIcon className="h-4 w-4" />
+                  <span className="text-xs"></span>
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -249,6 +297,62 @@ export default function Post() {
           </div>
         </div>
       </div>
+
+      {/* Dialog hiển thị danh sách người thích */}
+      <Dialog open={showLikeUsers} onOpenChange={handleDialogOpenChange}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Người đã thích bài viết</DialogTitle>
+            <DialogDescription>
+              Danh sách những người đã thích bài viết này
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="max-h-[300px] overflow-y-auto">
+            {isLoadingLikeUsers ? (
+              <div className="space-y-3 p-2">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <Skeleton className="h-10 w-10 rounded-full" />
+                    <div>
+                      <Skeleton className="h-4 w-32 mb-2" />
+                      <Skeleton className="h-3 w-20" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : errorLoadingUsers ? (
+              <div className="py-8 text-center">
+                <p className="text-red-500 mb-2">Không thể tải danh sách người thích</p>
+                <p className="text-sm text-gray-500 mb-3">Server đang gặp vấn đề với dữ liệu người dùng (lỗi vòng lặp vô hạn).</p>
+                <div className="border border-amber-200 bg-amber-50 p-3 rounded-md text-sm">
+                  <p className="font-medium text-amber-700 mb-1">Thông tin cho kỹ thuật viên:</p>
+                  <p className="text-xs text-amber-800 font-mono mb-1">Backend gặp vấn đề infinite recursion trong UserInformationEntity</p>
+                  <p className="text-xs text-amber-600">Cần thêm @JsonIgnore hoặc @JsonManagedReference/@JsonBackReference vào các mối quan hệ entity</p>
+                </div>
+              </div>
+            ) : likeUsers && likeUsers.length > 0 ? (
+              <div className="space-y-3 p-2">
+                {likeUsers.map((user: UserInfo) => (
+                  <div key={user.id} className="flex items-center gap-3">
+                    <Avatar>
+                      <AvatarImage src={user.avatarUrl} />
+                      <AvatarFallback>{`${user.firstName?.charAt(0) || ''}${user.lastName?.charAt(0) || ''}`}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-medium">{`${user.lastName || ''} ${user.firstName || ''}`}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-8 text-center text-gray-500">
+                Không có thông tin người thích
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
