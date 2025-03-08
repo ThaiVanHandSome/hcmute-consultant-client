@@ -1,4 +1,4 @@
-import { getNotificationDetail, getNotifications, markAllAsRead, markAsRead, deleteAllNotifications, deleteNotification } from '@/apis/notification.api'
+import { getNotificationDetail, getNotifications, markAllAsRead, markAsRead, deleteAllNotifications } from '@/apis/notification.api'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -17,7 +17,6 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 const getNotificationIcon = (type: string) => {
   switch (type) {
@@ -34,9 +33,7 @@ const getNotificationIcon = (type: string) => {
 
 export default function NotificationsPage() {
   const queryClient = useQueryClient()
-  const navigate = useNavigate()
   const [selectedNotificationId, setSelectedNotificationId] = useState<number | null>(null)
-  const [activeTab, setActiveTab] = useState('all')
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
   
   const { data: notifications } = useQuery({

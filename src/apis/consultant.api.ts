@@ -1,10 +1,9 @@
 import { ConsultantQueryConfig } from '@/hooks/useConsultantQueryConfig'
-import { RatingQueryConfig } from '@/hooks/useRatingQueryConfig'
 import { CreateScheduleFormData } from '@/pages/Manage/ManageSchedual/components/DialogCreateSchedule'
 import { MemberJoin } from '@/pages/Manage/SchedualDetail/components/DialogListMemberJoin'
 import { RatingFormData } from '@/pages/User/ConsultantEvaluation/ConsultantEvaluation'
 import { Consultant, SchedualConfirm, SchedualConsultant } from '@/types/consultant.type'
-import { Rating } from '@/types/rating.type'
+import { Rating, RatingQueryConfig } from '@/types/rating.type'
 import { PaginationResponse, SuccessResponse } from '@/types/utils.type'
 import http from '@/utils/http'
 
