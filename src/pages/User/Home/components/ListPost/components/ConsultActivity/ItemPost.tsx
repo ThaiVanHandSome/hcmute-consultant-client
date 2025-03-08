@@ -16,7 +16,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { UserInfo } from '@/types/like.type'
-import { Button } from '@/components/ui/button'
 
 // Simple Skeleton component
 const Skeleton = ({ className }: { className?: string }) => (

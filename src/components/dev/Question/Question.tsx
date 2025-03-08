@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { vi } from 'date-fns/locale'
-import { Eye, User, ThumbsUp, UsersIcon } from 'lucide-react'
+import { User, ThumbsUp, UsersIcon } from 'lucide-react'
 import { Question as QuestionType } from '@/types/question.type'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'

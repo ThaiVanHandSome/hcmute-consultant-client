@@ -52,7 +52,7 @@ export default function Post() {
   const params = useParams()
   const id = parseInt(params.id as string)
   const [showLikeUsers, setShowLikeUsers] = useState(false)
-  const [errorLoadingUsers, setErrorLoadingUsers] = useState(false)
+  const [errorLoadingUsers] = useState(false)
 
   const { data: posts } = useQuery({
     queryKey: ['posts', postQueryConfig],
