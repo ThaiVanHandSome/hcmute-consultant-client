@@ -1,13 +1,14 @@
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { parseJWT } from '@/utils/utils'
 import path from '@/constants/path'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '@/contexts/app.context'
 
 const API_URL = import.meta.env.VITE_API_URL
 
 const OAuth2RedirectHandler = () => {
   const { setIsAuthenticated, setUser } = useContext(AppContext)
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
   const getUrlParameter = (name: string) => {
     const urlParams = new URLSearchParams(location.search)
@@ -15,9 +16,13 @@ const OAuth2RedirectHandler = () => {
   }
 
   const token = getUrlParameter('token')
-  const error = getUrlParameter('error')
 
-  console.log(token)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isLoaded) navigate(path.home)
+  }, [isLoaded])
+
   if (token) {
     const payload = parseJWT(token)
     localStorage.setItem('accessToken', token)
@@ -33,13 +38,15 @@ const OAuth2RedirectHandler = () => {
       if (res.ok) {
         const response = await res.json()
         setUser(response.data)
-        return <Navigate to={path.home} />
+        setIsLoaded(true)
       }
     }
     getProfile()
   } else {
-    return <Navigate to='/login' state={{ error }} />
+    navigate(path.login)
   }
+
+  return <></>
 }
 
 export default OAuth2RedirectHandler
