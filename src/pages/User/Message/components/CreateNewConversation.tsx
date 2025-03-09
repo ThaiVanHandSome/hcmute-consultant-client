@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form } from '@/components/ui/form'
 import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { ConversationQueryConfig } from '@/hooks/useConversationQueryConfig'
 import { Consultant } from '@/types/consultant.type'
 import { FormControlItem } from '@/types/utils.type'
@@ -90,10 +90,7 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
   const onUserSubmit = createConversationForm.handleSubmit((values) => {
     createConversationMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setIsOpenModal(false)
         queryClient.invalidateQueries({
           queryKey: ['conversations', conversationQueryParams]
@@ -105,10 +102,7 @@ export default function CreateNewConversation({ conversationQueryParams }: Props
   const onConsultantSubmit = createGroupConversationForm.handleSubmit((values) =>
     createGroupConversationMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setIsOpenModal(false)
         queryClient.invalidateQueries({
           queryKey: ['conversations', conversationQueryParams]

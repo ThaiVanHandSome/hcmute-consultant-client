@@ -3,7 +3,7 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useRoleQueryConfig from '@/hooks/useRoleQueryConfig'
 import { RoleType } from '@/types/role.type'
 import { RoleSchema } from '@/utils/rules'
@@ -48,10 +48,7 @@ export default function DialogRole({ children, role }: Props) {
         { id, name },
         {
           onSuccess: (res) => {
-            toast({
-              variant: 'success',
-              description: res.data.message
-            })
+            toast.success(res.data.message)
             setOpen(false)
             queryClient.invalidateQueries({
               queryKey: ['admin-roles', roleQueryConfig]
@@ -63,10 +60,7 @@ export default function DialogRole({ children, role }: Props) {
     }
     createRoleMutation.mutate(name, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         queryClient.invalidateQueries({
           queryKey: ['admin-roles', roleQueryConfig]

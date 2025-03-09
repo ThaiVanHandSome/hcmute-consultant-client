@@ -5,7 +5,7 @@ import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useDistrictQueryConfig from '@/hooks/useDistrictQueryConfig'
 import { DistrictType } from '@/types/location.type'
 import { DistrictSchema } from '@/utils/rules'
@@ -63,10 +63,7 @@ export default function DialogDistrict({ children, district }: Props) {
     if (!isUpdate) {
       createDistrictMutation.mutate(values, {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           queryClient.invalidateQueries({
             queryKey: ['admin-districts', districtQueryConfig]
           })
@@ -77,10 +74,7 @@ export default function DialogDistrict({ children, district }: Props) {
     }
     updateDistrictMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         queryClient.invalidateQueries({
           queryKey: ['admin-districts', districtQueryConfig]
         })

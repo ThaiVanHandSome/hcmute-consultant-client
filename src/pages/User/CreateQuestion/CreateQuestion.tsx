@@ -10,7 +10,7 @@ export default function CreateQuestion() {
   })
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-gray-50 to-white'>
+    <div className='min-h-screen '>
       <div className='max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10'>
         {/* Header Section */}
         <div className='max-w-2xl mx-auto text-center mb-10'>
@@ -19,26 +19,30 @@ export default function CreateQuestion() {
               <HelpCircle className='w-6 h-6 text-primary' />
             </div>
           </div>
-          <h1 className='text-2xl font-semibold text-gray-900 mb-2'>Trung tâm hỗ trợ sinh viên</h1>
-          <p className='text-sm text-gray-600'>Chúng tôi luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn</p>
+          <h1 className='text-2xl font-semibold text-foreground mb-2'>Trung tâm hỗ trợ sinh viên</h1>
+          <p className='text-sm text-secondary-foreground'>
+            Chúng tôi luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn
+          </p>
         </div>
 
         <div className='grid lg:grid-cols-12 gap-6'>
           {/* Sidebar Information */}
           <div className='lg:col-span-4 space-y-4'>
             {/* Guidelines Card */}
-            <div className='bg-white rounded-lg shadow-sm border border-gray-100 p-5'>
+            <div className='bg-background rounded-lg shadow-sm border border-secondary p-5'>
               <div className='space-y-4'>
                 <div className='flex gap-3'>
                   <BookOpen className='w-5 h-5 text-primary shrink-0 mt-0.5' />
                   <div>
-                    <p className='text-sm text-gray-600'>Các vấn đề: học tập, học bổng, chính sách sinh viên...</p>
+                    <p className='text-sm text-secondary-foreground'>
+                      Các vấn đề: học tập, học bổng, chính sách sinh viên...
+                    </p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <Clock3 className='w-5 h-5 text-primary shrink-0 mt-0.5' />
                   <div>
-                    <p className='text-sm text-gray-600'>
+                    <p className='text-sm text-secondary-foreground'>
                       Thời gian phản hồi: <span className='font-medium'>1-2 ngày làm việc</span>
                     </p>
                   </div>
@@ -47,10 +51,10 @@ export default function CreateQuestion() {
             </div>
 
             {/* Warning Card */}
-            <div className='bg-red-50 rounded-lg border border-red-100 p-5'>
+            <div className='bg-destructive rounded-lg border border-red-100 p-5'>
               <div className='flex gap-3'>
-                <AlertCircle className='w-5 h-5 text-red-500 shrink-0 mt-0.5' />
-                <p className='text-sm text-red-600'>
+                <AlertCircle className='w-5 h-5 text-destructive-foreground shrink-0 mt-0.5' />
+                <p className='text-sm text-destructive-foreground'>
                   Không đặt câu hỏi có nội dung không phù hợp. Tài khoản vi phạm sẽ bị khóa.
                 </p>
               </div>
@@ -59,7 +63,7 @@ export default function CreateQuestion() {
 
           {/* Main Form Section */}
           <div className='lg:col-span-8'>
-            <div className='bg-white rounded-lg shadow-sm border border-gray-100 p-6'>
+            <div className='bg-background rounded-lg shadow-sm border border-secondary p-6'>
               <QuestionForm question={undefined} profileData={profile?.data.data} />
             </div>
           </div>

@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import EvaluationChooseConsultant from '@/pages/User/ConsultantEvaluation/components/EvaluationChooseConsultant'
 import EvaluationForm from '@/pages/User/ConsultantEvaluation/components/EvaluationForm'
 import { RatingSchema } from '@/utils/rules'
@@ -66,10 +66,7 @@ export default function ConsultantEvaluation() {
   const onSubmit = form.handleSubmit((values) => {
     createRatingMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         navigate(path.home)
       }
     })

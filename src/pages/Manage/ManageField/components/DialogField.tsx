@@ -5,7 +5,7 @@ import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useFieldQueryConfig from '@/hooks/useFieldQueryConfig'
 import { AdminField } from '@/types/field.type'
 import { FormControlItem } from '@/types/utils.type'
@@ -65,10 +65,7 @@ export default function DialogField({ children, field }: Props) {
       },
       {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           setOpen(false)
           queryClient.invalidateQueries({
             queryKey: ['admin-fields', fieldQueryConfig]

@@ -2,7 +2,7 @@ import { deleteSchedual } from '@/apis/consultant.api'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { SchedualConsultant } from '@/types/consultant.type'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -25,9 +25,7 @@ export default function DialogDeleteSchedual({ children, schedual }: Props) {
     const schedualId = schedual?.id as number
     deleteSchedualMutation.mutate(schedualId, {
       onSuccess: (res) => {
-        toast({
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         navigate(path.manageSchedule)
       }

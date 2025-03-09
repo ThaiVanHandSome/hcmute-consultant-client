@@ -6,7 +6,7 @@ import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useForwardQuestionQueryConfig from '@/hooks/useForwardQuestionQueryConfig'
 import { Consultant } from '@/types/consultant.type'
 import { ForwardQuestion } from '@/types/question.type'
@@ -81,9 +81,7 @@ export default function DialogForwardQuestion({ children, forwardQuestion }: Pro
       },
       {
         onSuccess: (res) => {
-          toast({
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           queryClient.invalidateQueries({
             queryKey: ['forward-questions', forwardQuestionQueryConfig]
           })

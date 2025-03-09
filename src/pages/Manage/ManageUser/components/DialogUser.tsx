@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useConsultantRoleQueryConfig from '@/hooks/useConsultantRoleQueryConfig'
 import useRoleQueryConfig from '@/hooks/useRoleQueryConfig'
 import useUserQueryConfig from '@/hooks/useUserQueryConfig'
@@ -95,9 +95,7 @@ export default function DialogUser({ user, children }: Props) {
       },
       {
         onSuccess: (res) => {
-          toast({
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           setOpen(false)
           queryClient.invalidateQueries({
             queryKey: ['admin-users', userQueryConfig]

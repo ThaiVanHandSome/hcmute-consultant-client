@@ -159,12 +159,23 @@ export default function Login() {
                 </div>
               </form>
             </Form>
+            <p className='my-4 text-center text-secondary-foreground text-sm'>hoặc</p>
             <div className='mt-4'>
               <a
                 href={`${import.meta.env.VITE_SERVER_URL}/oauth2/authorize/google?redirect_uri=${import.meta.env.VITE_CLIENT_URL}/oauth2/redirect`}
-                className='btn btn-block social-btn google flex items-center justify-center space-x-2 border py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition-all'
+                className='block w-full'
               >
-                <span className='font-semibold'>Log in with Google</span>
+                <div className='dark:bg-gray-800 w-full'>
+                  <button className='w-full px-4 py-2 border flex justify-center gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150'>
+                    <img
+                      className='w-6 h-6'
+                      src='https://www.svgrepo.com/show/475656/google-color.svg'
+                      loading='lazy'
+                      alt='google logo'
+                    />
+                    <span className='text-sm'>Đăng nhập với Google</span>
+                  </button>
+                </div>
               </a>
             </div>
           </div>

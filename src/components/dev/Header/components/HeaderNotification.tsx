@@ -43,12 +43,10 @@ export default function HeaderNotification() {
   const notificationsData = useMemo(() => {
     // Lấy danh sách thông báo từ API response
     const list = notifications?.data?.data?.content || []
-    
+
     // Sắp xếp theo thời gian mới nhất
-    const sortedList = [...list].sort((a, b) => 
-      new Date(b.time).getTime() - new Date(a.time).getTime()
-    )
-    
+    const sortedList = [...list].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+
     // Chỉ lấy 5 thông báo mới nhất
     return sortedList.slice(0, 5)
   }, [notifications])
@@ -68,30 +66,30 @@ export default function HeaderNotification() {
         console.error('Lỗi khi đánh dấu đã đọc:', error)
       }
     }
-    
+
     // Lưu ID thông báo vào localStorage để sử dụng trong NotificationPage
     localStorage.setItem('selectedNotificationId', notification.id.toString())
-    
+
     // Chuyển hướng đến trang chi tiết thông báo
     navigate('/notifications')
   }
 
   const handleMarkAllAsRead = async () => {
-    if (isMarkingAllAsRead) return; // Tránh gọi API nhiều lần nếu đang processing
+    if (isMarkingAllAsRead) return // Tránh gọi API nhiều lần nếu đang processing
 
     console.log('Bắt đầu đánh dấu tất cả đã đọc...')
     try {
       setIsMarkingAllAsRead(true)
-      
+
       console.log('Gọi API markAllAsRead...')
       const response = await markAllAsRead()
       console.log('Kết quả từ API:', response)
-      
+
       // Hard refresh query (với fetchOptions để force refresh từ server)
       console.log('Đang làm mới danh sách thông báo...')
       await queryClient.resetQueries({ queryKey: ['notifications'] })
       await queryClient.invalidateQueries({ queryKey: ['notifications'], refetchType: 'all' })
-      
+
       // Hiển thị thông báo thành công
       console.log('Hoàn tất đánh dấu tất cả đã đọc!')
       setMarkAllSuccess(true)
@@ -109,30 +107,28 @@ export default function HeaderNotification() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant='ghost' size='icon' className='relative'>
+        <div className='relative cursor-pointer hover:opacity-70 transition-opacity'>
           <BellIcon className='size-5' />
-          {unreadCount > 0 && (
-            <span className='absolute -top-1 -right-1 size-5 flex items-center justify-center text-[10px] font-medium bg-primary text-white rounded-full'>
-              {unreadCount > 9 ? '9+' : unreadCount}
-            </span>
-          )}
-        </Button>
+          <div className='absolute -top-1 -right-1 size-4 rounded-full bg-primary text-[10px] font-medium text-primary-foreground flex items-center justify-center'>
+            {unreadCount > 0 && unreadCount > 9 ? '9+' : unreadCount}
+          </div>
+        </div>
       </PopoverTrigger>
       <PopoverContent align='end' className='w-80 p-0'>
         <div className='flex items-center justify-between p-4 border-b'>
           <h3 className='font-medium text-sm'>Thông báo</h3>
           {unreadCount > 0 ? (
             <>
-              <Button 
-                variant='outline' 
-                size='sm' 
+              <Button
+                variant='outline'
+                size='sm'
                 className='text-xs h-8 flex items-center gap-1.5 border-primary text-primary hover:bg-primary/10'
                 onClick={handleMarkAllAsRead}
                 disabled={isMarkingAllAsRead}
               >
                 {isMarkingAllAsRead ? (
                   <>
-                    <span className="animate-spin h-3 w-3 border-2 border-primary border-t-transparent rounded-full mr-1"></span>
+                    <span className='animate-spin h-3 w-3 border-2 border-primary border-t-transparent rounded-full mr-1'></span>
                     Đang xử lý...
                   </>
                 ) : (
@@ -142,18 +138,18 @@ export default function HeaderNotification() {
                   </>
                 )}
               </Button>
-              
-              <button 
-                type="button"
-                className="ml-2 p-1 bg-primary text-white text-[10px] rounded hidden"
+
+              <button
+                type='button'
+                className='ml-2 p-1 bg-primary text-white text-[10px] rounded hidden'
                 onClick={() => {
-                  console.log('Thử gọi API từ nút dự phòng');
+                  console.log('Thử gọi API từ nút dự phòng')
                   markAllAsRead()
                     .then(() => {
-                      queryClient.invalidateQueries({ queryKey: ['notifications'] });
-                      console.log('Gọi API từ nút dự phòng thành công!');
+                      queryClient.invalidateQueries({ queryKey: ['notifications'] })
+                      console.log('Gọi API từ nút dự phòng thành công!')
                     })
-                    .catch(e => console.error('Lỗi từ nút dự phòng:', e));
+                    .catch((e) => console.error('Lỗi từ nút dự phòng:', e))
                 }}
               >
                 Test API
@@ -170,8 +166,8 @@ export default function HeaderNotification() {
           {notificationsData.length > 0 ? (
             <div>
               {notificationsData.map((notification: NotificationResponse) => (
-                <div 
-                  key={notification.id} 
+                <div
+                  key={notification.id}
                   className={`p-3 hover:bg-accent cursor-pointer ${notification.status === 'UNREAD' ? 'bg-accent/50' : ''}`}
                   onClick={() => handleNotificationClick(notification)}
                 >

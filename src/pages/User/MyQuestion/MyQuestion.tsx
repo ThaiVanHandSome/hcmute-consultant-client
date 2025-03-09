@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import NoDataIcon from '@/assets/images/utils/no-data.png'
 import QuestionStatisticView from '@/components/dev/QuestionStatisticView/QuestionStatisticView'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import Question from '@/components/dev/Question'
 import QuestionForm from '@/components/dev/QuestionForm'
@@ -47,10 +47,7 @@ export default function MyQuestion() {
     if (!questionActive?.id) return
     deleteQuestionMutation.mutate(questionActive?.id, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         refetch()
       }
     })

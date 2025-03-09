@@ -2,7 +2,7 @@ import { updatePassword } from '@/apis/auth.api'
 import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { ErrorResponse } from '@/types/utils.type'
 import { PasswordRecoverySchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
@@ -26,7 +26,8 @@ export default function ChangePassword() {
   })
 
   const updatePasswordMutation = useMutation({
-    mutationFn: (body: { currentPassword: string, newPassword: string; confirmNewPassword: string }) => updatePassword(body)
+    mutationFn: (body: { currentPassword: string; newPassword: string; confirmNewPassword: string }) =>
+      updatePassword(body)
   })
 
   // handle password change process
@@ -38,10 +39,7 @@ export default function ChangePassword() {
     }
     updatePasswordMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         form.reset(formDefaultValue) // reset all inputs value when change password successfully
       },
       onError: (error) => {

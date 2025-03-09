@@ -1,7 +1,7 @@
 import { deleteAdminField } from '@/apis/field.api'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useFieldQueryConfig from '@/hooks/useFieldQueryConfig'
 import { AdminField } from '@/types/field.type'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -25,10 +25,7 @@ export default function DialogDeleteField({ children, field }: Props) {
     const id = field.id
     deleteFieldMutation.mutate(id, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         queryClient.invalidateQueries({
           queryKey: ['admin-fields', fieldQueryConfig]

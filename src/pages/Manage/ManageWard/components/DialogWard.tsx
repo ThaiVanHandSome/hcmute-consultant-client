@@ -5,7 +5,7 @@ import SelectionCustom from '@/components/dev/Form/SelectionCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useWardQueryConfig from '@/hooks/useWardQueryConfig'
 import { WardType } from '@/types/location.type'
 import { WardSchema } from '@/utils/rules'
@@ -76,10 +76,7 @@ export default function DialogWard({ children, ward }: Props) {
     if (!isUpdate) {
       createWardMutation.mutate(values, {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           queryClient.invalidateQueries({
             queryKey: ['admin-wards', wardQueryConfig]
           })
@@ -90,10 +87,7 @@ export default function DialogWard({ children, ward }: Props) {
     }
     updateWardMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         queryClient.invalidateQueries({
           queryKey: ['admin-wards', wardQueryConfig]
         })

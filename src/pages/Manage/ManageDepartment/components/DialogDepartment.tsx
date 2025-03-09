@@ -3,7 +3,7 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useDepartmentQueryConfig from '@/hooks/useDepartmentQueryConfig'
 import { AdminDepartment } from '@/types/department.type'
 import { DepartmentSchema } from '@/utils/rules'
@@ -53,10 +53,7 @@ export default function DialogDepartment({ children, department }: Props) {
         },
         {
           onSuccess: (res) => {
-            toast({
-              variant: 'success',
-              description: res.data.message
-            })
+            toast.success(res.data.message)
             setOpen(false)
             queryClient.invalidateQueries({
               queryKey: ['admin-departments', departmentQueryConfig]
@@ -68,10 +65,7 @@ export default function DialogDepartment({ children, department }: Props) {
     }
     addDepartmentMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         queryClient.invalidateQueries({
           queryKey: ['admin-departments', departmentQueryConfig]

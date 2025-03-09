@@ -14,10 +14,10 @@ import { TrendingUp, Search, HelpCircle, BookOpen, Activity, ChevronRight } from
 export default function Home() {
   const { role } = useContext(AppContext)
   return (
-    <div className='min-h-screen bg-white selection:bg-blue-100'>
+    <div className='min-h-screen bg-background selection:bg-blue-100'>
       <div className='flex relative max-w-[1920px] mx-auto'>
         {/* Left Sidebar - Refined */}
-        <div className='hidden lg:flex flex-col w-[280px] fixed top-[var(--header-height)] h-[calc(100vh-var(--header-height))] bg-white shadow-[1px_0px_0px_0px_rgba(0,0,0,0.05)]'>
+        <div className='hidden lg:flex flex-col w-[280px] fixed top-[var(--header-height)] h-[calc(100vh-var(--header-height))] bg-primary-bg shadow-[1px_0px_0px_0px_rgba(0,0,0,0.05)]'>
           <div className='p-1'>
             <AsideNav />
           </div>
@@ -66,24 +66,34 @@ export default function Home() {
             {/* Recent Questions - Professional Academic Style */}
             <div className='relative bg-gradient-to-b from-blue-50/30 via-blue-50/50 to-blue-50/30 -mx-8 px-8 py-2'>
               <div className='relative max-w-4xl mx-auto'>
-                <div className='bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden'>
-                  <div className='p-4 border-b border-gray-100'>
+                <div className='bg-background rounded-xl border border-secondary shadow-sm overflow-hidden'>
+                  <div className='p-4 border-b border-secondary'>
                     <div className='flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
-                        <div className='p-1.5 rounded-lg bg-blue-50'>
-                          <BookOpen className='w-4 h-4 text-blue-600' strokeWidth={1.5} />
+                        <div className='p-1.5 rounded-lg bg-primary/20'>
+                          <BookOpen className='w-4 h-4 text-primary' strokeWidth={1.5} />
                         </div>
                         <div>
-                          <h2 className='text-base font-semibold text-gray-900'>Câu hỏi gần đây</h2>
-                          <p className='text-xs text-gray-600 mt-0.5'>Các câu hỏi từ sinh viên và giảng viên</p>
+                          <h2 className='text-base font-semibold text-foreground'>Câu hỏi gần đây</h2>
+                          <p className='text-xs text-secondary-foreground mt-0.5'>
+                            Các câu hỏi từ sinh viên và giảng viên
+                          </p>
                         </div>
                       </div>
                       <div className='flex items-center gap-2'>
-                        <Button variant='outline' size='sm' className='text-gray-700 border-gray-200 text-xs py-1'>
+                        <Button
+                          variant='outline'
+                          size='sm'
+                          className='text-secondary-foreground border-secondary text-xs py-1'
+                        >
                           <TrendingUp className='w-3.5 h-3.5 mr-1' strokeWidth={1.5} />
                           Phổ biến
                         </Button>
-                        <Button variant='outline' size='sm' className='text-gray-700 border-gray-200 text-xs py-1'>
+                        <Button
+                          variant='outline'
+                          size='sm'
+                          className='text-secondary-foreground border-secondary text-xs py-1'
+                        >
                           <Activity className='w-3.5 h-3.5 mr-1' strokeWidth={1.5} />
                           Mới nhất
                         </Button>
@@ -91,8 +101,8 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className='bg-gray-50/50'>
-                    <div className='p-4 bg-white'>
+                  <div className='bg-primary-bg'>
+                    <div className='p-4 bg-primary-bg'>
                       <ListQuestion />
                     </div>
                   </div>
@@ -103,7 +113,7 @@ export default function Home() {
         </main>
 
         {/* Right Sidebar - Refined */}
-        <div className='hidden lg:block w-[320px] fixed top-[var(--header-height)] right-0 h-[calc(100vh-var(--header-height))] bg-white shadow-[-1px_0px_0px_0px_rgba(0,0,0,0.05)]'>
+        <div className='hidden lg:block w-[320px] fixed top-[var(--header-height)] right-0 h-[calc(100vh-var(--header-height))] bg-primary-bg shadow-[-1px_0px_0px_0px_rgba(0,0,0,0.05)]'>
           <ScrollArea className='h-full'>
             <div className='px-3 py-2 space-y-8'>
               {/* Search - Enhanced */}
@@ -117,7 +127,7 @@ export default function Home() {
                   <input
                     type='text'
                     placeholder='Tìm kiếm...'
-                    className='w-full pl-10 pr-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-gray-900 placeholder:text-gray-500 transition-all duration-300'
+                    className='w-full pl-10 pr-4 py-2 rounded-lg bg-secondary border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary text-secondary-foreground placeholder:text-secondary-foreground transition-all duration-300'
                   />
                 </div>
               </div>
@@ -125,8 +135,8 @@ export default function Home() {
               {/* Trending Posts */}
               <div>
                 <div className='flex items-center justify-between mb-4'>
-                  <h3 className='font-medium text-gray-900 flex items-center gap-2'>
-                    <TrendingUp className='w-5 h-5 text-indigo-600' strokeWidth={1.5} />
+                  <h3 className='font-medium text-foreground flex items-center gap-2'>
+                    <TrendingUp className='w-5 h-5 text-primary' strokeWidth={1.5} />
                     Bài viết nổi bật
                   </h3>
                   <Button variant='ghost' size='sm' className='text-gray-500 hover:text-gray-900 group/btn'>
@@ -140,8 +150,8 @@ export default function Home() {
               {/* Recent Activity */}
               <div>
                 <div className='flex items-center justify-between mb-4'>
-                  <h3 className='font-medium text-gray-900 flex items-center gap-2'>
-                    <Activity className='w-5 h-5 text-blue-600' strokeWidth={1.5} />
+                  <h3 className='font-medium text-foreground flex items-center gap-2'>
+                    <Activity className='w-5 h-5 text-primary' strokeWidth={1.5} />
                     Hoạt động tư vấn
                   </h3>
                   <Button variant='ghost' size='sm' className='text-gray-500 hover:text-gray-900 group/btn'>

@@ -10,7 +10,7 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { ConfirmTokenSchema } from '@/utils/rules'
 import { Separator } from '@/components/ui/separator'
 import ResendButton from '@/components/dev/ConfirmToken/components/ResendButton'
@@ -53,10 +53,7 @@ export default function ConfirmToken({ setToken, setIsConfirmSuccess }: Props) {
     }
     resendRegisterVerificationCodeMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
       }
     })
   }

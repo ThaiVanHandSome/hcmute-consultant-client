@@ -1,7 +1,7 @@
 import { deleteProvinceAdmin } from '@/apis/address.api'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useProvinceQueryConfig from '@/hooks/useProvinceQueryConfig'
 import { ProvinceType } from '@/types/location.type'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -24,10 +24,7 @@ export default function DialogDeleteProvince({ children, province }: Props) {
     const code = province.code
     deleteProvinceMutation.mutate(code, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         queryClient.invalidateQueries({
           queryKey: ['admin-provinces', provinceQueryConfig]

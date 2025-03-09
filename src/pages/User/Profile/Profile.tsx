@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { AppContext } from '@/contexts/app.context'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { UserUpdate } from '@/types/user.type'
 import { FormControlItem } from '@/types/utils.type'
 import { setUserToLocalStorage } from '@/utils/auth'
@@ -58,7 +58,6 @@ export default function Profile() {
     enabled: !isFormReset.current
   })
 
-  
   const { data: provinces } = useQuery({
     queryKey: ['provinces'],
     queryFn: getProvinces
@@ -141,10 +140,7 @@ export default function Profile() {
       { params, file },
       {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           setUser(res.data.data)
           setUserToLocalStorage(res.data.data)
         }
@@ -186,12 +182,7 @@ export default function Profile() {
               </div>
               <InputCustom control={form.control} name='schoolName' label='Trường học' placeholder='Trường học' />
               <InputCustom control={form.control} name='phone' label='Số điện thoại' placeholder='Số điện thoại' />
-              <RadioGroupCustom
-                control={form.control}
-                name='gender'
-                label='Giới tính'
-                data={radioGroupData}
-              />
+              <RadioGroupCustom control={form.control} name='gender' label='Giới tính' data={radioGroupData} />
               {isFormReset.current && (
                 <div className='mb-5'>
                   <FormLabel className='w-full mb-2 block'>Địa chỉ</FormLabel>

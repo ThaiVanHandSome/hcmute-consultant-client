@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label'
 import path from '@/constants/path'
 import { ROLE, Role } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useQueryParams from '@/hooks/useQueryParams'
 import DialogBanUser from '@/pages/Manage/QuestionDetail/components/DialogBanUser'
 import DialogConvertToCommonQuestion from '@/pages/Manage/QuestionDetail/components/DialogConvertToCommonQuestion'
@@ -92,10 +92,7 @@ export default function QuestionDetail() {
         { params, file: file as File },
         {
           onSuccess: (res) => {
-            toast({
-              variant: 'success',
-              description: res.data.message
-            })
+            toast.success(res.data.message)
             navigate(path.manageQuestion)
           }
         }
@@ -109,10 +106,7 @@ export default function QuestionDetail() {
     }
     approvalAnswerMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         navigate(path.manageApprovalAnswer)
       }
     })
@@ -132,10 +126,7 @@ export default function QuestionDetail() {
         { params, file: file as File },
         {
           onSuccess: (res) => {
-            toast({
-              variant: 'success',
-              description: res.data.message
-            })
+            toast.success(res.data.message)
             navigate(path.manageQuestion)
           }
         }
