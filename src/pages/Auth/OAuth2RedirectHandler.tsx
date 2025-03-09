@@ -4,8 +4,11 @@ import path from '@/constants/path'
 import { useContext } from 'react'
 import { AppContext } from '@/contexts/app.context'
 
+const API_URL = import.meta.env.VITE_API_URL
+
 const OAuth2RedirectHandler = () => {
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setUser } = useContext(AppContext)
+
   const getUrlParameter = (name: string) => {
     const urlParams = new URLSearchParams(location.search)
     return urlParams.get(name) ?? ''
@@ -21,7 +24,19 @@ const OAuth2RedirectHandler = () => {
     localStorage.setItem('ROLE', payload.authorities)
     setIsAuthenticated(true)
 
-    return <Navigate to={path.home} />
+    const getProfile = async () => {
+      const res = await fetch(`${API_URL}profile`, {
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      })
+      if (res.ok) {
+        const response = await res.json()
+        setUser(response.data)
+        return <Navigate to={path.home} />
+      }
+    }
+    getProfile()
   } else {
     return <Navigate to='/login' state={{ error }} />
   }
