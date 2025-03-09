@@ -7,7 +7,7 @@ import { AppContext } from '@/contexts/app.context'
 const API_URL = import.meta.env.VITE_API_URL
 
 const OAuth2RedirectHandler = () => {
-  const { setIsAuthenticated, setUser } = useContext(AppContext)
+  const { setIsAuthenticated, setUser, setRole } = useContext(AppContext)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
   const getUrlParameter = (name: string) => {
@@ -28,6 +28,7 @@ const OAuth2RedirectHandler = () => {
     localStorage.setItem('accessToken', token)
     localStorage.setItem('ROLE', payload.authorities)
     setIsAuthenticated(true)
+    setRole(payload.authorities)
 
     const getProfile = async () => {
       const res = await fetch(`${API_URL}profile`, {
