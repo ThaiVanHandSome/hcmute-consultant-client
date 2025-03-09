@@ -33,6 +33,9 @@ class HTTP {
 
     this.instance.interceptors.request.use(
       (config) => {
+        if (!this.access_token) {
+          this.access_token = getAccessTokenFromLocalStorage()
+        }
         if (this.access_token && config.headers) {
           config.headers.Authorization = 'Bearer ' + this.access_token
         }
