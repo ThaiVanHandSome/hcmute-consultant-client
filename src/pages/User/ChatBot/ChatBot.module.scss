@@ -1,0 +1,49 @@
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.messageEnter {
+  animation: slideIn 0.3s ease-out;
+}
+
+.iconWrapper {
+  animation: float 3s ease-in-out infinite;
+}
+
+.messagesContainer {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground));
+    border-radius: 3px;
+
+    &:hover {
+      background: hsl(var(--muted-foreground) / 0.8);
+    }
+  }
+}

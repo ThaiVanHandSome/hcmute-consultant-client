@@ -55,6 +55,7 @@ import Chats from '@/pages/User/Chats'
 import NotificationsPage from '@/components/dev/NotificationPage'
 import OAuth2RedirectHandler from '@/pages/Auth/OAuth2RedirectHandler'
 import ManageRating from '@/pages/Manage/ManageRating'
+import ChatBot from '@/pages/User/ChatBot'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -81,7 +82,16 @@ export default function useRouteElement() {
       path: path.oauth2Redirect,
       index: true,
       element: <OAuth2RedirectHandler />
-    },    
+    },
+    {
+      path: path.chatBot,
+      index: true,
+      element: (
+        <MainLayout>
+          <ChatBot />
+        </MainLayout>
+      )
+    },
     {
       path: path.home,
       index: true,
