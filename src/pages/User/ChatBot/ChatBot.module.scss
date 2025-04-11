@@ -21,12 +21,116 @@
   }
 }
 
+@keyframes sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes typing {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--primary), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--primary), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--primary), 0);
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 .messageEnter {
   animation: slideIn 0.3s ease-out;
 }
 
 .iconWrapper {
   animation: float 3s ease-in-out infinite;
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    animation-play-state: paused;
+  }
+}
+
+.sparkle {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.welcomeIcon {
+  animation: float 3s ease-in-out infinite;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    animation: pulseGlow 2s infinite;
+  }
+}
+
+.avatar {
+  animation: slideIn 0.3s ease-out;
+  transition: all 0.3s ease;
+
+  &:hover {
+    animation: wave 0.5s ease-in-out;
+  }
+}
+
+.typingDot {
+  width: 8px;
+  height: 8px;
+  background-color: hsl(var(--muted-foreground));
+  border-radius: 50%;
+  animation: typing 1s ease-in-out infinite;
 }
 
 .messagesContainer {
@@ -44,6 +148,50 @@
 
     &:hover {
       background: hsl(var(--muted-foreground) / 0.8);
+    }
+  }
+}
+
+// Message bubble effects
+.messageBubble {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// Input field focus effect
+.inputFocus {
+  position: relative;
+
+  &:focus-within {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.5));
+      animation: slideIn 0.3s ease-out;
     }
   }
 }
