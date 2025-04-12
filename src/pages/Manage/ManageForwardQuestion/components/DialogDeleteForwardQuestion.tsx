@@ -1,7 +1,7 @@
 import { deleteForwardQuestion } from '@/apis/question.api'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useForwardQuestionQueryConfig from '@/hooks/useForwardQuestionQueryConfig'
 import { ForwardQuestion } from '@/types/question.type'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -25,10 +25,7 @@ export default function DialogDeleteForwardQuestion({ children, forwardQuestion 
     const id = forwardQuestion.id
     deleteForwardQuestionMutation.mutate(id, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         queryClient.invalidateQueries({
           queryKey: ['forward-questions', forwardQuestionQueryConfig]

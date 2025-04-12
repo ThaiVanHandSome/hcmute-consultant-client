@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { PostRequest } from '@/types/post.type'
 import { AddPostSchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -52,9 +52,7 @@ export default function DialogAddPost() {
     }
     createPostMutation.mutate(body, {
       onSuccess: (res) => {
-        toast({
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
       }
     })

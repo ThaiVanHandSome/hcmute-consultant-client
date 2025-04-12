@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { Consultant } from '@/types/consultant.type'
 import { FormControlItem } from '@/types/utils.type'
 import { CreateConversationSchema } from '@/utils/rules'
@@ -65,8 +65,7 @@ export default function DialogForwardQuestion({ questionId }: Props) {
   }, [consultants])
 
   const forwardQuestionMutation = useMutation({
-    mutationFn: (body: { toDepartmentId: number; questionId: number; consultantId: number }) =>
-      forwardQuestion(body)
+    mutationFn: (body: { toDepartmentId: number; questionId: number; consultantId: number }) => forwardQuestion(body)
   })
 
   const onSubmit = form.handleSubmit((values) => {
@@ -77,10 +76,7 @@ export default function DialogForwardQuestion({ questionId }: Props) {
     }
     forwardQuestionMutation.mutate(body, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         navigate(path.manageQuestion)
       }
     })

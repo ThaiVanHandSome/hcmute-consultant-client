@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import DialogDeleteSchedual from '@/pages/Manage/SchedualDetail/components/DialogDeleteSchedual'
 import DialogListMemberJoin from '@/pages/Manage/SchedualDetail/components/DialogListMemberJoin'
 import { SchedualConfirm } from '@/types/consultant.type'
@@ -139,10 +139,7 @@ export default function SchedualDetail() {
       { body, scheduleId },
       {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           navigate(path.manageSchedule)
         }
       }

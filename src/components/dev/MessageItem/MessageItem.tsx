@@ -14,7 +14,7 @@ import { EllipsisIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { deleteConversation } from '@/apis/conversation.api'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useConversationQueryConfig from '@/hooks/useConversationQueryConfig'
 import DialogConversationDetail from '@/components/dev/MessageItem/components/DialogConversationDetail'
 import { ROLE } from '@/constants/role'
@@ -73,10 +73,7 @@ export default function MessageItem({ conversation, conversationIdActive }: Prop
   const handleDeleteConversation = () => {
     deleteConversationMutation.mutate(conversation.id, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         queryClient.invalidateQueries({
           queryKey: ['conversations', conversationQueryParams]
         })

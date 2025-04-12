@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Separator } from '@/components/ui/separator'
 import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { Conversation } from '@/types/conversation.type'
 import { User } from '@/types/user.type'
 import { CheckedState } from '@radix-ui/react-checkbox'
@@ -46,10 +46,7 @@ export default function DialogAddMember({ conversation }: Props) {
       { conversationId, body },
       {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           setOpen(false)
         }
       }

@@ -10,7 +10,7 @@ import QuestionLabel from '@/components/dev/QuestionForm/components/QuestionLabe
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { Consultant } from '@/types/consultant.type'
 import { FormControlItem } from '@/types/utils.type'
 import { SchedualConsultantSchema } from '@/utils/rules'
@@ -78,16 +78,13 @@ export default function SchedualConsultant() {
     values.content = `<div class="editor">${values.content}</div>`
     createUserConsultantMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         navigate(path.home)
       }
     })
   })
   return (
-    <div className='min-h-screen bg-gradient-to-b from-gray-50 to-white'>
+    <div className='min-h-screen bg-background'>
       <div className='max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10'>
         {/* Header Section */}
         <div className='max-w-2xl mx-auto text-center mb-10'>
@@ -96,26 +93,28 @@ export default function SchedualConsultant() {
               <Calendar className='w-6 h-6 text-primary' />
             </div>
           </div>
-          <h1 className='text-2xl font-semibold text-gray-900 mb-2'>Đặt lịch tư vấn</h1>
-          <p className='text-sm text-gray-600'>Đặt lịch hẹn với tư vấn viên để được hỗ trợ trực tiếp</p>
+          <h1 className='text-2xl font-semibold text-foreground mb-2'>Đặt lịch tư vấn</h1>
+          <p className='text-sm text-secondary-foreground'>Đặt lịch hẹn với tư vấn viên để được hỗ trợ trực tiếp</p>
         </div>
 
         <div className='grid lg:grid-cols-12 gap-6'>
           {/* Sidebar Information */}
           <div className='lg:col-span-4 space-y-4'>
             {/* Guidelines Card */}
-            <div className='bg-white rounded-lg shadow-sm border border-gray-100 p-5'>
+            <div className='bg-background rounded-lg shadow-sm border border-secondary/50 p-5'>
               <div className='space-y-4'>
                 <div className='flex gap-3'>
                   <Users2 className='w-5 h-5 text-primary shrink-0 mt-0.5' />
                   <div>
-                    <p className='text-sm text-gray-600'>Tư vấn trực tiếp với giảng viên, chuyên viên các phòng ban</p>
+                    <p className='text-sm text-secondary-foreground'>
+                      Tư vấn trực tiếp với giảng viên, chuyên viên các phòng ban
+                    </p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <Clock3 className='w-5 h-5 text-primary shrink-0 mt-0.5' />
                   <div>
-                    <p className='text-sm text-gray-600'>
+                    <p className='text-sm text-secondary-foreground'>
                       Thời gian phản hồi: <span className='font-medium'>1-2 ngày làm việc</span>
                     </p>
                   </div>
@@ -124,10 +123,10 @@ export default function SchedualConsultant() {
             </div>
 
             {/* Warning Card */}
-            <div className='bg-red-50 rounded-lg border border-red-100 p-5'>
+            <div className='bg-destructive rounded-lg border border-destructive/50 p-5'>
               <div className='flex gap-3'>
-                <AlertCircle className='w-5 h-5 text-red-500 shrink-0 mt-0.5' />
-                <p className='text-sm text-red-600'>
+                <AlertCircle className='w-5 h-5 text-destructive-foreground shrink-0 mt-0.5' />
+                <p className='text-sm text-destructive-foreground'>
                   Vui lòng cung cấp thông tin chính xác để buổi tư vấn diễn ra thuận lợi
                 </p>
               </div>
@@ -136,10 +135,10 @@ export default function SchedualConsultant() {
 
           {/* Main Form Section */}
           <div className='lg:col-span-8'>
-            <div className='bg-white rounded-lg shadow-sm border border-gray-100 p-6'>
+            <div className='bg-background rounded-lg shadow-sm border border-secondary p-6'>
               <Form {...form}>
                 <form onSubmit={onSubmit} className='space-y-6'>
-                  <div className='bg-white rounded-lg divide-y divide-gray-100'>
+                  <div className='bg-background rounded-lg divide-y divide-secondary'>
                     {/* Department & Consultant Selection */}
                     <div className='p-4'>
                       <FormPartContainer
@@ -220,7 +219,7 @@ export default function SchedualConsultant() {
                   </div>
 
                   {/* Form Footer */}
-                  <div className='flex items-center justify-between bg-gray-50 p-4 rounded-lg'>
+                  <div className='flex items-center justify-between bg-secondary/50 p-4 rounded-lg'>
                     <CheckboxCustom control={form.control} name='statusPublic' label='Cho phép hiển thị công khai' />
                     <Button type='submit' className='px-6'>
                       Đặt lịch

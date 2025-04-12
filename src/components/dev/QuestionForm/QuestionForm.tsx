@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 import { CreateQuestionRequest, Question } from '@/types/question.type'
 import { FormControlItem } from '@/types/utils.type'
@@ -129,10 +129,7 @@ export default function QuestionForm({ question, profileData }: Props) {
         { params, file },
         {
           onSuccess: (res) => {
-            toast({
-              variant: 'success',
-              description: res.data.message
-            })
+            toast.success(res.data.message)
 
             // refetch query to get new data
             queryClient.invalidateQueries({
@@ -149,10 +146,7 @@ export default function QuestionForm({ question, profileData }: Props) {
       { questionId, params, file },
       {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
 
           // refetch query to get new data
           queryClient.invalidateQueries({
@@ -182,10 +176,7 @@ export default function QuestionForm({ question, profileData }: Props) {
     if (droppedFile) {
       // Chỉ kiểm tra kích thước file (10MB = 10 * 1024 * 1024 bytes)
       if (droppedFile.size > 10 * 1024 * 1024) {
-        toast({
-          variant: 'destructive',
-          description: 'File không được vượt quá 10MB'
-        })
+        toast.error('File không được vượt quá 10MB')
         return
       }
 
@@ -199,7 +190,7 @@ export default function QuestionForm({ question, profileData }: Props) {
         <Form {...form}>
           <form onSubmit={onSubmit} className='space-y-6'>
             {/* Main Form Container */}
-            <div className='bg-white rounded-lg divide-y divide-gray-100'>
+            <div className='bg-background rounded-lg divide-y divide-secondary'>
               {/* Department Selection Section */}
               <div className='p-4'>
                 <FormPartContainer
@@ -323,16 +314,16 @@ export default function QuestionForm({ question, profileData }: Props) {
                     <div className='space-y-4'>
                       <div className='flex items-center justify-center w-full'>
                         <label
-                          className='flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100'
+                          className='flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-secondary-foreground rounded-lg cursor-pointer bg-secondary/50 hover:bg-secondary/80'
                           onDragOver={handleDragOver}
                           onDrop={handleDrop}
                         >
                           <div className='flex flex-col items-center justify-center pt-5 pb-6'>
-                            <Paperclip className='w-8 h-8 mb-3 text-gray-400' />
-                            <p className='text-sm text-gray-500'>
+                            <Paperclip className='w-8 h-8 mb-3 text-secondary-foreground/80' />
+                            <p className='text-sm text-secondary-foreground'>
                               <span className='font-medium'>Click để tải file</span> hoặc kéo thả
                             </p>
-                            <p className='text-xs text-gray-500'>Tất cả các loại file (Max. 10MB)</p>
+                            <p className='text-xs text-secondary-foreground'>Tất cả các loại file (Max. 10MB)</p>
                           </div>
                           <Input id='file' type='file' className='hidden' onChange={handleFileChange} />
                         </label>
@@ -345,10 +336,10 @@ export default function QuestionForm({ question, profileData }: Props) {
             </div>
 
             {/* Form Footer */}
-            <div className='flex items-center justify-between bg-gray-50 p-4 rounded-lg'>
+            <div className='flex items-center justify-between bg-secondary/50 p-4 rounded-lg'>
               <div className='flex items-center space-x-2'>
                 <CheckboxCustom control={form.control} name='statusPublic' label='Cho phép hiển thị công khai' />
-                <Info className='w-4 h-4 text-gray-400 cursor-help' />
+                <Info className='w-4 h-4 text-secondary-foreground cursor-help' />
               </div>
               <Button
                 isLoading={createQuestionMutation.isPending || updateQuestionMutation.isPending}

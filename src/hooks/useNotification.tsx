@@ -5,7 +5,7 @@ import SockJS from 'sockjs-client'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { AppContext } from '@/contexts/app.context'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { NotificationSocket } from '@/types/notification.type'
 import { playNotificationSound, registerUserInteraction } from '@/utils/utils'
 
@@ -21,11 +21,7 @@ const useNotification = () => {
     })
     const notification: NotificationSocket = JSON.parse(payload.body)
 
-    toast({
-      variant: 'default',
-      title: 'Thông báo',
-      description: notification.data.content
-    })
+    toast(notification.data.content)
     playNotificationSound()
   }
 

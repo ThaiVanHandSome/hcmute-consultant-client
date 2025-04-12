@@ -1,5 +1,5 @@
 import { URL_LOGIN, URL_REFRESH_TOKEN } from '@/apis/auth.api'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { AuthResponse } from '@/types/auth.type'
 import { SuccessResponse } from '@/types/utils.type'
 import {
@@ -33,6 +33,9 @@ class HTTP {
 
     this.instance.interceptors.request.use(
       (config) => {
+        if (!this.access_token) {
+          this.access_token = getAccessTokenFromLocalStorage()
+        }
         if (this.access_token && config.headers) {
           config.headers.Authorization = 'Bearer ' + this.access_token
         }
@@ -66,10 +69,7 @@ class HTTP {
           !data?.type
         ) {
           const message = data?.message || error.message
-          toast({
-            variant: 'destructive',
-            description: message
-          })
+          toast.error(message)
         }
         if (error.status === HttpStatusCode.Unauthorized && data?.type === 'EXPIRE_TOKEN') {
           const config = error.response?.config || ({ headers: {} } as InternalAxiosRequestConfig)

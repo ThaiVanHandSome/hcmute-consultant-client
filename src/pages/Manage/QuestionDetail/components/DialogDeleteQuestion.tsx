@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -30,10 +30,7 @@ export default function DialogDeleteQuestion({ questionId }: Props) {
       { questionId, reason },
       {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           setOpen(false)
           navigate(path.manageQuestion)
         }

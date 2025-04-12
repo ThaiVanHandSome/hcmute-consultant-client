@@ -46,7 +46,8 @@ const path = {
   post: '/posts/:id',
   posts: '/posts',
   notifications: '/notifications',
-  oauth2Redirect: '/oauth2/redirect'
+  oauth2Redirect: '/oauth2/redirect',
+  chatBot: '/chat-bot'
 } as const
 
 export default path

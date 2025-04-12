@@ -1,7 +1,7 @@
 import { deleteAdminDepartment } from '@/apis/department.api'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useDepartmentQueryConfig from '@/hooks/useDepartmentQueryConfig'
 import { AdminDepartment } from '@/types/department.type'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -25,10 +25,7 @@ export default function DialogDeleteDepartment({ children, department }: Props) 
     const id = department.id
     deleteDepartmentMutation.mutate(id, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         queryClient.invalidateQueries({
           queryKey: ['admin-departments', departmentQueryConfig]

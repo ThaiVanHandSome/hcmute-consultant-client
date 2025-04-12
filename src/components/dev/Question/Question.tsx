@@ -7,19 +7,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { useState, useMemo } from 'react'
 import { cn } from '@/lib/utils'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { 
-  countLikeOfQuestion, 
+import {
+  countLikeOfQuestion,
   getLikeUsersOfQuestion,
   likeQuestion,
   unLikeQuestion,
-  getQuestionRecord 
+  getQuestionRecord
 } from '@/apis/like.api'
 import { UserInfo } from '@/types/like.type'
 import { AppContext } from '@/contexts/app.context'
@@ -100,13 +95,13 @@ export default function Question({ question, className }: Props) {
   })
 
   const Skeleton = ({ className }: { className?: string }) => (
-    <div className={cn("animate-pulse bg-gray-200 rounded", className)} />
+    <div className={cn('animate-pulse bg-gray-200 rounded', className)} />
   )
 
   return (
     <div
       className={cn(
-        'bg-white rounded-lg border border-gray-200',
+        'bg-background rounded-lg border border-gray-200',
         'hover:border-blue-200 hover:shadow-sm',
         'transition-all duration-300',
         className
@@ -123,20 +118,20 @@ export default function Question({ question, className }: Props) {
               </AvatarFallback>
             </Avatar>
             <div>
-              <h3 className='font-medium text-gray-900'>
+              <h3 className='font-medium text-foreground'>
                 {question.askerLastname} {question.askerFirstname}
               </h3>
-              <time className='text-sm text-gray-500'>
+              <time className='text-sm text-secondary-foreground'>
                 {format(new Date(question.createdAt), 'dd MMM yyyy', { locale: vi })}
               </time>
             </div>
           </div>
-          <div className='flex items-center gap-4 text-sm text-gray-500'>
+          <div className='flex items-center gap-4 text-sm text-secondary-foreground'>
             <div className='flex items-center gap-2'>
               <Button
                 variant='ghost'
                 size='sm'
-                className={cn('gap-1.5', isLiked ? 'text-blue-600' : 'text-gray-500')}
+                className={cn('gap-1.5', isLiked ? 'text-primary' : 'text-secondary-foreground')}
                 onClick={handleToggleLike}
               >
                 <ThumbsUp className={cn('h-4 w-4', isLiked && 'fill-current')} strokeWidth={1.5} />
@@ -145,11 +140,11 @@ export default function Question({ question, className }: Props) {
               <Button
                 variant='ghost'
                 size='sm'
-                className='flex items-center space-x-1.5 cursor-pointer hover:text-blue-500 text-blue-400 border border-blue-200 px-2 py-1 rounded-md bg-blue-50'
+                className='flex items-center space-x-1.5 cursor-pointer hover:text-primary text-primary/90 border border-primary/20 px-2 py-1 rounded-md bg-primary/10'
                 onClick={() => setShowLikeUsers(true)}
               >
                 <UsersIcon className='size-4' />
-                <span className="font-medium"></span>
+                <span className='font-medium'></span>
               </Button>
             </div>
           </div>
@@ -165,8 +160,8 @@ export default function Question({ question, className }: Props) {
               {question.field.name}
             </Badge>
           </div>
-          <h2 className='text-lg font-semibold text-gray-900'>{question.title}</h2>
-          <p className='mt-2 text-gray-600 line-clamp-2'>{question.content}</p>
+          <h2 className='text-lg font-semibold text-foreground'>{question.title}</h2>
+          <p className='mt-2 text-secondary-foreground line-clamp-2'>{question.content}</p>
         </div>
 
         {/* Answer Preview */}
@@ -181,14 +176,14 @@ export default function Question({ question, className }: Props) {
               </Avatar>
               <div className='flex-1 min-w-0'>
                 <div className='flex items-center gap-2'>
-                  <span className='font-medium text-gray-900'>
-                     {question.answerUserLastname} {question.answerUserFirstname}
+                  <span className='font-medium text-foreground'>
+                    {question.answerUserLastname} {question.answerUserFirstname}
                   </span>
-                  <time className='text-sm text-gray-500'>
+                  <time className='text-sm text-secondary-foreground'>
                     {format(new Date(question.answerCreatedAt), 'dd MMM yyyy', { locale: vi })}
                   </time>
                 </div>
-                <p className='mt-1 text-gray-600 text-sm line-clamp-2'>{question.answerContent}</p>
+                <p className='mt-1 text-secondary-foreground text-sm line-clamp-2'>{question.answerContent}</p>
               </div>
             </div>
           </div>
@@ -196,42 +191,40 @@ export default function Question({ question, className }: Props) {
       </div>
 
       <Dialog open={showLikeUsers} onOpenChange={(open) => !open && setShowLikeUsers(false)}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className='sm:max-w-md'>
           <DialogHeader>
             <DialogTitle>Người đã thích câu hỏi</DialogTitle>
           </DialogHeader>
-          
-          <div className="max-h-[300px] overflow-y-auto">
+
+          <div className='max-h-[300px] overflow-y-auto'>
             {isLoadingLikeUsers ? (
-              <div className="space-y-3 p-2">
+              <div className='space-y-3 p-2'>
                 {Array.from({ length: 3 }).map((_, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <Skeleton className="h-10 w-10 rounded-full" />
+                  <div key={index} className='flex items-center gap-3'>
+                    <Skeleton className='h-10 w-10 rounded-full' />
                     <div>
-                      <Skeleton className="h-4 w-32 mb-2" />
-                      <Skeleton className="h-3 w-20" />
+                      <Skeleton className='h-4 w-32 mb-2' />
+                      <Skeleton className='h-3 w-20' />
                     </div>
                   </div>
                 ))}
               </div>
             ) : likeUsersData?.data?.data && likeUsersData.data.data.length > 0 ? (
-              <div className="space-y-3 p-2">
+              <div className='space-y-3 p-2'>
                 {likeUsersData.data.data.map((user: UserInfo) => (
-                  <div key={user.id} className="flex items-center gap-3">
+                  <div key={user.id} className='flex items-center gap-3'>
                     <Avatar>
                       <AvatarImage src={user.avatarUrl} />
                       <AvatarFallback>{`${user.firstName?.charAt(0) || ''}${user.lastName?.charAt(0) || ''}`}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-medium">{`${user.lastName || ''} ${user.firstName || ''}`}</p>
+                      <p className='font-medium'>{`${user.lastName || ''} ${user.firstName || ''}`}</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="py-8 text-center text-gray-500">
-                Không có thông tin người thích
-              </div>
+              <div className='py-8 text-center text-gray-500'>Không có thông tin người thích</div>
             )}
           </div>
         </DialogContent>

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useUserQueryConfig from '@/hooks/useUserQueryConfig'
 import { FormControlItem } from '@/types/utils.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -121,9 +121,7 @@ export default function DialogViewUserDetail({ id, children }: Props) {
       },
       {
         onSuccess: (res) => {
-          toast({
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           setOpen(false)
           queryClient.invalidateQueries({
             queryKey: ['admin-users', userQueryConfig]

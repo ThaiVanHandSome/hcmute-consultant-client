@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { resetPassword } from '@/apis/auth.api'
 import { Form } from '@/components/ui/form'
 import path from '@/constants/path'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { ErrorResponse } from '@/types/utils.type'
 import { PasswordRecoverySchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
@@ -45,10 +45,7 @@ export default function ChangePasswordWhenForgot() {
     }
     changePasswordMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         navigate(path.login)
       },
       onError: (error) => {

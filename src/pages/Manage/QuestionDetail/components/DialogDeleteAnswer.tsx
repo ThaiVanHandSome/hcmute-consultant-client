@@ -1,7 +1,7 @@
 import { deleteAnswer } from '@/apis/question.api'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { Question } from '@/types/question.type'
 import { useMutation } from '@tanstack/react-query'
 import React, { useState } from 'react'
@@ -22,10 +22,7 @@ export default function DialogDeleteAnswer({ children, question, refetch }: Prop
     const id = question.answerId
     deleteAnswerMutation.mutate(id, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         refetch()
       }

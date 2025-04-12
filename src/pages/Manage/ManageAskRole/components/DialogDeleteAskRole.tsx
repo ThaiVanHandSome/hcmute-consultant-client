@@ -1,7 +1,7 @@
 import { deleteAdminAskRole } from '@/apis/role.api'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useConsultantRoleQueryConfig from '@/hooks/useConsultantRoleQueryConfig'
 import { ConsultantRoleType } from '@/types/role.type'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -25,10 +25,7 @@ export default function DialogDeleteAskRole({ children, role }: Props) {
     const id = role.id
     deleteAskRoleMutation.mutate(id, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
         queryClient.invalidateQueries({
           queryKey: ['admin-ask-roles', askRoleQueryConfig]

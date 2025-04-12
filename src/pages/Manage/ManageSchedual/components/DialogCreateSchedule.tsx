@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { ErrorResponse } from '@/types/utils.type'
 import { CreateScheduleSchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
@@ -65,9 +65,7 @@ export default function DialogCreateSchedule({ children }: Props) {
     values.consultationTime = time
     createScheduleMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         setOpen(false)
       },
       onError: (error) => {

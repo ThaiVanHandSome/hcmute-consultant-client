@@ -3,7 +3,7 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useProvinceQueryConfig from '@/hooks/useProvinceQueryConfig'
 import { ProvinceType } from '@/types/location.type'
 import { ProvinceSchema } from '@/utils/rules'
@@ -49,10 +49,7 @@ export default function DialogProvince({ children, province }: Props) {
     if (!isUpdate) {
       createProvinceMutation.mutate(values, {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           queryClient.invalidateQueries({
             queryKey: ['admin-provinces', provinceQueryConfig]
           })
@@ -63,10 +60,7 @@ export default function DialogProvince({ children, province }: Props) {
     }
     updateProvinceMutation.mutate(values, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
         queryClient.invalidateQueries({
           queryKey: ['admin-provinces', provinceQueryConfig]
         })

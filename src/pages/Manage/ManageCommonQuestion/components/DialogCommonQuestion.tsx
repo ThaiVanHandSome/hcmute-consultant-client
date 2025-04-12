@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import useCommonQuestionQueryConfig from '@/hooks/useCommonQuestionQueryConfig'
 import { CommonQuestion } from '@/types/question.type'
 import { CommonQuestionSchema } from '@/utils/rules'
@@ -88,10 +88,7 @@ export default function DialogCommonQuestion({ question, children }: Props) {
         { commonQuestionId, data: values, file: file as File, fileAnswer: fileAnswer as File },
         {
           onSuccess: (res) => {
-            toast({
-              variant: 'success',
-              description: res.data.message
-            })
+            toast.success(res.data.message)
             queryClient.invalidateQueries({
               queryKey: ['common-questions', commonQuestionQueryConfig]
             })
@@ -105,10 +102,7 @@ export default function DialogCommonQuestion({ question, children }: Props) {
       { data: values, file: file as File, fileAnswer: fileAnswer as File },
       {
         onSuccess: (res) => {
-          toast({
-            variant: 'success',
-            description: res.data.message
-          })
+          toast.success(res.data.message)
           queryClient.invalidateQueries({
             queryKey: ['common-questions', commonQuestionQueryConfig]
           })

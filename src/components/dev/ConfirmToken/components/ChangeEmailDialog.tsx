@@ -3,7 +3,7 @@ import InputCustom from '@/components/dev/Form/InputCustom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { ErrorResponse } from '@/types/utils.type'
 import { ChangeEmailSchema } from '@/utils/rules'
 import { isAxiosUnprocessableEntity } from '@/utils/utils'
@@ -38,10 +38,7 @@ export default function ChangeEmailDialog({ email, isDisabledTriggerButton }: Pr
     }
     changeEmailMutation.mutate(payload, {
       onSuccess: (res) => {
-        toast({
-          variant: 'success',
-          description: res.data.message
-        })
+        toast.success(res.data.message)
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<{ field: string; message: string }[]>>(error)) {
