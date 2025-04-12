@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { MessageSquare, Send, Sparkles, Bot, User } from 'lucide-react'
 import styles from './Chatbot.module.scss'
-import SplashCursor from './SplashCursor'
+import TypingMessage from '@/pages/User/ChatBot/TypingMessage'
 
 interface Message {
   text: string
@@ -9,12 +9,46 @@ interface Message {
   timestamp: string
 }
 
+interface MessageResponse {
+  data: {
+    answer: string
+    question: string
+    source: string
+    time: number
+  }
+  message: string
+  status: string
+}
+
 const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [inputMessage, setInputMessage] = useState<string>('')
   const [isTyping, setIsTyping] = useState<boolean>(false)
 
-  const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, isTyping])
+
+  const handleGetResponse = async (message: string) => {
+    setIsTyping(true)
+    const res = await fetch(`https://hcmute-consultant-chatbot-production.up.railway.app/chat?text=${message}`)
+    if (res.ok) {
+      const result = (await res.json()) as MessageResponse
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: result.data.answer,
+          sender: 'bot' as const,
+          timestamp: new Date().toLocaleTimeString()
+        }
+      ])
+      setIsTyping(false)
+    }
+  }
+
+  const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (inputMessage.trim() === '') return
 
@@ -27,25 +61,13 @@ const ChatBot = () => {
       }
     ])
 
-    setIsTyping(true)
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: 'Xin chào! Tôi là chatbot. Tôi có thể giúp gì cho bạn?',
-          sender: 'bot' as const,
-          timestamp: new Date().toLocaleTimeString()
-        }
-      ])
-      setIsTyping(false)
-    }, 2000)
-
     setInputMessage('')
+    await handleGetResponse(inputMessage)
   }
 
   return (
     <div className='container mx-auto max-w-4xl h-remain-screen bg-white flex flex-col'>
-      <SplashCursor />
+      {/* <SplashCursor /> */}
 
       {/* Header */}
       <div className='bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-4 shadow-lg'>
@@ -68,7 +90,7 @@ const ChatBot = () => {
       </div>
 
       {/* Chat Container */}
-      <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${styles.messagesContainer}`}>
+      <div className={`flex-1 overflow-y-auto p-4 space-y-4 messagesContainer`}>
         {messages.length === 0 && (
           <div className='flex flex-col items-center justify-center h-full gap-4'>
             <div className={`${styles.welcomeIcon} bg-primary/10 p-4 rounded-full`}>
@@ -83,7 +105,7 @@ const ChatBot = () => {
         {messages.map((message, index) => (
           <div key={index} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} gap-2`}>
             {message.sender === 'bot' && (
-              <div className={`${styles.avatar} bg-primary/10 p-2 rounded-full`}>
+              <div className={`${styles.avatar} bg-primary/10 p-2 rounded-full flex-shrink-0`}>
                 <Bot className='w-5 h-5 text-primary' />
               </div>
             )}
@@ -94,11 +116,15 @@ const ChatBot = () => {
                   : 'bg-muted text-muted-foreground shadow-sm'
               } ${styles.messageEnter}`}
             >
-              <p className='text-sm'>{message.text}</p>
+              {message.sender === 'user' ? (
+                <p className='text-sm'>{message.text}</p>
+              ) : (
+                <TypingMessage text={message.text} speed={30} />
+              )}
               <span className='text-xs opacity-70 mt-1 block'>{message.timestamp}</span>
             </div>
             {message.sender === 'user' && (
-              <div className={`${styles.avatar} bg-primary/10 p-2 rounded-full`}>
+              <div className={`${styles.avatar} bg-primary/10 p-2 rounded-full flex-shrink-0`}>
                 <User className='w-5 h-5 text-primary' />
               </div>
             )}
@@ -118,6 +144,7 @@ const ChatBot = () => {
             </div>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input Form */}
