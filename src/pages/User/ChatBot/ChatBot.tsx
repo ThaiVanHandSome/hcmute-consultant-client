@@ -167,7 +167,7 @@ const ChatBot = () => {
 
   const handleGetResponse = async (message: string) => {
     setIsTyping(true)
-    const res = await fetch(`http://192.168.1.67:5000/chat?text=${message}`)
+    const res = await fetch(`https://hcmute-consultant-chatbot-production.up.railway.app/chat?text=${message}`)
     if (res.ok) {
       const result = (await res.json()) as MessageResponse
       const messageId = generateMessageId(result.data.answer, 'bot')
