@@ -5,29 +5,13 @@ import remarkGfm from 'remark-gfm'
 interface TypingMessageProps {
   text: string
   speed?: number
+  formatMessage?: (text: string) => string
 }
 
-const TypingMessage = ({ text, speed = 5 }: TypingMessageProps) => {
+const TypingMessage = ({ text, speed = 5, formatMessage }: TypingMessageProps) => {
   const [displayedText, setDisplayedText] = useState('')
   const [isComplete, setIsComplete] = useState(false)
   const messageRef = useRef<HTMLDivElement>(null)
-
-  // Scroll to bottom whenever displayed text changes
-  useEffect(() => {
-    const scrollToBottom = () => {
-      if (messageRef.current) {
-        const container = messageRef.current.closest('.messagesContainer')
-        container?.scrollTo({
-          top: container.scrollHeight,
-          behavior: 'smooth'
-        })
-      }
-    }
-
-    // Add a small delay to ensure content is rendered
-    const timeoutId = setTimeout(scrollToBottom, 10)
-    return () => clearTimeout(timeoutId)
-  }, [displayedText])
 
   useEffect(() => {
     let index = 0
@@ -46,6 +30,17 @@ const TypingMessage = ({ text, speed = 5 }: TypingMessageProps) => {
 
     return () => clearInterval(timer)
   }, [text, speed])
+
+  // Nếu text đã hiển thị hoàn tất và có formatMessage, sử dụng formatMessage
+  if (isComplete && formatMessage) {
+    return (
+      <div 
+        ref={messageRef} 
+        className="w-full overflow-hidden text-sm"
+        dangerouslySetInnerHTML={{ __html: formatMessage(text) }}
+      ></div>
+    )
+  }
 
   return (
     <div ref={messageRef} className="w-full overflow-hidden">
@@ -68,7 +63,7 @@ const TypingMessage = ({ text, speed = 5 }: TypingMessageProps) => {
           td: ({ children }) => <td className='border border-slate-300 p-2 text-slate-500'>{children}</td>
         }}
       >
-        {isComplete ? text : displayedText}
+        {displayedText}
       </ReactMarkdown>
     </div>
   )
