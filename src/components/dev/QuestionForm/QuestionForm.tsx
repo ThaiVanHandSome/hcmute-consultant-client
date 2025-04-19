@@ -24,7 +24,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
-import { Building2, UserCircle, HelpCircle, Paperclip, Info } from 'lucide-react'
+import { Building2, UserCircle, HelpCircle, Paperclip, Info, X } from 'lucide-react'
 import { useRecommendQuestions } from '@/components/dev/QuestionForm/hooks/useRecommendQuestions'
 
 interface Props {
@@ -44,6 +44,10 @@ export default function QuestionForm({ question, profileData }: Props) {
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : (question?.fileName ?? '')
   }, [file])
+
+  // State quản lý popup hiển thị câu hỏi gợi ý
+  const [showRecommendationsPopup, setShowRecommendationsPopup] = useState<boolean>(false)
+  const editorRef = useRef<HTMLDivElement>(null)
 
   const navigate = useNavigate()
 
@@ -127,13 +131,36 @@ export default function QuestionForm({ question, profileData }: Props) {
   const handleContentChange = (content: string) => {
     // Strip HTML tags
     const plainText = content.replace(/<[^>]+>/g, '')
+    
+    // Debug log
+    console.log('Current recommendations:', recommendations)
+    
     fetchRecommendations(plainText)
+    
+    // Xóa câu trả lời mẫu khi người dùng nhập nội dung mới
+    if (selectedAnswer) {
+      setSelectedAnswer('')
+    }
+    
+    // Hiển thị popup khi nội dung dài và không đang loading
+    if (plainText.length > 10 && recommendations.length > 0) {
+      console.log('Should show popup, recommendations:', recommendations)
+      setShowRecommendationsPopup(true)
+    }
   }
 
   const handleSelectQuestion = (question: string, answer: string) => {
-    const currentContent = form.getValues('content')
-    form.setValue('content', currentContent + '\n' + question)
+    // Thay thế hoàn toàn nội dung hiện tại bằng câu hỏi được chọn
+    form.setValue('content', question)
     setSelectedAnswer(answer)
+    // Đảm bảo popup tắt ngay lập tức
+    setShowRecommendationsPopup(false)
+    
+    // Thêm một thông báo xác nhận nhỏ
+    toast.success('Đã chọn câu hỏi gợi ý', {
+      duration: 1500,
+      position: 'bottom-right'
+    })
   }
 
   // handle question create process
@@ -199,6 +226,14 @@ export default function QuestionForm({ question, profileData }: Props) {
       setFile(droppedFile)
     }
   }
+
+  // Thêm useEffect để debug recommendations và cập nhật hiển thị popup
+  useEffect(() => {
+    console.log('Recommendations updated:', recommendations)
+    if (recommendations.length > 0) {
+      setShowRecommendationsPopup(true)
+    }
+  }, [recommendations])
 
   return (
     <div>
@@ -310,35 +345,45 @@ export default function QuestionForm({ question, profileData }: Props) {
                         label='Tiêu đề câu hỏi'
                         isRequired
                       />
-
-                      {/* Recommendations Section */}
-                      {isLoading && (
-                        <div className='text-sm text-secondary-foreground/70'>Đang tìm kiếm câu hỏi tương tự...</div>
-                      )}
-                      {recommendations.length > 0 && (
-                        <div className='p-4 bg-secondary/50 rounded-lg space-y-2'>
-                          <h3 className='font-medium text-primary'>Câu hỏi tương tự:</h3>
-                          <div className='space-y-2'>
-                            {recommendations.map((rec, index) => (
-                              <button
-                                key={index}
-                                onClick={() => handleSelectQuestion(rec.question, rec.answer)}
-                                className='w-full text-left p-2 hover:bg-secondary rounded-md text-sm transition-colors'
+                      
+                      <div className='relative' ref={editorRef}>
+                        {/* Popup hiển thị câu hỏi gợi ý - ngay trên editor */}
+                        {showRecommendationsPopup && recommendations.length > 0 && (
+                          <div className='absolute bottom-full left-0 w-full z-10 bg-background rounded-lg shadow-lg border border-muted mb-2 max-h-[200px] overflow-auto'>
+                            <div className='p-2 flex justify-between items-center border-b'>
+                              <h3 className='font-medium text-primary text-sm'>Câu hỏi tương tự</h3>
+                              <button 
+                                type='button'
+                                onClick={() => setShowRecommendationsPopup(false)}
+                                className='p-1 rounded-full hover:bg-secondary'
                               >
-                                {rec.question}
+                                <X className='w-4 h-4' />
                               </button>
-                            ))}
+                            </div>
+                            
+                            <div className='divide-y divide-muted'>
+                              {recommendations.map((rec, index) => (
+                                <button
+                                  type='button'
+                                  key={index}
+                                  onClick={() => handleSelectQuestion(rec.question, rec.answer)}
+                                  className='w-full text-left p-2 hover:bg-secondary text-sm transition-colors'
+                                >
+                                  {rec.question}
+                                </button>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      <Editor
-                        control={form.control}
-                        name='content'
-                        label='Chi tiết câu hỏi'
-                        isRequired
-                        onChange={handleContentChange}
-                      />
+                        <Editor
+                          control={form.control}
+                          name='content'
+                          label='Chi tiết câu hỏi'
+                          isRequired
+                          onChange={handleContentChange}
+                        />
+                      </div>
 
                       {/* Selected Answer Preview */}
                       {selectedAnswer && (

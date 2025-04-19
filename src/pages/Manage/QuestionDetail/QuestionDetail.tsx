@@ -2,6 +2,7 @@ import { answerTheQuestion, approvalAnswer, getDeleteLog, getQuestionById } from
 import AvatarCustom from '@/components/dev/AvatarCustom'
 import FileShow from '@/components/dev/FileShow'
 import Editor from '@/components/dev/Form/Editor'
+import { useRecommendAnswers } from '@/components/dev/QuestionForm/hooks/useRecommendAnswers'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Form } from '@/components/ui/form'
@@ -18,6 +19,7 @@ import DialogDeleteAnswer from '@/pages/Manage/QuestionDetail/components/DialogD
 import DialogDeleteQuestion from '@/pages/Manage/QuestionDetail/components/DialogDeleteQuestion'
 import DialogForwardQuestion from '@/pages/Manage/QuestionDetail/components/DialogForwardQuestion'
 import DialogUpdateAnswer from '@/pages/Manage/QuestionDetail/components/DialogUpdateAnswer'
+import DialogAnswerSuggestions from '@/pages/Manage/QuestionDetail/components/DialogAnswerSuggestions'
 import { Answer } from '@/types/question.type'
 import { formatDate } from '@/utils/utils'
 import { TrashIcon } from '@radix-ui/react-icons'
@@ -37,6 +39,7 @@ export default function QuestionDetail() {
 
   const [showToAnswer, setShowToAnswer] = useState<boolean>(false)
   const [file, setFile] = useState<File>()
+  const [questionPlainText, setQuestionPlainText] = useState<string>('')
 
   const { data: questionResponse, refetch } = useQuery({
     queryKey: ['question', id],
@@ -44,6 +47,25 @@ export default function QuestionDetail() {
     enabled: !!id
   })
   const question = questionResponse?.data.data
+
+  // Trích xuất plain text khi câu hỏi được tải
+  useEffect(() => {
+    if (question?.content) {
+      // Loại bỏ các thẻ HTML
+      const plainText = question.content.replace(/<[^>]+>/g, '').trim()
+      setQuestionPlainText(plainText)
+    }
+  }, [question])
+
+  // Hook gợi ý câu trả lời
+  const { recommendedAnswers, isLoading: isLoadingAnswers, fetchRecommendedAnswers } = useRecommendAnswers()
+
+  // Gọi API gợi ý câu trả lời khi có plain text
+  useEffect(() => {
+    if (questionPlainText) {
+      fetchRecommendedAnswers(questionPlainText)
+    }
+  }, [questionPlainText, fetchRecommendedAnswers])
 
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : isApproval ? question?.fileName : ''
@@ -77,6 +99,17 @@ export default function QuestionDetail() {
 
   const handleOpenToAnswer = () => {
     setShowToAnswer(true)
+  }
+  
+  // Hàm xử lý khi người dùng chọn một câu trả lời gợi ý
+  const handleSelectAnswer = (answer: string) => {
+    form.setValue('content', answer)
+    toast.success('Đã thêm câu trả lời mẫu vào editor', { duration: 1500 })
+  }
+
+  // Xử lý thay đổi nội dung câu trả lời
+  const handleEditorChange = (content: string) => {
+    // Khi người dùng nhập nội dung, có thể thêm logic ở đây nếu cần
   }
 
   const onSubmit = form.handleSubmit((values) => {
@@ -290,7 +323,7 @@ export default function QuestionDetail() {
             <Form {...form}>
               <form className='space-y-4' onSubmit={onSubmit}>
                 <div>
-                  <Editor control={form.control} name='content' />
+                  <Editor control={form.control} name='content' onChange={handleEditorChange} />
                 </div>
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
                   <Label htmlFor='file'>Tệp đính kèm</Label>
@@ -308,15 +341,22 @@ export default function QuestionDetail() {
                       {!isApproval ? 'Gửi' : 'Phê duyệt'}
                     </Button>
                     {!isApproval && (
-                      <Button
-                        type='button'
-                        variant='secondary'
-                        isLoading={answerMutation.isPending}
-                        disabled={answerMutation.isPending}
-                        onClick={onSubmitWithStatus}
-                      >
-                        Preview
-                      </Button>
+                      <>
+                        <Button
+                          type='button'
+                          variant='secondary'
+                          isLoading={answerMutation.isPending}
+                          disabled={answerMutation.isPending}
+                          onClick={onSubmitWithStatus}
+                        >
+                          Preview
+                        </Button>
+                        <DialogAnswerSuggestions 
+                          answers={recommendedAnswers}
+                          onSelectAnswer={handleSelectAnswer}
+                          isLoading={isLoadingAnswers}
+                        />
+                      </>
                     )}
                   </div>
                   <div aria-hidden='true' onClick={() => setShowToAnswer(false)} className='cursor-pointer'>
