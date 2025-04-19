@@ -15,6 +15,7 @@ interface EditorProps<TFieldValues extends FieldValues = FieldValues> {
   readonly helperText?: string
   readonly isRequired?: boolean
   readonly infoText?: string
+  readonly onChange?: (content: string) => void
 }
 
 const modules = {
@@ -40,7 +41,8 @@ export default function Editor<TFieldValues extends FieldValues>({
   disabled = false,
   helperText,
   infoText,
-  isRequired = false
+  isRequired = false,
+  onChange
 }: EditorProps<TFieldValues>) {
   const { field } = useController({ name, control })
 
@@ -80,7 +82,10 @@ export default function Editor<TFieldValues extends FieldValues>({
               <ReactQuill
                 theme='snow'
                 value={field.value}
-                onChange={field.onChange}
+                onChange={(content) => {
+                  field.onChange(content)
+                  onChange?.(content)
+                }}
                 className='bg-background text-foreground'
                 readOnly={disabled}
                 modules={modules}

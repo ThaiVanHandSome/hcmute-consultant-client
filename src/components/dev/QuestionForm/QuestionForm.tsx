@@ -25,6 +25,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { Building2, UserCircle, HelpCircle, Paperclip, Info } from 'lucide-react'
+import { useRecommendQuestions } from '@/components/dev/QuestionForm/hooks/useRecommendQuestions'
 
 interface Props {
   readonly question?: Question
@@ -119,6 +120,21 @@ export default function QuestionForm({ question, profileData }: Props) {
     mutationFn: ({ questionId, params, file }: { questionId: number; params: CreateQuestionRequest; file?: File }) =>
       updateQuestion(questionId, params, file)
   })
+
+  const { recommendations, isLoading, fetchRecommendations } = useRecommendQuestions()
+  const [selectedAnswer, setSelectedAnswer] = useState<string>('')
+
+  const handleContentChange = (content: string) => {
+    // Strip HTML tags
+    const plainText = content.replace(/<[^>]+>/g, '')
+    fetchRecommendations(plainText)
+  }
+
+  const handleSelectQuestion = (question: string, answer: string) => {
+    const currentContent = form.getValues('content')
+    form.setValue('content', currentContent + '\n' + question)
+    setSelectedAnswer(answer)
+  }
 
   // handle question create process
   const onSubmit = form.handleSubmit((values) => {
@@ -294,7 +310,43 @@ export default function QuestionForm({ question, profileData }: Props) {
                         label='Tiêu đề câu hỏi'
                         isRequired
                       />
-                      <Editor control={form.control} name='content' label='Chi tiết câu hỏi' isRequired />
+
+                      {/* Recommendations Section */}
+                      {isLoading && (
+                        <div className='text-sm text-secondary-foreground/70'>Đang tìm kiếm câu hỏi tương tự...</div>
+                      )}
+                      {recommendations.length > 0 && (
+                        <div className='p-4 bg-secondary/50 rounded-lg space-y-2'>
+                          <h3 className='font-medium text-primary'>Câu hỏi tương tự:</h3>
+                          <div className='space-y-2'>
+                            {recommendations.map((rec, index) => (
+                              <button
+                                key={index}
+                                onClick={() => handleSelectQuestion(rec.question, rec.answer)}
+                                className='w-full text-left p-2 hover:bg-secondary rounded-md text-sm transition-colors'
+                              >
+                                {rec.question}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <Editor
+                        control={form.control}
+                        name='content'
+                        label='Chi tiết câu hỏi'
+                        isRequired
+                        onChange={handleContentChange}
+                      />
+
+                      {/* Selected Answer Preview */}
+                      {selectedAnswer && (
+                        <div className='mt-4 p-4 bg-secondary/50 rounded-lg'>
+                          <h3 className='font-medium text-primary mb-2'>Câu trả lời mẫu:</h3>
+                          <div className='text-sm text-secondary-foreground'>{selectedAnswer}</div>
+                        </div>
+                      )}
                     </div>
                   }
                 />
