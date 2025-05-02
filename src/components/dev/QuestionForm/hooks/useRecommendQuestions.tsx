@@ -20,7 +20,7 @@ export const useRecommendQuestions = () => {
     setIsLoading(true)
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_RECOMMEND_URL}/recommend?text=${encodeURIComponent(text.trim())}`
+        `${import.meta.env.VITE_AI_URL}/recommend?text=${encodeURIComponent(text.trim())}`
       )
       const data = await response.json()
       

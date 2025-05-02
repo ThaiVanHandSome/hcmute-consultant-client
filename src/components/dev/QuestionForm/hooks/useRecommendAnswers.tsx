@@ -20,15 +20,15 @@ export const useRecommendAnswers = () => {
     setIsLoading(true)
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_RECOMMEND_URL}/recommend-answers?text=${encodeURIComponent(text.trim())}`
+        `${import.meta.env.VITE_AI_URL}/recommend-answers?text=${encodeURIComponent(text.trim())}`
       )
       const data = await response.json()
       
       console.log('API response for answers:', data)
       
-      if (data && data.alternative_answers && Array.isArray(data.alternative_answers)) {
-        console.log('Setting recommended answers:', data.alternative_answers)
-        setRecommendedAnswers(data.alternative_answers)
+      if (data && data.data && Array.isArray(data.data)) {
+        console.log('Setting recommended answers:', data.data)
+        setRecommendedAnswers(data.data)
       } else {
         console.warn('Invalid response format for answers:', data)
         setRecommendedAnswers([])

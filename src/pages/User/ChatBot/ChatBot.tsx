@@ -193,7 +193,7 @@ const ChatBot = () => {
     setIsTyping(true)
     try {
       const res = await fetchWithTimeout(
-        `${import.meta.env.VITE_CHATBOT_URL}/chat?text=${message}`,
+        `${import.meta.env.VITE_AI_URL}/chat?text=${message}`,
         30000 // timeout 30 seconds
       )
       if (res.ok) {
