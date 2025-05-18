@@ -24,11 +24,12 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
-import { Building2, UserCircle, HelpCircle, Paperclip, Info, X } from 'lucide-react'
+import { Building2, UserCircle, HelpCircle, Paperclip, X } from 'lucide-react'
 import { useRecommendQuestions } from '@/components/dev/QuestionForm/hooks/useRecommendQuestions'
 
 interface Props {
   readonly question?: Question
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   profileData?: any // Thêm type cụ thể cho profile data
 }
 
@@ -125,23 +126,23 @@ export default function QuestionForm({ question, profileData }: Props) {
       updateQuestion(questionId, params, file)
   })
 
-  const { recommendations, isLoading, fetchRecommendations } = useRecommendQuestions()
+  const { recommendations, fetchRecommendations } = useRecommendQuestions()
   const [selectedAnswer, setSelectedAnswer] = useState<string>('')
 
   const handleContentChange = (content: string) => {
     // Strip HTML tags
     const plainText = content.replace(/<[^>]+>/g, '')
-    
+
     // Debug log
     console.log('Current recommendations:', recommendations)
-    
+
     fetchRecommendations(plainText)
-    
+
     // Xóa câu trả lời mẫu khi người dùng nhập nội dung mới
     if (selectedAnswer) {
       setSelectedAnswer('')
     }
-    
+
     // Hiển thị popup khi nội dung dài và không đang loading
     if (plainText.length > 10 && recommendations.length > 0) {
       console.log('Should show popup, recommendations:', recommendations)
@@ -155,7 +156,7 @@ export default function QuestionForm({ question, profileData }: Props) {
     setSelectedAnswer(answer)
     // Đảm bảo popup tắt ngay lập tức
     setShowRecommendationsPopup(false)
-    
+
     // Thêm một thông báo xác nhận nhỏ
     toast.success('Đã chọn câu hỏi gợi ý', {
       duration: 1500,
@@ -345,14 +346,14 @@ export default function QuestionForm({ question, profileData }: Props) {
                         label='Tiêu đề câu hỏi'
                         isRequired
                       />
-                      
+
                       <div className='relative' ref={editorRef}>
                         {/* Popup hiển thị câu hỏi gợi ý - ngay trên editor */}
                         {showRecommendationsPopup && recommendations.length > 0 && (
                           <div className='absolute bottom-full left-0 w-full z-10 bg-background rounded-lg shadow-lg border border-muted mb-2 max-h-[200px] overflow-auto'>
                             <div className='p-2 flex justify-between items-center border-b'>
                               <h3 className='font-medium text-primary text-sm'>Câu hỏi tương tự</h3>
-                              <button 
+                              <button
                                 type='button'
                                 onClick={() => setShowRecommendationsPopup(false)}
                                 className='p-1 rounded-full hover:bg-secondary'
@@ -360,7 +361,7 @@ export default function QuestionForm({ question, profileData }: Props) {
                                 <X className='w-4 h-4' />
                               </button>
                             </div>
-                            
+
                             <div className='divide-y divide-muted'>
                               {recommendations.map((rec, index) => (
                                 <button
@@ -436,7 +437,6 @@ export default function QuestionForm({ question, profileData }: Props) {
             <div className='flex items-center justify-between bg-secondary/50 p-4 rounded-lg'>
               <div className='flex items-center space-x-2'>
                 <CheckboxCustom control={form.control} name='statusPublic' label='Cho phép hiển thị công khai' />
-                <Info className='w-4 h-4 text-secondary-foreground cursor-help' />
               </div>
               <Button
                 isLoading={createQuestionMutation.isPending || updateQuestionMutation.isPending}

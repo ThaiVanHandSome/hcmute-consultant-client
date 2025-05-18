@@ -13,15 +13,18 @@ import { AddPostSchema } from '@/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { useMutation } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { AppContext } from '@/contexts/app.context'
+import { ROLE } from '@/constants/role'
 
 type FormData = yup.InferType<typeof AddPostSchema>
 
 export default function DialogAddPost() {
   const [open, setOpen] = useState<boolean>(false)
   const [file, setFile] = useState<File>()
+  const { role } = useContext(AppContext)
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : ''
   }, [file])
@@ -48,6 +51,7 @@ export default function DialogAddPost() {
     const body: PostRequest = {
       ...values,
       anonymous: false,
+      approved: role === ROLE.admin,
       file: file as File
     }
     createPostMutation.mutate(body, {

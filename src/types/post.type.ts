@@ -3,6 +3,7 @@ export interface PostRequest {
   title: string
   file: string | File
   anonymous: boolean
+  approved: boolean
 }
 
 export interface Post {

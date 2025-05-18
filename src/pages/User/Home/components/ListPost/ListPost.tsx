@@ -22,7 +22,7 @@ export default function ListPost() {
     return posts?.data.data.content
   }, [isShowAll, posts])
   return (
-    <div className='py-2 w-full rounded-md shadow-md mb-4'>
+    <div className='py-2 w-full rounded-md mb-4'>
       {!!postsData && postsData.length > 0 ? (
         <>
           <ul className='max-w-full w-full space-y-2'>

@@ -10,6 +10,7 @@ import { motion } from 'framer-motion'
 import { HiOutlineUsers, HiOutlineUserGroup } from 'react-icons/hi'
 import { Card } from '@/components/ui/card'
 
+
 export default function Consultants() {
   const consultantQueryConfig: ConsultantQueryConfig = useConsultantQueryConfig()
 

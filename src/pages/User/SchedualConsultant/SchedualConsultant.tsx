@@ -219,8 +219,7 @@ export default function SchedualConsultant() {
                   </div>
 
                   {/* Form Footer */}
-                  <div className='flex items-center justify-between bg-secondary/50 p-4 rounded-lg'>
-                    <CheckboxCustom control={form.control} name='statusPublic' label='Cho phép hiển thị công khai' />
+                  <div className='flex items-center justify-end bg-secondary/50 p-4 rounded-lg'>
                     <Button type='submit' className='px-6'>
                       Đặt lịch
                     </Button>

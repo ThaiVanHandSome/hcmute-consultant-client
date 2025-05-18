@@ -161,7 +161,7 @@ export default function Question({ question, className }: Props) {
             </Badge>
           </div>
           <h2 className='text-lg font-semibold text-foreground'>{question.title}</h2>
-          <p className='mt-2 text-secondary-foreground line-clamp-2'>{question.content}</p>
+          <p className='mt-2 text-secondary-foreground' dangerouslySetInnerHTML={{ __html: question.content }}></p>
         </div>
 
         {/* Answer Preview */}
@@ -183,7 +183,10 @@ export default function Question({ question, className }: Props) {
                     {format(new Date(question.answerCreatedAt), 'dd MMM yyyy', { locale: vi })}
                   </time>
                 </div>
-                <p className='mt-1 text-secondary-foreground text-sm line-clamp-2'>{question.answerContent}</p>
+                <p
+                  className='mt-1 text-secondary-foreground text-sm'
+                  dangerouslySetInnerHTML={{ __html: question.answerContent }}
+                ></p>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { Chat } from '@/types/chat.type'
 import AvatarCustom from '@/components/dev/AvatarCustom'
-import { MoreHorizontal, Pencil } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import DialogUnsend from '@/components/dev/Chat/components/DialogUnsend'
 import DialogRemoveMessage from '@/components/dev/Chat/components/DialogRemoveMessage'
@@ -71,8 +71,7 @@ export default function ChatMessage({ isSender, chat, avatarCanShow, handleChoos
           <DropdownMenuContent align={isSender ? 'end' : 'start'} className='w-36 p-1'>
             {isSender && !chat.imageUrl && (
               <DropdownMenuItem onClick={chooseMessageEdit} className='gap-2'>
-                <Pencil className='size-3.5' />
-                <span>Edit message</span>
+                <span>Chỉnh sửa</span>
               </DropdownMenuItem>
             )}
             {isSender ? <DialogUnsend messageId={chat.id} /> : <DialogRemoveMessage messageId={chat.id} />}

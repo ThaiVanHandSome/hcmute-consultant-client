@@ -23,6 +23,9 @@ export interface QuestionListConfig extends PaginationConfig {
   startDate: Date
   endDate: Date
   statusApproval: string
+  isNewest: string
+  isMostLiked: string
+  content: string
 }
 
 export interface SchedualListConfig extends PaginationConfig {

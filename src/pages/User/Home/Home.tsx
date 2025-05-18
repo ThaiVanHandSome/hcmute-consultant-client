@@ -5,14 +5,34 @@ import { ROLE } from '@/constants/role'
 import { AppContext } from '@/contexts/app.context'
 import AsideNav from '@/pages/User/Home/components/AsideNav'
 import ListQuestion from '@/pages/User/Home/components/ListQuestion'
-import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { useContext, useState, useEffect } from 'react'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import ListPost from '@/pages/User/Home/components/ListPost'
 import ListConsultActivity from '@/pages/User/Home/components/ListConsultActivity'
 import { TrendingUp, Search, HelpCircle, BookOpen, Activity, ChevronRight } from 'lucide-react'
+import useQuestionQueryConfig, { QuestionQueryConfig } from '@/hooks/useQuestionQueryConfig'
 
 export default function Home() {
   const { role } = useContext(AppContext)
+  const questionQueryConfig: QuestionQueryConfig = useQuestionQueryConfig()
+  const [searchValue, setSearchValue] = useState('')
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate({
+        pathname: path.home,
+        search: createSearchParams({
+          ...questionQueryConfig,
+          content: searchValue
+        }).toString()
+      })
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [searchValue])
+
   return (
     <div className='min-h-screen bg-background selection:bg-blue-100'>
       <div className='flex relative max-w-[1920px] mx-auto'>
@@ -51,12 +71,6 @@ export default function Home() {
                           </span>
                         </Button>
                       </Link>
-                      <Button
-                        variant='ghost'
-                        className='text-white hover:bg-white/10 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300'
-                      >
-                        Tìm hiểu thêm
-                      </Button>
                     </div>
                   </div>
                 </div>
@@ -86,16 +100,38 @@ export default function Home() {
                           size='sm'
                           className='text-secondary-foreground border-secondary text-xs py-1'
                         >
-                          <TrendingUp className='w-3.5 h-3.5 mr-1' strokeWidth={1.5} />
-                          Phổ biến
+                          <Link
+                            className='flex items-center space-x-1'
+                            to={{
+                              pathname: path.home,
+                              search: createSearchParams({
+                                ...questionQueryConfig,
+                                isMostLiked: 'true'
+                              }).toString()
+                            }}
+                          >
+                            <TrendingUp className='w-3.5 h-3.5 mr-1' strokeWidth={1.5} />
+                            Phổ biến
+                          </Link>
                         </Button>
                         <Button
                           variant='outline'
                           size='sm'
                           className='text-secondary-foreground border-secondary text-xs py-1'
                         >
-                          <Activity className='w-3.5 h-3.5 mr-1' strokeWidth={1.5} />
-                          Mới nhất
+                          <Link
+                            className='flex items-center space-x-1'
+                            to={{
+                              pathname: path.home,
+                              search: createSearchParams({
+                                ...questionQueryConfig,
+                                isNewest: 'true'
+                              }).toString()
+                            }}
+                          >
+                            <Activity className='w-3.5 h-3.5 mr-1' strokeWidth={1.5} />
+                            Mới nhất
+                          </Link>
                         </Button>
                       </div>
                     </div>
@@ -127,6 +163,8 @@ export default function Home() {
                   <input
                     type='text'
                     placeholder='Tìm kiếm...'
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
                     className='w-full pl-10 pr-4 py-2 rounded-lg bg-secondary border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary text-secondary-foreground placeholder:text-secondary-foreground transition-all duration-300'
                   />
                 </div>

@@ -62,7 +62,7 @@ export default function QuestionDetail() {
 
   // Gọi API gợi ý câu trả lời khi có plain text
   useEffect(() => {
-    if (questionPlainText) {
+    if (questionPlainText) {  
       fetchRecommendedAnswers(questionPlainText)
     }
   }, [questionPlainText, fetchRecommendedAnswers])
@@ -100,7 +100,7 @@ export default function QuestionDetail() {
   const handleOpenToAnswer = () => {
     setShowToAnswer(true)
   }
-  
+
   // Hàm xử lý khi người dùng chọn một câu trả lời gợi ý
   const handleSelectAnswer = (answer: string) => {
     form.setValue('content', answer)
@@ -328,9 +328,7 @@ export default function QuestionDetail() {
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
                   <Label htmlFor='file'>Tệp đính kèm</Label>
                   <Input id='file' type='file' onChange={handleFileChange} />
-                  {(previewImage || file) && (
-                    <img src={previewImage} alt='fileUploadImage' className='object-cover h-64' />
-                  )}
+                  {previewImage && <FileShow url={previewImage} />}
                 </div>
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center space-x-2'>
@@ -351,7 +349,7 @@ export default function QuestionDetail() {
                         >
                           Preview
                         </Button>
-                        <DialogAnswerSuggestions 
+                        <DialogAnswerSuggestions
                           answers={recommendedAnswers}
                           onSelectAnswer={handleSelectAnswer}
                           isLoading={isLoadingAnswers}
