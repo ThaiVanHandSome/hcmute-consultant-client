@@ -377,7 +377,7 @@ const ChatBot = () => {
             </div>
             <div>
               <h1 className='text-xl font-semibold flex items-center gap-2'>
-                AI Assistant
+                AI Assistants
                 <button 
                   onClick={() => {
                     localStorage.removeItem(STORAGE_KEY);
