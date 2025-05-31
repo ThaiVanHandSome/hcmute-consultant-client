@@ -62,7 +62,7 @@ export default function QuestionDetail() {
 
   // Gọi API gợi ý câu trả lời khi có plain text
   useEffect(() => {
-    if (questionPlainText) {  
+    if (questionPlainText) {
       fetchRecommendedAnswers(questionPlainText)
     }
   }, [questionPlainText, fetchRecommendedAnswers])
@@ -108,7 +108,7 @@ export default function QuestionDetail() {
   }
 
   // Xử lý thay đổi nội dung câu trả lời
-  const handleEditorChange = (content: string) => {
+  const handleEditorChange = () => {
     // Khi người dùng nhập nội dung, có thể thêm logic ở đây nếu cần
   }
 
