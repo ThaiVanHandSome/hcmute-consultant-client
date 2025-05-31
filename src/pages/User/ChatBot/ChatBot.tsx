@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
+<<<<<<< HEAD
 import { MessageSquare, Send, Sparkles, Bot, User, Trash } from 'lucide-react'
 import styles from './Chatbot.module.scss'
+=======
+import { MessageSquare, Send, Sparkles, Bot, User } from 'lucide-react'
+>>>>>>> 296ea5b9bd25c41e580e9152909bd373b12af575
 import TypingMessage from '@/pages/User/ChatBot/TypingMessage'
 import { toast } from 'react-toastify'
 
@@ -367,9 +371,9 @@ const ChatBot = () => {
       <div className='bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-4 shadow-lg'>
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-3'>
-            <div className={`${styles.iconWrapper} bg-primary-foreground/10 p-2 rounded-full backdrop-blur-sm`}>
+            <div className={`iconWrapper bg-primary-foreground/10 p-2 rounded-full backdrop-blur-sm`}>
               <MessageSquare className='w-6 h-6 text-primary-foreground' />
-              <Sparkles className={`${styles.sparkle} w-4 h-4 text-yellow-400`} />
+              <Sparkles className={`sparkle w-4 h-4 text-yellow-400`} />
             </div>
             <div>
               <h1 className='text-xl font-semibold flex items-center gap-2'>
@@ -403,7 +407,7 @@ const ChatBot = () => {
       >
         {messages.length === 0 && (
           <div className='flex flex-col items-center justify-center h-full gap-4'>
-            <div className={`${styles.welcomeIcon} bg-primary/10 p-4 rounded-full`}>
+            <div className={`welcomeIcon bg-primary/10 p-4 rounded-full`}>
               <MessageSquare className='w-12 h-12 text-primary' />
             </div>
             <h2 className='text-xl font-semibold'>Chào mừng đến với AI Assistant</h2>
@@ -416,7 +420,7 @@ const ChatBot = () => {
           <div key={index} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} gap-2`}>
             {message.sender === 'bot' && (
               <div
-                className={`${styles.avatar} bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
+                className={`styles.avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
               >
                 <Bot className='w-5 h-5 text-primary' />
               </div>
@@ -426,7 +430,7 @@ const ChatBot = () => {
                 message.sender === 'user'
                   ? 'bg-primary text-primary-foreground max-w-[70%]'
                   : 'bg-muted text-muted-foreground shadow-sm max-w-[90%]'
-              } ${styles.messageEnter}`}
+              } messageEnter`}
             >
               {message.sender === 'user' ? (
                 <p className='text-sm'>{message.text}</p>
@@ -444,7 +448,7 @@ const ChatBot = () => {
             </div>
             {message.sender === 'user' && (
               <div
-                className={`${styles.avatar} bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
+                className={`avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
               >
                 <User className='w-5 h-5 text-primary' />
               </div>
@@ -454,15 +458,15 @@ const ChatBot = () => {
         {isTyping && (
           <div className='flex items-center gap-2'>
             <div
-              className={`${styles.avatar} bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
+              className={`avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
             >
               <Bot className='w-5 h-5 text-primary' />
             </div>
             <div className='bg-muted text-muted-foreground rounded-full p-2 w-10 h-10 flex items-center justify-center flex-shrink-0'>
               <div className='flex gap-1 justify-center items-center'>
-                <div className={`${styles.typingDot}`}></div>
-                <div className={`${styles.typingDot} animation-delay-200`}></div>
-                <div className={`${styles.typingDot} animation-delay-400`}></div>
+                <div className={`typingDot`}></div>
+                <div className={`typingDot animation-delay-200`}></div>
+                <div className={`typingDot animation-delay-400`}></div>
               </div>
             </div>
           </div>
