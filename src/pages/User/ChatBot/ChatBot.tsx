@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import { MessageSquare, Send, Sparkles, Bot, User } from 'lucide-react'
-import styles from './Chatbot.css'
 import TypingMessage from '@/pages/User/ChatBot/TypingMessage'
 
 interface Message {
