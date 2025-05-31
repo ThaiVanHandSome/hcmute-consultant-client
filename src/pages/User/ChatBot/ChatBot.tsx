@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import { MessageSquare, Send, Sparkles, Bot, User } from 'lucide-react'
+import { MessageSquare, Send, Sparkles, Bot, User, Trash } from 'lucide-react'
 import styles from './Chatbot.module.scss'
 import TypingMessage from '@/pages/User/ChatBot/TypingMessage'
+import { toast } from 'react-toastify'
 
 interface Message {
   text: string
@@ -371,7 +372,21 @@ const ChatBot = () => {
               <Sparkles className={`${styles.sparkle} w-4 h-4 text-yellow-400`} />
             </div>
             <div>
-              <h1 className='text-xl font-semibold'>AI Assistant</h1>
+              <h1 className='text-xl font-semibold flex items-center gap-2'>
+                AI Assistant
+                <button 
+                  onClick={() => {
+                    localStorage.removeItem(STORAGE_KEY);
+                    setMessages([]);
+                    setViewedMessages(new Set());
+                    toast.success('Đã xóa lịch sử chat');
+                  }}
+                  className='ml-2 p-1 rounded-full bg-red-100 hover:bg-red-200 text-red-600'
+                  title='Xóa lịch sử chat'
+                >
+                  <Trash className='w-3.5 h-3.5' />
+                </button>
+              </h1>
               <p className='text-sm opacity-80'>Powered by Advanced AI</p>
             </div>
           </div>
