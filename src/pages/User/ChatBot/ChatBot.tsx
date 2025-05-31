@@ -1,12 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-<<<<<<< HEAD
 import { MessageSquare, Send, Sparkles, Bot, User, Trash } from 'lucide-react'
-import styles from './Chatbot.module.scss'
-=======
-import { MessageSquare, Send, Sparkles, Bot, User } from 'lucide-react'
->>>>>>> 296ea5b9bd25c41e580e9152909bd373b12af575
 import TypingMessage from '@/pages/User/ChatBot/TypingMessage'
-import { toast } from 'react-toastify'
+import { toast } from 'sonner'
 
 interface Message {
   text: string
@@ -378,12 +373,12 @@ const ChatBot = () => {
             <div>
               <h1 className='text-xl font-semibold flex items-center gap-2'>
                 AI Assistant
-                <button 
+                <button
                   onClick={() => {
-                    localStorage.removeItem(STORAGE_KEY);
-                    setMessages([]);
-                    setViewedMessages(new Set());
-                    toast.success('Đã xóa lịch sử chat');
+                    localStorage.removeItem(STORAGE_KEY)
+                    setMessages([])
+                    setViewedMessages(new Set())
+                    toast.success('Đã xóa lịch sử chat')
                   }}
                   className='ml-2 p-1 rounded-full bg-red-100 hover:bg-red-200 text-red-600'
                   title='Xóa lịch sử chat'
