@@ -370,7 +370,7 @@ export default function QuestionForm({ question, profileData }: Props) {
                                   onClick={() => handleSelectQuestion(rec.question, rec.answer)}
                                   className='w-full text-left p-2 hover:bg-secondary text-sm transition-colors'
                                 >
-                                  {rec.question}
+                                  <div dangerouslySetInnerHTML={{ __html: rec.question }}></div>
                                 </button>
                               ))}
                             </div>
