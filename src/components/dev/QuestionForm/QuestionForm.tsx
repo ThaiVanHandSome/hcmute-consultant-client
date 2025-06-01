@@ -390,7 +390,10 @@ export default function QuestionForm({ question, profileData }: Props) {
                       {selectedAnswer && (
                         <div className='mt-4 p-4 bg-secondary/50 rounded-lg'>
                           <h3 className='font-medium text-primary mb-2'>Câu trả lời mẫu:</h3>
-                          <div className='text-sm text-secondary-foreground'>{selectedAnswer}</div>
+                          <div
+                            className='text-sm text-secondary-foreground'
+                            dangerouslySetInnerHTML={{ __html: selectedAnswer }}
+                          ></div>
                         </div>
                       )}
                     </div>
