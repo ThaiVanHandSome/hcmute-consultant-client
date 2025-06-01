@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default function FileShow({ url, className }: Props) {
+  const urlAfterReplaced = url && url.replace('http', 'https')
   const [fileType, setFileType] = useState<string | null>(null)
   const classNames = clsx(className)
 
@@ -30,23 +31,23 @@ export default function FileShow({ url, className }: Props) {
   }
 
   useEffect(() => {
-    if (url) {
-      checkFileType(url)
+    if (urlAfterReplaced) {
+      checkFileType(urlAfterReplaced)
     }
-  }, [url])
+  }, [urlAfterReplaced])
 
-  if (!url) return <></>
+  if (!urlAfterReplaced) return <></>
 
   if (fileType === 'image') {
     return (
       <div className={classNames}>
-        <QuestionImage url={url} />
+        <QuestionImage url={urlAfterReplaced} />
       </div>
     )
   } else if (fileType === 'file') {
     return (
       <div className={classNames}>
-        <FileItem url={url} />
+        <FileItem url={urlAfterReplaced} />
       </div>
     )
   }

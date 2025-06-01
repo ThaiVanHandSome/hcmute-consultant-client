@@ -266,7 +266,7 @@ export default function QuestionDetail() {
           {question?.fileName && <FileShow url={question?.fileName} />}
         </div>
       </div>
-      {question && !!question.answerContent && (
+      {question && !!question.answerContent && (  
         <div className='flex w-full max-w-full mt-3'>
           <AvatarCustom url={question.answerAvatarUrl} className='size-8 mr-2' />
           <div className='flex-1'>
@@ -274,7 +274,7 @@ export default function QuestionDetail() {
               <div className='flex-1 rounded-2xl bg-secondary text-secondary-foreground px-4 py-2'>
                 <div className='font-bold text-sm'>
                   {question.answerUserLastname} {question.answerUserFirstname}
-                </div>
+              </div>
                 <div dangerouslySetInnerHTML={{ __html: question.answerContent }} className='text-sm'></div>
               </div>
               <div>
