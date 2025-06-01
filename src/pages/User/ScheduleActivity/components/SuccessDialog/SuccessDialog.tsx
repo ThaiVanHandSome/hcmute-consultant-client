@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import './SuccessDialog.scss'
@@ -7,12 +6,9 @@ import './SuccessDialog.scss'
 interface SuccessDialogProps {
   message: string
   onClose: () => void
-  navigateTo: string
 }
 
-const SuccessDialog: React.FC<SuccessDialogProps> = ({ message, onClose, navigateTo }) => {
-  const navigate = useNavigate()
-
+const SuccessDialog: React.FC<SuccessDialogProps> = ({ message, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose()
@@ -32,9 +28,6 @@ const SuccessDialog: React.FC<SuccessDialogProps> = ({ message, onClose, navigat
         <div className='flex justify-end space-x-2'>
           <Button size='sm' variant='secondary' onClick={onClose}>
             Đóng
-          </Button>
-          <Button size='sm' onClick={() => navigate(navigateTo)}>
-            Đi đến trang
           </Button>
         </div>
       </div>

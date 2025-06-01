@@ -192,9 +192,7 @@ export default function ScheduleActivity() {
           </div>
         </div>
       </div>
-      {showDialog && (
-        <SuccessDialog message={dialogMessage} onClose={() => setShowDialog(false)} navigateTo='/some-page' />
-      )}
+      {showDialog && <SuccessDialog message={dialogMessage} onClose={() => setShowDialog(false)} />}
     </div>
   )
 }
