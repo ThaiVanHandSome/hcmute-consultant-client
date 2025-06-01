@@ -19,6 +19,7 @@ import {
 import { UserInfo } from '@/types/like.type'
 import { AppContext } from '@/contexts/app.context'
 import { useContext } from 'react'
+import FileShow from '@/components/dev/FileShow'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   readonly question: QuestionType
@@ -162,6 +163,7 @@ export default function Question({ question, className }: Props) {
           </div>
           <h2 className='text-lg font-semibold text-foreground'>{question.title}</h2>
           <p className='mt-2 text-secondary-foreground' dangerouslySetInnerHTML={{ __html: question.content }}></p>
+          {question?.fileName && <FileShow url={question?.fileName} />}
         </div>
 
         {/* Answer Preview */}
@@ -187,6 +189,7 @@ export default function Question({ question, className }: Props) {
                   className='mt-1 text-secondary-foreground text-sm'
                   dangerouslySetInnerHTML={{ __html: question.answerContent }}
                 ></p>
+                {question?.answerFileName && <FileShow url={question?.answerFileName} />}
               </div>
             </div>
           </div>
