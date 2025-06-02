@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function FileShow({ url, className }: Props) {
-  const urlAfterReplaced = url?.startsWith('http') ? url.replace('http', 'https') : url
+  const urlAfterReplaced = url?.startsWith('http://') ? url.replace('http', 'https') : url
   const [fileType, setFileType] = useState<string | null>(null)
   const classNames = clsx(className)
 
