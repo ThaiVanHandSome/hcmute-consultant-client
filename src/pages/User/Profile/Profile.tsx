@@ -111,7 +111,7 @@ export default function Profile() {
         firstName: res.firstName,
         lastName: res.lastName,
         phone: res.phone,
-        gender: res.gender || 'NAM',
+        gender: res.gender === 'Nam' ? 'NAM' : 'NU',
         provinceCode: res.address?.provinceCode ?? '',
         districtCode: res.address?.districtCode ?? '',
         wardCode: res.address?.wardCode ?? ''

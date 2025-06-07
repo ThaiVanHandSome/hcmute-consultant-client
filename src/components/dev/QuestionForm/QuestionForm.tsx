@@ -388,13 +388,42 @@ export default function QuestionForm({ question, profileData }: Props) {
 
                       {/* Selected Answer Preview */}
                       {selectedAnswer && (
-                        <div className='mt-4 p-4 bg-secondary/50 rounded-lg'>
-                          <h3 className='font-medium text-primary mb-2'>Câu trả lời mẫu:</h3>
-                          <div
-                            className='text-sm text-secondary-foreground'
-                            dangerouslySetInnerHTML={{ __html: selectedAnswer }}
-                          ></div>
-                        </div>
+                        <>
+                          <div className='bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg'>
+                            <div className='flex items-start space-x-3'>
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                className='h-6 w-6 text-amber-500 mt-0.5'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                stroke='currentColor'
+                              >
+                                <path
+                                  strokeLinecap='round'
+                                  strokeLinejoin='round'
+                                  strokeWidth={2}
+                                  d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+                                />
+                              </svg>
+                              <div>
+                                <p className='font-medium text-amber-800 text-sm'>
+                                  Chúng tôi đã tìm thấy câu trả lời phù hợp cho vấn đề của bạn
+                                </p>
+                                <p className='mt-1 text-amber-700 text-xs'>
+                                  Nếu câu trả lời này đã giải quyết được vấn đề của bạn, bạn có thể không cần gửi câu
+                                  hỏi mới.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className='mt-4 p-4 bg-secondary/50 rounded-lg'>
+                            <h3 className='font-medium text-primary mb-2'>Câu trả lời mẫu:</h3>
+                            <div
+                              className='text-sm text-secondary-foreground'
+                              dangerouslySetInnerHTML={{ __html: selectedAnswer }}
+                            ></div>
+                          </div>
+                        </>
                       )}
                     </div>
                   }
@@ -424,9 +453,15 @@ export default function QuestionForm({ question, profileData }: Props) {
                             <p className='text-sm text-secondary-foreground'>
                               <span className='font-medium'>Click để tải file</span> hoặc kéo thả
                             </p>
-                            <p className='text-xs text-secondary-foreground'>Tất cả các loại file (Max. 10MB)</p>
+                            <p className='text-xs text-secondary-foreground'>Chỉ chấp nhận file ảnh (Max. 10MB)</p>
                           </div>
-                          <Input id='file' type='file' className='hidden' onChange={handleFileChange} />
+                          <Input
+                            id='file'
+                            type='file'
+                            className='hidden'
+                            onChange={handleFileChange}
+                            accept='image/*'
+                          />
                         </label>
                       </div>
                       {previewImage && <FileShow url={previewImage} />}
