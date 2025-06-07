@@ -328,7 +328,7 @@ export default function QuestionDetail() {
                 </div>
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
                   <Label htmlFor='file'>Tệp đính kèm</Label>
-                  <Input id='file' type='file' onChange={handleFileChange} />
+                  <Input id='file' type='file' onChange={handleFileChange} accept='.doc,.docx,.pdf,image/*' />
                   {previewImage && <FileShow url={previewImage} />}
                 </div>
                 <div className='flex items-center justify-between'>
