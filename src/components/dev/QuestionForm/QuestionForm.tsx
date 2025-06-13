@@ -22,7 +22,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import * as yup from 'yup'
 import { Building2, UserCircle, HelpCircle, Paperclip, X } from 'lucide-react'
 import { useRecommendQuestions } from '@/components/dev/QuestionForm/hooks/useRecommendQuestions'
@@ -37,6 +37,8 @@ type FormData = yup.InferType<typeof CreateQuestionSchema>
 
 export default function QuestionForm({ question, profileData }: Props) {
   const isUpdate = !!question
+  const [searchParams] = useSearchParams()
+  const contentFromUrl = searchParams.get('content')
 
   const queryClient = useQueryClient()
   const isFormReset = useRef<boolean>(!isUpdate)
@@ -58,7 +60,7 @@ export default function QuestionForm({ question, profileData }: Props) {
       fieldId: '',
       roleAskId: '',
       title: '',
-      content: '',
+      content: contentFromUrl || '',
       firstName: profileData?.firstName || '',
       lastName: profileData?.lastName || '',
       statusPublic: true,
@@ -74,14 +76,14 @@ export default function QuestionForm({ question, profileData }: Props) {
       fieldId: String(question?.field.id),
       roleAskId: String(question?.roleAsk.id),
       title: question?.title,
-      content: question?.content,
+      content: contentFromUrl || question?.content || '',
       firstName: profileData?.firstName || question?.askerFirstname,
       lastName: profileData?.lastName || question?.askerLastname,
       statusPublic: true,
       studentCode: profileData?.studentCode || ''
     })
     isFormReset.current = true
-  }, [question, profileData])
+  }, [question, profileData, contentFromUrl])
 
   const { data: departments } = useQuery({
     queryKey: ['departments'],

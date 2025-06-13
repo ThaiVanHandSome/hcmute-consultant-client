@@ -1,28 +1,16 @@
-import QuestionForm from '@/components/dev/QuestionForm'
-import { AlertCircle, BookOpen, Clock3, HelpCircle } from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
-import { getProfile } from '@/apis/user.api'
+import { useProfile } from '@/hooks/useProfile'
+import { BookOpen, Clock3, AlertCircle } from 'lucide-react'
+import QuestionForm from '@/components/dev/QuestionForm/QuestionForm'
 
 export default function CreateQuestion() {
-  const { data: profile } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile
-  })
+  const { profile } = useProfile()
 
   return (
-    <div className='min-h-screen '>
-      <div className='max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10'>
-        {/* Header Section */}
-        <div className='max-w-2xl mx-auto text-center mb-10'>
-          <div className='flex justify-center mb-4'>
-            <div className='bg-primary/10 p-3 rounded-full'>
-              <HelpCircle className='w-6 h-6 text-primary' />
-            </div>
-          </div>
-          <h1 className='text-2xl font-semibold text-foreground mb-2'>Trung tâm hỗ trợ sinh viên</h1>
-          <p className='text-sm text-secondary-foreground'>
-            Chúng tôi luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn
-          </p>
+    <div className='container py-8'>
+      <div className='space-y-6'>
+        <div>
+          <h1 className='text-2xl font-semibold tracking-tight'>Đặt câu hỏi</h1>
+          <p className='text-muted-foreground'>Đặt câu hỏi để được giảng viên và chuyên viên hỗ trợ</p>
         </div>
 
         <div className='grid lg:grid-cols-12 gap-6'>
