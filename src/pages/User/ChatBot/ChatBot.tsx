@@ -211,7 +211,8 @@ const ChatBot = () => {
         setViewedMessages((prev) => new Set(prev).add(messageId))
       } else {
         const errorMessageId = generateMessageId('error', 'bot')
-        const errorMessage = `Chào bạn, cảm ơn bạn đã gửi câu hỏi đến chúng tôi. Tuy nhiên, hiện tại nội dung câu hỏi nằm ngoài phạm vi hỗ trợ của hệ thống. Để được giải đáp chi tiết hơn, bạn có thể <a href="${import.meta.env.VITE_APP_URL}/questions/create?content=${encodeURIComponent(message)}" class="text-primary hover:underline">đặt câu hỏi tại đây</a> để được tư vấn viên trả lời. Chúng tôi sẽ ghi nhận câu hỏi này và cập nhật thêm dữ liệu để có thể trả lời tốt hơn trong tương lai. Rất mong bạn thông cảm.`
+        const cleanedMessage = message.replace(/Dựa trên thông tin trong SoTaySinhVien2024\.pdf,?\s*/i, '')
+        const errorMessage = `Chào bạn, cảm ơn bạn đã gửi câu hỏi đến chúng tôi. Tuy nhiên, hiện tại nội dung câu hỏi nằm ngoài phạm vi hỗ trợ của hệ thống. Để được giải đáp chi tiết hơn, bạn có thể <a href="${import.meta.env.VITE_APP_URL}/questions/create?content=${encodeURIComponent(cleanedMessage)}" class="text-primary hover:underline">đặt câu hỏi tại đây</a> để được tư vấn viên trả lời. Chúng tôi sẽ ghi nhận câu hỏi này và cập nhật thêm dữ liệu để có thể trả lời tốt hơn trong tương lai. Rất mong bạn thông cảm.`
         setMessages((prev) => [
           ...prev,
           {
@@ -225,10 +226,11 @@ const ChatBot = () => {
       }
     } catch (error) {
       const errorMessageId = generateMessageId('error', 'bot')
+      const cleanedMessage = message.replace(/Dựa trên thông tin trong SoTaySinhVien2024\.pdf,?\s*/i, '')
       const errorMessage =
         (error as unknown as { message: string }).message === 'TIMEOUT'
           ? 'Rất tiếc, thời gian phản hồi quá lâu. Vui lòng thử lại sau!'
-          : `Chào bạn, cảm ơn bạn đã gửi câu hỏi đến chúng tôi. Tuy nhiên, hiện tại nội dung câu hỏi nằm ngoài phạm vi hỗ trợ của hệ thống. Để được giải đáp chi tiết hơn, bạn có thể <a href="${import.meta.env.VITE_APP_URL}/questions/create?content=${encodeURIComponent(message)}" class="text-primary hover:underline">đặt câu hỏi tại đây</a> để được tư vấn viên trả lời. Chúng tôi sẽ ghi nhận câu hỏi này và cập nhật thêm dữ liệu để có thể trả lời tốt hơn trong tương lai. Rất mong bạn thông cảm.`
+          : `Chào bạn, cảm ơn bạn đã gửi câu hỏi đến chúng tôi. Tuy nhiên, hiện tại nội dung câu hỏi nằm ngoài phạm vi hỗ trợ của hệ thống. Để được giải đáp chi tiết hơn, bạn có thể <a href="${import.meta.env.VITE_APP_URL}/questions/create?content=${encodeURIComponent(cleanedMessage)}" class="text-primary hover:underline">đặt câu hỏi tại đây</a> để được tư vấn viên trả lời. Chúng tôi sẽ ghi nhận câu hỏi này và cập nhật thêm dữ liệu để có thể trả lời tốt hơn trong tương lai. Rất mong bạn thông cảm.`
 
       setMessages((prev) => [
         ...prev,
