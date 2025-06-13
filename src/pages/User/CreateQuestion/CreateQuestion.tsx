@@ -1,10 +1,7 @@
-import { useProfile } from '@/hooks/useProfile'
 import { BookOpen, Clock3, AlertCircle } from 'lucide-react'
 import QuestionForm from '@/components/dev/QuestionForm/QuestionForm'
 
 export default function CreateQuestion() {
-  const { profile } = useProfile()
-
   return (
     <div className='container py-8'>
       <div className='space-y-6'>
@@ -52,7 +49,7 @@ export default function CreateQuestion() {
           {/* Main Form Section */}
           <div className='lg:col-span-8'>
             <div className='bg-background rounded-lg shadow-sm border border-secondary p-6'>
-              <QuestionForm question={undefined} profileData={profile?.data.data} />
+              <QuestionForm question={undefined} />
             </div>
           </div>
         </div>
