@@ -37,7 +37,8 @@
 }
 
 @keyframes typing {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
     opacity: 0.3;
   }
@@ -160,7 +161,6 @@
   }
 }
 
-// Message bubble effects
 .messageBubble {
   position: relative;
   overflow: hidden;
@@ -186,7 +186,6 @@
   }
 }
 
-// Input field focus effect
 .inputFocus {
   position: relative;
 

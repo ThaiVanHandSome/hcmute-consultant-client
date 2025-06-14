@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import { MessageSquare, Send, Sparkles, Bot, User, Trash } from 'lucide-react'
+import { MessageSquare, Send, Sparkles, Bot, User, Trash, AlertCircle, ArrowRight } from 'lucide-react'
 import TypingMessage from '@/pages/User/ChatBot/TypingMessage'
 import { toast } from 'sonner'
+import { Link } from 'react-router-dom'
 
 interface Message {
   text: string
@@ -29,6 +30,8 @@ const ChatBot = () => {
   const [isTyping, setIsTyping] = useState<boolean>(false)
   const [autoScroll, setAutoScroll] = useState<boolean>(true)
   const [viewedMessages, setViewedMessages] = useState<Set<string>>(new Set())
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [showWarning, setShowWarning] = useState<boolean>(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
@@ -192,10 +195,7 @@ const ChatBot = () => {
   const handleGetResponse = async (message: string) => {
     setIsTyping(true)
     try {
-      const res = await fetchWithTimeout(
-        `${import.meta.env.VITE_AI_URL}/chat?text=${message}`,
-        30000 // timeout 30 seconds
-      )
+      const res = await fetchWithTimeout(`${import.meta.env.VITE_AI_URL}/chat?text=${message}`, 30000)
       if (res.ok) {
         const result = (await res.json()) as MessageResponse
         const messageId = generateMessageId(result.data.answer, 'bot')
@@ -209,6 +209,7 @@ const ChatBot = () => {
           }
         ])
         setViewedMessages((prev) => new Set(prev).add(messageId))
+        setShowWarning(true)
       } else {
         const errorMessageId = generateMessageId('error', 'bot')
         const cleanedMessage = message.replace(/Dựa trên thông tin trong SoTaySinhVien2024\.pdf,?\s*/i, '')
@@ -364,129 +365,163 @@ const ChatBot = () => {
   }
 
   return (
-    <div className='container mx-auto max-w-4xl h-remain-screen bg-white flex flex-col'>
-      <div className='bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-4 shadow-lg'>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-3'>
-            <div className={`iconWrapper bg-primary-foreground/10 p-2 rounded-full backdrop-blur-sm`}>
-              <MessageSquare className='w-6 h-6 text-primary-foreground' />
-              <Sparkles className={`sparkle w-4 h-4 text-yellow-400`} />
+    <div className='container mx-auto max-w-7xl h-remain-screen bg-white'>
+      <div className='grid grid-cols-12 h-full'>
+        {/* Left Column - Warning Section */}
+        <div className='col-span-4 border-r border-border p-6 bg-muted/5'>
+          <div className='sticky top-6'>
+            <div className='bg-white rounded-lg shadow-sm border border-yellow-200 p-6'>
+              <div className='flex items-start gap-4'>
+                <div className='bg-yellow-100 p-3 rounded-full'>
+                  <AlertCircle className='w-6 h-6 text-yellow-600' />
+                </div>
+                <div className='flex-1'>
+                  <h3 className='text-lg font-semibold text-yellow-800 mb-2'>Không hài lòng với câu trả lời?</h3>
+                  <p className='text-sm text-gray-600 mb-4'>
+                    Nếu bạn cần hỗ trợ chi tiết hơn, hãy tạo câu hỏi mới để nhận được sự giúp đỡ từ đội ngũ tư vấn viên
+                    của chúng tôi.
+                  </p>
+                  <Link
+                    to='/create-question'
+                    className='inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors bg-primary/5 px-4 py-2 rounded-md'
+                  >
+                    Tạo câu hỏi mới
+                    <ArrowRight className='w-4 h-4' />
+                  </Link>
+                </div>
+              </div>
             </div>
-            <div>
-              <h1 className='text-xl font-semibold flex items-center gap-2'>
-                AI Assistant
-                <button
-                  onClick={() => {
-                    localStorage.removeItem(STORAGE_KEY)
-                    setMessages([])
-                    setViewedMessages(new Set())
-                    toast.success('Đã xóa lịch sử chat')
-                  }}
-                  className='ml-2 p-1 rounded-full bg-red-100 hover:bg-red-200 text-red-600'
-                  title='Xóa lịch sử chat'
-                >
-                  <Trash className='w-3.5 h-3.5' />
-                </button>
-              </h1>
-              <p className='text-sm opacity-80'>Powered by Advanced AI</p>
-            </div>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div className='w-2 h-2 rounded-full bg-green-400 animate-pulse' />
-            <span className='text-sm'>Online</span>
           </div>
         </div>
-      </div>
-      <div
-        ref={messagesContainerRef}
-        onScroll={handleScroll}
-        className={`flex-1 overflow-y-auto p-4 space-y-4 messagesContainer`}
-      >
-        {messages.length === 0 && (
-          <div className='flex flex-col items-center justify-center h-full gap-4'>
-            <div className={`welcomeIcon bg-primary/10 p-4 rounded-full`}>
-              <MessageSquare className='w-12 h-12 text-primary' />
-            </div>
-            <h2 className='text-xl font-semibold'>Chào mừng đến với AI Assistant</h2>
-            <p className='text-muted-foreground text-center max-w-md'>
-              Tôi có thể giúp bạn trả lời các câu hỏi, tạo nội dung và nhiều hơn nữa. Hãy bắt đầu cuộc trò chuyện!
-            </p>
-          </div>
-        )}
-        {messages.map((message, index) => (
-          <div key={index} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} gap-2`}>
-            {message.sender === 'bot' && (
-              <div
-                className={`styles.avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
-              >
-                <Bot className='w-5 h-5 text-primary' />
+
+        {/* Right Column - Chat Interface */}
+        <div className='col-span-8 flex flex-col'>
+          <div className='bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-4 shadow-lg'>
+            <div className='flex items-center justify-between'>
+              <div className='flex items-center gap-3'>
+                <div className={`iconWrapper bg-primary-foreground/10 p-2 rounded-full backdrop-blur-sm`}>
+                  <MessageSquare className='w-6 h-6 text-primary-foreground' />
+                  <Sparkles className={`sparkle w-4 h-4 text-yellow-400`} />
+                </div>
+                <div>
+                  <h1 className='text-xl font-semibold flex items-center gap-2'>
+                    AI Assistant
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem(STORAGE_KEY)
+                        setMessages([])
+                        setViewedMessages(new Set())
+                        toast.success('Đã xóa lịch sử chat')
+                      }}
+                      className='ml-2 p-1 rounded-full bg-red-100 hover:bg-red-200 text-red-600'
+                      title='Xóa lịch sử chat'
+                    >
+                      <Trash className='w-3.5 h-3.5' />
+                    </button>
+                  </h1>
+                  <p className='text-sm opacity-80'>Powered by HCMUTE</p>
+                </div>
               </div>
-            )}
-            <div
-              className={`rounded-lg p-3 ${
-                message.sender === 'user'
-                  ? 'bg-primary text-primary-foreground max-w-[70%]'
-                  : 'bg-muted text-muted-foreground shadow-sm max-w-[90%]'
-              } messageEnter`}
-            >
-              {message.sender === 'user' ? (
-                <p className='text-sm'>{message.text}</p>
-              ) : message.text.includes('|') && message.text.includes('---') ? (
-                formatTableMessage(message.text)
-              ) : isMessageViewed(message) ? (
-                <div
-                  className='text-sm whitespace-pre-wrap'
-                  dangerouslySetInnerHTML={{ __html: formatMessage(message.text) }}
-                ></div>
-              ) : (
-                <TypingMessage text={message.text} speed={30} formatMessage={formatMessage} />
-              )}
-              <span className='text-xs opacity-70 mt-1 block'>{message.timestamp}</span>
-            </div>
-            {message.sender === 'user' && (
-              <div
-                className={`avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
-              >
-                <User className='w-5 h-5 text-primary' />
-              </div>
-            )}
-          </div>
-        ))}
-        {isTyping && (
-          <div className='flex items-center gap-2'>
-            <div
-              className={`avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
-            >
-              <Bot className='w-5 h-5 text-primary' />
-            </div>
-            <div className='bg-muted text-muted-foreground rounded-full p-2 w-10 h-10 flex items-center justify-center flex-shrink-0'>
-              <div className='flex gap-1 justify-center items-center'>
-                <div className={`typingDot`}></div>
-                <div className={`typingDot animation-delay-200`}></div>
-                <div className={`typingDot animation-delay-400`}></div>
+              <div className='flex items-center gap-2'>
+                <div className='w-2 h-2 rounded-full bg-green-400 animate-pulse' />
+                <span className='text-sm'>Online</span>
               </div>
             </div>
           </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-      <div className='border-t border-border bg-card p-4'>
-        <form onSubmit={handleSendMessage} className='flex gap-2'>
-          <input
-            type='text'
-            value={inputMessage}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputMessage(e.target.value)}
-            placeholder='Nhập tin nhắn của bạn...'
-            className='flex-1 rounded-md border border-input bg-background px-4 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
-          />
-          <button
-            type='submit'
-            className='inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
+
+          <div
+            ref={messagesContainerRef}
+            onScroll={handleScroll}
+            className={`flex-1 overflow-y-auto p-4 space-y-4 messagesContainer`}
           >
-            <Send className='w-4 h-4 mr-2' />
-            Gửi
-          </button>
-        </form>
+            {messages.length === 0 && (
+              <div className='flex flex-col items-center justify-center h-full gap-4'>
+                <div className={`welcomeIcon bg-primary/10 p-4 rounded-full`}>
+                  <MessageSquare className='w-12 h-12 text-primary' />
+                </div>
+                <h2 className='text-xl font-semibold'>Chào mừng đến với AI Assistant</h2>
+                <p className='text-muted-foreground text-center max-w-md'>
+                  Tôi có thể giúp bạn trả lời các câu hỏi, tạo nội dung và nhiều hơn nữa. Hãy bắt đầu cuộc trò chuyện!
+                </p>
+              </div>
+            )}
+            {messages.map((message, index) => (
+              <div key={index} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} gap-2`}>
+                {message.sender === 'bot' && (
+                  <div
+                    className={`styles.avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
+                  >
+                    <Bot className='w-5 h-5 text-primary' />
+                  </div>
+                )}
+                <div
+                  className={`rounded-lg p-3 ${
+                    message.sender === 'user'
+                      ? 'bg-primary text-primary-foreground max-w-[70%]'
+                      : 'bg-muted text-muted-foreground shadow-sm max-w-[90%]'
+                  } messageEnter`}
+                >
+                  {message.sender === 'user' ? (
+                    <p className='text-sm'>{message.text}</p>
+                  ) : message.text.includes('|') && message.text.includes('---') ? (
+                    formatTableMessage(message.text)
+                  ) : isMessageViewed(message) ? (
+                    <div
+                      className='text-sm whitespace-pre-wrap'
+                      dangerouslySetInnerHTML={{ __html: formatMessage(message.text) }}
+                    ></div>
+                  ) : (
+                    <TypingMessage text={message.text} speed={30} formatMessage={formatMessage} />
+                  )}
+                  <span className='text-xs opacity-70 mt-1 block'>{message.timestamp}</span>
+                </div>
+                {message.sender === 'user' && (
+                  <div
+                    className={`avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
+                  >
+                    <User className='w-5 h-5 text-primary' />
+                  </div>
+                )}
+              </div>
+            ))}
+            {isTyping && (
+              <div className='flex items-center gap-2'>
+                <div
+                  className={`avatar bg-primary/10 p-2 rounded-full flex-shrink-0 self-start h-9 w-9 flex items-center justify-center`}
+                >
+                  <Bot className='w-5 h-5 text-primary' />
+                </div>
+                <div className='bg-muted text-muted-foreground rounded-full p-2 w-10 h-10 flex items-center justify-center flex-shrink-0'>
+                  <div className='flex gap-1 justify-center items-center'>
+                    <div className={`typingDot`}></div>
+                    <div className={`typingDot animation-delay-200`}></div>
+                    <div className={`typingDot animation-delay-400`}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <div className='border-t border-border bg-card p-4'>
+            <form onSubmit={handleSendMessage} className='flex gap-2'>
+              <input
+                type='text'
+                value={inputMessage}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputMessage(e.target.value)}
+                placeholder='Nhập tin nhắn của bạn...'
+                className='flex-1 rounded-md border border-input bg-background px-4 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+              />
+              <button
+                type='submit'
+                className='inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
+              >
+                <Send className='w-4 h-4 mr-2' />
+                Gửi
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   )
