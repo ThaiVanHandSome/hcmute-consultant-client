@@ -30,8 +30,6 @@ const ChatBot = () => {
   const [isTyping, setIsTyping] = useState<boolean>(false)
   const [autoScroll, setAutoScroll] = useState<boolean>(true)
   const [viewedMessages, setViewedMessages] = useState<Set<string>>(new Set())
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showWarning, setShowWarning] = useState<boolean>(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
@@ -209,7 +207,6 @@ const ChatBot = () => {
           }
         ])
         setViewedMessages((prev) => new Set(prev).add(messageId))
-        setShowWarning(true)
       } else {
         const errorMessageId = generateMessageId('error', 'bot')
         const cleanedMessage = message.replace(/Dựa trên thông tin trong SoTaySinhVien2024\.pdf,?\s*/i, '')

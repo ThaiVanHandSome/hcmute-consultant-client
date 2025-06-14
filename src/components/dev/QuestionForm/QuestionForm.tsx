@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAllDepartments, getFields, getRolesAsk } from '@/apis/department.api'
 import { createNewQuestion, updateQuestion } from '@/apis/question.api'
 import FileShow from '@/components/dev/FileShow'
@@ -20,22 +22,29 @@ import { generateSelectionData } from '@/utils/utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { omit } from 'lodash'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import * as yup from 'yup'
-import { Building2, UserCircle, HelpCircle, Paperclip, X } from 'lucide-react'
+import { Building2, UserCircle, HelpCircle, Paperclip } from 'lucide-react'
 import { useRecommendQuestions } from '@/components/dev/QuestionForm/hooks/useRecommendQuestions'
 
 interface Props {
   readonly question?: Question
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   profileData?: any // Thêm type cụ thể cho profile data
+  setShowRecommendationsPopup?: Dispatch<SetStateAction<boolean>>
+  setRecommendations?: Dispatch<SetStateAction<any>>
 }
 
 type FormData = yup.InferType<typeof CreateQuestionSchema>
 
-export default function QuestionForm({ question, profileData }: Props) {
+export default function QuestionForm({
+  question,
+  profileData,
+  setShowRecommendationsPopup,
+  setRecommendations
+}: Props) {
   const isUpdate = !!question
   const [searchParams] = useSearchParams()
   const contentFromUrl = searchParams.get('content')
@@ -49,7 +58,6 @@ export default function QuestionForm({ question, profileData }: Props) {
   }, [file])
 
   // State quản lý popup hiển thị câu hỏi gợi ý
-  const [showRecommendationsPopup, setShowRecommendationsPopup] = useState<boolean>(false)
   const editorRef = useRef<HTMLDivElement>(null)
 
   const navigate = useNavigate()
@@ -129,42 +137,24 @@ export default function QuestionForm({ question, profileData }: Props) {
   })
 
   const { recommendations, fetchRecommendations } = useRecommendQuestions()
-  const [selectedAnswer, setSelectedAnswer] = useState<string>('')
 
   const handleContentChange = (content: string) => {
     // Strip HTML tags
     const plainText = content.replace(/<[^>]+>/g, '')
 
-    // Debug log
-    console.log('Current recommendations:', recommendations)
-
     fetchRecommendations(plainText)
-
-    // Xóa câu trả lời mẫu khi người dùng nhập nội dung mới
-    if (selectedAnswer) {
-      setSelectedAnswer('')
-    }
 
     // Hiển thị popup khi nội dung dài và không đang loading
     if (plainText.length > 10 && recommendations.length > 0) {
       console.log('Should show popup, recommendations:', recommendations)
-      setShowRecommendationsPopup(true)
+      setShowRecommendationsPopup && setShowRecommendationsPopup(true)
     }
   }
 
-  const handleSelectQuestion = (question: string, answer: string) => {
-    // Thay thế hoàn toàn nội dung hiện tại bằng câu hỏi được chọn
-    form.setValue('content', question)
-    setSelectedAnswer(answer)
-    // Đảm bảo popup tắt ngay lập tức
-    setShowRecommendationsPopup(false)
-
-    // Thêm một thông báo xác nhận nhỏ
-    toast.success('Đã chọn câu hỏi gợi ý', {
-      duration: 1500,
-      position: 'bottom-right'
-    })
-  }
+  const recommendationsJSON = JSON.stringify(recommendations)
+  useEffect(() => {
+    setRecommendations && setRecommendations(recommendations)
+  }, [recommendationsJSON])
 
   // handle question create process
   const onSubmit = form.handleSubmit((values) => {
@@ -234,7 +224,7 @@ export default function QuestionForm({ question, profileData }: Props) {
   useEffect(() => {
     console.log('Recommendations updated:', recommendations)
     if (recommendations.length > 0) {
-      setShowRecommendationsPopup(true)
+      setShowRecommendationsPopup && setShowRecommendationsPopup(true)
     }
   }, [recommendations])
 
@@ -350,35 +340,6 @@ export default function QuestionForm({ question, profileData }: Props) {
                       />
 
                       <div className='relative' ref={editorRef}>
-                        {/* Popup hiển thị câu hỏi gợi ý - ngay trên editor */}
-                        {showRecommendationsPopup && recommendations.length > 0 && (
-                          <div className='absolute bottom-full left-0 w-full z-10 bg-background rounded-lg shadow-lg border border-muted mb-2 max-h-[200px] overflow-auto'>
-                            <div className='p-2 flex justify-between items-center border-b'>
-                              <h3 className='font-medium text-primary text-sm'>Câu hỏi tương tự</h3>
-                              <button
-                                type='button'
-                                onClick={() => setShowRecommendationsPopup(false)}
-                                className='p-1 rounded-full hover:bg-secondary'
-                              >
-                                <X className='w-4 h-4' />
-                              </button>
-                            </div>
-
-                            <div className='divide-y divide-muted'>
-                              {recommendations.map((rec, index) => (
-                                <button
-                                  type='button'
-                                  key={index}
-                                  onClick={() => handleSelectQuestion(rec.question, rec.answer)}
-                                  className='w-full text-left p-2 hover:bg-secondary text-sm transition-colors'
-                                >
-                                  <div dangerouslySetInnerHTML={{ __html: rec.question }}></div>
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
                         <Editor
                           control={form.control}
                           name='content'
@@ -387,46 +348,6 @@ export default function QuestionForm({ question, profileData }: Props) {
                           onChange={handleContentChange}
                         />
                       </div>
-
-                      {/* Selected Answer Preview */}
-                      {selectedAnswer && (
-                        <>
-                          <div className='bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg'>
-                            <div className='flex items-start space-x-3'>
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                className='h-6 w-6 text-amber-500 mt-0.5'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                stroke='currentColor'
-                              >
-                                <path
-                                  strokeLinecap='round'
-                                  strokeLinejoin='round'
-                                  strokeWidth={2}
-                                  d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-                                />
-                              </svg>
-                              <div>
-                                <p className='font-medium text-amber-800 text-sm'>
-                                  Chúng tôi đã tìm thấy câu trả lời phù hợp cho vấn đề của bạn
-                                </p>
-                                <p className='mt-1 text-amber-700 text-xs'>
-                                  Nếu câu trả lời này đã giải quyết được vấn đề của bạn, bạn có thể không cần gửi câu
-                                  hỏi mới.
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div className='mt-4 p-4 bg-secondary/50 rounded-lg'>
-                            <h3 className='font-medium text-primary mb-2'>Câu trả lời mẫu:</h3>
-                            <div
-                              className='text-sm text-secondary-foreground'
-                              dangerouslySetInnerHTML={{ __html: selectedAnswer }}
-                            ></div>
-                          </div>
-                        </>
-                      )}
                     </div>
                   }
                 />
