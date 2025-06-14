@@ -89,7 +89,7 @@ export default function QuestionForm({
       studentCode: profileData?.studentCode || ''
     })
     isFormReset.current = true
-  }, [question, profileData, contentFromUrl])
+  }, [question, profileData])
 
   const { data: departments } = useQuery({
     queryKey: ['departments'],
