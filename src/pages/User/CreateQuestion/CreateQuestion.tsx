@@ -16,11 +16,6 @@ export default function CreateQuestion() {
   const [recommendations, setRecommendations] = useState<any>()
   const [selectedQuestion, setSelectedQuestion] = useState<any>(null)
 
-  console.log({
-    showRecommendationsPopup,
-    recommendations
-  })
-
   return (
     <div className='container py-8'>
       <div className='space-y-6'>

@@ -24,7 +24,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { Building2, UserCircle, HelpCircle, Paperclip } from 'lucide-react'
 import { useRecommendQuestions } from '@/components/dev/QuestionForm/hooks/useRecommendQuestions'
@@ -46,8 +46,6 @@ export default function QuestionForm({
   setRecommendations
 }: Props) {
   const isUpdate = !!question
-  const [searchParams] = useSearchParams()
-  const contentFromUrl = searchParams.get('content')
 
   const queryClient = useQueryClient()
   const isFormReset = useRef<boolean>(!isUpdate)
@@ -68,7 +66,7 @@ export default function QuestionForm({
       fieldId: '',
       roleAskId: '',
       title: '',
-      content: contentFromUrl ? `<div class="editor">${contentFromUrl}</div>` : '',
+      content: '',
       firstName: profileData?.firstName || '',
       lastName: profileData?.lastName || '',
       statusPublic: true,
