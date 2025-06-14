@@ -82,7 +82,7 @@ export default function QuestionForm({
       fieldId: String(question?.field.id),
       roleAskId: String(question?.roleAsk.id),
       title: question?.title,
-      content: contentFromUrl ? `<div class="editor">${contentFromUrl}</div>` : question?.content || '',
+      content: question?.content || '',
       firstName: profileData?.firstName || question?.askerFirstname,
       lastName: profileData?.lastName || question?.askerLastname,
       statusPublic: true,
